@@ -5,4 +5,4 @@
 	--disable-guile
 
 make  
-make DESTDIR"$1"  install
+make DESTDIR="$1"  install
