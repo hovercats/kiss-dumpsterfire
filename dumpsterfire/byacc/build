@@ -1,0 +1,15 @@
+#!/bin/sh -e
+
+./configure \
+    --prefix=/usr \
+    --program-prefix=b \
+    --enable-btyacc
+
+make
+make DESTDIR="$1" install
+
+# Also install as yacc
+ln -s byacc "$1/usr/bin/yacc"
+
+# Install the license
+install -Dm755 LICENSE "$1/usr/share/LICENSES/byacc.license"

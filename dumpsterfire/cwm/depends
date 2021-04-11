@@ -1,0 +1,6 @@
+libX11
+libXft
+libXrandr
+libXinerama
+pkgconf
+byacc make
