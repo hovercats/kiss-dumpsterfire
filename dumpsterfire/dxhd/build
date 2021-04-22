@@ -1,4 +1,0 @@
-#!/bin/sh -e
-
-make fast
-make DESTIDIR="$1" install
