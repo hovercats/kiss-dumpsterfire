@@ -1,7 +1,0 @@
-#!/bin/sh -e
-
-cat <<EOF
-
-NOTE: Consider installing wmutils aswell, to make use of keyboard window manipulation
-
-EOF
