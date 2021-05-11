@@ -3,5 +3,27 @@
 
 Just a repo of some of the packages that I use, and experiment with.
 
-Currently its depended on [kiss' main repo](https://github.com/kiss-community/repo-main) and [community](https://github.com/kiss-community/repo-community), if dependencies are not  present in those repos, Ill add them here, so others, including myself wont have to depend more repos than neccessary. At a later point, this repo might reach a point where its no longer depends on other repos, but that is not the case atm.
+Currently depends on [kiss' main repo](https://github.com/kiss-community/repo-main) and [community](https://github.com/kiss-community/repo-community) repo.
+Some of the buildscripts might not work, so you may have to build them yourself from git instead. hence the name of the repo.
 
+
+Current packages:
+- Brightnessctl
+	- Just controls your screen brightness. as simple as that.
+- Devour
+	- Basiclly a swallow utility, like DWM swallow patch, but its WM independent.
+	- buildscript is a bit finnicky atm
+- Dmenu
+	- Luke Smith's fork of Dmenu
+- Glazier
+	- Really minimal WM
+	- Buildscript is currently not working as inteded
+- Libwm
+	- dependency
+- ST
+	- My personal build of st
+- wmutils
+	- really neat utility for manipulating x11 windows.
+	- can be used standalone, or in conjuction with glazier, sowm or w/e
+- wmutils-opt
+	- addon for wmutils, for mouse support and reading x events
