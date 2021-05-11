@@ -13,6 +13,7 @@ Current packages:
 - Devour
 	- Basiclly a swallow utility, like DWM swallow patch, but its WM independent.
 	- buildscript is a bit finnicky atm
+	- requires root priviligies to build, for some reason.
 - Dmenu
 	- Luke Smith's fork of Dmenu
 - Glazier
