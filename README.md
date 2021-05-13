@@ -18,7 +18,7 @@ Current packages:
 	- Luke Smith's fork of Dmenu
 - Glazier
 	- Really minimal WM
-	- Buildscript is currently not working as inteded
+	- Buildscript is currently broken 
 - Libwm
 	- dependency
 - ST
@@ -28,3 +28,9 @@ Current packages:
 	- can be used standalone, or in conjuction with glazier, sowm or w/e
 - wmutils-opt
 	- addon for wmutils, for mouse support and reading x events
+- meh
+	- simple image viewer
+	- lets you view images cropped down, instead of always fullsize lik feh
+- eiwd
+	- iwd withot dbus
+	- uses illiliti's fork, as dylan's is no longer maintained.
