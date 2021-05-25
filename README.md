@@ -34,3 +34,6 @@ Current packages:
 - eiwd
 	- iwd withot dbus
 	- uses illiliti's fork, as dylan's is no longer maintained.
+- xev
+	- X event printer
+	- usefull for finding name of keys etc
