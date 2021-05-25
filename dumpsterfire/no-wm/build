@@ -1,4 +1,5 @@
 #!/bin/sh
 
+mkdir -p "$1/usr/bin"
 make
-make DESTDIR="$1" install
+make  PREFIX="$1/usr" install
