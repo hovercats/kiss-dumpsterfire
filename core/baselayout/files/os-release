@@ -1,8 +1,0 @@
-NAME="KISS Linux"
-PRETTY_NAME="KISS Linux"
-ID=kiss
-BUILD_ID=rolling
-HOME_URL="https://k1sslinux.org"
-DOCUMENTATION_URL="https://k1sslinux.org"
-SUPPORT_URL="https://github.com/kiss-community"
-BUG_REPORT_URL="https://github.com/kiss-community"

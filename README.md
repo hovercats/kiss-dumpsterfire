@@ -18,7 +18,7 @@ Current packages:
 	- Luke Smith's fork of Dmenu
 - Glazier
 	- Really minimal WM
-	- Buildscript ~~is currently broken~~ now works
+	- Buildscript is currently broken 
 - Libwm
 	- dependency
 - ST
