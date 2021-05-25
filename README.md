@@ -37,3 +37,7 @@ Current packages:
 - xev
 	- X event printer
 	- usefull for finding name of keys etc
+- no-wm
+	- use X11 without window manager
+	- could be usefull with wmutils
+	- requires root previliges to build for some reason
