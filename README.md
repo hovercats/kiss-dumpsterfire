@@ -1,10 +1,10 @@
 # kiss-dumpsterfire
 
 
-Just a repo of some of the packages that I use, and experiment with.
+Just a repo with some packages that I use or experiment with. 
 
 Currently depends on [kiss' main repo](https://github.com/kiss-community/repo-main) and [community](https://github.com/kiss-community/repo-community) repo.
-Some of the buildscripts might not work, so you may have to build them yourself from git instead. hence the name of the repo.
+Some of the buildscripts might not work, so you may have to build them yourself from git instead. hence the name of the repo. If that is the case, it should be stated below in package description. 
 
 
 Current packages:
@@ -12,7 +12,6 @@ Current packages:
 	- Just controls your screen brightness. as simple as that.
 - Devour
 	- Basiclly a swallow utility, like DWM swallow patch, but its WM independent.
-	- buildscript is a bit finnicky atm
 	- ~~requires root priviligies to build, for some reason~~ works like intended
 - Dmenu
 	- Luke Smith's fork of Dmenu
