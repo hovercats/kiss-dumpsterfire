@@ -1,0 +1,10 @@
+#!/bin/sh
+
+./autogen.sh
+
+mkdir -p $1/usr/local/include/X11/
+mkdir -p $1/usr/local/lib/
+
+make
+make DESTDIR="$1" install
+

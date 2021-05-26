@@ -29,7 +29,7 @@ Current packages:
 	- addon for wmutils, for mouse support and reading x events
 - meh
 	- simple image viewer
-	- lets you view images cropped down, instead of always fullsize lik feh
+	- lets you view images cropped down, instead of always fullsize like feh
 - eiwd
 	- iwd withot dbus
 	- uses illiliti's fork, as dylan's is no longer maintained.
@@ -42,4 +42,7 @@ Current packages:
 	- ~~requires root previliges to build for some reason~~ works as intended
 - unclutter
 	- hides X11 pointer
-	
+- xdotool
+	- fake keyboard/mouse input, window management etc.
+- libXtst
+	- dependency
