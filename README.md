@@ -1,45 +1,37 @@
 # kiss-dumpsterfire
 
 
-Just a repo with some packages that I use or experiment with. 
+Just a repo containing packages I use, or experiment with. It has alot of smaller, more minimalistic software, which may, or may not adhere to the UNIX philosofy, which is nice. 
+Currently it is depending on [Kiss' main repo](https://github.com/kiss-community/repo-main) and [Kiss Community repo](https://github.com/kiss-community/repo-community) for alot of dependencies, but you probably have those already anyway for your other stuff, so it doesnt matter.
+Packages not in the afforementioned repos, should be provided here. 
 
-Currently depends on [kiss' main repo](https://github.com/kiss-community/repo-main) and [community](https://github.com/kiss-community/repo-community) repo.
-Some of the buildscripts might not work, so you may have to build them yourself from git instead. hence the name of the repo. If that is the case, it should be stated below in package description. 
-
+---
 
 Current packages:
-- Brightnessctl
-	- Just controls your screen brightness. as simple as that.
-- Devour
-	- Basiclly a swallow utility, like DWM swallow patch, but its WM independent.
-- Dmenu
-	- Luke Smith's fork of Dmenu
-- Glazier
-	- Really minimal WM
-- Libwm
-	- dependency
-- ST
-	- My personal build of st
-- wmutils
-	- really neat utility for manipulating x11 windows.
-	- can be used standalone, or in conjuction with glazier, sowm or w/e
-- wmutils-opt
-	- addon for wmutils, for mouse support and reading x events
-- meh
-	- simple image viewer
-	- lets you view images cropped down, instead of always fullsize like feh
-- eiwd
-	- iwd withot dbus
-	- uses illiliti's fork, as dylan's is no longer maintained.
-- xev
-	- X event printer
-	- usefull for finding name of keys etc
-- no-wm
-	- use X11 without window manager
-	- could be usefull with wmutils
-- unclutter
-	- hides X11 pointer
-- xdotool
-	- fake keyboard/mouse input, window management etc.
-- libXtst
-	- dependency
+- `Brightnessctl`: As the name implies, controls screen brightness
+- `Devour`: Similar to DWM's swallow patch, but not WM dependent. Can even be used in a filemanager
+- `Dmenu`: Luke Smiths fork of suckless' Dmenu
+- `Glazier`: Really minimal WM. Works great in conjunction with wmutils.
+- `ST`: My personal build of ST with a set of patches and changes
+- `wmutils`: window manipulation tool. works great standalone, or with other WMs like Glazier or SOWM.
+- `wmutils-opt`: Addon for wmutils, for mouse suppor, and a window even watcher.
+- `meh`: Simple image viewer. Crops images to a more usable size, instead of forcing fullscreen like feh.
+- `eiwd`: Iwd without dbus. uses Illilitis's fork.
+- `xev`: X event printer. Usefull for finding keysyms for a hotkeydeamon like sxhkd.
+- `no-wm`: use X11 without a WM. Can be usefull to use with wmutils, to handle focus.
+- `unclutter`: Hides X11 pointer,
+- `xdotool`: Fake mouse/keyboard input, and window management etc.
+
+---
+
+### To do:
+
+- [ ] Find and package more cool software.
+	- Neverending, probably.
+- [ ] Switch out some core packages like toybox instead of busybox, then add it here
+- [ ] Make repo independent of core repos
+- [ ] Package Tor browser.
+	- Has a glibc rust dependency, so need to figure out how to bypass this, seeing as Kiss uses musl libc.
+- [ ] Package plan9port by User Space.
+	- possibly steal 9base aswell, but plan9port seems more complete afaik.
+	- package Rio aswell, or other software no bundled with plan9port.
