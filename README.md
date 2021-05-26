@@ -40,3 +40,6 @@ Current packages:
 	- use X11 without window manager
 	- could be usefull with wmutils
 	- ~~requires root previliges to build for some reason~~ works as intended
+- unclutter
+	- hides X11 pointer
+	
