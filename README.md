@@ -1,7 +1,7 @@
 # kiss-dumpsterfire
 
 
-Just a repo containing packages I use, or experiment with. It has alot of smaller, more minimalistic software, which may, or may not adhere to the UNIX philosofy, which is nice. 
+Just a repo containing packages I use, or experiment with. It has alot of smaller, more minimalistic software, which may, or may not adhere to the UNIX philosophy, which is nice. 
 Currently it is depending on [Kiss' main repo](https://github.com/kiss-community/repo-main) and [Kiss Community repo](https://github.com/kiss-community/repo-community) for alot of dependencies, but you probably have those already anyway for your other stuff, so it doesnt matter.
 Packages not in the afforementioned repos, should be provided here. 
 
@@ -19,7 +19,6 @@ Current packages:
 - `eiwd`: Iwd without dbus. uses Illilitis's fork.
 - `xev`: X event printer. Usefull for finding keysyms for a hotkeydeamon like sxhkd.
 - `no-wm`: use X11 without a WM. Can be usefull to use with wmutils, to handle focus.
-- `unclutter`: Hides X11 pointer,
 - `xdotool`: Fake mouse/keyboard input, and window management etc.
 
 ---
@@ -35,6 +34,6 @@ Current packages:
 	- perhaps use Micha Flee's torbrowser-launcher
 - [ ] Package plan9port by User Space.
 	- possibly steal 9base aswell, but plan9port seems more complete afaik.
-	- package Rio aswell, or other software no bundled with plan9port.
+	- package Rio aswell, or other plan9 related software thats not bundled with plan9port.
 - [ ] Wayland?
 - [ ] Package the kernel for easier updating.

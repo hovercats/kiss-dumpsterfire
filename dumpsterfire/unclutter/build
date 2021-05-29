@@ -1,6 +1,0 @@
-#!/bin/sh
-
-mkdir -p $1/usr/bin/X11
-
-make
-make DESTDIR="$1" install
