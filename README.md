@@ -32,7 +32,9 @@ Current packages:
 - [ ] Make repo independent of core repos
 - [ ] Package Tor browser.
 	- Has a glibc rust dependency, so need to figure out how to bypass this, seeing as Kiss uses musl libc.
+	- perhaps use Micha Flee's torbrowser-launcher
 - [ ] Package plan9port by User Space.
 	- possibly steal 9base aswell, but plan9port seems more complete afaik.
 	- package Rio aswell, or other software no bundled with plan9port.
-- [ ] Wayland
+- [ ] Wayland?
+- [ ] Package the kernel for easier updating.
