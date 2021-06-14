@@ -20,6 +20,7 @@ Current packages:
 - `xev`: X event printer. Usefull for finding keysyms for a hotkeydeamon like sxhkd.
 - `no-wm`: use X11 without a WM. Can be usefull to use with wmutils, to handle focus.
 - `xdotool`: Fake mouse/keyboard input, and window management etc.
+- `vimv`: Terminal based rename utility for quick mass-renaming of files/folders
 
 ---
 
