@@ -1,3 +1,4 @@
-pkgconf make
+automake
+pkgconf
 libX11
 libXrandr
