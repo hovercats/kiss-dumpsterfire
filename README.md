@@ -21,6 +21,7 @@ Current packages:
 - `no-wm`: use X11 without a WM. Can be usefull to use with wmutils, to handle focus.
 - `xdotool`: Fake mouse/keyboard input, and window management etc.
 - `vimv`: Terminal based rename utility for quick mass-renaming of files/folders
+- `linux`: replace .config with your own, or else you wont be able to boot.
 
 ---
 
@@ -37,4 +38,4 @@ Current packages:
 	- possibly steal 9base aswell, but plan9port seems more complete afaik.
 	- package Rio aswell, or other plan9 related software thats not bundled with plan9port.
 - [ ] Wayland?
-- [ ] Package the kernel for easier updating.
+- [x] Package the kernel for easier updating.
