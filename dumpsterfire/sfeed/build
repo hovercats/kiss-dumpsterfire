@@ -1,0 +1,5 @@
+#!/bin/sh
+
+
+make
+make PREFIX=$1/usr/local/ install

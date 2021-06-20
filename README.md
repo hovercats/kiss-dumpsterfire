@@ -22,6 +22,7 @@ Current packages:
 - `xdotool`: Fake mouse/keyboard input, and window management etc.
 - `vimv`: Terminal based rename utility for quick mass-renaming of files/folders
 - `linux`: replace .config with your own, or else you wont be able to boot.
+- `sfeed`: simple RSS & atom parser
 
 ---
 
