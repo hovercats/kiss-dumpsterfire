@@ -21,7 +21,6 @@ Current packages:
 - `no-wm`: use X11 without a WM. Can be usefull to use with wmutils, to handle focus.
 - `xdotool`: Fake mouse/keyboard input, and window management etc.
 - `vimv`: Terminal based rename utility for quick mass-renaming of files/folders
-- `linux`: replace .config with your own, or else you wont be able to boot.
 - `sfeed`: simple RSS & atom parser
 
 ---
