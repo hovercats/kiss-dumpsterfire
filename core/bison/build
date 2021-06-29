@@ -1,0 +1,10 @@
+#!/bin/sh -e
+
+./configure \
+    --prefix=/usr \
+    --disable-nls \
+    --disable-shared \
+    --without-libtextstyle-prefix
+
+make
+make DESTDIR="$1" install
