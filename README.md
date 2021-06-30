@@ -29,7 +29,8 @@ Current packages:
 
 - [ ] Find and package more cool software.
 	- Neverending, probably.
-- [ ] Switch out some core packages like toybox instead of busybox, then add it here
+- [x] Add core packages. Static
+	- [ ] Switch out some core packages like toybox instead of busybox, then add it here
 - [ ] Make repo independent of core repos
 - [ ] Package Tor browser.
 	- Has a glibc rust dependency, so need to figure out how to bypass this, seeing as Kiss uses musl libc.
