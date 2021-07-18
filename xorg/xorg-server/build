@@ -19,4 +19,4 @@ patch -p1 < fix-crash.patch
     --with-systemd-daemon=off
 
 make
-make DESTDIR="$1" install
+make install
