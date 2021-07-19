@@ -1,0 +1,8 @@
+#!/bin/sh -e
+
+mkdir -p "$1/usr/bin/"
+
+make
+
+cp a.out "$1/usr/bin/onetrueawk"
+ln -s onetrueawk "$1/usr/bin/awk"
