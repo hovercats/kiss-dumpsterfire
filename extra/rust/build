@@ -1,6 +1,7 @@
 #!/bin/sh -e
 
 patch -p1 < libressl.patch
+patch -p1 < cargo-miri.patch
 
 # This package mimics the download process of rust's 'x.py'
 # bootstrap library to allow for the removal of the internet
