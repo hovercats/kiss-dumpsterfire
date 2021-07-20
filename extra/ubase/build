@@ -1,0 +1,17 @@
+#!/bin/sh -e
+
+for patch in *.patch; do
+    patch -p1 < "$patch"
+done
+
+sed -i \
+    -e "/^CFLAGS/s/=/= $CFLAGS -static/" \
+    -e "/^LDFLAGS/s/=/= $LDFLAGS -static/" \
+    config.mk
+
+make ubase-box
+make ubase-box-install
+
+# Remove 'su' which doesn't support '-c'.
+unlink "$1/usr/bin/su"
+unlink "$1/usr/bin/stat"
