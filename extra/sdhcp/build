@@ -1,9 +1,8 @@
 #!/bin/sh -e
 
-make
+mkdir -p "$1/usr/bin/"
+mkdir -p "$1/usr/share/sdhcp"
 
-mkdir -p "$1/usr/local/sbin/"
-mkdir -p "$1/usr/local/share/man"
-
-cp sdhcp "$1/usr/local/sbin/"
-cp sdhcp.1 "$1/usr/local/share/man/man1"
+make 
+cp sdhcp "$1/usr/bin/"
+cp sdhcp.1 "$1/usr/share/sdhcp"
