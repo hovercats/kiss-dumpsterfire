@@ -1,4 +1,0 @@
-#!/bin/sh 
-
-make
-make BIN_DIR="$1/usr/bin" install
