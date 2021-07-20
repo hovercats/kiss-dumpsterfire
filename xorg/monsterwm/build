@@ -1,0 +1,9 @@
+#!/bin/sh 
+
+patch -p1 < uselessgaps.patch
+
+sed -i 's/PANEL_HEIGHT.*18/PANEL_HEIGHT 0/' config.def.h
+sed -i 's/USELESSGAP.*8/USELESSGAP 35/' config.def.h
+
+make
+make install
