@@ -1,0 +1,5 @@
+#!/bin/sh -e
+
+sed -i s/irc.freenode.net/irc.libera.chat/ birch
+
+install -Dm755 birch "$1/usr/bin/birch"
