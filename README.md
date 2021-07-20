@@ -1,25 +1,7 @@
 # kiss-dumpsterfire
 
+With KISS' recent decisions to move to `wayland` and `openssl`, I decided to stay with `libressl` and `xorg`.
+I like software diversity, so staying with libressl currently makes sense to me. I will likely eventually move to wayland anyway, but not at this moment. 
 
-Just a repo containing packages I use, or experiment with. It has alot of smaller, more minimalistic software, which may, or may not adhere to the UNIX philosophy, which is nice. 
-Currently it is depending on [Kiss' main repo](https://github.com/kiss-community/repo-main) and [Kiss Community repo](https://github.com/kiss-community/repo-community) for alot of dependencies, but you probably have those already anyway for your other stuff, so it doesnt matter.
-Packages not in the afforementioned repos, should be provided here. 
-
----
-
-Current packages:
-- `Brightnessctl`: As the name implies, controls screen brightness
-- `Devour`: Similar to DWM's swallow patch, but not WM dependent. Can even be used in a filemanager
-- `Dmenu`: Luke Smiths fork of suckless' Dmenu
-- `Glazier`: Really minimal WM. Works great in conjunction with wmutils.
-- `ST`: My personal build of ST with a set of patches and changes
-- `wmutils`: window manipulation tool. works great standalone, or with other WMs like Glazier or SOWM.
-- `wmutils-opt`: Addon for wmutils, for mouse suppor, and a window even watcher.
-- `meh`: Simple image viewer. Crops images to a more usable size, instead of forcing fullscreen like feh.
-- `eiwd`: Iwd without dbus. uses Illilitis's fork.
-- `xev`: X event printer. Usefull for finding keysyms for a hotkeydeamon like sxhkd.
-- `no-wm`: use X11 without a WM. Can be usefull to use with wmutils, to handle focus.
-- `xdotool`: Fake mouse/keyboard input, and window management etc.
-- `vimv`: Terminal based rename utility for quick mass-renaming of files/folders
-- `sfeed`: simple RSS & atom parser
-
+This repo thus does contain packages that depend on `libressl` instead of `openssl`, aswell as packages that I enjoy and/or experiment with. 
+I also enjoy statically linking, so Ill regurarly add packages that Ive managed to build statically, or that Ive simply made modifications to. Static packages was initially planed to be inside my [Kiss-somethigsomethingstatici repo](https://github.com/hovercats/kiss-somethingsomethingstatic), but I decided against it, 'cause it makes more sense to me to have just one repo to work with.
