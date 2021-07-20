@@ -6,3 +6,6 @@ mkdir -p "$1/usr/share/sdhcp"
 make LDFLAGS=-static
 cp sdhcp "$1/usr/bin/"
 cp sdhcp.1 "$1/usr/share/sdhcp"
+
+mkdir -p "$1/etc/sv/sdhcp"
+cp run "$1/etc/sv/sdhcp"
