@@ -1,8 +1,0 @@
-autoconf 
-automake 
-m4 
-pkgconf make
-libtool 
-libX11
-libXext
-libXi
