@@ -1,6 +1,0 @@
-#!/bin/sh
-
-./autogen.sh
-
-make
-make DESTDIR="$1" install
