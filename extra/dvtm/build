@@ -1,4 +1,10 @@
 #!/bin/sh -e
 
 make
-make install
+
+mkdir -p "$1/usr/bin/"
+mkdir -p "$1/usr/share/man/man1"
+
+cp dvtm "$1/usr/bin/"
+cp dvtm-status "$1/usr/bin/"
+cp dvtm.1 "$1/usr/share/man/man1"
