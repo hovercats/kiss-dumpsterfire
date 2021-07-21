@@ -1,0 +1,9 @@
+#!/usr/bin/sh -e
+
+patch -p1 < musl.patch
+
+mkdir -p "$1/usr/bin" "$1/usr/share//man/man1"
+
+make CFLAGS="-DNCURSESW_INCLUDE_H=\<curses.h\>"
+cp mtm.1 "$1/usr/share/man/man1"
+cp mtm "$1/usr/bin/"
