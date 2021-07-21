@@ -4,3 +4,4 @@ https://static.rust-lang.org/dist/2021-05-06/rustc-1.52.0-x86_64-unknown-linux-m
 https://static.rust-lang.org/dist/2021-05-06/cargo-1.52.0-x86_64-unknown-linux-musl.tar.xz?no-extract
 patches/libressl.patch
 patches/cargo-miri.patch
+patches/llvm-clang.patch
