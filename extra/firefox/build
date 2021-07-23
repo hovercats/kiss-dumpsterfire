@@ -1,6 +1,6 @@
 #!/bin/sh -e
 
-patch -p1 < if_indextoname.patch
+#patch -p1 < if_indextoname.patch
 
 # Remove fribidi dependency.
 sed '/fribidi/d' config/system-headers.mozbuild > _
@@ -101,6 +101,7 @@ ac_add_options --disable-debug
 ac_add_options --disable-debug-symbols
 ac_add_options --disable-parental-controls
 ac_add_options --disable-system-extension-dirs
+ac_add_options --disable-webrtc
 EOF
 
 ./mach build
