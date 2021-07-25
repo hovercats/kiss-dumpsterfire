@@ -1,0 +1,23 @@
+#!/bin/sh -e
+
+./configure \
+    --prefix=/usr \
+    --enable-ipv6 \
+    --enable-unix-sockets \
+    --enable-hidden-symbols \
+    --disable-manual \
+    --disable-ldap \
+    --disable-ares \
+    --with-openssl \
+    --with-pic \
+    --with-ca-fallback \
+    --without-librtmp \
+    --without-icu \
+    --without-libpsl \
+    --without-libidn \
+    --without-libidn2 \
+    --without-zstd \
+    --disable-shared
+
+make
+make install
