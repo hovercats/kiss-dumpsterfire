@@ -1,0 +1,4 @@
+#!/usr/bin/env sh
+
+printf %s "the default config files will not work because
+they hard depend on dmenu and terminus-font."
