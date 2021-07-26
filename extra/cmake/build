@@ -6,7 +6,7 @@ if kiss l cmake; then
     cmake -B build \
         -DCMAKE_INSTALL_PREFIX=/usr \
         -DCMAKE_BUILD_TYPE=Release \
-        -DCMAKE_USE_SYSTEM_CURL=True \
+        -DCMAKE_USE_SYSTEM_CURL=False \
         -DCMAKE_USE_SYSTEM_EXPAT=True \
         -DCMAKE_USE_SYSTEM_ZLIB=True \
         -DCMAKE_USE_SYSTEM_BZIP2=True \
@@ -18,7 +18,7 @@ if kiss l cmake; then
 else
     ./configure \
         --prefix=/usr \
-        --system-curl \
+        --no-system-curl \
         --system-expat \
         --system-zlib \
         --system-bzip2
