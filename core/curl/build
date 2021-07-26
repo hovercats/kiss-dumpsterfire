@@ -17,7 +17,8 @@
     --without-libidn \
     --without-libidn2 \
     --without-zstd \
+    --without-zlib \
     --disable-shared
 
-make
+make 
 make install
