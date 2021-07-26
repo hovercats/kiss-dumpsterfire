@@ -1,0 +1,15 @@
+#!/bin/sh -e
+
+#patch -p1 < 01-links-tabbed.patch
+
+./configure \
+    --enable-graphics 
+
+mkdir -p \
+	"$1/usr/share/man/man1" \
+	"$1/usr/bin/"
+
+make 
+
+cp links "$1/usr/bin/"
+cp links.1 "$1/usr/share/man/man1" 

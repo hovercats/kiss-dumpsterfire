@@ -1,0 +1,67 @@
+diff --git a/default.c b/default.c
+index dc3fa58..5e21015 100644
+--- a/default.c
++++ b/default.c
+@@ -2091,6 +2091,7 @@ int force_g = 0;
+ unsigned char ggr_drv[MAX_STR_LEN] = "";
+ unsigned char ggr_mode[MAX_STR_LEN] = "";
+ unsigned char ggr_display[MAX_STR_LEN] = "";
++unsigned char embed[MAX_STR_LEN] = "";
+ 
+ int anonymous = 0;
+ 
+@@ -2234,6 +2235,7 @@ static struct option links_options[] = {
+ 	{1, setstr_cmd, NULL, NULL, 0, MAX_STR_LEN, default_target, NULL, "target"},
+ 	{1, setstr_cmd, NULL, NULL, 0, MAX_STR_LEN, ggr_mode, NULL, "mode"},
+ 	{1, setstr_cmd, NULL, NULL, 0, MAX_STR_LEN, ggr_display, NULL, "display"},
++	{1, setstr_cmd, NULL, NULL, 0, MAX_STR_LEN, embed, NULL, "w"},
+ 	{1, gen_cmd, num_rd, NULL, 0, MAXINT, &base_session, NULL, "base-session"},
+ 	{1, set_cmd, NULL, NULL, 0, 0, &force_html, NULL, "force-html"},
+ 	{1, dump_cmd, NULL, NULL, D_SOURCE, 0, NULL, NULL, "source"},
+diff --git a/links.h b/links.h
+index f61466c..b8967de 100644
+--- a/links.h
++++ b/links.h
+@@ -4812,6 +4812,7 @@ extern int force_g;
+ extern unsigned char ggr_drv[MAX_STR_LEN];
+ extern unsigned char ggr_mode[MAX_STR_LEN];
+ extern unsigned char ggr_display[MAX_STR_LEN];
++extern unsigned char embed[MAX_STR_LEN];
+ 
+ extern unsigned char default_target[MAX_STR_LEN];
+ 
+diff --git a/x.c b/x.c
+index 5f3f33a..ab4c93c 100644
+--- a/x.c
++++ b/x.c
+@@ -1622,7 +1622,11 @@ static unsigned char *x_init_driver(unsigned char *param, unsigned char *display
+ 	x_screen = DefaultScreen(x_display);
+ 	x_display_height = DisplayHeight(x_display, x_screen);
+ 	x_display_width = DisplayWidth(x_display, x_screen);
+-	x_root_window = RootWindow(x_display, x_screen);
++	if (embed) {
++		x_root_window = strtol(embed, NULL, 0);
++		} else {
++		x_root_window = RootWindow(x_display, x_screen);
++		}
+ 	x_default_colormap = XDefaultColormap(x_display, x_screen);
+ 
+ 	x_default_window_width = x_display_width;
+@@ -1813,6 +1817,7 @@ visual_found:
+ 	if (x_have_palette) win_attr.colormap = x_colormap;
+ 	else win_attr.colormap = x_default_colormap;
+ 
++	if (!embed) {
+ 	fake_window = XCreateWindow(
+ 		x_display,
+ 		x_root_window,
+@@ -1829,6 +1834,9 @@ visual_found:
+ 	);
+ 
+ 	fake_window_initialized = 1;
++	} else {
++		fake_window = x_root_window;
++	}
+ 
+ 	x_normal_gc = XCreateGC(x_display, fake_window, GCFillStyle|GCBackground, &gcv);
+ 	if (!x_normal_gc) {
