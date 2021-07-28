@@ -20,5 +20,5 @@
     --without-zlib \
     --disable-shared
 
-make 
+make LDFLAGS=--static
 make install
