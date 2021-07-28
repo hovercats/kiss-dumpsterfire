@@ -5,7 +5,7 @@
     --disable-nls \
     --without-libtextstyle-prefix
 
-make LDFLAGS=-static
+make LDFLAGS=--static
 
 make \
     install-libLIBRARIES \
