@@ -6,7 +6,7 @@
     --disable-tests \
     --disable-shared
 
-make
+make LDFLAGS=--static
 make install
 
 install -Dm 755 update-certdata.sh "$1/etc/ssl"
