@@ -3,7 +3,9 @@
 ./configure \
     --prefix=/usr \
     --disable-doc \
-    --disable-nls
+    --disable-nls \
+    --disable-shared
 
-make 
+
+make LDFLAGS=--static
 make install
