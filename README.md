@@ -14,7 +14,9 @@ Notes:
 Core now contains almost a whole core, which builds statically.
 The exceptions are:
 
-* `musl`: this ones a bit tricky, so this will really need some looking into.
-* `zlib`: also requires some work, as alot of packages depends on it.
- * once I get llvm to work as I want, zlib will probably soon follow
-* `llvm`: still working some stuff out
+- `musl`: this ones a bit tricky, so this will really need some looking into.
+- `zlib`: also requires some work, as alot of packages depends on it.
+ - once I get llvm to work as I want, zlib will probably soon follow
+- `llvm`: still working some stuff out
+
+- `links2` & `lynx` is also built statically, so we  now have statically linked browsers aswell.
