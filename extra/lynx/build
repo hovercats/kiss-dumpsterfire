@@ -8,5 +8,5 @@
     --with-zlib \
     --enable-ipv6
 
-make
-make DESTDIR="$1" install
+make LDFLAGS=--static
+make install
