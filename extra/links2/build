@@ -2,14 +2,13 @@
 
 #patch -p1 < 01-links-tabbed.patch
 
-./configure \
-    --enable-graphics 
+./configure
 
 mkdir -p \
 	"$1/usr/share/man/man1" \
 	"$1/usr/bin/"
 
-make 
+make LDFLAGS=--static
 
 cp links "$1/usr/bin/"
 cp links.1 "$1/usr/share/man/man1" 
