@@ -3,10 +3,9 @@
 ./configure \
     --prefix=/usr \
     --sysconfdir=/etc \
-    --disable-tests \
-    --disable-shared
+    --disable-tests 
 
-make LDFLAGS=--static
+make
 make install
 
 install -Dm 755 update-certdata.sh "$1/etc/ssl"
