@@ -1,5 +1,10 @@
 #!/bin/sh -e
 
+# Remove ncurses dependency.
+sed 's/\(LLVM_ENABLE_TERMINFO\) 1/\1 2/' \
+    cmake/config-ix.cmake > _
+    mv -f _ cmake/config-ix.cmake
+
 sed 's/set(COMPILER_RT_HAS_SANITIZER_COMMON TRUE)/set(COMPILER_RT_HAS_SANITIZER_COMMON FALSE)/' compiler-rt/cmake/config-ix.cmake > _
 mv -f _ compiler-rt/cmake/config-ix.cmake
 
