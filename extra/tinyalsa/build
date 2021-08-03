@@ -1,12 +1,10 @@
 #!/bin/sh -e
 
-export DESTDIR="$1"
+export LDFLAGS=--static
 
-meson \
-    --prefix=/usr \
-    -Ddocs=disabled \
-    -Dexamples=disabled \
-    . build
+cmake -B build \
+	-DBUILD_SHARED_LIBS=OFF \
+	-DTINYALSA_BUILD_EXAMPLES=OFF
 
-	ninja -C build
-	ninja -C build install
+cmake --build build
+cmake --install build
