@@ -1,1 +1,4 @@
-git+https://github.com/hovercats/st.git
+https://dl.suckless.org/st/st-0.8.4.tar.gz
+patches/scrollback-keybinds.patch
+patches/font.patch
+patches/colors.patch

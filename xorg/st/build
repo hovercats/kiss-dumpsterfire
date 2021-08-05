@@ -1,4 +1,10 @@
 #!/bin/sh -e
 
+sed -i 's/cursorshape = 2/cursorshape = 4/' config.def.h
+
+patch -p1 < scrollback-keybinds.patch
+patch -p1 < colors.patch
+patch -p1 < font.patch
+
 make
 make PREFIX=/usr DESTDIR="$1" install
