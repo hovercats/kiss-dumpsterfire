@@ -1,0 +1,11 @@
+#!/bin/sh -e
+
+sh autogen.sh
+# Fix strncpy() error.
+sed -i 's/MAXFNAME)/MAXFNAME-1)/' xsel.c
+
+./configure \
+    --prefix=/usr
+
+make 
+make DESTDIR="$1" install

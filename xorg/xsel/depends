@@ -1,0 +1,6 @@
+autoconf make
+automake make
+libtool
+libX11
+libXmu
+libXt
