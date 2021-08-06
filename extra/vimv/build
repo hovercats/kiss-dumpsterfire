@@ -1,5 +1,0 @@
-#!/bin/sh
-
-mkdir -p $1/usr/local/bin/
-
-install -Dm755 vimv $/usr/local/bin/vimv
