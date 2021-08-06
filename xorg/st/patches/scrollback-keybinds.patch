@@ -51,13 +51,13 @@ index 6f05dce..918947a 100644
  	{ ShiftMask,            XK_Insert,      selpaste,       {.i =  0} },
  	{ TERMMOD,              XK_Num_Lock,    numlock,        {.i =  0} },
 +	{ XK_NO_MOD,            XK_Page_Up,     kscrollup,      {.i = 10} },
-+	{ Mod1Mask,				XK_j,		    kscrollup,      {.i = 1} },
++	{ Mod1Mask,				XK_k,		    kscrollup,      {.i = 1} },
 +	{ Mod1Mask,	            XK_Up,			kscrollup,      {.i = 2} },
 +	{ Mod1Mask,				XK_u,		    kscrollup,      {.i = 5} },
 +	{ XK_NO_MOD,            XK_Page_Down,   kscrolldown,    {.i = 10} },
 +	{ Mod1Mask,			    XK_j,			kscrolldown,    {.i = 1} },
-+	{ Mod1Mask,		        XK_Up,			kscrolldown,    {.i = 2} },
-+	{ Mod1Mask,	            XK_u,			kscrolldown,    {.i = 5} },
++	{ Mod1Mask,		        XK_Down,		kscrolldown,    {.i = 2} },
++	{ Mod1Mask,	            XK_d,			kscrolldown,    {.i = 5} },
  };
  
  /*
