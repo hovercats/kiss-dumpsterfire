@@ -10,5 +10,5 @@ export CFLAGS="$CFLAGS -fcommon"
     --enable-noexecstack \
     --disable-nls
 
-make
+make LDFLAGS="$LDFLAGS -static"
 make install
