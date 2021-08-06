@@ -8,6 +8,3 @@
 
 make LDFLAGS="$LDFLAGS --static"
 make DESTDIR="$1" install
-
-mkdir -p "$1/usr/lib/"
-ln -s libexpat.a "$1/usr/lib/libexpat.so.1"
