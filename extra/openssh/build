@@ -14,9 +14,10 @@
     --with-ssl-engine \
     --with-pid-dir=/run \
     --disable-wtmp \
-    --disable-utmp
+    --disable-utmp \
+    --with-ldflags=-static
 
-make
+make 
 make DESTDIR="$1" install
 
 cp -f contrib/ssh-copy-id   "$1/usr/bin"
