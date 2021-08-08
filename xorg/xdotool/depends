@@ -2,3 +2,4 @@ libX11
 libXinerama
 libXtst
 libxkbcommon
+libXi
