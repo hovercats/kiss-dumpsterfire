@@ -1,10 +1,13 @@
 #!/bin/sh -e
 
+sed -i 's/--libs fontconfig/--libs --static fontconfig/' config.mk
 sed -i 's/cursorshape = 2/cursorshape = 4/' config.def.h
+sed -i 's/--libs freetype2/--libs --static freetype2/' config.mk
 
 patch -p1 < scrollback-keybinds.patch
 patch -p1 < colors.patch
 patch -p1 < font.patch
 
-make
+
+make LDFLAGS="$LDFLAGS --static -lX11 -lXft -lxcb -X11-xcb -lXrender -lXau"
 make PREFIX=/usr DESTDIR="$1" install
