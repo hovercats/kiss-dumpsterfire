@@ -9,8 +9,12 @@ meson \
     -Dtls_check=false \
     -Dvapi=disabled \
     -Dgssapi=disabled \
+    -Dtests=false \
+    -Dinstalled_tests=false \
     -Dbrotli=disabled \
     -Dsysprof=disabled \
+    -Ddefault_libary=static \
+    -Dgnome=false \
     . output
 
 ninja -C output
