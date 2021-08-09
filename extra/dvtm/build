@@ -1,6 +1,6 @@
 #!/bin/sh -e
 
-make
+make LDFLAGS="$LDFLAGS -static -lncursesw"
 
 mkdir -p "$1/usr/bin/"
 mkdir -p "$1/usr/share/man/man1"
