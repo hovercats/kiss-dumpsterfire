@@ -2,7 +2,7 @@
 
 mkdir -p "$1/usr/bin/"
 
-make
+make CFLAGS="$CFLAGS --static" 
 
 cp a.out "$1/usr/bin/onetrueawk"
 ln -s onetrueawk "$1/usr/bin/awk"
