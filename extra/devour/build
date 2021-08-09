@@ -1,4 +1,4 @@
 #!/bin/sh 
 
-make
+make LDFLAGS="$LDFLAGS --static -lxcb -lXau -lX11" 
 make BIN_DIR="$1/usr/bin" install
