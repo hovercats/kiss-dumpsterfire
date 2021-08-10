@@ -1,4 +1,6 @@
 #!/bin/sh -e
 
-make
-make DESTDIR="$1" PREFIX=/usr install
+make LDFLAGS="$LDFLAGS -static -lX11 -lXft -lxcb -lXrender -lfreetype \
+-lfontconfig -lpng -lXinerama -lz -lXext -lfontconfig -lexpat \
+-lXau"
+make PREFIX=/usr install
