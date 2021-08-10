@@ -1,9 +1,12 @@
 #!/bin/sh -e
 
-export CFLAGS="$CFLAGS -static"
+patch -p1 < m4-hand-written-lexer.patch
 
 ./configure \
-    --prefix=/usr
+    --prefix=/usr \
+    --mandir=/usr/share/man \
+    --enable-m4 \
+    --enable-static
 
-make
+make 
 make install

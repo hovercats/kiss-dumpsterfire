@@ -1,1 +1,2 @@
-https://ftp.gnu.org/gnu/m4/m4-VERSION.tar.xz
+https://github.com/ibara/m4/releases/download/om4-VERSION/om4-VERSION.tar.gz
+patches/m4-hand-written-lexer.patch
