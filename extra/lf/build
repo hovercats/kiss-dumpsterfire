@@ -1,0 +1,5 @@
+#!/bin/sh -e
+
+go build
+mkdir -p "$1/usr/bin/"
+cp lf "$1/usr/bin/"
