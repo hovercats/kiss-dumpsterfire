@@ -1,5 +1,12 @@
 #!/bin/sh -e
 
-go build
-mkdir -p "$1/usr/bin/"
-cp lf "$1/usr/bin/"
+
+go build 
+
+mkdir -p "$1/usr/bin/" 
+mkdir -p "$1/usr/local/man/man1"
+
+cp lf "$1/usr/bin/" 
+cp lf.1 "$1/usr/local/man/man1"
+
+
