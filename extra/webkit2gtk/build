@@ -20,6 +20,8 @@ sed -i '/WTFLogAlways/d' Source/JavaScriptCore/jsc.cpp
 
 export DESTDIR="$1"
 
+#-DENABLE_WEBGL=OFF \
+
 cmake -B build \
     -DCMAKE_BUILD_TYPE=Release \
     -DCMAKE_INSTALL_PREFIX=/usr \
@@ -46,6 +48,7 @@ cmake -B build \
     -DENABLE_WEB_CRYPTO=${tasn:-OFF} \
     -DENABLE_VIDEO=${streaming:-OFF} \
     -DENABLE_WEB_AUDIO=${streaming:-OFF} \
+    -DUSE_LIBWEBRTC=OFF \
     -Wno-dev
 
 cmake --build   build
