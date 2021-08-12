@@ -1,6 +1,6 @@
 #!/bin/sh -e
 
-patch -p1 < hidetabs.patch
+patch -p1 < keyrelease-hidetabs.patch
 
 make LDFLAGS="$LDFLAGS --static -lX11 -lXau -lxcb"
 make install
