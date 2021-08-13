@@ -1,0 +1,8 @@
+#!/bin/sh -e
+
+./configure \
+    --prefix=/usr \
+    --mandir=/usr/share/man
+
+make LDFLAGS="$LDFLAGS -static"
+make install
