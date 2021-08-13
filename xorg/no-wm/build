@@ -1,6 +1,6 @@
 #!/bin/sh
 
-sed -i 's/gcc/clang/' Makefile
+sed -i 's/gcc/cc/' Makefile
 
 mkdir -p "$1/usr/bin"
 
