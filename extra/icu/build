@@ -7,7 +7,8 @@ sed -i 's/clang++ g++ c++/c++ clang++ g++/g' source/configure
 
 source/configure \
     --prefix=/usr \
-    --sbindir=/usr/bin
+    --sbindir=/usr/bin \
+    --enable-static
 
 make
 make DESTDIR="$1" install
