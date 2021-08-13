@@ -1,5 +1,8 @@
 #!/bin/sh
 
+sed -i 's/gcc/clang/' Makefile
+
 mkdir -p "$1/usr/bin"
-make
+
+make 
 make  PREFIX="$1/usr" install
