@@ -1,5 +1,5 @@
 libxcb
 xcb-util
 xcb-util-cursor
-xcb-utils-image
+xcb-util-image
 xcb-util-renderutil
