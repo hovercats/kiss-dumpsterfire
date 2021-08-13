@@ -20,7 +20,6 @@ sed -i '/WTFLogAlways/d' Source/JavaScriptCore/jsc.cpp
 
 export DESTDIR="$1"
 
-#-DENABLE_WEBGL=OFF \
 
 cmake -B build \
     -DCMAKE_BUILD_TYPE=Release \
