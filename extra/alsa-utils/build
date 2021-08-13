@@ -22,5 +22,5 @@ mv -f __ alsaucm/Makefile.in
     --disable-xmlto \
     --disable-nls
 
-make 
+make LDFLAGS="$LDFLAGS -lform -lmenu -lpanel -lcurses -lterminfo"
 make DESTDIR="$1" install
