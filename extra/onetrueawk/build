@@ -1,5 +1,8 @@
 #!/bin/sh -e
 
+# remove dep on gcc. 
+sed -i 's/gcc/cc/g' makefile
+
 mkdir -p "$1/usr/bin/"
 
 make CFLAGS="$CFLAGS --static" 
