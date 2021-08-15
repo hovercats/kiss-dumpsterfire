@@ -1,5 +1,7 @@
 #!/bin/sh -e
 
+export LDFLAGS="$LDFLAGS -static -lXau -lX11 -lxcb"
+
 sh autogen.sh
 # Fix strncpy() error.
 sed -i 's/MAXFNAME)/MAXFNAME-1)/' xsel.c
