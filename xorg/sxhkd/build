@@ -1,4 +1,6 @@
 #!/bin/sh -e
 
+export LDFLAGS="$LDFLAGS -static -lXau "
+
 make 
-make PREFIX=/usr DESTDIR="$1" install
+make PREFIX=/usr install
