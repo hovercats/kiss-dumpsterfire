@@ -1,4 +1,21 @@
 #!/bin/sh
 
+# makefile does not produce a static lib, which we need
+# so heres a workaround
+make
+ar -rc libxdo.a *.o
+ranlib libxdo.a
+
+export LIBS="$LIBS -lX11 -lXext -lxcb -lXau -lxkbcommon -lXinerama -lXtst \
+	-lX11-xcb -lXi -lxdo"
+export LDFLAGS="$LDFLAGS $LIBS --static"
+
+
+make showman
 make
 make PREFIX=/usr install
+
+# Shared libs are no longer needed
+rm -r \
+	"$1/usr/lib/libxdo.so" \
+	"$1/usr/lib/libxdo.so.3"
