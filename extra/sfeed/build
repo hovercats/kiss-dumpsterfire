@@ -1,5 +1,5 @@
 #!/bin/sh
 
 
-make
-make PREFIX=$1/usr/local/ install
+make LDFLAGS="$LDFLAGS -static"
+make PREFIX=/usr install
