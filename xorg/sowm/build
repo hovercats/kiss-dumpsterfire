@@ -1,0 +1,6 @@
+#!/bin/sh -e
+
+export LDFLAGS="$LDFLAGS -static -lX11 -lxcb -lXau"
+
+make
+make  install
