@@ -1,0 +1,38 @@
+#!/bin/sh -e
+
+# vendor libwm, as its not needed elsewhere at all
+cd libwm
+
+make
+make PREFIX=/usr install
+
+cd ..
+
+# I like using super key, over alt key
+sed -i 's/XCB_MOD_MASK_1/XCB_MOD_MASK_4/' config.def.h
+
+# seeing as we dont run the makefile
+# this file does not exist, so we must make our own
+cp config.def.h config.h
+
+# glazier complains about wm.h is missing in the dir
+cp libwm/wm.h .
+
+# bypass makefile
+# as it doesnt respect -static flag appearantly
+cc -static -Wall -Wextra -pedantic -g \
+	-lxcb -lXau -lxcb-cursor \
+	-lxcb-render -lxcb-render-util -lxcb-image \
+	-lxcb-shm -lxcb-util \
+	-L./libwm -lwm \
+	glazier.c -o glazier
+
+mkdir -p "$1/usr/bin/"
+
+cp glazier "$1/usr/bin/"
+
+# since we are building statically
+# libwm's files is no longer needed
+rm -rf \
+	"$1/usr/lib/libwm.a" \
+	"$1/usr/include/wm.h"
