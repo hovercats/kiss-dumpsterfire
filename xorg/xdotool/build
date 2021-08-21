@@ -11,9 +11,11 @@ export LIBS="$LIBS -lX11 -lXext -lxcb -lXau -lxkbcommon -lXinerama -lXtst \
 export LDFLAGS="$LDFLAGS $LIBS --static"
 
 
-make showman
 make
 make PREFIX=/usr install
+
+mkdir -p "$1/usr/share/man/man1"
+cp xdotool.1 "$1/usr/share/man/man1"
 
 # Shared libs are no longer needed
 rm -r \
