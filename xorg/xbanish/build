@@ -1,8 +1,13 @@
 #!/bin/sh -e
 
-make
-make \
-    DESTDIR="$1" \
-    PREFIX=/usr \
-    MANDIR=/usr/share/man/man1 \
-    install
+# bypass makefile, to produce a static binary
+cc -static -O2 -pipe -Wall -Wunused -Wmissing-prototypes -Wstrict-prototypes \
+    -L/usr/lib -lX11 -lX11-xcb -lxcb -lXau -lXi -lXext -lXfixes \
+    xbanish.c -o xbanish
+
+mkdir -p \
+    "$1/usr/bin/" \
+    "$1/usr/share/man/man1"
+
+cp xbanish.1 "$1/usr/share/man/man1"
+cp xbanish "$1/usr/bin/"
