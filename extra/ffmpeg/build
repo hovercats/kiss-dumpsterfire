@@ -6,7 +6,6 @@
     --prefix=/usr \
     --disable-debug \
     --disable-libxml2 \
-    --disable-static \
     --enable-gpl \
     --enable-libass \
     --enable-libdrm \
@@ -20,7 +19,6 @@
     --enable-libxvid \
     --enable-nonfree \
     --enable-openssl \
-    --enable-shared \
     --enable-version3 \
     --x86asmexe=nasm \
 
