@@ -1,7 +1,5 @@
 #!/bin/sh -e
 
-patch -p1 < diff.patch
-
 ./configure \
     --prefix=/usr \
     --mandir=/usr/share/man
