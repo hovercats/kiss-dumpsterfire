@@ -1,0 +1,8 @@
+#!/bin/sh -e
+
+sed -i '/<libgen.h>/a #include <sys/sysmacros.h>' smdev.c
+
+make LDFLAGS=-static
+make PREFIX=/usr DESTDIR="$1" install
+
+ln -sv smdev "$1/usr/bin/mdev"
