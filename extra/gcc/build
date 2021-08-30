@@ -1,6 +1,5 @@
 #!/bin/sh -e
 
-export CFLAGS="$CFLAGS -static"
 export LDFLAGS="$LDFLAGS -static"
 
 # Make sure gmp is built with generic options.
