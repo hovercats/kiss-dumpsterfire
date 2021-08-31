@@ -1,4 +1,3 @@
-ctags
-ncurses
-libressl
+ctags make
+libressl make
 pkgconf make
