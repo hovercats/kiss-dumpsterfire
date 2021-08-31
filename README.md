@@ -8,7 +8,6 @@ The goal of this repo, is to be able to provide a statically built system, with
 *everyday* stuff like a browser and a texteditor.
 Seeing as this repos secondary goal is to provide software diversity,
 `libressl` is still present in this repo, aswell as `xorg`.
-`Wayland` will also be added later, once I find the time.
 `Openssl` and `bearssl` might also be added (maybe).
 
 If youre wondering if an included pkg builds statically or not, please refer to
