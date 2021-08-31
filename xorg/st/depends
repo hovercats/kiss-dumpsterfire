@@ -1,5 +1,5 @@
 fontconfig make
 libX11 make
 libXft make
-ncurses make
+netbsd-curses make
 pkgconf make
