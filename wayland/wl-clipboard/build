@@ -1,0 +1,17 @@
+#!/bin/sh -e
+
+
+: > completions/meson.build
+
+# we need to configure first, to generate build.ninja, which we need later
+meson \
+    --prefix=/usr \
+    --buildtype=release \
+    . output
+
+# ninja.build seems to be unaffected by CFLAGS/LDFLAGS.
+# So we have to patch in -static flag, and the use of static libs
+patch -p1 < static.patch
+
+ninja -C output
+ninja -C output install

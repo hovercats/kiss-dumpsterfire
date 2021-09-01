@@ -1,0 +1,23 @@
+--- ./output/build.ninja
++++ ./output/build.ninja
+@@ -184,16 +184,16 @@
+  DEPFILE_UNQUOTED = src/wl-copy.p/wl-copy.c.o.d
+  ARGS = -Isrc/wl-copy.p -Isrc -I../src -fdiagnostics-color=always -D_FILE_OFFSET_BITS=64 -Wall -Winvalid-pch -std=gnu99 -O3 -O2 -pipe -march=znver1 -pthread
+ 
+-build src/wl-copy: c_LINKER src/wl-copy.p/wl-copy.c.o | /usr/lib/../lib/libffi.so /usr/lib/../lib/libwayland-client.a /usr/lib/libm.a src/libgtk-primary-selection.a src/libwl-clipboard.a src/libwlr-data-control.a src/libwp-primary-selection.a src/libxdg-shell.a
+- LINK_ARGS = -Wl,--as-needed -Wl,--no-undefined -Wl,-O1 -O2 -pipe -march=znver1 -Wl,--start-group src/libwl-clipboard.a src/libxdg-shell.a src/libwp-primary-selection.a src/libgtk-primary-selection.a src/libwlr-data-control.a /usr/lib/../lib/libwayland-client.a -lm -pthread /usr/lib/../lib/libffi.so -Wl,--end-group
++build src/wl-copy: c_LINKER src/wl-copy.p/wl-copy.c.o | /usr/lib/../lib/libffi.a /usr/lib/../lib/libwayland-client.a /usr/lib/libm.a src/libgtk-primary-selection.a src/libwl-clipboard.a src/libwlr-data-control.a src/libwp-primary-selection.a src/libxdg-shell.a
++ LINK_ARGS = -Wl,--as-needed -Wl,--no-undefined -static -O2 -pipe -march=znver1 -Wl,--start-group src/libwl-clipboard.a src/libxdg-shell.a src/libwp-primary-selection.a src/libgtk-primary-selection.a src/libwlr-data-control.a /usr/lib/../lib/libwayland-client.a -lm -pthread /usr/lib/../lib/libffi.a -Wl,--end-group
+ 
+ build src/wl-paste.p/wl-paste.c.o: c_COMPILER ../src/wl-paste.c || src/gtk-primary-selection.h src/wlr-data-control.h src/wp-primary-selection.h src/xdg-shell.h
+  DEPFILE = src/wl-paste.p/wl-paste.c.o.d
+  DEPFILE_UNQUOTED = src/wl-paste.p/wl-paste.c.o.d
+  ARGS = -Isrc/wl-paste.p -Isrc -I../src -fdiagnostics-color=always -D_FILE_OFFSET_BITS=64 -Wall -Winvalid-pch -std=gnu99 -O3 -O2 -pipe -march=znver1 -pthread
+ 
+-build src/wl-paste: c_LINKER src/wl-paste.p/wl-paste.c.o | /usr/lib/../lib/libffi.so /usr/lib/../lib/libwayland-client.a /usr/lib/libm.a src/libgtk-primary-selection.a src/libwl-clipboard.a src/libwlr-data-control.a src/libwp-primary-selection.a src/libxdg-shell.a
+- LINK_ARGS = -Wl,--as-needed -Wl,--no-undefined -Wl,-O1 -O2 -pipe -march=znver1 -Wl,--start-group src/libwl-clipboard.a src/libxdg-shell.a src/libwp-primary-selection.a src/libgtk-primary-selection.a src/libwlr-data-control.a /usr/lib/../lib/libwayland-client.a -lm -pthread /usr/lib/../lib/libffi.so -Wl,--end-group
++build src/wl-paste: c_LINKER src/wl-paste.p/wl-paste.c.o | /usr/lib/../lib/libffi.a /usr/lib/../lib/libwayland-client.a /usr/lib/libm.a src/libgtk-primary-selection.a src/libwl-clipboard.a src/libwlr-data-control.a src/libwp-primary-selection.a src/libxdg-shell.a
++ LINK_ARGS = -Wl,--as-needed -Wl,--no-undefined -static -O2 -pipe -march=znver1 -Wl,--start-group src/libwl-clipboard.a src/libxdg-shell.a src/libwp-primary-selection.a src/libgtk-primary-selection.a src/libwlr-data-control.a /usr/lib/../lib/libwayland-client.a -lm -pthread /usr/lib/../lib/libffi.a -Wl,--end-group
+ 
+ # Test rules
+ 
