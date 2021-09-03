@@ -13,6 +13,7 @@ rm -r \
 	"$1/usr/lib/libncurses.so" \
 	"$1/usr/lib/libmenuw.so" \
 	"$1/usr/lib/libform.so" \
+	"$1/usr/lib/libformw.so" \
 	"$1/usr/lib/libmenu.so" \
 	"$1/usr/lib/libcurses.so" 
 
