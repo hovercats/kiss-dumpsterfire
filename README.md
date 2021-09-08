@@ -34,6 +34,9 @@ to do so yet. It is however, still present in the repo, if you wish to use it.
 * uninstall gcc-bin and binutils-bin, as you now no longer need them. 
 * If they fail, you may need to build m4, byacc and flex beforehand.
 	* youll also need to use gnu's make, as your make, if youre using wyverkiss
+		* not gmake. it needs to be the make pkg, as vanilla KISS uses.
+
+Ive tested and confirmed that this works, from a wyverkiss tarball.
 
 
 #### A word of advice:
