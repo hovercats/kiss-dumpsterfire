@@ -1,0 +1,14 @@
+#!/bin/sh -e
+
+export DESTDIR="$1"
+export LDFLAGS="$LDFLAGS -static"
+
+meson \
+    --prefix=/usr \
+    -Ddefault_library=static \
+    -Ddocumentation=disabled \
+    -Dtests=disabled \
+    . build
+
+ninja -C build
+ninja -C build install
