@@ -27,3 +27,8 @@ make -C doc    install-man3
 
 mkdir -p "$1/usr/lib/pkgconfig"
 cp -f config/libelf.pc "$1/usr/lib/pkgconfig/libelf.pc"
+
+rm -rf \
+    "$1/usr/lib/libelf.so" \
+    "$1/usr/lib/libelf.so.1" \
+    "$1/usr/lib/libelf-0.185.so" \
