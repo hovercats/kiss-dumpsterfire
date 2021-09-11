@@ -1,0 +1,8 @@
+#!/bin/sh -e
+
+make PREFIX=/usr
+make PREFIX=/usr install
+
+rm -rf \
+	"$1/usr/lib/libudev.so" \
+	"$1/usr/lib/libudev.so.1" \
