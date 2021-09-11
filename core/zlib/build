@@ -5,7 +5,7 @@ export CFLAGS="$CFLAGS -fPIC"
 ./configure \
     --prefix=/usr \
     --libdir=/usr/lib \
-    --shared
+    --static
 
 make
 make install
