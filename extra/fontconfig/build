@@ -13,7 +13,9 @@ mv -f _ src/Makefile.in
     --with-xmldir=/etc/fonts \
     --enable-static \
     --disable-docs \
-    --disable-nls
+    --disable-nls \
+    --disable-shared \
+    --enable-xml2
 
-make
+make LDFLAGS="$LDFLAGS -lpng -lxml2 --static"
 make install
