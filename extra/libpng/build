@@ -1,0 +1,10 @@
+#!/bin/sh -e
+
+patch -p1 < libpng-1.6.37-apng.patch
+
+./configure \
+    --prefix=/usr \
+    --disable-shared 
+
+make LDFLAGS="$LDFLAGS --static"
+make install
