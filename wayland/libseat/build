@@ -3,10 +3,11 @@
 # Build fails in with clang due to
 # -Werror -> -Wsign-compare.
 export CFLAGS="-Wno-error $CFLAGS"
+export LDFLAGS="$LDFLAGS -static"
 
 meson \
     --prefix=/usr \
-    -Ddefault_library=both \
+    -Ddefault_library=static \
     . build
 
 ninja -C build
