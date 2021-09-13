@@ -1,6 +1,5 @@
 #!/bin/sh -e
 
-#patch -p1 < 01-links-tabbed.patch
 export LDFLAGS="$LDFLAGS  --static"
 
 ./configure \
