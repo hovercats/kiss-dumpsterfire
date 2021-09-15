@@ -24,6 +24,6 @@ Heres a quick guide on how:
 * profit.
 
 When upgrading your kernel, just copy your bootx64.efi to a backup file in /efi,
-before copying over the new kernel, now as bootx64.efi. 
+before copying over the new kernel, now as bootx64-fallback.efi. 
 remember to create a boot entry for your bootx64-backup.efi aswell, so youd
 always have a backup of your previous kernel.
