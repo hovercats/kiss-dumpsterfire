@@ -1,0 +1,9 @@
+Binary Packages
+_________________________________________________________________________________
+
+
+These packages are built with C(XX)FLAGS="-march=x86-64 -mtune=generic -pipe -Os".
+Run 'kiss b', to install them, and use the alternative system, to switch to them.
+'kiss a | grep ^$pkg | kiss a -' to switch to all available alternatives for $pkg.
+If you dont want to use the alternative system, just change the dir name for
+$pkg, and install it the usuall way, and youre good to go.
