@@ -7,15 +7,18 @@ There are however changes as opposed to vanilla KISS:
 * Byacc over Bison
 * Bsd-M4, over GNU-M4
 * Libressl over openssl
+* LLVM over gcc/binutils <-- this is WIP. Im still figuring some things out.
 
-Gnu-m4 and bison is however still available, but in extra, instead of core.
-Openssl is currently not packaged.
+Gnu-m4 and bison is however still available extra, so both are still optional.
+Openssl is currently not yet packaged.
 
 There is also no grub, or efibootmgr for that matter in extra.
 Instead we create our own boot entries, in /efi, and your bios/uefi.
 
-Heres a quick guide on how:
-* create /efi (this may not be strictly neccessary.)
+Note: if dualbooting, do the same with the other OS(s) aswell.
+
+Heres a quick how-to:
+* create /efi (this may not be strictly neccessary, but this is what I use.)
 * compile your kernel
 * copy arch/x86_86/boot/BzImage -> /efi/bootx64.efi
 * reboot into your bios/uefi
@@ -23,7 +26,6 @@ Heres a quick guide on how:
 * find and select your bootx64.efi file
 * profit.
 
-When upgrading your kernel, just copy your bootx64.efi to a backup file in /efi,
-before copying over the new kernel, now as bootx64-fallback.efi. 
-remember to create a boot entry for your bootx64-backup.efi aswell, so youd
-always have a backup of your previous kernel.
+When upgrading your kernel, create a backup of your bootx64.efi file, and create
+a boot entry for that aswell, so youd always have an older kernel to boot back
+into. 
