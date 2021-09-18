@@ -50,9 +50,9 @@ I will only cover core here.
 
 *** build things statically at your own risk ***
 
-* To not ruin your system, or packages, you should build things in reverse order
+* To not ruin your system, or packages, you should rebuild things in reverse order
   of normal build order.
-	* This is to avoid breaking things
+	* This is to avoid breaking things when converting to a static system
 	* In case of gcc, the order should be; gcc > binutils > byacc > flex > m4
 	* if you build binutils first, gcc will break, and leave you with a broken
 	  compiler
@@ -66,6 +66,7 @@ I will only cover core here.
 	  building zlib and musl statically
 	* musl should wait to absolute last.
 		* linux-headers also seems to not wanna build with a static musl
+
 
 Issues & PRs
 _______________________________________________________________________________
