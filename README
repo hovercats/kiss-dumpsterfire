@@ -1,0 +1,73 @@
+|/
+|\ISS Repo												  https://kisslinux.org
+_______________________________________________________________________________
+
+
+Kiss-dumpsterfire 
+_______________________________________________________________________________
+
+A KISS repository which aims to provide a fully functional static system, from
+core, to a working browser and everything in between. 
+We also aim to use alternative, and minimal tools, whenever such alternatives 
+are viable.
+
+
+Overview
+_______________________________________________________________________________
+
+This repository is highly experimental, and is not to be considered a viable
+option for daily usage. That is, unless you only require TTY. 
+
+* All of core will build statically.
+	* refer to below for how to not bork your system when converting core
+	* there is no grub, please create your own boot entries in bios/uefi
+
+* Almost all of extra/xorg builds statically
+	* xorg-server is an exception
+		* if you know how to manually load xorg's modules, please let me know.
+		* because, without a way to do so, a static xorg-server is unsuable
+	* mesa is an exception.
+		* gives me issues with a static llvm core
+		* seems to also give me issues with static gcc
+
+* Wayland is currently completely untested
+	* use at your own risk
+
+* Bin contains up-to-date static builds of some packages
+	* Currently only binutils and gcc exists there, but more will come.
+	* built with; C(XX)FLAGS="-Os -pipe -march=x86-64 -mtune=generic"
+		* this is same as KISS' default
+
+
+Converting to static
+_______________________________________________________________________________
+
+Converting to a static system can easily break your system, and leave you with 
+no easy way to recover. But dont worry, here is a solution, so you wont bork 
+your system (hopefully). All packages should also have the appropriate 
+flags/configurations to build statically.
+I will only cover core here.
+
+*** build things statically at your own risk ***
+
+* To not ruin your system, or packages, you should build things in reverse order
+  of normal build order.
+	* This is to avoid breaking things
+	* In case of gcc, the order should be; gcc > binutils > byacc > flex > m4
+	* if you build binutils first, gcc will break, and leave you with a broken
+	  compiler
+	* Its the same case for git and curl aswell:
+		* git > curl > libressl
+* bzip/pigz/xz wont affect much when building statically, so theyre safe to
+  build whenever.
+* zlib/musl is both packages that must be taken carefully. both will break your
+  system if built statically, if something vital is dynamically linking to them
+	* make sure all vital parts of your system is statically linked, before
+	  building zlib and musl statically
+	* musl should wait to absolute last.
+		* linux-headers also seems to not wanna build with a static musl
+
+Issues & PRs
+_______________________________________________________________________________
+
+Issues and PRs are welcome!
