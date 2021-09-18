@@ -3,13 +3,27 @@
 export DESTDIR="$1"
 export PATH="$1/usr/bin:$PATH"
 
-# libtool wont build with bsd-m4, so we vendor gnu-m4
+# if you choose to use gnu-m4, we wont need to vendor gnu-m4
+if kiss l gnu-m4; then
+
+cd libtool
+
+./configure \
+	--prefix=/usr
+
+make
+make install
+
+# if we rather use om4 from core, we need to vendor gnu-m4, as libtool doesnt
+# build with om4.
+else
+
 cd m4/
 
 ./configure \
 	--prefix=/usr 
 
-make
+make LDFLAGS="$LDFLAGS -static"
 make install
 
 cd ../libtool
@@ -28,4 +42,4 @@ rm -rf \
 	"$1/usr/share/info/m4.info-1" \
 	"$1/usr/share/info/m4.info" 
 
-
+fi
