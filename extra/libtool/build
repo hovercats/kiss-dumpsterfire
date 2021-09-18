@@ -1,7 +1,31 @@
 #!/bin/sh -e
 
+export DESTDIR="$1"
+export PATH="$1/usr/bin:$PATH"
+
+# libtool wont build with bsd-m4, so we vendor gnu-m4
+cd m4/
+
+./configure \
+	--prefix=/usr 
+
+make
+make install
+
+cd ../libtool
+
 ./configure \
     --prefix=/usr
 
 make
-make DESTDIR="$1" install
+make install
+
+# now remove gnu-m4 
+rm -rf \
+	"$1/usr/bin/m4" \
+	"$1/usr/share/man/man1/m4.1" \
+	"$1/usr/share/info/m4.info-2" \
+	"$1/usr/share/info/m4.info-1" \
+	"$1/usr/share/info/m4.info" 
+
+
