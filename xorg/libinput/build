@@ -4,6 +4,7 @@
 # -Wunused-command-line-argument which is triggered by.
 # the below CFLAGS.
 export CFLAGS="-Wno-unused-command-line-argument $CFLAGS"
+export LDFLAGS="$LDFLAGS -static"
 
 export DESTDIR="$1"
 
