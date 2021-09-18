@@ -16,6 +16,7 @@ meson \
     -Ddocumentation=false \
     -Dtests=false \
     -Dlibwacom=false \
+	-Ddefault_library=static \
     . output
 
 ninja -C output
