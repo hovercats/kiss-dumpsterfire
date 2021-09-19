@@ -1,6 +1,6 @@
 #!/bin/sh
 
-make LDFLAGS="$LDFLAGS -static"
+make LDFLAGS="$LDFLAGS --static"
 make  PREFIX=/usr install
 
 # drop shared libs
