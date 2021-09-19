@@ -17,10 +17,11 @@
     --enable-libx264 \
     --enable-libx265 \
     --enable-libxvid \
-    --enable-nonfree \
+	--enable-nonfree \
     --enable-openssl \
     --enable-version3 \
     --x86asmexe=nasm \
+	--enable-ffplay 
 
 make
 make install
