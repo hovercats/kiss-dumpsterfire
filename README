@@ -16,10 +16,14 @@ Overview
 _______________________________________________________________________________
 
 This repository is highly experimental, and is not to be considered a viable
-option for daily usage. That is, unless you only require TTY. 
+option for daily usage.
 
 * All of core will build statically.
-	* refer to below for how to not bork your system when converting core
+	* refer to below for how to not bork your system when converting
+		* Ive only covered some core packages, but the principle applies across
+		  all of your system.
+		* Said packages are only used as a reference point, to give you a better
+		  idea on how to avoid breaking your system
 	* there is no grub, please create your own boot entries in bios/uefi
 
 * Almost all of extra/xorg builds statically
@@ -29,12 +33,14 @@ option for daily usage. That is, unless you only require TTY.
 	* mesa is an exception.
 		* gives me issues with a static llvm core
 		* seems to also give me issues with static gcc
+	* check buildscript or git log for status
 
 * Wayland is currently completely untested
 	* use at your own risk
 
 * Bin contains up-to-date static builds of some packages
-	* Currently only binutils and gcc exists there, but more will come.
+	* Currently holds only a few packages, but I plan to add more bigger
+	  packages, once I get by building them.
 	* built with; C(XX)FLAGS="-Os -pipe -march=x86-64 -mtune=generic"
 		* this is same as KISS' default
 
@@ -42,30 +48,25 @@ option for daily usage. That is, unless you only require TTY.
 Converting to static
 _______________________________________________________________________________
 
-Converting to a static system can easily break your system, and leave you with 
-no easy way to recover. But dont worry, here is a solution, so you wont bork 
-your system (hopefully). All packages should also have the appropriate 
-flags/configurations to build statically.
-I will only cover core here.
+Converting your system to be statically linked, can have disaterous effects, if
+you rebuild the correct package statically (i.e. zlib, which most of the system
+usually links to). If youre really lucky, itll bork just about youre whole
+system. Do youself a favor, and have a tarball at hand, to be able to recover,
+if you bork your system more easily. 
+Heres a reference for you to use;
 
-*** build things statically at your own risk ***
-
-* To not ruin your system, or packages, you should rebuild things in reverse order
-  of normal build order.
-	* This is to avoid breaking things when converting to a static system
-	* In case of gcc, the order should be; gcc > binutils > byacc > flex > m4
-	* if you build binutils first, gcc will break, and leave you with a broken
-	  compiler
-	* Its the same case for git and curl aswell:
-		* git > curl > libressl
-* bzip/pigz/xz wont affect much when building statically, so theyre safe to
-  build whenever.
-* zlib/musl is both packages that must be taken carefully. both will break your
-  system if built statically, if something vital is dynamically linking to them
-	* make sure all vital parts of your system is statically linked, before
-	  building zlib and musl statically
-	* musl should wait to absolute last.
-		* linux-headers also seems to not wanna build with a static musl
+* build things in reverse order of dependencies
+	* by this, I mean, build from top, to bottom. 
+	* if we're using gcc as an example;
+		* gcc > binutils > byacc > flex > m4
+		* If you built binutils first, gcc would break, and leave you with a
+		  useless compiler, unable to build anything, because the files it
+		  needs, is now missing. building gcc first however, will work just fine
+	* starting from the top, and working your way down the dependency list, is
+	  the recommended way to go
+	  	* however, theres nothing stopping you from building random packages
+		  across your system statically, just prepare to unbreak alot packages
+		  afterwards
 
 
 Issues & PRs
