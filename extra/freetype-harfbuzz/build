@@ -9,7 +9,7 @@ build_freetype() (
     meson \
         --prefix=/usr \
         --buildtype=release \
-        -Ddefault_library=both \
+        -Ddefault_library=static \
         -Dharfbuzz="$2" \
         -Dbrotli=disabled \
         -Dpng=enabled \
@@ -48,7 +48,7 @@ build_harfbuzz() (
         --prefix=/usr \
         --buildtype=release \
         -Dpkg_config_path="$1/usr/lib/pkgconfig" \
-        -Ddefault_library=both \
+        -Ddefault_library=static \
         -Dfreetype=enabled \
         -Dcairo=disabled \
         -Dglib=disabled \
@@ -62,7 +62,7 @@ build_harfbuzz() (
     ninja -C build install
 )
 
-# We explicitly build both freetype and harfbuzz as shared libraries because the
+# We explicitly build shared freetype and harfbuzz as shared libraries because the
 # static libraries have esoteric linker problems I don't want to resolve and have
 # basically zero patience for at this point :))))))
 export DESTDIR="$1"
