@@ -19,11 +19,11 @@ This repository is highly experimental, and is not to be considered a viable
 option for daily usage.
 
 * All of core will build statically.
-	* refer to below for how to not bork your system when converting
-		* Ive only covered some core packages, but the principle applies across
-		  all of your system.
-		* Said packages are only used as a reference point, to give you a better
-		  idea on how to avoid breaking your system
+  * refer to below for how to not bork your system when converting
+    * Ive only covered some core packages, but the principle applies across
+	    all of your system.
+    * Said packages are only used as a reference point, to give you a better
+      idea on how to avoid breaking your system
 	* there is no grub, please create your own boot entries in bios/uefi
 
 * Almost all of extra/xorg builds statically
@@ -31,18 +31,18 @@ option for daily usage.
 		* if you know how to manually load xorg's modules, please let me know.
 		* because, without a way to do so, a static xorg-server is unsuable
 	* mesa is an exception.
-		* gives me issues with a static llvm core
-		* seems to also give me issues with static gcc
+    * gives me issues with a static llvm core
+    * seems to also give me issues with static gcc
 	* check buildscript or git log for status
 
 * Wayland is currently completely untested
-	* use at your own risk
+  * use at your own risk
 
 * Bin contains up-to-date static builds of some packages
-	* Currently holds only a few packages, but I plan to add more bigger
+  * Currently holds only a few packages, but I plan to add more bigger
 	  packages, once I get by building them.
-	* built with; C(XX)FLAGS="-Os -pipe -march=x86-64 -mtune=generic"
-		* this is same as KISS' default
+  * built with; C(XX)FLAGS="-Os -pipe -march=x86-64 -mtune=generic"
+    * this is same as KISS' default
 
 
 Converting to static
@@ -59,12 +59,12 @@ Heres a reference for you to use;
 	* by this, I mean, build from top, to bottom. 
 	* if we're using gcc as an example;
 		* gcc > binutils > byacc > flex > m4
-		* If you built binutils first, gcc would break, and leave you with a
+		|* If you built binutils first, gcc would break, and leave you with a
 		  useless compiler, unable to build anything, because the files it
 		  needs, is now missing. building gcc first however, will work just fine
 	* starting from the top, and working your way down the dependency list, is
 	  the recommended way to go
-	  	* however, theres nothing stopping you from building random packages
+    * however, theres nothing stopping you from building random packages
 		  across your system statically, just prepare to unbreak alot packages
 		  afterwards
 
