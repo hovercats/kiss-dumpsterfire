@@ -24,21 +24,25 @@ option for daily usage.
 	    all of your system.
     * Said packages are only used as a reference point, to give you a better
       idea on how to avoid breaking your system
-	* there is no grub, please create your own boot entries in bios/uefi
+	* Grub is intentionally left out. 
+    * Create your own boot entries instead.
+    * No need for efibootmgr etc.
 
-* Almost all of extra/xorg builds statically
-	* xorg-server is an exception
-		* if you know how to manually load xorg's modules, please let me know.
-		* because, without a way to do so, a static xorg-server is unsuable
-	* mesa is an exception.
-    * gives me issues with a static llvm core
-    * seems to also give me issues with static gcc
+* Extra
+  * almost everything builds statically
 	* check buildscript or git log for status
 
-* Wayland is currently completely untested
+* Xorg
+  * same as extra
+  * mesa and xorg-server is an exception
+    * needs more looking into
+
+* Wayland
+  * currently untested
   * use at your own risk
 
-* Bin contains up-to-date static builds of some packages
+* Bin 
+  * Contains up-to-date static builds of some packages
   * Currently holds only a few packages, but I plan to add more bigger
 	  packages, once I get by building them.
   * built with; C(XX)FLAGS="-Os -pipe -march=x86-64 -mtune=generic"
@@ -48,25 +52,30 @@ option for daily usage.
 Converting to static
 _______________________________________________________________________________
 
-Converting your system to be statically linked, can have disaterous effects, if
-you rebuild the correct package statically (i.e. zlib, which most of the system
-usually links to). If youre really lucky, itll bork just about youre whole
-system. Do youself a favor, and have a tarball at hand, to be able to recover,
-if you bork your system more easily. 
-Heres a reference for you to use;
+Converting your system to static, can have disasterous effects, if the
+*correct* package is built statically. (i.e. zlib will surely ruin your system)
+Having an unpacked tarball will however save you in most situations.
 
-* build things in reverse order of dependencies
-	* by this, I mean, build from top, to bottom. 
-	* if we're using gcc as an example;
-		* gcc > binutils > byacc > flex > m4
-		|* If you built binutils first, gcc would break, and leave you with a
-		  useless compiler, unable to build anything, because the files it
-		  needs, is now missing. building gcc first however, will work just fine
-	* starting from the top, and working your way down the dependency list, is
-	  the recommended way to go
-    * however, theres nothing stopping you from building random packages
-		  across your system statically, just prepare to unbreak alot packages
-		  afterwards
+For the actual convertion (taken into account that youre using a prebuilt
+tarball, or an already working system); here is a reference to get you going:
+
+* build in reverse order of normal buildorder
+  * to further explain;
+  * if $pkg has no reverse dependencies, it is safe to say you can build this
+    package statically without breakage.
+  * however, if $pkg has reverse dependencies, those will probably break, to
+    some degree (this all depends on what role $pkg has in using said reverse
+    dependencies). Rebuilding said reverse dependencies may or may not fix any
+    issues, depending on $pkg's role. It may aswell also fail building, due to
+    missing shared libs. it all depends ons $pkg's role.
+ 
+  * lets give an example;
+    * gcc depends on binutils. 
+    * building binutils static will break gcc, but not vice versa.
+    * this is because gcc is the end of the chain in this case.
+    * to convert gcc + deps, we will have to start with gcc, 
+      and work our way backwards. 
+      * gcc > binutils > byacc/bison > flex > m4
 
 
 Issues & PRs
