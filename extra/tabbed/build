@@ -2,5 +2,9 @@
 
 patch -p1 < keyrelease-hidetabs.patch
 
-make LDFLAGS="$LDFLAGS --static -lX11 -lXau -lxcb"
-make install
+# using LDFLAGS seems to complain about some libs is missing when trying to
+# statically link tabbed.
+sed -i 's/-lX11/-lX11 -lxcb -lXau --static/' config.mk
+
+make  
+make PREFIX=/usr install
