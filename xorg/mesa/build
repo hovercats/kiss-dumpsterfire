@@ -34,6 +34,13 @@ sed -i "/pre_args += '-DUSE_ELF_TLS'/d" meson.build
 
 python3 bin/git_sha1_gen.py --output include/git_sha1.h
 
+# force static 
+sed -i 's/shared_library/static_library/' src/glx/meson.build
+sed -i 's/shared_library/static_library/' src/egl/meson.build
+sed -i 's/shared_library/static_library/' src/gbm/meson.build
+sed -i 's/shared_library/static_library/' src/hgl/meson.build
+sed -i 's/shared_library/static_library/' src/mapi/shared-glapi/meson.build
+
 meson \
     --prefix=/usr \
     --sysconfdir=/etc \
