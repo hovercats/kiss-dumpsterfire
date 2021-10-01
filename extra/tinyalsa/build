@@ -1,10 +1,14 @@
 #!/bin/sh -e
 
-export LDFLAGS=--static
+export LDFLAGS="$LDFLAGS --static"
+export DESTDIR="$1"
 
-cmake -B build \
-	-DBUILD_SHARED_LIBS=OFF \
-	-DTINYALSA_BUILD_EXAMPLES=OFF
+meson \
+    --prefix=/usr \
+    -Ddocs=disabled \
+    -Dexamples=disabled \
+    -Ddefault_library=static \
+    . build
 
-cmake --build build
-cmake --install build
+ninja -C build
+ninja -C build install
