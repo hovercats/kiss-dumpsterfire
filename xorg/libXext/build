@@ -6,10 +6,11 @@
     --mandir=/usr/share/man \
     --localstatedir=/var \
     --without-xmlto \
-    --disable-specs 
+    --disable-specs \
+    --enable-static
 
-make LDFLAGS="$LDFLAGS -lX11 -lX11-xcb"
-make DESTDIR="$1" install
+make 
+make install
 
 # Some X11 packages install to /usr/share.
 ! [ -d "$1/usr/share/pkgconfig" ] || {
