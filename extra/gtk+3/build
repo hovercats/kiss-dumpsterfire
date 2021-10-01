@@ -38,10 +38,11 @@ mv -f _ Makefile.in
     --disable-installed-tests \
     --enable-introspection=no \
     --enable-colord=no \
+    --enable-static \
     --enable-gtk-doc-html=no
 
 make
-make DESTDIR="$1" install
+make install
 
 # We don't compile with librsvg which leads to this
 # utility solely causing compiler errors for some
