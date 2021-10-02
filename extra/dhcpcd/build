@@ -1,5 +1,12 @@
 #!/bin/sh -e
 
+export LDFLAGS="$LDFLAGS -static"
+
+# build udev.a instead of udev.so
+sed -i 's/-shared/-static/' src/dev/Makefile
+sed -i 's/.So/.a/g' src/dev/Makefile
+sed -i 's/.so/.a/g' src/dev/Makefile
+
 ./configure \
     --prefix=/usr \
     --sbindir=/usr/bin \
