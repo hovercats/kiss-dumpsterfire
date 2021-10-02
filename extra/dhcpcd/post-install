@@ -1,0 +1,11 @@
+#!/bin/sh
+
+cat <<EOF
+
+
+NOTE: To use wpa_supplicant with dhcpcd; you can use dhcpcd's included script
+
+      ln -s /usr/share/dhcpcd/hooks/10-wpa_supplicant /usr/lib/dhcpcd/dhcpcd-hooks/
+
+
+EOF
