@@ -1,0 +1,25 @@
+#!/bin/sh -e
+
+# Remove pixel gap.
+sed -i "s/static const int resizehints = 1/static const int resizehints = 0/" \
+    config.def.h 
+
+# remove bar
+sed -i 's/showbar *= 1/showbar = 0/' config.def.h
+
+# drop Xinerama dep
+sed -i 's/XINERAMALIBS/#XINERAMALIBS/' config.mk
+sed -i 's/XINERAMAFLAGS/#XINERAMAFLAGS/' config.mk
+
+
+# last has to be a wildcard, otherwise itll fail, and complain about references
+# in functions. however, the lib in question, does not seem to exist.
+# Atleast I cant find it after searching up every reference with theire
+# respective library. If you happen to know it, let me know.
+make \
+    LDFLAGS="$LDFLAGS -static /usr/lib/libX11.a /usr/lib/libxcb.a \
+    /usr/lib/libXau.a /usr/lib/libXmu.a /usr/lib/libXft.a \
+    /usr/lib/libfontconfig.a /usr/lib/libfreetype.a /usr/lib/libXrender.a \
+    /usr/lib/libexpat.a /usr/lib/libpng.a /usr/lib/libz.a \
+    /usr/lib/*.a"
+make PREFIX=/usr install

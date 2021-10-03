@@ -1,0 +1,11 @@
+expat make
+fontconfig make
+freetype-harfbuzz make
+libX11 make
+libXau make
+libXft make
+libXmu make
+libXrender make
+libpng make
+libxcb make
+zlib make
