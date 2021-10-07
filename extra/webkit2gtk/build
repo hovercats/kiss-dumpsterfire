@@ -20,6 +20,8 @@ sed -i '/WTFLogAlways/d' Source/JavaScriptCore/jsc.cpp
 
 export DESTDIR="$1"
 
+# reducde memory usage
+export LDFLAGS="$LDFLAGS Wl,--no-memory-keep"
 
 cmake -B build \
     -DCMAKE_BUILD_TYPE=Release \
