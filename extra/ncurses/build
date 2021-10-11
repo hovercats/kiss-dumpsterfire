@@ -10,19 +10,11 @@
     --without-ada \
     --without-tests \
     --without-debug \
-    --without-cxx-binding
+    --without-cxx-binding \
+    --without-shared
 
 make LDFLAGS="$LDFLAGS -static"
 make install
-
-# drop shared libs
-rm -rf \
-    "$1/usr/lib/libpanel.so" \
-    "$1/usr/lib/libncursesw.so" \
-    "$1/usr/lib/libmenu" \
-    "$1/usr/lib/libform.so" \
-    "$1/usr/lib/libcurses.so" \
-    "$1/usr/lib/libcursesw.so" \
 
 # Fix pkgconfig file.
 ln -s ncursesw.pc "$1/usr/lib/pkgconfig/ncurses.pc"
