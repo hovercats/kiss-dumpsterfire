@@ -1,9 +1,12 @@
 #!/bin/sh -e
 
+export LDFLAGS="$LDFLAGS --static"
+
 ./configure \
     --prefix=/usr \
     --sysconfdir=/etc \
-    --disable-tests 
+    --disable-tests \
+    --disable-shared
 
 make
 make install
