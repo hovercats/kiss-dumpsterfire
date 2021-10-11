@@ -1,1 +1,2 @@
-https://github.com/ytdl-org/youtube-dl/archive/2021.06.06.tar.gz
+https://github.com/ytdl-org/youtube-dl/archive/VERSION.tar.gz
+patches/0001-Disable-use-of-ctypes-and-dynamic-loading.patch
