@@ -7,7 +7,6 @@ patches/install-fix-chown.patch patch
 patches/lsusb-vendor-product.patch patch
 patches/unzip-usage-no-error.patch patch
 patches/fix-UB.patch patch-clang
-patches/awk-fix-%%.patch patch
 files/.config
 files/.config-suid
 files/acpid.run
