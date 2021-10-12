@@ -1,7 +1,0 @@
-#!/bin/sh -e
-
-mkdir -p "$1/usr/bin"
-
-make
-
-cp -r dwl "$1/usr/bin"

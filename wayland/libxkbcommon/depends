@@ -1,6 +1,0 @@
-byacc   make
-meson   make
-pkgconf make
-wayland make
-wayland-protocols
-xkeyboard-config
