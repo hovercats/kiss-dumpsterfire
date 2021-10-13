@@ -1,4 +1,3 @@
 libressl make
 xz make
 zlib make
-zstd make

@@ -7,7 +7,8 @@ export LDFLAGS="$LDFLAGS  --static"
 	--without-bzip2 \
 	--without-lzip \
 	--without-openmp \
-	--without-libevent
+	--without-libevent \
+  --without-zstd
 
 make 
 
