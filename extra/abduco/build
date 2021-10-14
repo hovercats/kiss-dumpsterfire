@@ -1,9 +1,6 @@
 #!/bin/sh -e
 
-make LDFLAGS=-static
+export LDFLAGS="$LDFLAGS -static"
 
-mkdir -p "$1/usr/share/man/man1"
-mkdir "$1/usr/bin/"
-
-cp abduco.1 "$1/usr/share/man/man1"
-cp abduco "$1/usr/bin/"
+make
+make PREFIX=/usr install
