@@ -5,7 +5,10 @@
     --sysconfdir=/etc \
     --disable-shared
 
-make LDFLAGS=--static
-make DESTDIR="$1" install
+make LDFLAGS="$LDFLAGS --static"
+make install
 
 ln -s pkgconf "$1/usr/bin/pkg-config"
+
+# Remove documentation (README, etc).
+rm -rf "$1/usr/share/doc"
