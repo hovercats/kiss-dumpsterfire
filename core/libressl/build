@@ -11,7 +11,9 @@ export LDFLAGS="$LDFLAGS --static"
 make
 make install
 
-install -Dm 755 update-certdata.sh "$1/etc/ssl"
+# when compiling linux with static libressl, it kept complaining about missing
+# libcrypto.so.1.1. We dont have that, seeing as we compile it statically.
+# creating this symlink however, seemed to fix it
+ln -s "$1/usr/lib/libcrypto.a" "$1/usr/lib/libcrypto.so.1.1"
 
-# Install the license
-install -Dm755 COPYING "$1/usr/share/LICENSES/libressl.license"
+install -Dm 755 update-certdata.sh "$1/etc/ssl"
