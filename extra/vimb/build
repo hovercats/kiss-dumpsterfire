@@ -8,9 +8,11 @@ sed -E \
     config.mk > _ ; mv -f _ config.mk
 
 # Change the follow hints from numbers to letters on the home row
-sed -E \
-    "s~(setting_add\(c, \"hint-keys\", TYPE_CHAR, &\")0123456789~\1asdfghjkl~" \
-    src/setting.c > _ ; mv -f _ src/setting.c
+# uncomment if you want this instead of numbers. Just bare in mind that you
+# cannot *search* for text in hintmode if you choose to use the homerow.
+#sed -E \
+#    "s~(setting_add\(c, \"hint-keys\", TYPE_CHAR, &\")0123456789~\1asdfghjkl~" \
+#    src/setting.c > _ ; mv -f _ src/setting.c
 
 make 
 make PREFIX=/usr install
