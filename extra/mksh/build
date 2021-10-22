@@ -1,5 +1,0 @@
-#!/bin/sh -e
-
-CFLAGS="$CFLAGS -static" sh Build.sh
-
-install -Dm755 "mksh" "$1/usr/bin/mksh"
