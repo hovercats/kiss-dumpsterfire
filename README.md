@@ -1,10 +1,5 @@
-|/
-|\ISS Repo												                         https://kisslinux.org
-________________________________________________________________________________
-
-
-Kiss-dumpsterfire 
-________________________________________________________________________________
+# Kiss-dumpsterfire 
+---
 
 A personal KISS repository, which I use to acompany my 
 [kiss-somethingsomethingstatic](https://github.com/hovercats/kiss-somethingsomethingstatic).
