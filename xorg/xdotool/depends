@@ -1,5 +1,0 @@
-libX11 make
-libXinerama make
-libXtst make
-libxkbcommon make
-libXi make
