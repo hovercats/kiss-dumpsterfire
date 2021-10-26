@@ -1,7 +1,0 @@
-libXt make
-libXcursor
-libXft
-libXrandr
-xcb-util
-xcb-util-keysyms
-xcb-util-wm

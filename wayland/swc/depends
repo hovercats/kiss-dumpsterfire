@@ -1,8 +1,0 @@
-libdrm            make
-libinput          make
-libxkbcommon      make
-linux-headers     make
-pixman            make
-wayland           make
-wayland-protocols make
-wld               make

@@ -1,6 +1,0 @@
-glib
-gnupg2
-gtk+3
-libgcrypt
-meson make
-p11-kit

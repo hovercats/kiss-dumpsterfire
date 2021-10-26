@@ -1,8 +1,0 @@
-#!/bin/sh -e
-
-patch -p1 < 0001-Disable-use-of-ctypes-and-dynamic-loading.patch
-
-make lazy-extractors
-make youtube-dl
-
-install -Dm755 youtube-dl "$1/usr/bin/youtube-dl"
