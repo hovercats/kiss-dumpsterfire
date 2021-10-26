@@ -1,6 +1,0 @@
-#!/bin/sh -e
-
-export LDFLAGS="$LDFLAGS -static"
-
-make
-make PREFIX=/usr install
