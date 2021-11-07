@@ -1,2 +1,0 @@
-#!/bin/sh -e
-exec sdhcp -f -i wlan0 -e wpa_supplicant
