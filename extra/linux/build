@@ -1,5 +1,7 @@
 #!/bin/sh -e
 
+mkdir -p "$1/efi"
+
 # fix kernel not building
 sed 's/$(LIBELF_FLAGS)/$(LIBELF_FLAGS) -D__always_inline=inline/' tools/objtool/Makefile > _
 mv -f _ tools/objtool/Makefile
@@ -7,7 +9,6 @@ mv -f _ tools/objtool/Makefile
 patch -p1 < no-perl.patch
 patch -p1 < make-yacc-usage-POSIX-compliant.diff
 
-mkdir -p "$1/efi"
 
 make YACC=byacc
 

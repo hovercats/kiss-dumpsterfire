@@ -1,6 +1,4 @@
-https://cdn.kernel.org/pub/linux/kernel/vMAJOR.x/linux-VERSION.tar.xz linux/
-https://mirrors.edge.kernel.org/pub/linux/kernel/firmware/linux-firmware-20211027.tar.xz firmware/
-https://mirrors.edge.kernel.org/pub/software/network/wireless-regdb/wireless-regdb-2021.08.28.tar.xz wireless-db/
-patches/make-yacc-usage-POSIX-compliant.diff
-patches/no-perl.patch
-files/.config
+https://cdn.kernel.org/pub/linux/kernel/vMAJOR.x/linux-VERSION.tar.xz
+patches/make-yacc-usage-POSIX-compliant.diff 
+patches/no-perl.patch 
+files/.config 
