@@ -1,0 +1,12 @@
+#!/bin/sh -e
+
+export LDFLAGS="$LDFLAGS --static"
+
+./configure \
+    --prefix=/usr \
+    --disable-shared \
+    --without-pic \
+    --disable-bzlib
+
+make
+make install
