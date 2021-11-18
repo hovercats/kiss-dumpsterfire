@@ -1,0 +1,7 @@
+fontconfig make
+libffi make
+freetype-harfbuzz make
+libpng make
+pixman make
+wld
+wayland 

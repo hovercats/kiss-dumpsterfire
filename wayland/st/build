@@ -1,0 +1,17 @@
+#!/bin/sh -e
+
+# change cursorshape to underline instead of block
+sed -i 's/cursorshape = 2/cursorshape = 4/' config.def.h
+
+export LDFLAGS="$LDFLAGS --static -L/usr/lib  /usr/lib/libfontconfig.a  \
+	-lfreetype /usr/lib/libxml2.a /usr/lib/libwld.a /usr/lib/libpixman-1.a \
+	-lswc -lexpat -ldrm -llzma"
+
+make
+
+mkdir -p \
+    "$1/usr/bin" \
+    "$1/usr/share/man/man1"
+
+cp st "$1/usr/bin"
+cp st.1 "$1/usr/share/man/man1"
