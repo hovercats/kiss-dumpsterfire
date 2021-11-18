@@ -1,5 +1,7 @@
 #!/bin/sh -e
 
+patch -p1 < colors.patch
+
 # change cursorshape to underline instead of block
 sed -i 's/cursorshape = 2/cursorshape = 4/' config.def.h
 
