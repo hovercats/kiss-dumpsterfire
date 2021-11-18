@@ -1,0 +1,15 @@
+#!/bin/sh -e
+
+# dont build velox's status bar
+sed -i 's/clients//' Makefile
+
+make \
+	PREFIX=/usr \
+	ENABLE_DEBUG=0 \
+#	LDFLAGS="$LDFLAGS --static"
+
+make PREFIX=/usr \
+	ENABLE_DEBUG=0 \
+	install
+
+install -Dm755 velox.conf.sample "$1/etc/velox.conf"
