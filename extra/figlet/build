@@ -1,0 +1,10 @@
+#!/bin/sh -e
+
+# force static flag
+sed -i 's/LDFLAGS =/LDFLAGS = -s -static/' Makefile
+
+# make sure its installed into /usr 
+sed -i 's|/usr/local|/usr|' Makefile
+
+make figlet 
+make install
