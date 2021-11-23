@@ -9,6 +9,9 @@ export LDFLAGS="$LDFLAGS --static -L/usr/lib  /usr/lib/libfontconfig.a  \
 	-lfreetype /usr/lib/libxml2.a /usr/lib/libwld.a /usr/lib/libpixman-1.a \
 	-lswc -lexpat -ldrm -llzma"
 
+# fix terminfo making vim use white background
+tic -sx st.info
+
 make
 
 mkdir -p \
