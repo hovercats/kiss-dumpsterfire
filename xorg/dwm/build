@@ -4,18 +4,23 @@
 patch -p1 < dwm-attachasideandbelow-20200702-f04cac6.diff
 
 # Remove pixel gap.
-sed -i "s/static const int resizehints = 1/static const int resizehints = 0/" \
-    config.def.h 
+sed "s/static const int resizehints = 1/static const int resizehints = 0/" \
+    config.def.h > _
+mv -f _ config.def.h
 
 # change the border color
-sed -i 's/005577/ff950e/' config.def.h
+sed 's/005577/ff950e/' config.def.h > _
+mv -f _ config.def.h
 
 # remove bar
-sed -i 's/showbar *= 1/showbar = 0/' config.def.h
+sed 's/showbar *= 1/showbar = 0/' config.def.h > _
+mv -f _ config.def.h
 
 # drop Xinerama dep
-sed -i 's/XINERAMALIBS/#XINERAMALIBS/' config.mk
-sed -i 's/XINERAMAFLAGS/#XINERAMAFLAGS/' config.mk
+sed 's/XINERAMALIBS/#XINERAMALIBS/' config.mk > _
+mv -f _ config.mk
+sed 's/XINERAMAFLAGS/#XINERAMAFLAGS/' config.mk > _
+mv -f _ config.mk
 
 
 # last has to be a wildcard, otherwise itll fail, and complain about references
