@@ -9,7 +9,8 @@ make PREFIX=/usr install
 cd ..
 
 # I like using super key, over alt key
-sed -i 's/XCB_MOD_MASK_1/XCB_MOD_MASK_4/' config.def.h
+sed 's/XCB_MOD_MASK_1/XCB_MOD_MASK_4/' config.def.h > _
+mv -f _ config.def.h
 
 # seeing as we dont run the makefile
 # this file does not exist, so we must make our own
