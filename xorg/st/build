@@ -1,8 +1,11 @@
 #!/bin/sh -e
 
-sed -i 's/--libs fontconfig/--libs --static fontconfig/' config.mk
-sed -i 's/cursorshape = 2/cursorshape = 4/' config.def.h
-sed -i 's/--libs freetype2/--libs --static freetype2/' config.mk
+sed 's/--libs fontconfig/--libs --static fontconfig/' config.mk > _
+mv -f _ config.def.h
+sed 's/cursorshape = 2/cursorshape = 4/' config.def.h > _
+mv -f _ config.def.h
+sed 's/--libs freetype2/--libs --static freetype2/' config.mk > _
+mv -f _ config.def.h
 
 patch -p1 < scrollback-keybinds.patch
 patch -p1 < colors.patch
