@@ -20,5 +20,5 @@ cp \
 
 cp \
     amd-ucode/microcode_amd_fam17h.bin \
-    "$1/usr/lib/firmware/amdp-ucode"
+    "$1/usr/lib/firmware/amd-ucode"
 
