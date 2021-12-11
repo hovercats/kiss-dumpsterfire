@@ -1,6 +1,6 @@
 #!/bin/sh -e
 
-mkdir -p "$1/efi"
+mkdir -p "$1/boot"
 
 # fix kernel not building
 sed 's/$(LIBELF_FLAGS)/$(LIBELF_FLAGS) -D__always_inline=inline/' tools/objtool/Makefile > _
@@ -12,4 +12,4 @@ patch -p1 < make-yacc-usage-POSIX-compliant.diff
 
 make YACC=byacc
 
-cp arch/x86/boot/bzImage "$1/efi/kiss.efi"
+cp arch/x86/boot/bzImage "$1/boot/kiss.efi"
