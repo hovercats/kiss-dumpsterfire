@@ -1,2 +1,3 @@
-git+https://github.com/michaelforney/sdhcp
+https://dl.2f30.org/releases/sdhcp-0.1.tar.gz
+patches/upstream.patch
 files/run
