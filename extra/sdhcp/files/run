@@ -1,3 +1,0 @@
-#!/bin/sh -e
-
-exec sdhcp -f wlan0 1> /dev/null
