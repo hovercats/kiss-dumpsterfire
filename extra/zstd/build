@@ -3,10 +3,18 @@
 sed 's/^FLAGS.*=/FLAGS = -static /' programs/Makefile > _
 mv -f _ programs/Makefile
 
+cd lib/
+
+make libzstd.a
+mkdir -p "$1/usr/lib"
+cp libzstd.a "$1/usr/lib"
+
+cd ../programs
+
 make \
     HAVE_LZMA=0 \
     HAVE_ZLIB=0 \
-    HAVE_LZ4=0
+    HAVE_LZ4=0 \
 
 make \
     PREFIX=/usr \
