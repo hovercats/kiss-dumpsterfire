@@ -1,16 +1,17 @@
 #!/bin/sh -e
 
-sed 's/--libs fontconfig/--libs --static fontconfig/' config.mk > _
-mv -f _ config.def.h
-sed 's/cursorshape = 2/cursorshape = 4/' config.def.h > _
-mv -f _ config.def.h
-sed 's/--libs freetype2/--libs --static freetype2/' config.mk > _
-mv -f _ config.def.h
+# uncomment everything here to build it statically
+#sed 's/--libs fontconfig/--libs --static fontconfig/' config.mk > _
+#mv -f _ config.def.h
+#sed 's/cursorshape = 2/cursorshape = 4/' config.def.h > _
+#mv -f _ config.def.h
+#sed 's/--libs freetype2/--libs --static freetype2/' config.mk > _
+#mv -f _ config.def.h
 
 patch -p1 < scrollback-keybinds.patch
 patch -p1 < colors.patch
 patch -p1 < font.patch
 
 
-make LDFLAGS="$LDFLAGS --static -lX11 -lXft -lxcb -lX11-xcb -lXrender -lXau"
+make #LDFLAGS="$LDFLAGS --static -lX11 -lXft -lxcb -lX11-xcb -lXrender -lXau"
 make PREFIX=/usr DESTDIR="$1" install

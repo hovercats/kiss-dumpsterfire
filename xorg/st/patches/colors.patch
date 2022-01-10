@@ -1,12 +1,20 @@
+From 9d38865eff804fd390689fa9d729201a2611aa89 Mon Sep 17 00:00:00 2001
+From: hovercats <hovercatswithlasereyes@protonmail.com>
+Date: Mon, 10 Jan 2022 04:32:01 +0100
+Subject: [PATCH] change colors
+
+---
+ config.def.h | 53 +++++++++++++++++++++++-----------------------------
+ 1 file changed, 23 insertions(+), 30 deletions(-)
+
 diff --git a/config.def.h b/config.def.h
-index 877afab..6a1699f 100644
+index 3526e43..42c3178 100644
 --- a/config.def.h
 +++ b/config.def.h
-@@ -84,41 +84,35 @@ static unsigned int tabspaces = 8;
-
+@@ -103,42 +103,35 @@ unsigned int tabspaces = 8;
  /* Terminal colors (16 first used in escape sequence) */
  static const char *colorname[] = {
--	/* 8 normal colors */
+ 	/* 8 normal colors */
 -	"black",
 -	"red3",
 -	"green3",
@@ -15,8 +23,16 @@ index 877afab..6a1699f 100644
 -	"magenta3",
 -	"cyan3",
 -	"gray90",
--
--	/* 8 bright colors */
++ [0] = "#071712", /* black    */
++ [1] = "#a65549", /* red      */
++ [2] = "#568077", /* green    */
++ [3] = "#677F66", /* yellow   */
++ [4] = "#8e5934", /* blue     */
++ [5] = "#84584c", /* magenta  */
++ [6] = "#166763", /* cyan     */
++ [7] = "#807959", /* white    */
+ 
+ 	/* 8 bright colors */
 -	"gray50",
 -	"red",
 -	"green",
@@ -31,40 +47,41 @@ index 877afab..6a1699f 100644
 -	/* more colors can be added after 255 to use with DefaultXX */
 -	"#cccccc",
 -	"#555555",
+-	"gray90", /* default foreground colour */
+-	"black", /* default background colour */
 -};
-
-+  /* 8 normal colors */
-+  [0] = "#071712", /* black */
-+  [1] = "#a65549", /* red     */
-+  [2] = "#568077", /* green   */
-+  [3] = "#677F66", /* yellow  */
-+  [4] = "#8e5934", /* blue    */
-+  [5] = "#84545c", /* magenta */
-+  [6] = "#166763", /* cyan    */
-+  [7] = "#807959", /* white   */
++ [8]  = "#adb8b6", /* black   */
++ [9] = "#e27463", /* red     */
++ [10] = "#6f96a1", /* green   */
++ [11] = "#ABCAB4", /* yellow  */
++ [12] = "#bc7645", /* blue    */
++ [13] = "#a3646f", /* magenta */
++ [14] = "#1e8e89", /* cyan    */
++ [15] = "#f9edad", /* white   */
 +
-+  /* 8 bright colors */
-+  [8]  = "#adb8b6", /* black   */
-+  [9]  = "#e27463", /* red     */
-+  [10] = "#6f96a1", /* green   */
-+  [11] = "#A8CA84", /* yellow  */
-+  [12] = "#bc7645", /* blue    */
-+  [13] = "#a3646f", /* magenta */
-+  [14] = "#1e8e89", /* cyan    */
-+  [15] = "#f9edad", /* white   */
+ 
 +};
-
+ 
  /*
   * Default colors (colorname index)
 - * foreground, background, cursor, reverse cursor
 + * foreground, background, cursor
   */
--unsigned int defaultfg = 7;
--unsigned int defaultbg = 0;
--static unsigned int defaultcs = 256;
+-unsigned int defaultfg = 258;
+-unsigned int defaultbg = 259;
+-unsigned int defaultcs = 256;
 +unsigned int defaultfg = 15;
 +unsigned int defaultbg = 0;
-+static unsigned int defaultcs = 15;
++unsigned int defaultcs = 15;
  static unsigned int defaultrcs = 257;
-
+ 
  /*
+@@ -148,7 +141,7 @@ static unsigned int defaultrcs = 257;
+  * 6: Bar ("|")
+  * 7: Snowman ("☃")
+  */
+-static unsigned int cursorshape = 2;
++static unsigned int cursorshape = 4;
+ 
+ /*
+  * Default columns and rows numbers
