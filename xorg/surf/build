@@ -1,0 +1,8 @@
+#!/bin/sh -e
+
+patch -p1 < surf-websearch-20190510-d068a38.diff
+patch -p1 < surf-quit_hotkey-20210830-11dca18.diff
+patch -p1 < modal.patch
+
+make
+make PREFIX=/usr install
