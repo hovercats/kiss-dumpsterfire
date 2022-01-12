@@ -9,5 +9,12 @@ patch -p1 < modal.patch
 sed 's|/usr/local|/usr|' config.mk > _
 mv -f _ config.mk
 
+# force cache and cookies to /tmp
+sed 's|~/.surf/cache/|/tmp/cache/|' config.def.h > _
+mv -f _ config.def.h
+
+sed 's|~/.surf/cookie.txt|/tmp/cookies.txt|' config.def.h > _
+mv -f _ config.def.h
+
 make
 make install
