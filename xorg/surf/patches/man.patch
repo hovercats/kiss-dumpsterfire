@@ -1,0 +1,107 @@
+diff --git a/surf.1 b/surf.1
+index 496afb9..6434d4a 100644
+--- a/surf.1
++++ b/surf.1
+@@ -131,69 +131,81 @@ Specify the
+ .I zoomlevel
+ which surf should use.
+ .SH USAGE
+-.B Escape
++.B c
+ Stops loading current page or stops download.
+ .TP
+-.B Ctrl\-h
++.B i
++Go to insert mode. 
++.TP
++.B Escape
++Leave insert mode
++.TP
++.B h
+ Walks back the history.
+ .TP
+-.B Ctrl\-l
++.B l
+ Walks forward the history.
+ .TP
+-.B Ctrl\-k
++.B k
+ Scrolls page upwards.
+ .TP
+-.B Ctrl\-j
++.B j
+ Scrolls page downwards.
+ .TP
+-.B Ctrl\-b
++.B b
+ Scroll up one whole page view.
+ .TP
+-.B Ctrl\-Space
++.B Space
+ Scroll down one whole page view.
+ .TP
+-.B Ctrl\-i
++.B o
+ Scroll horizontally to the right.
+ .TP
+-.B Ctrl\-u
++.B u
+ Scroll horizontally to the left.
+ .TP
+-.B Ctrl\-Shift\-k or Ctrl\-+
++.B Shift\-k 
+ Zooms page in.
+ .TP
+-.B Ctrl\-Shift\-j or Ctrl\--
++.B Shift\-j 
+ Zooms page out.
+ .TP
+-.B Ctrl\-Shift\-q
++.B Shift\-q
+ Resets Zoom.
+ .TP
+-.B Ctrl\-f and Ctrl\-/
++.B f and /
+ Opens the search-bar.
+ .TP
+-.B Ctrl\-n
++.B n
+ Go to next search result.
+ .TP
+-.B Ctrl\-Shift\-n
++.B Shift\-n
+ Go to previous search result.
+ .TP
+-.B Ctrl\-g
++.B g
+ Opens the URL-bar (requires dmenu installed).
+ .TP
+-.B Ctrl\-p
++.B p
+ Loads URI from primary selection.
+ .TP
+-.B Ctrl\-Shift\-p
++.B Shift\-p
+ Calls Printpage Dialog.
+ .TP
+-.B Ctrl\-r
++.B r
+ Reloads the website.
+ .TP
+-.B Ctrl\-Shift\-r
++.B Shift\-r
+ Reloads the website without using the cache.
+ .TP
+-.B Ctrl\-y
++.B y
+ Copies current URI to primary selection.
+ .TP
++.B q
++Quits surf
++.TP
++.B s
++Open up a searchbar (uses duckduckgo as default)
++.TP
+ .B Ctrl\-t
+ Display the current TLS certificate in a popup window.
+ .TP

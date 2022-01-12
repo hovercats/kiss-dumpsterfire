@@ -3,6 +3,7 @@
 patch -p1 < surf-websearch-20190510-d068a38.diff
 patch -p1 < surf-quit_hotkey-20210830-11dca18.diff
 patch -p1 < modal.patch
+patch -p1 < man.patch
 
 # Kiss seems to bork surf's scrolling keybindings when using PREFIX=/usr
 # This seems to fix the issue, while still install to /usr
