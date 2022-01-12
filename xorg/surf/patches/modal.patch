@@ -1,8 +1,8 @@
 diff --git a/config.def.h b/config.def.h
-index 703fd17..6ba2450 100644
+index 703fd17..4c05317 100644
 --- a/config.def.h
 +++ b/config.def.h
-@@ -137,44 +137,43 @@ static SiteSpecific certs[] = {
+@@ -137,44 +137,41 @@ static SiteSpecific certs[] = {
   */
  static Key keys[] = {
  	/* modifier              keyval          function    arg */
