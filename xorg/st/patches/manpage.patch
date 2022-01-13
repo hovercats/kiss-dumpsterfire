@@ -1,0 +1,63 @@
+From 71adf9ee40d33c45d2b4e771f4ad4cce81f485c2 Mon Sep 17 00:00:00 2001
+From: hovercats <hovercatswithlasereyes@protonmail.com>
+Date: Thu, 13 Jan 2022 16:34:54 +0100
+Subject: [PATCH] correct manpage
+
+---
+ st.1 | 31 +++++++++++--------------------
+ 1 file changed, 11 insertions(+), 20 deletions(-)
+
+diff --git a/st.1 b/st.1
+index 39120b4..5741bd8 100644
+--- a/st.1
++++ b/st.1
+@@ -130,35 +130,26 @@ Send a break in the serial line.
+ Break key is obtained in PC keyboards
+ pressing at the same time control and pause.
+ .TP
+-.B Ctrl-Print Screen
+-Toggle if st should print to the
+-.I iofile.
+-.TP
+-.B Shift-Print Screen
+-Print the full screen to the
+-.I iofile.
+-.TP
+-.B Print Screen
+-Print the selection to the
+-.I iofile.
+-.TP
+-.B Ctrl-Shift-Page Up
++.B Alt-Add
+ Increase font size.
+ .TP
+-.B Ctrl-Shift-Page Down
++.B Alt-Subtract
+ Decrease font size.
+ .TP
+-.B Ctrl-Shift-Home
++.B Alt-Equal
+ Reset to default font size.
+ .TP
+-.B Ctrl-Shift-y
+-Paste from primary selection (middle mouse button).
+-.TP
+-.B Ctrl-Shift-c
++.B Alt-c
+ Copy the selected text to the clipboard selection.
+ .TP
+-.B Ctrl-Shift-v
++.B Alt-v / Middle Mouse Button
+ Paste from the clipboard selection.
++.TP
++.B Page Up / Mousewheel Up
++Scroll up
++.TP
++.B Page Down / Mousewheel Down
++Scroll down
+ .SH CUSTOMIZATION
+ .B st
+ can be customized by creating a custom config.h and (re)compiling the source
+-- 
+2.34.1
+
