@@ -1,0 +1,28 @@
+--- st.c
++++ st.c
+@@ -3421,7 +3421,6 @@
+ 
+ 	wl.xkb.ctx = xkb_context_new(0);
+ 	wlresettitle();
+-	wl_surface_commit(wl.surface);
+ }
+ 
+ /*
+@@ -4415,12 +4414,14 @@
+ 	struct timespec drawtimeout, *tv = NULL, now, last, lastblink;
+ 	ulong msecs;
+ 
++	ttynew();
++
+ 	/* Look for initial configure. */
+ 	wl_display_roundtrip(wl.dpy);
+-	if (!wl.configured)
++	if (!wl.configured) {
+ 		cresize(wl.w, wl.h);
+-	ttynew();
+-	ttyresize();
++		ttyresize();
++	}
+ 	draw();
+ 
+ 	clock_gettime(CLOCK_MONOTONIC, &last);

@@ -1,6 +1,7 @@
 #!/bin/sh -e
 
 patch -p1 < colors.patch
+patch -p1 < wld.patch
 
 export LDFLAGS="$LDFLAGS --static -L/usr/lib  /usr/lib/libfontconfig.a  \
 	-lfreetype /usr/lib/libxml2.a /usr/lib/libwld.a /usr/lib/libpixman-1.a \
