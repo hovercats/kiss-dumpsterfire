@@ -1,0 +1,14 @@
+ _  ___           ___                     _            __ _         
+| |/ (_)_________|   \ _  _ _ __  _ __ __| |_ ___ _ _ / _(_)_ _ ___ 
+| ' <| (_-<_-<___| |) | || | '  \| '_ (_-<  _/ -_) '_|  _| | '_/ -_)
+|_|\_\_/__/__/   |___/ \_,_|_|_|_| .__/__/\__\___|_| |_| |_|_| \___|
+                                 |_|                                
+________________________________________________________________________________
+
+This is my personal repo, with packages that I use, or have modifies for my
+usecase. I use it in conjuction with my kiss-somethingsomethingstatic [0] repo,
+so expect things to be statically linked.
+
+
+[0] https://github.com/hoercats/kiss-somethingsomethingstatic
+
