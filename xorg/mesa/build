@@ -44,7 +44,7 @@ meson \
     --buildtype=release \
     -Dglx-read-only-text=true \
     -Dplatforms=x11 \
-    -Dglx=disabled \
+    -Dglx=auto \
     -Dvulkan-drivers=amd \
     -Ddri-drivers=r200 \
     -Degl=enabled \
