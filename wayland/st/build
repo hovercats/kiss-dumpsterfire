@@ -7,9 +7,9 @@ patch -p1 < drop_iso_14755.patch
 sed 's/pixelsize=12/pixelsize=14/' config.def.h> _
 mv -f _ config.def.h
 
-#export LDFLAGS="$LDFLAGS --static -L/usr/lib  /usr/lib/libfontconfig.a  \
-	#-lfreetype /usr/lib/libxml2.a /usr/lib/libwld.a /usr/lib/libpixman-1.a \
-	#-lswc -lexpat -ldrm -llzma"
+export LDFLAGS="$LDFLAGS --static -L/usr/lib  /usr/lib/libfontconfig.a  \
+	-lfreetype /usr/lib/libxml2.a /usr/lib/libwld.a /usr/lib/libpixman-1.a \
+	-lswc -lexpat -ldrm -llzma"
 
 # fix terminfo making vim use white background
 tic -sx st.info
