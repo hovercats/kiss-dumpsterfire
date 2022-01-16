@@ -179,7 +179,6 @@ static Shortcut shortcuts[] = {
 	{ MODKEY,                       XKB_KEY_Home,           wlzoomreset,    {.f =  0} },
 	{ MODKEY,                       XKB_KEY_v,              selpaste,       {.i =  0} },
 	{ MODKEY,                       XKB_KEY_Num_Lock,       numlock,        {.i =  0} },
-	{ MODKEY,                       XKB_KEY_Control_L,      iso14755,       {.i =  0} },
 };
 
 /*

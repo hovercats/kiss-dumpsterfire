@@ -1,0 +1,46 @@
+--- st.c
++++ st.c
+@@ -94,7 +94,6 @@
+ #define TRUEBLUE(x)		(((x) & 0xff) << 8)
+ 
+ /* constants */
+-#define ISO14755CMD		"dmenu -p codepoint: </dev/null"
+ 
+ enum glyph_attribute {
+ 	ATTR_NULL       = 0,
+@@ -379,7 +378,6 @@
+ static void wlzoomreset(const Arg *);
+ static void printsel(const Arg *);
+ static void printscreen(const Arg *) ;
+-static void iso14755(const Arg *);
+ static void toggleprinter(const Arg *);
+ static void sendbreak(const Arg *);
+ 
+@@ -2478,27 +2476,6 @@
+ 	}
+ }
+ 
+-void
+-iso14755(const Arg *arg)
+-{
+-	FILE *p;
+-	char *us, *e, codepoint[9], uc[UTF_SIZ];
+-	unsigned long utf32;
+-
+-	if (!(p = popen(ISO14755CMD, "r")))
+-		return;
+-
+-	us = fgets(codepoint, sizeof(codepoint), p);
+-	pclose(p);
+-
+-	if (!us || *us == '\0' || *us == '-' || strlen(us) > 7)
+-		return;
+-	if ((utf32 = strtoul(us, &e, 16)) == ULONG_MAX ||
+-	    (*e != '\n' && *e != '\0'))
+-		return;
+-
+-	ttysend(uc, utf8encode(utf32, uc));
+-}
+ 
+ void
+ toggleprinter(const Arg *arg)
