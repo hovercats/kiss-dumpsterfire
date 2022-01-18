@@ -13,6 +13,9 @@ patch -p1 < colors.patch
 patch -p1 < font.patch
 patch -p1 < manpage.patch
 
+# Install terminfo to right location
+export TERMINFO="$1/usr/share/terminfo"
+mkdir -p "$TERMINFO"
 
 make #LDFLAGS="$LDFLAGS --static -lX11 -lXft -lxcb -lX11-xcb -lXrender -lXau"
 make PREFIX=/usr DESTDIR="$1" install
