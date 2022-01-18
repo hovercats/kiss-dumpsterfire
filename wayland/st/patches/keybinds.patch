@@ -1,0 +1,29 @@
+--- config.def.h
++++ config.def.h
+@@ -130,7 +130,7 @@
+  * 6: Bar ("|")
+  * 7: Snowman ("☃")
+  */
+-static unsigned int cursorshape = 2;
++static unsigned int cursorshape = 4;
+ 
+ /*
+  * Default columns and rows numbers
+@@ -172,12 +172,12 @@
+ 	/* modifier                     key                     function        argument */
+ 	{ MOD_MASK_ANY,                 XKB_KEY_Break,          sendbreak,      {.i =  0} },
+ 	{ MOD_MASK_CTRL,                XKB_KEY_Print,          toggleprinter,  {.i =  0} },
+-	{ MOD_MASK_SHIFT,               XKB_KEY_Print,          printscreen,    {.i =  0} },
++	{ MODKEY,                       XKB_KEY_c,              printscreen,    {.i =  0} },
+ 	{ MOD_MASK_ANY,                 XKB_KEY_Print,          printsel,       {.i =  0} },
+-	{ MODKEY|MOD_MASK_SHIFT,        XKB_KEY_Prior,          wlzoom,         {.f = +1} },
+-	{ MODKEY|MOD_MASK_SHIFT,        XKB_KEY_Next,           wlzoom,         {.f = -1} },
+-	{ MODKEY|MOD_MASK_SHIFT,        XKB_KEY_Home,           wlzoomreset,    {.f =  0} },
+-	{ MOD_MASK_SHIFT,               XKB_KEY_Insert,         selpaste,       {.i =  0} },
++	{ MODKEY,                       XKB_KEY_KP_Add,         wlzoom,         {.f = +1} },
++	{ MODKEY,                       XKB_KEY_KP_Subtract,    wlzoom,         {.f = -1} },
++	{ MODKEY,                       XKB_KEY_Home,           wlzoomreset,    {.f =  0} },
++	{ MODKEY,                       XKB_KEY_v,              selpaste,       {.i =  0} },
+ 	{ MODKEY,                       XKB_KEY_Num_Lock,       numlock,        {.i =  0} },
+ };
+ 

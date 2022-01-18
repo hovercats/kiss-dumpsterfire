@@ -2,4 +2,4 @@ git+https://github.com/michaelforney/st
 patches/colors.patch
 patches/wld.patch
 patches/drop_iso_14755.patch
-files/config.h
+patches/keybinds.patch

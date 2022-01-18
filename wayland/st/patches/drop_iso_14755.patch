@@ -1,6 +1,30 @@
---- st.c
-+++ st.c
-@@ -94,7 +94,6 @@
+From fd0bc9d30c0b08f58cabdf8f965e737995f578d2 Mon Sep 17 00:00:00 2001
+From: hovercats <hovercatswithlasereyes@protonmail.com>
+Date: Mon, 17 Jan 2022 23:23:58 +0100
+Subject: [PATCH] drop iso-function
+
+---
+ config.def.h |  1 -
+ st.c         | 24 ------------------------
+ 2 files changed, 25 deletions(-)
+
+diff --git a/config.def.h b/config.def.h
+index bbcb850..3dfdd72 100644
+--- a/config.def.h
++++ b/config.def.h
+@@ -179,7 +179,6 @@ static Shortcut shortcuts[] = {
+ 	{ MODKEY|MOD_MASK_SHIFT,        XKB_KEY_Home,           wlzoomreset,    {.f =  0} },
+ 	{ MOD_MASK_SHIFT,               XKB_KEY_Insert,         selpaste,       {.i =  0} },
+ 	{ MODKEY,                       XKB_KEY_Num_Lock,       numlock,        {.i =  0} },
+-	{ MODKEY,                       XKB_KEY_Control_L,      iso14755,       {.i =  0} },
+ };
+ 
+ /*
+diff --git a/st.c b/st.c
+index 863b338..58ea154 100644
+--- a/st.c
++++ b/st.c
+@@ -94,7 +94,6 @@ char *argv0;
  #define TRUEBLUE(x)		(((x) & 0xff) << 8)
  
  /* constants */
@@ -8,7 +32,7 @@
  
  enum glyph_attribute {
  	ATTR_NULL       = 0,
-@@ -379,7 +378,6 @@
+@@ -379,7 +378,6 @@ static void wlzoomabs(const Arg *);
  static void wlzoomreset(const Arg *);
  static void printsel(const Arg *);
  static void printscreen(const Arg *) ;
@@ -16,7 +40,7 @@
  static void toggleprinter(const Arg *);
  static void sendbreak(const Arg *);
  
-@@ -2478,27 +2476,6 @@
+@@ -2478,28 +2476,6 @@ tprinter(char *s, size_t len)
  	}
  }
  
@@ -41,6 +65,10 @@
 -
 -	ttysend(uc, utf8encode(utf32, uc));
 -}
- 
+-
  void
  toggleprinter(const Arg *arg)
+ {
+-- 
+2.34.1
+
