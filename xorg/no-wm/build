@@ -1,59 +1,6 @@
-#!/bin/sh
-
-# bypass makefile, because makefile refuses to build static bins
-cc -static -Wall -O2 -std=c99 -pedantic \
-	x-session.c -o x-session
-cc -static -Wall -O2 -std=c99 -pedantic \
-	-L/usr/lib/ -lxcb -lX11 -lXau \
-	x-alt-tab.c -o x-alt-tab 
-cc -static -Wall -O2 -std=c99 -pedantic \
-	-L/usr/lib/ -lxcb -lX11 -lXau \
-	x-focus-manager.c -o x-focus-manager 
-cc -static -Wall -O2 -std=c99 -pedantic \
-	-L/usr/lib/ -lxcb -lX11 -lXau \
-	x-move-resize.c -o x-move-resize 
-cc -static -Wall -O2 -std=c99 -pedantic \
-	-L/usr/lib/ -lxcb -lX11 -lXau \
-	x-placement-manager.c -o x-placement-manager 
-cc -static -Wall -O2 -std=c99 -pedantic \
-	-L/usr/lib/ -lxcb -lX11 -lXau \
-	x-raise.c -o x-raise 
-cc -static -Wall -O2 -std=c99 -pedantic \
-	-L/usr/lib/ -lxcb -lX11 -lXau \
-	x-undecorate.c -o x-undecorate 
-cc -static -Wall -O2 -std=c99 -pedantic \
-	-L/usr/lib/ -lxcb -lX11 -lXau \
-	x-window-list.c -o x-window-list
-
-chmod +x \
-	x-session \
-	x-alt-tab \
-	x-focus-manager \
-	x-move-resize \
-	x-placement-manager \
-	x-raise \
-	x-undecorate \
-	x-window-list \
-	scripts/x-banish \
-	scripts/x-focus-topmost \
-	scripts/x-launcher \
-	scripts/x-root-clean \
-	scripts/x-window-select
+#!/bin/sh -e
 
 mkdir -p "$1/usr/bin"
 
-cp \
-	x-session \
-	x-alt-tab \
-	x-focus-manager \
-	x-move-resize \
-	x-placement-manager \
-	x-raise \
-	x-undecorate \
-	x-window-list \
-	scripts/x-banish \
-	scripts/x-focus-topmost \
-	scripts/x-launcher \
-	scripts/x-root-clean \
-	scripts/x-window-select \
-	"$1/usr/bin/"
+make
+make PREFIX="$1/usr" install
