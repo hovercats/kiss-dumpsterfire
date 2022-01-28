@@ -22,6 +22,10 @@ mv -f _ config.mk
 sed 's/XINERAMAFLAGS/#XINERAMAFLAGS/' config.mk > _
 mv -f _ config.mk
 
+# firefox seems to always wanna spawn in tag 9, which is really annoying.
+sed '/Firefox/d' config.def.h > _
+mv -f _ config.def.h
+
 
 # last has to be a wildcard, otherwise itll fail, and complain about references
 # in functions. however, the lib in question, does not seem to exist.
