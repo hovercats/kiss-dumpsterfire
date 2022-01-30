@@ -1,8 +1,6 @@
-diff --git a/surf.1 b/surf.1
-index 496afb9..6434d4a 100644
 --- a/surf.1
 +++ b/surf.1
-@@ -131,69 +131,81 @@ Specify the
+@@ -131,68 +131,83 @@
  .I zoomlevel
  which surf should use.
  .SH USAGE
@@ -95,13 +93,15 @@ index 496afb9..6434d4a 100644
 -.B Ctrl\-y
 +.B y
  Copies current URI to primary selection.
- .TP
++.TP
 +.B q
 +Quits surf
 +.TP
 +.B s
-+Open up a searchbar (uses duckduckgo as default)
++Open up a searchbar
 +.TP
++.B m
++Bookmark current URL
+ .TP
  .B Ctrl\-t
  Display the current TLS certificate in a popup window.
- .TP
