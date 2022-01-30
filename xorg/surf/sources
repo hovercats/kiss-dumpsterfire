@@ -3,3 +3,4 @@ patches/surf-websearch-20190510-d068a38.diff
 patches/surf-quit_hotkey-20210830-11dca18.diff
 patches/modal.patch
 patches/man.patch
+patches/surf-bookmarks.diff
