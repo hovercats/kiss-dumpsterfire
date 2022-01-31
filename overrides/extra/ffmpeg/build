@@ -1,0 +1,30 @@
+#!/bin/sh -e
+
+./configure \
+    --cc="${CC:-cc}" \
+    --cxx="${CXX:-c++}" \
+    --prefix=/usr \
+    --disable-debug \
+    --disable-libxml2 \
+    --disable-static \
+    --enable-gpl \
+    --enable-libass \
+    --enable-libdrm \
+    --enable-libmp3lame \
+    --enable-libopus \
+    --enable-libvorbis \
+    --enable-libvpx \
+    --enable-libwebp \
+    --enable-libx264 \
+    --enable-libx265 \
+    --enable-libxvid \
+    --enable-nonfree \
+    --enable-openssl \
+    --enable-shared \
+    --enable-version3 \
+    --x86asmexe=nasm \
+
+make
+make install
+
+rm -rf "$1/usr/share/ffmpeg/examples"
