@@ -1,0 +1,11 @@
+#!/bin/sh -e
+
+./configure \
+    --prefix=/usr \
+    --sysconfdir=/etc \
+    --disable-tests
+
+make
+make install
+
+cp -f update-certdata.sh "$1/etc/ssl"
