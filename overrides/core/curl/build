@@ -24,6 +24,7 @@ mv -f _ src/Makefile.in
     --without-libidn \
     --without-libidn2 \
     --without-brotli \
+    --without-nghttp2 \
     --without-zstd
 
 make
