@@ -8,15 +8,15 @@ make PREFIX=/usr install
 
 cd ..
 
-# use super key, instead of alt key
-sed 's/XCB_MOD_MASK_1/XCB_MOD_MASK_4/' config.def.h > _
-mv -f _ config.def.h
-
 # glazier complains about wm.h is missing in the dir
 cp libwm/wm.h .
 
 make 
-make install
+make PREFIX=/usr install
+
+# install manpage
+mkdir -p "$1/usr/share/man/man1"
+cp glazier.1 "$1/usr/share/man/man1"
 
 # libwm's files is no longer needed
 rm -rf \
