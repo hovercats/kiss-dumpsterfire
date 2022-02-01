@@ -1,0 +1,5 @@
+https://python.org/ftp/python/VERSION/Python-VERSION.tar.xz
+https://bootstrap.pypa.io/get-pip.py
+patches/libressl-support.patch
+patches/python3-always-pip.patch
+patches/python3-pyc-hash.patch
