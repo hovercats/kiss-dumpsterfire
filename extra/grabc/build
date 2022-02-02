@@ -1,0 +1,12 @@
+#!/bin/sh -e
+
+# fix installdir
+sed 's|/usr/local|/usr|' Makefile > _
+mv -f _ Makefile
+
+mkdir -p \
+    "$1/usr/bin" \
+    "$1/usr/share/man/man1"
+
+make
+make DESTDIR="$1" install
