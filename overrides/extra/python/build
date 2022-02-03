@@ -22,7 +22,8 @@ export LDFLAGS="$LDFLAGS -fno-semantic-interposition"
     --with-system-ffi \
     --with-ensurepip=yes \
     --without-doc-strings \
-    --with-builtin-hashlib-hashes="sha1,sha512,sha256,md5" \
+    --without-pymalloc \
+    --with-builtin-hashlib-hashes="sha3,blake2,sha1,sha512,sha256,md5" \
     --with-ssl-default-suites="TLSv1.3:TLSv1.2+AEAD+ECDHE:TLSv1.2+AEAD+DHE"
 
 make EXTRA_CFLAGS="$CFLAGS -DTHREAD_STACK_SIZE=0x100000"
