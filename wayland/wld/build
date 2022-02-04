@@ -1,0 +1,13 @@
+#!/bin/sh -e
+
+mk() {
+    make \
+        PREFIX=/usr \
+        ENABLE_DEBUG=0 \
+        ENABLE_SHARED=0 \
+        DRM_DRIVERS=amd \
+        "$@"
+}
+
+mk
+mk install
