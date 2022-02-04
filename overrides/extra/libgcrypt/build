@@ -1,0 +1,19 @@
+#!/bin/sh -e
+
+# fix buildfailure due to this
+sed 's/fd = open(file, O_RDONLY);/fd = popen;/g' random/jitterentropy-base-user.h > _
+mv -f _ random/jitterentropy-base-user.h
+
+# add missing include
+sed '/#define GCRYPT_JITTERENTROPY_BASE_USER_H/a #include <limits.h>' \
+    random/jitterentropy-base-user.h > _
+mv -f _ random/jitterentropy-base-user.h
+
+./configure \
+    --prefix=/usr \
+    --sysconfdir=/etc \
+    --mandir=/usr/share/man \
+    --localstatedir=/var
+
+make
+make DESTDIR="$1" install
