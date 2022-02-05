@@ -1,9 +1,0 @@
-glib
-glib-networking
-libpsl
-libxml2
-meson make
-pkgconf make
-samurai make
-sqlite
-zlib
