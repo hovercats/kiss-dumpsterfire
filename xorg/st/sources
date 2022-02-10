@@ -3,3 +3,4 @@ patches/scrollback-keybinds.patch
 patches/font.patch
 patches/colors.patch
 patches/manpage.patch
+patches/externalpipe.patch
