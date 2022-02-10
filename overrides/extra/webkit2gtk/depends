@@ -7,7 +7,7 @@ harfbuzz-icu
 lcms
 libXt
 libgcrypt
-libsoup
+libsoup3
 libwebp
 libxslt
 mesa
