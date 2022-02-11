@@ -20,5 +20,5 @@ cp glazier.1 "$1/usr/share/man/man1"
 
 # libwm's files is no longer needed
 rm -rf \
-	"$1/usr/lib/libwm.a" \
-	"$1/usr/include/wm.h"
+	"$1/usr/lib" \
+	"$1/usr/include"
