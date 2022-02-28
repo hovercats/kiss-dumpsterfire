@@ -1,0 +1,15 @@
+#!/bin/sh -e
+
+CFLAGS="$CFLAGS -static"
+
+autoreconf -fi
+
+./configure \
+    --prefix=/usr \
+    --enable-silent-rules  \
+    --disable-builtin-echo \
+    --with-edit=editline \
+    --disable-dependency-tracking
+
+make
+make install
