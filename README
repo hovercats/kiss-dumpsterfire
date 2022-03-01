@@ -6,9 +6,9 @@
 ________________________________________________________________________________
 
 This is my personal repo, with packages that I use, or have modifies for my
-usecase. I use it in conjuction with my kiss-somethingsomethingstatic [0] repo,
-so expect things to be statically linked.
+usecase. 
+Packages have a probability of being set to build statically.
 
+I also have other kiss-related stuff:
 
-[0] https://github.com/hoercats/kiss-somethingsomethingstatic
-
+[0] https://github.com/hovercats/kiss-somethingsomethingstatic
