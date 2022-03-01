@@ -1,0 +1,5 @@
+curl
+ncurses
+libressl
+pkgconf make
+zlib
