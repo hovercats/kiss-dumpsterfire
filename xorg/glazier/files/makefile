@@ -2,7 +2,7 @@ include config.mk
 
 all: glazier
 
-glazier: glazier.o libwm/libwm.a
+glazier: glazier.o 
 	$(LD) -o $@ glazier.o $(LDFLAGS)
 
 glazier.o: glazier.c config.h

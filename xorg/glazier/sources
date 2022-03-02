@@ -1,3 +1,4 @@
 git+git://git.z3bra.org/glazier
 git+git://git.z3bra.org/libwm libwm/
 files/makefile
+files/config.mk
