@@ -78,7 +78,7 @@ index 0000000..04ceeba
 +
 +regex="(((http|https|gopher|gemini|ftp|ftps|git)://|www\\.)[a-zA-Z0-9.]*[:]?[a-zA-Z0-9./@$&%?$\#=_~-]*)|((magnet:\\?xt=urn:btih:)[a-zA-Z0-9]*)"
 +
-+url=$(grep -Eio "$regex" | dmenu -l 10 -p "Go:" -w "$WINDOWID")
++url=$(grep -Eio "$regex" | uniq | dmenu -l 10 -p "Go:" -w "$WINDOWID")
 +
 +echo "$url" | tr -d '\n' | xsel -i -b 
 diff --git a/followurl b/followurl
@@ -93,7 +93,7 @@ index 0000000..12b00f1
 +
 +regex="(((http|https|gopher|gemini|ftp|ftps|git)://|www\\.)[a-zA-Z0-9.]*[:]?[a-zA-Z0-9./@$&%?$\#=_~-]*)|((magnet:\\?xt=urn:btih:)[a-zA-Z0-9]*)"
 +
-+url=$(grep -Eio "$regex" | dmenu -l 10 -p "Go:" -w "$WINDOWID") || exit
++url=$(grep -Eio "$regex" | uniq | dmenu -l 10 -p "Go:" -w "$WINDOWID") || exit
 +
 +$BROWSER "$url"
 diff --git a/st.1 b/st.1
