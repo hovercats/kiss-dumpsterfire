@@ -1,5 +1,15 @@
 #!/bin/sh -e 
 
+export LDFLAGS="$LDFLAGS -static"
+
+# remove atomx and slw, as theyre giving me linking issues.
+sed '/atomx.c/d' Makefile > _
+mv -f _ Makefile
+sed '/slw.c/d' Makefile > _
+mv -f _ Makefile
+sed 's/wmp.c.*/wmp.c/' Makefile > _
+mv -f _ Makefile
+
 make
 make DESTDIR="$1" install
 
