@@ -1,0 +1,10 @@
+#!/bin/sh -e
+
+mkdir -p "$1/usr/bin"
+
+chmod 755 shinit poweroff
+
+cp shinit poweroff "$1/usr/bin"
+
+ln -s shinit   "$1/usr/bin/init"
+ln -s poweroff "$1/usr/bin/reboot"
