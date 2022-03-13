@@ -1,0 +1,16 @@
+#!/bin/sh -e
+
+#sed 's|BASEDIR="/bin/svc.d"|BASEDIR="/var/svc.d"|' bin/svc > _
+#mv -f _ bin/svc
+
+# create service dirs
+#mkdir -p \
+  #"$1/var/svc.d/default" \
+  #"$1/var/svc.d/avail" \
+  #"$1/usr/bin"
+
+chmod 755 bin/svc svc.d/bare.sh
+mkdir -p "$1/bin"
+
+cp -f bin/svc "$1/bin"
+cp -r svc.d/ "$1/bin"
