@@ -5,6 +5,3 @@ patch -p1 < tar-dash-remove.patch
 
 make LDFLAGS=-static sbase-box
 make PREFIX=/usr sbase-box-install
-
-# Unlink sed, because '-i' is widely used
-unlink "$1/usr/bin/sed"
