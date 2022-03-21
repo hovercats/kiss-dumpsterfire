@@ -72,6 +72,7 @@ mk() {
         -DENABLE_WEB_AUDIO=${streaming:-OFF} \
         -DENABLE_GAMEPAD=OFF \
         -DUSE_SOUP2=OFF \
+        -DENABLE_JOURNALD_LOG=OFF \
         -Wno-dev
 
     cmake --build build
