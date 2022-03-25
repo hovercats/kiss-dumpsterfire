@@ -5,19 +5,22 @@ cat <<EOF
 NOTE: A menu system has to be installed. Possible choices:
 
 - fzf
-- bemenu (external menu)
+  - or fzy with our patch
+- dmenu (default ext. menu)
+- bemenu
+- rofi
 
 To use an external menu, see
 
-	man 5 ytfzf
+  man 5 ytfzf
 
-and the example of conf.sh in the package.
+  And configure conf.sh file accordingly.
 
 
-Optional: to view thumbnails, you have to install a 
-thumbnail viewer. A list is available at
+Optional dependencies like thumbnail viewers can be found here:
 
-https://github.com/pystardust/ytfzf#alternative-thumbnail-viewers
+https://github.com/pystardust/ytfzf#optional-dependencies
+
 
 NOTE: if mpv fails to play the video, it needs to be
 rebuilt. 

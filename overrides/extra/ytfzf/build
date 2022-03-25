@@ -1,6 +1,10 @@
 #!/bin/sh -e
 
-# Set the correct version
-sed -i 's/2\.1\.rc-4/2.1/' ytfzf
+# patch out fzf specific stuff, because we use fzy instead
+patch -p1 < fzy.patch
 
-make PREFIX="/usr" DESTDIR="$1" install doc
+# Our curl does not support this option.
+sed 's/--compressed/#--compressed/' ytfzf > _
+mv -f _ ytfzf
+
+make PREFIX=/usr DESTDIR="$1" install doc
