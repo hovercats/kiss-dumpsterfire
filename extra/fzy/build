@@ -1,0 +1,4 @@
+#!/bin/sh -e
+
+make CFLAGS="$CFLAGS -static"
+make PREFIX=/usr install
