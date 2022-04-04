@@ -46,7 +46,6 @@ meson \
     -Dplatforms=x11 \
     -Dglx=auto \
     -Dvulkan-drivers=amd \
-    -Ddri-drivers=r200 \
     -Dgallium-drivers=radeonsi,swrast \
     -Degl=enabled \
     -Dvalgrind=false \
