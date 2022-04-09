@@ -1,0 +1,11 @@
+#!/bin/sh -e
+
+./autogen.sh
+
+./configure \
+  --prefix=/usr \
+  --enable-install-setuid
+
+
+make
+make install
