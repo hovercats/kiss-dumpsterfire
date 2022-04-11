@@ -8,7 +8,6 @@
     --disable-libxml2 \
     --disable-static \
     --enable-gpl \
-    --enable-libass \
     --enable-libdrm \
     --enable-libmp3lame \
     --enable-libopus \
