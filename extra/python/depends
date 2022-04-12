@@ -1,1 +1,5 @@
-../../../../kiss-somethingsomethingstatic/extra/python/depends
+bzip2
+expat
+libffi
+sqlite
+zlib
