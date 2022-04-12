@@ -1,5 +1,0 @@
-https://ftp.gnu.org/gnu/binutils/binutils-VERSION.tar.xz
-patches/0001-libiberty-Implement-pex_unix_exec_child-using-posix_.patch
-patches/0002-Adjust-style-to-prevent-gcc-warning.patch
-patches/0003-Remove-support-for-long-double-in-error-formatter.patch
-patches/0004-bfd-Remove-return-with-expression-in-void-function.patch
