@@ -1,0 +1,5 @@
+glib
+gnutls
+meson make
+pkgconf make
+samurai make
