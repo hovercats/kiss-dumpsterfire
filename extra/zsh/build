@@ -1,0 +1,32 @@
+#!/bin/sh -e
+
+{
+    printf "functions='Completion/*comp* "
+    for comp in Base Linux Unix X Zsh; do
+        printf "Completion/%s/*/* " "$comp"
+    done
+    printf "'\\n"
+} >> Src/Zle/complete.mdd
+
+rm -f Completion/Linux/Command/_pkgtool
+rm -f Completion/Linux/Command/_rpmbuild
+
+./configure \
+    --prefix=/usr \
+    --enable-function-subdirs \
+    --enable-fndir=/usr/share/zsh/functions \
+    --enable-runhelpdir=/usr/share/zsh/help \
+    --enable-scriptdir=/usr/share/zsh/scripts \
+    --enable-additional-fpath=/usr/share/zsh/vendor-completions \
+    --disable-gdbm \
+    --disable-dynamic \
+    --enable-ldflags=-static
+
+# some modules needed to be specified to build statically. else the build fails
+sed -i 's/regex.mdd link=no/regex.mdd link=static/' config.modules
+sed -i 's/zpty.mdd link=no/zpty.mdd link=static/' config.modules
+
+make
+make install
+
+install -Dm 644 zprofile "$1/etc/zprofile"
