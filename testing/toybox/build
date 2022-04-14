@@ -1,0 +1,10 @@
+#!/bin/sh -e
+
+LDFLAGS="$LDFLAGS --static"
+
+patch -p1 < POSIX.patch
+
+./scripts/make.sh
+PREFIX="$1/usr/bin" ./scripts/install.sh --symlink --force
+
+chmod gu+s "$1/usr/bin/toybox"
