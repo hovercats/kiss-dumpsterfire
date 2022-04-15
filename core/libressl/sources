@@ -1,1 +1,2 @@
-../../../../kiss-somethingsomethingstatic/core/libressl/sources
+https://ftp.openbsd.org/pub/OpenBSD/LibreSSL/libressl-VERSION.tar.gz
+files/update-certdata.sh
