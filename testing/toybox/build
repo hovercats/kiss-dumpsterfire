@@ -1,8 +1,8 @@
 #!/bin/sh -e
 
-LDFLAGS="$LDFLAGS --static"
+CFLAGS="$CFLAGS --static"
 
-patch -p1 < POSIX.patch
+#patch -p1 < POSIX.patch
 
 ./scripts/make.sh
 PREFIX="$1/usr/bin" ./scripts/install.sh --symlink --force
