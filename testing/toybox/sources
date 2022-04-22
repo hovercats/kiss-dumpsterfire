@@ -1,3 +1,5 @@
 https://github.com/landley/toybox/archive/VERSION.tar.gz
 files/.config
+files/swapon.boot
+files/swapoff.shutdown
 patches/POSIX.patch
