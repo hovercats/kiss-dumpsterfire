@@ -1,0 +1,41 @@
+From cfe9533e60a6a83882c05f13a3c21ffc575200b8 Mon Sep 17 00:00:00 2001
+From: hovercats <hovercatswithlasereyes@protonmail.com>
+Date: Fri, 22 Apr 2022 20:29:04 +0200
+Subject: [PATCH] remove swapon/off usage. as toybox does not support swapon
+ -a. opt for separate init hook instead
+
+---
+ lib/init/rc.boot     | 4 ----
+ lib/init/rc.shutdown | 1 -
+ 2 files changed, 5 deletions(-)
+
+diff --git a/lib/init/rc.boot b/lib/init/rc.boot
+index bb38e92..0217988 100755
+--- a/lib/init/rc.boot
++++ b/lib/init/rc.boot
+@@ -69,10 +69,6 @@ log "Mounting all local filesystems..."; {
+     mount -a || sos
+ }
+ 
+-log "Enabling swap..."; {
+-    swapon -a || sos
+-}
+-
+ log "Seeding random..."; {
+     random_seed load
+ }
+diff --git a/lib/init/rc.shutdown b/lib/init/rc.shutdown
+index 5f058d9..4aafa5c 100755
+--- a/lib/init/rc.shutdown
++++ b/lib/init/rc.shutdown
+@@ -30,7 +30,6 @@ log "Sending KILL signal to all processes..."; {
+ }
+ 
+ log "Unmounting filesystems and disabling swap..."; {
+-    swapoff -a
+ 
+     # Skip unmounting pseudo filesystems as they may be
+     # needed below for encryption and user shutdown scripts.
+-- 
+2.36.0
+

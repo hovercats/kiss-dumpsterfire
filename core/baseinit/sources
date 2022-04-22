@@ -1,2 +1,3 @@
 https://github.com/kisslinux/init/archive/VERSION.tar.gz
 patches/toybox-fsck.patch
+patches/toybox-swapon-swapoff.patch
