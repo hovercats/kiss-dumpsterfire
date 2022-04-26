@@ -1,0 +1,14 @@
+#!/bin/sh -e
+
+export LDFLAGS="$LDFLAGS --static"
+export DESTDIR="$1"
+
+muon setup \
+    -Dprefix=/usr \
+    -Ddocs=disabled \
+    -Dexamples=disabled \
+    -Ddefault_library=static \
+    build
+
+ninja -C build
+muon -C build install
