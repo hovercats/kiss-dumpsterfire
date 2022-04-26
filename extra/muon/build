@@ -1,0 +1,19 @@
+#!/bin/sh -e
+
+# Set -Ddefault_library=both by default.
+sed "s/\(value: \)'static'/\1'both'/" src/script/builtin_options.meson > _
+mv -f _ src/script/builtin_options.meson
+
+command -v muon > /dev/null || {
+      ./bootstrap.sh build
+    export PATH=$PWD/build:$PATH
+    
+}
+
+muon setup \
+      -Dprefix=/usr \
+      -Ddocs=disabled \
+      build
+
+ninja -C build
+muon  -C build install
