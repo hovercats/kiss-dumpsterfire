@@ -19,3 +19,13 @@ cp -f \
   build/utils/tinycap \
   build/utils/tinypcminfo \
   "$1/usr/bin"
+
+# install manpages
+mkdir -p "$1/usr/share/man/man1"
+cp -f \
+  utils/tinycap.1 \
+  utils/tinymix.1 \
+  utils/tinypcminfo.1 \
+  utils/tinyplay.1 \
+  "$1/usr/share/man/man1"
+  
