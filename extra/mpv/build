@@ -17,18 +17,18 @@
     export PYTHONPATH
 }
 
-meson \
-    --prefix=/usr \
+muon setup \
+    -Dprefix=/usr \
     -Dx11=enabled \
     -Dmanpage-build=enabled \
     -Degl=disabled \
     -Degl-x11=disabled \
     -Dgl=disabled \
     -Ddrm=disabled \
-    . build
+    build
 
 ninja -C build
-ninja -C build install
+muon -C build install
 
 # we probably dont need these
 rm -rf \
