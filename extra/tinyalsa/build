@@ -12,3 +12,10 @@ muon setup \
 
 ninja -C build
 muon -C build install
+
+# there seems to be a bug with muon which does not install some utils.
+cp -f \
+  build/utils/tinymix \
+  build/utils/tinycap \
+  build/utils/tinypcminfo \
+  "$1/usr/bin"
