@@ -1,1 +1,2 @@
-git+https://github.com/onetrueawk/awk
+https://github.com/onetrueawk/awk/archive/cfe6b6b99d841c0f46d090265e0aa882feee411f.tar.gz
+patches/byacc.patch
