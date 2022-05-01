@@ -26,7 +26,7 @@ export PATH=$PATH:$PWD
     --with-system-zlib
 
 make configure-host
-make tooldir=/usr
+make tooldir=/usr LDFLAGS="$LDFLAGS --static"
 make tooldir=/usr install
 
 ln -sf ld.bfd "$1/usr/bin/ld"
