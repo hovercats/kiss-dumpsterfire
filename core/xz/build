@@ -1,0 +1,10 @@
+#!/bin/sh -e
+
+./configure \
+    --prefix=/usr \
+    --disable-doc \
+    --disable-nls \
+    --disable-shared
+
+make LDFLAGS="$LDFLAGS --static"
+make install
