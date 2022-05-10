@@ -1,0 +1,80 @@
+#!/bin/sh -e
+
+# Bundle userspace-rcu, as its not needed elsewhere.
+cd urcu
+
+./bootstrap
+
+./configure \
+    --prefix=/usr \
+    --disable-shared 
+
+make
+make DESTDIR="$1" install
+
+# We dont need these, neither do we want them.
+# Xfsprogs also seems to fail for me when bundling urcu if these exist.
+rm -rf \
+    "$1/usr/lib/liburcu-bp.la" \
+    "$1/usr/lib/liburcu-cds.la" \
+    "$1/usr/lib/liburcu-common.la" \
+    "$1/usr/lib/liburcu-mb.la" \
+    "$1/usr/lib/liburcu-memb.la" \
+    "$1/usr/lib/liburcu-qsbr.la" \
+    "$1/usr/lib/liburcu-signal.la" \
+    "$1/usr/lib/liburcu.la" 
+
+cd ..
+
+# Bundle libinih just for xfsprogs
+export DESTDIR="$PWD/../libinih"
+
+meson \
+    -Dprefix=/ \
+    -Ddefault_library=static \
+    -Ddistro_install=true \
+    -Dwith_INIReader=true \
+    -Dmulti-line_entries=true \
+    -Dutf-8_bom=true \
+    -Dinline_comments=true \
+    -Duse_heap=false \
+    inih inih/output
+
+ninja -C inih/output
+ninja -C inih/output install
+
+export CFLAGS="$CFLAGS -I$1/usr/include -I$PWD/../libinih/include"
+export LDFLAGS="$LDFLAGS --static -L$1/usr/lib -L$PWD/../libinih/lib"
+
+# Remove incorrect bash dependency.
+sed 's/bash/sh/' install-sh > _
+mv -f _ install-sh
+
+# There seem to be a permission error, making this non-executable, which makes
+# the build fail
+chmod +x install-sh
+
+# Explicitly include <signal.h> instead of implicit inclusion.
+sed '1i#include <signal.h>' include/linux.h > _
+mv -f _ include/linux.h
+
+./configure \
+    --prefix=/usr \
+    --sbindir=/usr/bin \
+    --disable-gettext \
+    --disable-shared \
+    --disable-libicu \
+    --with-pic=no
+
+make
+make \
+    DIST_ROOT="$1" \
+    PKG_ROOT_SBIN_DIR=/usr/bin \
+    PKG_ROOT_LIB_DIR=/usr/lib \
+    install 
+
+# remove unneeded stuff
+rm -rf \
+    "$1/usr/lib" \
+    "$1/usr/include" \
+    "$1/usr/share/doc"
