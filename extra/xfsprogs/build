@@ -3,7 +3,18 @@
 # Bundle userspace-rcu, as its not needed elsewhere.
 cd urcu
 
-./bootstrap
+# drop autotools dependency
+mv doc/doc-Makefile.in doc/Makefile.in
+mv doc/examples/examples-Makefile.in doc/examples/Makefile.in
+mv extras/extra-Makefile.in extras/Makefile.in
+mv include/include-Makefile.in include/Makefile.in
+mv src/src-Makefile.in src/Makefile.in
+mv tests/tests-Makefile.in tests/Makefile.in
+mv tests/common/tests-common-Makefile.in tests/common/Makefile.in
+mv tests/unit/tests-unit-Makefile.in tests/unit/Makefile.in
+mv tests/benchmark/tests-benchmark-Makefile.in tests/benchmark/Makefile.in
+mv tests/regression/tests-regression-Makefile.in tests/regression/Makefile.in
+mv tests/utils/tests-utils-Makefile.in tests/utils/Makefile.in
 
 ./configure \
     --prefix=/usr \
