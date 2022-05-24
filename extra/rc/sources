@@ -1,1 +1,10 @@
 git+https://github.com/rakitzis/rc
+files/configure
+files/install-sh
+files/compile
+files/missing
+files/Makefile.in
+files/config.h.in
+files/INSTALL
+files/ylwrap
+files/depcomp

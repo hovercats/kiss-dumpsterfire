@@ -2,8 +2,6 @@
 
 CFLAGS="$CFLAGS -static"
 
-autoreconf -fi
-
 ./configure \
     --prefix=/usr \
     --enable-silent-rules  \
