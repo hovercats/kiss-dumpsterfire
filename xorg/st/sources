@@ -1,6 +1,1 @@
-https://dl.suckless.org/st/st-VERSION.tar.gz
-patches/scrollback-keybinds.patch
-patches/font.patch
-patches/colors.patch
-patches/manpage.patch
-patches/externalpipe.patch
+git+https://github.com/hovercats/st
