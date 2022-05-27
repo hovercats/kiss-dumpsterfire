@@ -1,0 +1,3 @@
+https://sndio.org/sndio-VERSION.tar.gz
+files/sndiod.run
+patches/0003-alsa-Port-to-tinyalsa.patch

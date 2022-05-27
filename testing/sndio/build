@@ -1,0 +1,16 @@
+#!/bin/sh -e
+
+patch -p1 < 0003-alsa-Port-to-tinyalsa.patch
+
+sed 's/-DDEBUG//' libsndio/Makefile.in > _
+mv -f _ libsndio/Makefile.in
+
+./configure \
+    --prefix=/usr
+
+make
+make install
+
+mkdir -p                           "$1/etc/sv/sndiod"
+cp -f sndiod.run                   "$1/etc/sv/sndiod/run"
+ln -sf /run/runit/supervise.sndiod "$1/etc/sv/sndiod/supervise" 
