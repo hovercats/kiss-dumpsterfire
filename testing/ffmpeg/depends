@@ -1,0 +1,15 @@
+lame
+libdrm
+libogg
+libressl
+libvorbis
+libvpx
+libwebp
+linux-headers make
+nasm          make
+opus
+pkgconf make
+sndio
+x264
+x265
+xvidcore
