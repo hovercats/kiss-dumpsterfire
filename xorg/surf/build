@@ -1,22 +1,9 @@
 #!/bin/sh -e
 
-patch -p1 < surf-websearch-20190510-d068a38.diff
-patch -p1 < surf-quit_hotkey-20210830-11dca18.diff
-patch -p1 < modal.patch
-patch -p1 < man.patch
-patch -p1 < surf-bookmarks.diff
-
 # Kiss seems to bork surf's scrolling keybindings when using PREFIX=/usr
 # This seems to fix the issue, while still install to /usr
 sed 's|/usr/local|/usr|' config.mk > _
 mv -f _ config.mk
-
-# force cache and cookies to /tmp
-sed 's|~/.surf/cache/|/tmp/cache/|' config.def.h > _
-mv -f _ config.def.h
-
-sed 's|~/.surf/cookie.txt|/tmp/cookies.txt|' config.def.h > _
-mv -f _ config.def.h
 
 # fix pkgconf looking for 4.0 instead of 4.1
 sed 's/webkit2gtk-4.0/webkit2gtk-4.1/g' config.mk > _

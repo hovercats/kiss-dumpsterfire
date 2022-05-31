@@ -12,4 +12,5 @@ pkgconf make
 sndio
 x264
 x265
+tinyalsa
 xvidcore
