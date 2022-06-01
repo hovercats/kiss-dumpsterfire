@@ -1,0 +1,17 @@
+#!/bin/sh
+
+# kill services
+#svc -k
+
+# unmount the rest
+umount -ra
+
+# remount root as read only
+mount -o remount,ro /
+sync
+
+case $1 in
+  reboot) reboot -f ;;
+  poweroff) poweroff -f ;;
+  *) echo "Invalid action for rc.shutdown" && exit 1 ;;
+esac

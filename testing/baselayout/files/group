@@ -1,0 +1,9 @@
+root:x:0:root
+admin:x:1:root
+tty:x:2:
+wheel:x:3:
+disk:x:4:
+audio:x:5:
+video:x:6:
+input:x:7:
+users:x:100:
