@@ -2,9 +2,15 @@
 
 mkdir -p "$1/usr/bin"
 
-chmod 755 shinit poweroff
+# correct name of rc file
+sed 's/rc.boot/rc.init/' shinit > _
+mv -f _ shinit
 
-cp shinit poweroff "$1/usr/bin"
+# change the dir of init scripts
+sed 's|/lib/init|/etc|' shinit > _
+mv -f _ shinit
+
+chmod 755 shinit
+cp shinit "$1/usr/bin"
 
 ln -s shinit   "$1/usr/bin/init"
-ln -s poweroff "$1/usr/bin/reboot"
