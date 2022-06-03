@@ -1,4 +1,3 @@
-alsa-lib
 glib
 gstreamer
 libjpeg-turbo
@@ -9,3 +8,4 @@ mesa
 meson make
 opus
 pango
+sndio
