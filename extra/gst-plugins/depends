@@ -1,4 +1,3 @@
-alsa-lib
 ffmpeg
 gdk-pixbuf
 gst-plugins-base
@@ -16,5 +15,6 @@ libressl
 opus
 pango
 python make
+sndio
 x264
 x265

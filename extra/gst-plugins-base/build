@@ -2,6 +2,8 @@
 
 export DESTDIR="$1"
 
+patch -p1 < sndio.patch
+
 meson \
     --prefix=/usr \
     -Dgl=disabled \
@@ -10,6 +12,8 @@ meson \
     -Dexamples=disabled \
     -Dcdparanoia=disabled \
     -Dintrospection=disabled \
+    -Dsndio=enabled \
+    -Dalsa=disabled \
     . output
 
 ninja -C output
