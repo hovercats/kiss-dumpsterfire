@@ -1,6 +1,8 @@
 autoconf
 freetype-harfbuzz
+libXdmcp
 libXfont
+libXtst
 libfontenc
 libpng
 zlib
