@@ -9,6 +9,7 @@ mv -f _ tools/objtool/Makefile
 
 patch -p1 < no-perl.patch
 patch -p1 < make-yacc-usage-POSIX-compliant.diff
+patch -p1 < amdgpufb.patch
 
 
 make
