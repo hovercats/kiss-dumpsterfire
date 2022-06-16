@@ -49,7 +49,6 @@ meson \
     -Dvalgrind=false \
     -Dzstd=false \
     -Dgallium-drivers=radeonsi \
-    -Ddri-drivers=r200 \
     -Dvulkan-drivers=amd \
     -Dglvnd="${glvnd_enabled:-false}" \
     . output
