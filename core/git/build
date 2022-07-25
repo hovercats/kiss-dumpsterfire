@@ -1,6 +1,6 @@
 #!/bin/sh -e
 
-export CFLAGS="$CFLAGS -static"
+export LDFLAGS="$LDFLAGS -static"
 
 cat > config.mak <<EOF
 NO_GETTEXT=YesPlease
@@ -13,6 +13,7 @@ NO_PERL=YesPlease
 NO_SYS_POLL_H=1
 NO_CROSS_DIRECTORY_HARDLINKS=1
 NO_INSTALL_HARDLINKS=1
+NO_OPENSSL=YesPlease
 EOF
 
 ./configure \
