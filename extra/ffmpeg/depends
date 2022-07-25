@@ -7,7 +7,6 @@ libvpx
 libwebp
 linux-headers make
 nasm          make
-libressl
 opus
 pkgconf make
 xvidcore
