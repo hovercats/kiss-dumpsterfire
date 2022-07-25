@@ -17,6 +17,8 @@
     --enable-libxvid \
     --enable-nonfree \
     --enable-libtls \
+    --enable-sndio \
+    --disable-alsa \
     --enable-shared \
     --enable-version3 \
     --x86asmexe=nasm \
