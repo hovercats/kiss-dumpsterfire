@@ -6,7 +6,8 @@ sed 's/-DDEBUG//' libsndio/Makefile.in > _
 mv -f _ libsndio/Makefile.in
 
 ./configure \
-    --prefix=/usr
+    --prefix=/usr \
+    --disable-alsa
 
 make
 make install
