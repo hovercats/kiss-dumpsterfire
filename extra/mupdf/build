@@ -27,9 +27,9 @@ make \
     USE_SYSTEM_OPENJPEG=no \
     USE_SYSTEM_LIBS=yes \
     shared=no \
-    install
+    install-apps install-docs
 
 mv -f "$1/usr/bin/mupdf-x11" "$1/usr/bin/mupdf"
 
-# save ~40mb+ by deleting libs we now no longer need.
-rm -rf "$1/usr/lib"
+# remove docs, but keep manpages
+rm -rf "$1/usr/share/doc"
