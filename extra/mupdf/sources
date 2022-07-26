@@ -1,2 +1,4 @@
 https://mupdf.com/downloads/archive/mupdf-VERSION-source.tar.gz
-patches/pkcs7-fix.patch
+patches/no-gumbo.patch
+patches/no-openjpeg.patch
+patches/objcopy.patch

@@ -1,16 +1,23 @@
 #!/bin/sh -e
 
 export CFLAGS="$CFLAGS -fPIC"
+export CFLAGS="$CFLAGS -DFZ_ENABLE_HTML=0 \
+    -DFZ_ENABLE_JPX=0 -DFZ_ENABLE_EPUB=0 \
+    -DNO_CJK -DFZ_ENABLE_ICC=0 -DFZ_ENABLE_JS=0"
 
-patch -p1 < pkcs7-fix.patch
+for p in *.patch; do
+    patch -p1 < "$p"
+done
 
 make \
     prefix="/usr" \
-    DESTDIR="$1" \
-    USE_SYSTEM_LIBS="yes" \
+    build=release \
     HAVE_X11=yes \
     HAVE_WAYLAND=no \
     HAVE_GLUT=no \
+    USE_SYSTEM_OPENJPEG=no \
+    USE_SYSTEM_LIBS=yes \
+    shared=no \
     install
 
 mv -f "$1/usr/bin/mupdf-x11" "$1/usr/bin/mupdf"
