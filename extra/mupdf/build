@@ -3,7 +3,8 @@
 export CFLAGS="$CFLAGS -fPIC"
 export CFLAGS="$CFLAGS -DFZ_ENABLE_HTML=0 \
     -DFZ_ENABLE_JPX=0 -DFZ_ENABLE_EPUB=0 \
-    -DNO_CJK -DFZ_ENABLE_ICC=0 -DFZ_ENABLE_JS=0"
+    -DFZ_ENABLE_HTML=0 -DNO_CJK -DFZ_ENABLE_ICC=0 \
+    -DFZ_ENABLE_JS=0 -DNO_CJK -DNOTO_SMALL"
 
 for p in *.patch; do
     patch -p1 < "$p"
@@ -21,3 +22,6 @@ make \
     install
 
 mv -f "$1/usr/bin/mupdf-x11" "$1/usr/bin/mupdf"
+
+# save ~40mb+ by deleting libs we now no longer need.
+rm -rf "$1/usr/lib"
