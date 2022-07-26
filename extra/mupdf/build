@@ -21,6 +21,7 @@ make \
     prefix="/usr" \
     build=release \
     HAVE_X11=yes \
+    HAVE_CURL=no \
     HAVE_WAYLAND=no \
     HAVE_GLUT=no \
     USE_SYSTEM_OPENJPEG=no \
