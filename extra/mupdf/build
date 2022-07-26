@@ -13,4 +13,4 @@ make \
     HAVE_GLUT=no \
     install
 
-ln -s "$1/usr/bin/mupdf-x11" "$1/usr/bin/mupdf"
+mv -f "$1/usr/bin/mupdf-x11" "$1/usr/bin/mupdf"
