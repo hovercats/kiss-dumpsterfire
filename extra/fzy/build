@@ -3,4 +3,4 @@
 make CFLAGS="$CFLAGS -static"
 make PREFIX=/usr install
 
-ln -s "$1/usr/bin/fzy" "$1/usr/bin/fzf"
+ln -s fzy "$1/usr/bin/fzf"
