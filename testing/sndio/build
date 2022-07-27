@@ -1,9 +1,8 @@
 #!/bin/sh -e
 
-patch -p1 < 0003-alsa-Port-to-tinyalsa.patch
-
-sed 's/-DDEBUG//' libsndio/Makefile.in > _
-mv -f _ libsndio/Makefile.in
+for p in *.patch; do
+    patch -p1 < "$p"
+done
 
 ./configure \
     --prefix=/usr \

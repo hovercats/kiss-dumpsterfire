@@ -9,53 +9,6 @@ Subject: [PATCH] alsa: Port to tinyalsa
 
 diff --git a/libsndio/sio_alsa.c b/libsndio/sio_alsa.c
 index 7ae69c2..332b62e 100644
---- a/configure
-+++ b/configure
-@@ -219,8 +219,7 @@
- # if using ALSA, add corresponding parameters
- #
- if [ $alsa = yes ]; then
--	defs="$defs -DUSE_ALSA"
--	ldadd="$ldadd -lasound"
-+	ldadd="$ldadd -ltinyalsa"
- fi
- 
- #
---- a/libsndio/Makefile.in
-+++ b/libsndio/Makefile.in
-@@ -117,7 +117,7 @@
- # loader to determine dependencies in a single pass
- #
- OBJS = debug.o aucat.o \
--mio.o mio_rmidi.o mio_alsa.o mio_aucat.o \
-+mio.o mio_rmidi.o mio_aucat.o \
- sio.o sio_alsa.o sio_aucat.o sio_oss.o sio_sun.o \
- sioctl.o sioctl_aucat.o sioctl_sun.o \
- issetugid.o strlcat.o strlcpy.o strtonum.o clock_gettime.o
-@@ -149,6 +149,12 @@
- clock_gettime.o:	../bsd-compat/clock_gettime.c
- 		${CC} ${CFLAGS} ${SO_CFLAGS} ${INCLUDE} ${DEFS} -c -o clock_gettime.o ../bsd-compat/clock_gettime.c
- 
-+sio.o:		sio.c
-+		${CC} ${CFLAGS} ${SO_CFLAGS} ${INCLUDE} ${DEFS} -DUSE_ALSA -c -o sio.o sio.c
-+
-+sio_alsa.o:	sio_alsa.c 
-+		${CC} ${CFLAGS} ${SO_CFLAGS} ${INCLUDE} ${DEFS} -DUSE_ALSA -c -o sio_alsa.o sio_alsa.c
-+
- aucat.o:	aucat.c aucat.h amsg.h debug.h \
- 		../bsd-compat/bsd-compat.h
- debug.o:	debug.c debug.h ../bsd-compat/bsd-compat.h
-@@ -158,10 +164,6 @@
- mio_aucat.o:	mio_aucat.c aucat.h amsg.h debug.h mio_priv.h sndio.h \
- 		../bsd-compat/bsd-compat.h
- mio_rmidi.o:	mio_rmidi.c debug.h mio_priv.h sndio.h
--sio.o:		sio.c debug.h sio_priv.h sndio.h \
--		../bsd-compat/bsd-compat.h
--sio_alsa.o:	sio_alsa.c debug.h sio_priv.h sndio.h \
--		../bsd-compat/bsd-compat.h
- sio_aucat.o:	sio_aucat.c aucat.h amsg.h debug.h sio_priv.h sndio.h \
- 		../bsd-compat/bsd-compat.h
- sio_oss.o:	sio_oss.c debug.h sio_priv.h sndio.h \
 --- a/libsndio/sio_alsa.c
 +++ b/libsndio/sio_alsa.c
 @@ -29,31 +29,29 @@
