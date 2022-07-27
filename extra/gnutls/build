@@ -1,0 +1,12 @@
+#!/bin/sh -e
+
+./configure \
+    --prefix=/usr \
+    --disable-nls \
+    --with-nettle-mini \
+    --with-included-libtasn1 \
+    --with-included-unistring \
+    --enable-static
+
+make
+make DESTDIR="$1" install
