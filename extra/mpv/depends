@@ -1,7 +1,9 @@
 ffmpeg
 freetype-harfbuzz
 libXScrnSaver
+libXext
 libXinerama
+libXpresent
 libXrandr
 libass
 libxkbcommon
