@@ -1,16 +1,16 @@
-From 57760f360c8713093ca4f71e9813e67e7532f86e Mon Sep 17 00:00:00 2001
+From a6336434802911e357c3cff300bf5c1f9abd3817 Mon Sep 17 00:00:00 2001
 From: hovercats <hovercatswithlasereyes@protonmail.com>
-Date: Tue, 14 Jun 2022 11:54:09 +0200
+Date: Sat, 30 Jul 2022 23:29:26 +0200
 Subject: [PATCH] amdgpufb patch
 
 ---
  drivers/gpu/drm/amd/amdgpu/Makefile         |   2 +-
  drivers/gpu/drm/amd/amdgpu/amdgpu_device.c  |  10 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_display.c |  38 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_display.c |  28 +-
  drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c     |  13 -
  drivers/gpu/drm/amd/amdgpu/amdgpu_fb.c      | 388 ++++++++++++++++++++
  drivers/gpu/drm/amd/amdgpu/amdgpu_mode.h    |  20 +
- 6 files changed, 448 insertions(+), 23 deletions(-)
+ 6 files changed, 442 insertions(+), 19 deletions(-)
  create mode 100644 drivers/gpu/drm/amd/amdgpu/amdgpu_fb.c
 
 diff --git a/drivers/gpu/drm/amd/amdgpu/Makefile b/drivers/gpu/drm/amd/amdgpu/Makefile
@@ -27,7 +27,7 @@ index 40e2c6e2d..490f9bebc 100644
  	atombios_dp.o amdgpu_afmt.o amdgpu_trace_points.o \
  	atombios_encoders.o amdgpu_sa.o atombios_i2c.o \
 diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-index 49f734137..eb652803a 100644
+index 66e40cac5..eb652803a 100644
 --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
 +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
 @@ -3842,6 +3842,7 @@ int amdgpu_device_init(struct amdgpu_device *adev,
@@ -77,13 +77,13 @@ index 49f734137..eb652803a 100644
  		 */
  		amdgpu_unregister_gpu_instance(tmp_adev);
  
--		drm_fb_helper_set_suspend_unlocked(adev_to_drm(adev)->fb_helper, true);
+-		drm_fb_helper_set_suspend_unlocked(adev_to_drm(tmp_adev)->fb_helper, true);
 +		amdgpu_fbdev_set_suspend(tmp_adev, 1);
  
  		/* disable ras on ALL IPs */
  		if (!need_emergency_restart &&
 diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_display.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_display.c
-index fae5c1deb..52d28cf10 100644
+index ffb370274..9614a01c9 100644
 --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_display.c
 +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_display.c
 @@ -1028,7 +1028,32 @@ static int amdgpu_display_get_fb_info(const struct amdgpu_framebuffer *amdgpu_fb
@@ -120,24 +120,14 @@ index fae5c1deb..52d28cf10 100644
  		amdgpu_bo_get_tiling_flags(rbo, tiling_flags);
  
  	if (tmz_surface)
-@@ -1582,10 +1607,13 @@ int amdgpu_display_suspend_helper(struct amdgpu_device *adev)
+@@ -1597,6 +1622,7 @@ int amdgpu_display_suspend_helper(struct amdgpu_device *adev)
  			continue;
  		}
  		robj = gem_to_amdgpu_bo(fb->obj[0]);
--		r = amdgpu_bo_reserve(robj, true);
--		if (r == 0) {
--			amdgpu_bo_unpin(robj);
--			amdgpu_bo_unreserve(robj);
 +       /* don't unpin kernel fb objects */
-+       if (!amdgpu_fbdev_robj_is_fb(adev, robj)) {
-+           r = amdgpu_bo_reserve(robj, true);
-+           if (r == 0) {
-+               amdgpu_bo_unpin(robj);
-+               amdgpu_bo_unreserve(robj);
-+           }
- 		}
- 	}
- 	return 0;
+ 		if (!amdgpu_display_robj_is_fb(adev, robj)) {
+ 			r = amdgpu_bo_reserve(robj, true);
+ 			if (r == 0) {
 diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
 index 7e6f84758..d1c5fb9ef 100644
 --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
@@ -609,5 +599,5 @@ index a546cb3cf..16063fc3a 100644
  void amdgpu_display_print_display_setup(struct drm_device *dev);
  int amdgpu_display_modeset_create_props(struct amdgpu_device *adev);
 -- 
-2.36.1
+2.37.1
 
