@@ -1,14 +1,61 @@
-From a2a69ff09844a9c6e5fbe854ef25c9c4bd90fc83 Mon Sep 17 00:00:00 2001
-From: hovercats <hovercatswithlasereyes@protonmail.com>
-Date: Sat, 30 Jul 2022 03:15:03 +0200
-Subject: [PATCH] tinyalsa port
+From 146d33f3eb2985677f39ad93d2864c5514f65985 Mon Sep 17 00:00:00 2001
+From: Michael Forney <mforney@mforney.org>
+Date: Tue, 31 Aug 2021 14:30:07 -0700
+Subject: [PATCH] alsa: Port to tinyalsa
 
 ---
- libsndio/sio_alsa.c | 734 ++++++++++++++++----------------------------
- 1 file changed, 258 insertions(+), 476 deletions(-)
+ libsndio/sio_alsa.c | 741 ++++++++++++++++----------------------------
+ 1 file changed, 259 insertions(+), 482 deletions(-)
 
 diff --git a/libsndio/sio_alsa.c b/libsndio/sio_alsa.c
-index 6107617..ec4bb9e 100644
+index 7ae69c2..332b62e 100644
+--- a/configure
++++ b/configure
+@@ -219,8 +219,7 @@
+ # if using ALSA, add corresponding parameters
+ #
+ if [ $alsa = yes ]; then
+-	defs="$defs -DUSE_ALSA"
+-	ldadd="$ldadd -lasound"
++	ldadd="$ldadd -ltinyalsa"
+ fi
+ 
+ #
+--- a/libsndio/Makefile.in
++++ b/libsndio/Makefile.in
+@@ -117,7 +117,7 @@
+ # loader to determine dependencies in a single pass
+ #
+ OBJS = debug.o aucat.o \
+-mio.o mio_rmidi.o mio_alsa.o mio_aucat.o \
++mio.o mio_rmidi.o mio_aucat.o \
+ sio.o sio_alsa.o sio_aucat.o sio_oss.o sio_sun.o \
+ sioctl.o sioctl_aucat.o sioctl_sun.o \
+ issetugid.o strlcat.o strlcpy.o strtonum.o clock_gettime.o
+@@ -149,6 +149,12 @@
+ clock_gettime.o:	../bsd-compat/clock_gettime.c
+ 		${CC} ${CFLAGS} ${SO_CFLAGS} ${INCLUDE} ${DEFS} -c -o clock_gettime.o ../bsd-compat/clock_gettime.c
+ 
++sio.o:		sio.c
++		${CC} ${CFLAGS} ${SO_CFLAGS} ${INCLUDE} ${DEFS} -DUSE_ALSA -c -o sio.o sio.c
++
++sio_alsa.o:	sio_alsa.c 
++		${CC} ${CFLAGS} ${SO_CFLAGS} ${INCLUDE} ${DEFS} -DUSE_ALSA -c -o sio_alsa.o sio_alsa.c
++
+ aucat.o:	aucat.c aucat.h amsg.h debug.h \
+ 		../bsd-compat/bsd-compat.h
+ debug.o:	debug.c debug.h ../bsd-compat/bsd-compat.h
+@@ -158,10 +164,6 @@
+ mio_aucat.o:	mio_aucat.c aucat.h amsg.h debug.h mio_priv.h sndio.h \
+ 		../bsd-compat/bsd-compat.h
+ mio_rmidi.o:	mio_rmidi.c debug.h mio_priv.h sndio.h
+-sio.o:		sio.c debug.h sio_priv.h sndio.h \
+-		../bsd-compat/bsd-compat.h
+-sio_alsa.o:	sio_alsa.c debug.h sio_priv.h sndio.h \
+-		../bsd-compat/bsd-compat.h
+ sio_aucat.o:	sio_aucat.c aucat.h amsg.h debug.h sio_priv.h sndio.h \
+ 		../bsd-compat/bsd-compat.h
+ sio_oss.o:	sio_oss.c debug.h sio_priv.h sndio.h \
 --- a/libsndio/sio_alsa.c
 +++ b/libsndio/sio_alsa.c
 @@ -29,31 +29,29 @@
@@ -50,7 +97,7 @@ index 6107617..ec4bb9e 100644
  	int running;
  	int events;
  	int ipartial, opartial;
-@@ -102,36 +100,32 @@ static unsigned int cap_rates[] = {
+@@ -101,90 +99,56 @@ static unsigned int cap_rates[] = {
  	 8000, 11025, 12000, 16000, 22050, 24000,
  	32000, 44100, 48000, 64000, 88200, 96000
  };
@@ -96,10 +143,12 @@ index 6107617..ec4bb9e 100644
  		*bits = 16;
  		*sig = 1;
  		*le = 0;
-@@ -141,51 +135,26 @@ sio_alsa_fmttopar(struct sio_alsa_hdl *hdl, snd_pcm_format_t fmt,
- 		*sig = 0;
- 		*le = 1;
  		break;
+-	case SND_PCM_FORMAT_U16_LE:
+-		*bits = 16;
+-		*sig = 0;
+-		*le = 1;
+-		break;
 -	case SND_PCM_FORMAT_U16_BE:
 -		*bits = 16;
 -		*sig = 0;
@@ -152,7 +201,7 @@ index 6107617..ec4bb9e 100644
  	default:
  		DPRINTF("sio_alsa_fmttopar: 0x%x: unsupported format\n", fmt);
  		hdl->sio.eof = 1;
-@@ -199,77 +168,41 @@ sio_alsa_fmttopar(struct sio_alsa_hdl *hdl, snd_pcm_format_t fmt,
+@@ -198,77 +162,41 @@ sio_alsa_fmttopar(struct sio_alsa_hdl *hdl, snd_pcm_format_t fmt,
   * convert sio_par encoding to ALSA format
   */
  static void
@@ -257,7 +306,17 @@ index 6107617..ec4bb9e 100644
  	}
  }
  
-@@ -300,42 +233,45 @@ _sio_alsa_open(const char *str, unsigned mode, int nbio)
+@@ -278,8 +206,7 @@ _sio_alsa_open(const char *str, unsigned mode, int nbio)
+ 	const char *p;
+ 	struct sio_alsa_hdl *hdl;
+ 	struct sio_par par;
+-	size_t len;
+-	int err;
++	unsigned card, dev;
+ 
+ 	p = _sndio_parsetype(str, "rsnd");
+ 	if (p == NULL) {
+@@ -299,42 +226,45 @@ _sio_alsa_open(const char *str, unsigned mode, int nbio)
  		return NULL;
  	_sio_create(&hdl->sio, &sio_alsa_ops, mode, nbio);
  
@@ -331,7 +390,7 @@ index 6107617..ec4bb9e 100644
  	/*
  	 * Default parameters may not be compatible with libsndio (eg. mulaw
  	 * encodings, different playback and recording parameters, etc...), so
-@@ -356,12 +292,15 @@ _sio_alsa_open(const char *str, unsigned mode, int nbio)
+@@ -355,12 +285,16 @@ _sio_alsa_open(const char *str, unsigned mode, int nbio)
  	return (struct sio_hdl *)hdl;
  bad_free_ipcm:
  	if (mode & SIO_REC)
@@ -345,13 +404,14 @@ index 6107617..ec4bb9e 100644
 -		snd_pcm_close(hdl->opcm);
 -bad_free:
 -	free(hdl->devname);
++		pcm_close(hdl->opcm);
 +bad_free_opar:
 +	if (mode & SIO_PLAY)
 +		free(hdl->opar);
  bad_free_hdl:
  	free(hdl);
  	return NULL;
-@@ -372,11 +311,14 @@ sio_alsa_close(struct sio_hdl *sh)
+@@ -371,11 +305,14 @@ sio_alsa_close(struct sio_hdl *sh)
  {
  	struct sio_alsa_hdl *hdl = (struct sio_alsa_hdl *)sh;
  
@@ -371,7 +431,7 @@ index 6107617..ec4bb9e 100644
  	free(hdl);
  }
  
-@@ -394,14 +336,12 @@ sio_alsa_start(struct sio_hdl *sh)
+@@ -393,14 +330,12 @@ sio_alsa_start(struct sio_hdl *sh)
  	hdl->oused = 0;
  	hdl->idelta = 0;
  	hdl->odelta = 0;
@@ -388,7 +448,7 @@ index 6107617..ec4bb9e 100644
  			hdl->sio.eof = 1;
  			return 0;
  		}
-@@ -413,9 +353,9 @@ sio_alsa_start(struct sio_hdl *sh)
+@@ -412,9 +347,9 @@ sio_alsa_start(struct sio_hdl *sh)
  		hdl->opartial = 0;
  	}
  	if (hdl->sio.mode & SIO_REC) {
@@ -396,11 +456,11 @@ index 6107617..ec4bb9e 100644
 +		err = pcm_prepare(hdl->ipcm);
  		if (err < 0) {
 -			DALSA("couldn't prepare rec stream", err);
-++			DALSA("couldn't prepare rec stream", hdl->ipcm);
++			DALSA("couldn't prepare rec stream", hdl->ipcm);
  			hdl->sio.eof = 1;
  			return 0;
  		}
-@@ -427,17 +367,17 @@ sio_alsa_start(struct sio_hdl *sh)
+@@ -426,17 +361,17 @@ sio_alsa_start(struct sio_hdl *sh)
  		hdl->ipartial = 0;
  	}
  	if ((hdl->sio.mode & SIO_PLAY) && (hdl->sio.mode & SIO_REC)) {
@@ -418,12 +478,12 @@ index 6107617..ec4bb9e 100644
 +		err = pcm_start(hdl->ipcm);
  		if (err < 0) {
 -			DALSA("couldn't start rec stream", err);
-++			DALSA("couldn't start rec stream", hdl->ipcm);
++			DALSA("couldn't start rec stream", hdl->ipcm);
  			hdl->sio.eof = 1;
  			return 0;
  		}
-@@ -449,30 +389,26 @@ static int
- sio_alsa_flush(struct sio_hdl *sh)
+@@ -448,30 +383,26 @@ static int
+ sio_alsa_stop(struct sio_hdl *sh)
  {
  	struct sio_alsa_hdl *hdl = (struct sio_alsa_hdl *)sh;
 -	int err;
@@ -459,7 +519,7 @@ index 6107617..ec4bb9e 100644
  			hdl->sio.eof = 1;
  			return 0;
  		}
-@@ -537,143 +473,110 @@ sio_alsa_xrun(struct sio_alsa_hdl *hdl)
+@@ -536,143 +467,110 @@ sio_alsa_xrun(struct sio_alsa_hdl *hdl)
  }
  
  static int
@@ -561,16 +621,11 @@ index 6107617..ec4bb9e 100644
 -		DALSA("couldn't set period to integer", err);
 -		return 0;
 -	}
- 
+-
 -	*round = *round * *rate / req_rate;
 -	*round = (*round + 31) & ~31;
--
+ 
 -	err = snd_pcm_hw_params_set_period_size_near(pcm, hwp, round, &dir);
--	if (err < 0) {
--		DALSA("couldn't set period size failed", err);
--		return 0;
--	}
--	err = snd_pcm_hw_params_set_periods_near(pcm, hwp, periods, &dir);
 +	req_rate = cfg->rate;
 +	min = pcm_params_get_min(par, PCM_PARAM_RATE);
 +	if (cfg->rate < min)
@@ -615,6 +670,11 @@ index 6107617..ec4bb9e 100644
 +
 +	err = pcm_set_config(pcm, cfg);
  	if (err < 0) {
+-		DALSA("couldn't set period size failed", err);
+-		return 0;
+-	}
+-	err = snd_pcm_hw_params_set_periods_near(pcm, hwp, periods, &dir);
+-	if (err < 0) {
 -		DALSA("couldn't set period count", err);
 -		return 0;
 -	}
@@ -657,7 +717,7 @@ index 6107617..ec4bb9e 100644
  	for (i = 0; i < CAP_NRATES; i++) {
 -		err = snd_pcm_hw_params_test_rate(pcm, hwp, cap_rates[i], 0);
 -		if (err == 0) {
-++		if (min <= cap_rates[i] && cap_rates[i] <= max) {
++		if (min <= cap_rates[i] && cap_rates[i] <= max) {
  			*rates |= 1 << i;
  		}
  	}
@@ -671,7 +731,7 @@ index 6107617..ec4bb9e 100644
  			*chans |= 1 << i;
  		}
  	}
-@@ -693,13 +596,13 @@ sio_alsa_getcap(struct sio_hdl *sh, struct sio_cap *cap)
+@@ -692,13 +590,13 @@ sio_alsa_getcap(struct sio_hdl *sh, struct sio_cap *cap)
  	irates = orates = ifmts = ofmts = ichans = ochans = 0;
  
  	if (hdl->sio.mode & SIO_PLAY) {
@@ -687,7 +747,7 @@ index 6107617..ec4bb9e 100644
  			&irates, &ifmts, &ichans)) {
  			return 0;
  		}
-@@ -744,178 +647,73 @@ static int
+@@ -743,178 +641,72 @@ static int
  sio_alsa_setpar(struct sio_hdl *sh, struct sio_par *par)
  {
  	struct sio_alsa_hdl *hdl = (struct sio_alsa_hdl *)sh;
@@ -704,7 +764,7 @@ index 6107617..ec4bb9e 100644
 -	snd_pcm_sw_params_alloca(&oswp);
 -	snd_pcm_hw_params_alloca(&ihwp);
 -	snd_pcm_sw_params_alloca(&iswp);
- 
+-
 -	sio_alsa_enctofmt(hdl, &ifmt, par->bits, par->sig, par->le);
 -	irate = (par->rate == ~0U) ? 48000 : par->rate;
 +	sio_alsa_enctofmt(hdl, &icfg.format, par->bits, par->sig, par->le);
@@ -891,7 +951,7 @@ index 6107617..ec4bb9e 100644
  #ifdef DEBUG
  	if (_sndio_debug >= 2) {
  		if (hdl->sio.mode & SIO_REC)
-@@ -940,7 +738,7 @@ static size_t
+@@ -939,7 +731,7 @@ static size_t
  sio_alsa_read(struct sio_hdl *sh, void *buf, size_t len)
  {
  	struct sio_alsa_hdl *hdl = (struct sio_alsa_hdl *)sh;
@@ -900,7 +960,7 @@ index 6107617..ec4bb9e 100644
  	size_t todo;
  
  	if (hdl->ipartial > 0) {
-@@ -959,7 +757,7 @@ sio_alsa_read(struct sio_hdl *sh, void *buf, size_t len)
+@@ -958,7 +750,7 @@ sio_alsa_read(struct sio_hdl *sh, void *buf, size_t len)
  	todo = len / hdl->ibpf;
  	if (todo == 0)
  		return 0;
@@ -909,7 +969,7 @@ index 6107617..ec4bb9e 100644
  		if (n == -EINTR)
  			continue;
  		if (n == -EPIPE || n == -ESTRPIPE) {
-@@ -967,7 +765,7 @@ sio_alsa_read(struct sio_hdl *sh, void *buf, size_t len)
+@@ -966,7 +758,7 @@ sio_alsa_read(struct sio_hdl *sh, void *buf, size_t len)
  			return 0;
  		}
  		if (n != -EAGAIN) {
@@ -918,7 +978,7 @@ index 6107617..ec4bb9e 100644
  			hdl->sio.eof = 1;
  		}
  		return 0;
-@@ -989,7 +787,7 @@ static size_t
+@@ -988,7 +780,7 @@ static size_t
  sio_alsa_write(struct sio_hdl *sh, const void *buf, size_t len)
  {
  	struct sio_alsa_hdl *hdl = (struct sio_alsa_hdl *)sh;
@@ -927,7 +987,7 @@ index 6107617..ec4bb9e 100644
  	size_t todo;
  
  	if (len < hdl->obpf || hdl->opartial > 0) {
-@@ -1007,7 +805,7 @@ sio_alsa_write(struct sio_hdl *sh, const void *buf, size_t len)
+@@ -1006,7 +798,7 @@ sio_alsa_write(struct sio_hdl *sh, const void *buf, size_t len)
  	todo = len / hdl->obpf;
  	if (todo == 0)
  		return 0;
@@ -936,7 +996,7 @@ index 6107617..ec4bb9e 100644
  		if (n == -EINTR)
  			continue;
  		if (n == -ESTRPIPE || n == -EPIPE) {
-@@ -1062,16 +860,14 @@ sio_alsa_onmove(struct sio_alsa_hdl *hdl)
+@@ -1061,16 +853,14 @@ sio_alsa_onmove(struct sio_alsa_hdl *hdl)
  static int
  sio_alsa_nfds(struct sio_hdl *sh)
  {
@@ -955,7 +1015,7 @@ index 6107617..ec4bb9e 100644
  
  	if (hdl->sio.eof)
  		return 0;
-@@ -1083,100 +879,85 @@ sio_alsa_pollfd(struct sio_hdl *sh, struct pollfd *pfd, int events)
+@@ -1082,100 +872,86 @@ sio_alsa_pollfd(struct sio_hdl *sh, struct pollfd *pfd, int events)
  		hdl->events &= ~POLLIN;
  	if (!hdl->sio.started)
  		hdl->events = 0;
@@ -1016,7 +1076,7 @@ index 6107617..ec4bb9e 100644
  int
  sio_alsa_revents(struct sio_hdl *sh, struct pollfd *pfd)
  {
--	struct sio_alsa_hdl *hdl = (struct sio_alsa_hdl *)sh;
+ 	struct sio_alsa_hdl *hdl = (struct sio_alsa_hdl *)sh;
 -	snd_pcm_sframes_t iused, oavail, oused;
 -	snd_pcm_state_t istate, ostate;
 -	unsigned short revents, r;
@@ -1029,9 +1089,8 @@ index 6107617..ec4bb9e 100644
  
  	if (hdl->sio.eof)
  		return POLLHUP;
--
+ 
 -	for (i = 0; i < hdl->onfds + hdl->infds; i++) {
-+	
 +	nfds = 0;
 +	if (hdl->events & POLLOUT)
 +		nfds++;
@@ -1097,7 +1156,7 @@ index 6107617..ec4bb9e 100644
  				hdl->sio.eof = 1;
  				return POLLHUP;
  			}
-@@ -1186,22 +967,23 @@ sio_alsa_revents(struct sio_hdl *sh, struct pollfd *pfd)
+@@ -1185,22 +961,23 @@ sio_alsa_revents(struct sio_hdl *sh, struct pollfd *pfd)
  		}
  	}
  	if (hdl->sio.mode & SIO_REC) {
@@ -1123,11 +1182,11 @@ index 6107617..ec4bb9e 100644
  					return 0;
  				}
 -				DALSA("couldn't get rec buffer ptr", iused);
-++				*/
-++				DPRINTF("couldn't get rec buffer ptr\n");
++				*/
++				DPRINTF("couldn't get rec buffer ptr\n");
  				hdl->sio.eof = 1;
  				return POLLHUP;
  			}
 -- 
-2.37.1
+2.32.0
 
