@@ -1,0 +1,115 @@
+From 18a919882d8aa7b8970888a565ebbbeefdce9f12 Mon Sep 17 00:00:00 2001
+Message-Id: <18a919882d8aa7b8970888a565ebbbeefdce9f12.1659465303.git.owen@owenrafferty.com>
+From: Owen Rafferty <owen@owenrafferty.com>
+Date: Tue, 2 Aug 2022 13:30:34 -0500
+Subject: [PATCH] kbuild: rewrite check-local-export in posix shell
+To: linux-kbuild@vger.kernel.org
+Cc: masahiroy@kernel.org
+
+Remove the bash build dependency for those who otherwise do not have it
+installed. This should also provide a slight speedup.
+
+Signed-off-by: Owen Rafferty <owen@owenrafferty.com>
+---
+ scripts/check-local-export | 62 +++++++++++++++++---------------------
+ 1 file changed, 28 insertions(+), 34 deletions(-)
+
+diff --git a/scripts/check-local-export b/scripts/check-local-export
+index 6ccc2f467416..08fa4c989244 100755
+--- a/scripts/check-local-export
++++ b/scripts/check-local-export
+@@ -1,4 +1,4 @@
+-#!/usr/bin/env bash
++#!/bin/sh
+ # SPDX-License-Identifier: GPL-2.0-only
+ #
+ # Copyright (C) 2022 Masahiro Yamada <masahiroy@kernel.org>
+@@ -8,31 +8,11 @@
+ 
+ set -e
+ 
+-# catch errors from ${NM}
+-set -o pipefail
+-
+-# Run the last element of a pipeline in the current shell.
+-# Without this, the while-loop would be executed in a subshell, and
+-# the changes made to 'symbol_types' and 'export_symbols' would be lost.
+-shopt -s lastpipe
+-
+-declare -A symbol_types
+-declare -a export_symbols
++symbol_types=""
++export_symbols=""
+ 
+ exit_code=0
+ 
+-# If there is no symbol in the object, ${NM} (both GNU nm and llvm-nm) shows
+-# 'no symbols' diagnostic (but exits with 0). It is harmless and hidden by
+-# '2>/dev/null'. However, it suppresses real error messages as well. Add a
+-# hand-crafted error message here.
+-#
+-# TODO:
+-# Use --quiet instead of 2>/dev/null when we upgrade the minimum version of
+-# binutils to 2.37, llvm to 13.0.0.
+-# Then, the following line will be really simple:
+-#   ${NM} --quiet ${1} |
+-
+-{ ${NM} ${1} 2>/dev/null || { echo "${0}: ${NM} failed" >&2; false; } } |
+ while read value type name
+ do
+ 	# Skip the line if the number of fields is less than 3.
+@@ -46,26 +26,40 @@ do
+ 	# case 2)
+ 	#   For Clang LTO, llvm-nm outputs a line with type 't' but empty name:
+ 	#     "---------------- t"
+-	if [[ -z ${name} ]]; then
++	if [ -z ${name} ]; then
+ 		continue
+ 	fi
+ 
+-	# save (name, type) in the associative array
+-	symbol_types[${name}]=${type}
++	# save (name, type) in "associative array"
++	symbol_types="$symbol_types ${name},${type}"
+ 
+ 	# append the exported symbol to the array
+-	if [[ ${name} == __ksymtab_* ]]; then
+-		export_symbols+=(${name#__ksymtab_})
+-	fi
+-done
++	case ${name} in __ksymtab_*)
++		export_symbols="$export_symbols ${name#__ksymtab_}"
++	esac
+ 
+-for name in "${export_symbols[@]}"
++# If there is no symbol in the object, ${NM} (both GNU nm and llvm-nm) shows
++# 'no symbols' diagnostic (but exits with 0). It is harmless and hidden by
++# '2>/dev/null'. However, it suppresses real error messages as well. Add a
++# hand-crafted error message here.
++#
++# TODO:
++# Use --quiet instead of 2>/dev/null when we upgrade the minimum version of
++# binutils to 2.37, llvm to 13.0.0.
++# Then, the following line will be simple:
++# $(${NM} --quiet ${1} || kill -INT $$)
++done <<EOF
++$( ${NM} ${1} 2>/dev/null || { echo "${0}: ${NM} failed" >&2; kill -INT $$; })
++EOF
++
++for name in $export_symbols
+ do
+-	# nm(3) says "If lowercase, the symbol is usually local"
+-	if [[ ${symbol_types[$name]} =~ [a-z] ]]; then
++	type="${symbol_types##* $name,}"
++	type="${type%% *}"
++	case ${type} in [a-z])
+ 		echo "$@: error: local symbol '${name}' was exported" >&2
+ 		exit_code=1
+-	fi
++	esac
+ done
+ 
+ exit ${exit_code}
+-- 
+2.37.1
+
