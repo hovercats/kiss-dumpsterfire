@@ -2,6 +2,7 @@
 
 patch -p1 < libressl.patch
 patch -p1 < fix-curl.patch
+patch -p1 < llvm-target.patch
 
 # Instruct the compiler to trim absolute paths in resulting binaries and instead
 # change them to relative paths ($PWD/... ./...).
