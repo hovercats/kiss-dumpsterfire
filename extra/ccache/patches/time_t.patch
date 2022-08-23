@@ -1,0 +1,12 @@
+diff --git a/src/core/Statistics.hpp b/src/core/Statistics.hpp
+index 54f32e9..eb80e1c 100644
+--- a/src/core/Statistics.hpp
++++ b/src/core/Statistics.hpp
+@@ -21,6 +21,7 @@
+ #include <core/StatisticsCounters.hpp>
+ 
+ #include <cstdint>
++#include <ctime>
+ #include <string>
+ #include <unordered_map>
+ #include <vector>

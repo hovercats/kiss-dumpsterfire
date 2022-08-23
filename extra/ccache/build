@@ -1,7 +1,8 @@
 #!/bin/sh -e
 
-export CFLAGS="$CFLAGS -static"
-export CXXFLAGS="$CXXFLAGS -static"
+export LDFLAGS="$LDLAGS -static"
+
+patch -p1 < time_t.patch
 
 cmake -B build \
     -DCMAKE_INSTALL_PREFIX=/usr \
