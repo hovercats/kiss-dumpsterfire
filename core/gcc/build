@@ -1,5 +1,7 @@
 #!/bin/sh -e
 
+export LDFLAGS="$LDFLAGS -fno-use-linker-plugin -static"
+
 # Make sure gmp is built with generic options.
 cp gcc/gmp/configfsf.guess gcc/gmp/config.guess
 cp gcc/gmp/configfsf.sub   gcc/gmp/config.sub
@@ -53,59 +55,8 @@ esac
     --build=x86_64-pc-linux-musl \
     "${bootstrap:---enable-bootstrap}"
 
-make
-make install
-
-cd ..
-
-# appearntly 'make distclean' does not work for me
-rm -rf gcc-build
-
-mkdir -p gcc-build
-cd gcc-build
-
-# Grab the system's GCC version again
-gcc_version=$(gcc -dumpversion) || gcc_version=null
-
-# Skip the bootstrap process if we are able.
-case $2 in "$gcc_version"*)
-    printf '%s\n' "Minor version difference, disabling bootstrap."
-    bootstrap=--disable-bootstrap
-esac
-
-# now reconfigure without shared libs
-../gcc/configure \
-    libat_cv_have_ifunc=no \
-    --prefix=/usr \
-    --libexecdir=/usr/lib \
-    --mandir=/usr/share/man \
-    --infodir=/usr/share/info \
-    --disable-multilib \
-    --disable-symvers \
-    --disable-libmpx \
-    --disable-libmudflap \
-    --disable-libsanitizer \
-    --disable-werror \
-    --disable-fixed-point \
-    --disable-libstdcxx-pch \
-    --disable-nls \
-    --enable-checking=release \
-    --enable-__cxa_atexit \
-    --enable-default-pie \
-    --enable-default-ssp \
-    --disable-shared \
-    --enable-threads \
-    --enable-tls \
-    --enable-initfini-array \
-    --enable-languages=c,c++ \
-    --without-included-gettext \
-    --with-zstd=no \
-    --build=x86_64-pc-linux-musl \
-    "${bootstrap:---enable-bootstrap}"
-
-make LDFLAGS="$LDFLAGS -static"
-make install
-
+make 
+make install 
 
 # Save 35MB.
 find "$1" -name libgtkpeer.a  -exec rm -f {} +
@@ -114,11 +65,3 @@ find "$1" -name libgij.a      -exec rm -f {} +
 
 ln -sf gcc "$1/usr/bin/cc"
 cp -f ../c99 "$1/usr/bin"
-
-# Symlink for LTO.
-{
-    mkdir -p "$1/usr/lib/bfd-plugins"
-
-    ln -s "/usr/lib/gcc/x86_64-pc-linux-musl/$2/liblto_plugin.so" \
-          "$1/usr/lib/bfd-plugins/liblto_plugin.so"
-}
