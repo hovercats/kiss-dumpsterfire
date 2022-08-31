@@ -1,4 +1,0 @@
-#!/bin/sh
-
-# start svc
-svc -s
