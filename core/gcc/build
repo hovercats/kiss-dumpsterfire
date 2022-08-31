@@ -1,6 +1,6 @@
 #!/bin/sh -e
 
-export LDFLAGS="$LDFLAGS -fno-use-linker-plugin -static"
+export LDFLAGS="$LDFLAGS  -static"
 
 # Make sure gmp is built with generic options.
 cp gcc/gmp/configfsf.guess gcc/gmp/config.guess
@@ -52,6 +52,7 @@ esac
     --enable-languages=c,c++ \
     --without-included-gettext \
     --with-zstd=no \
+    --with-system-zlib \
     --build=x86_64-pc-linux-musl \
     "${bootstrap:---enable-bootstrap}"
 
