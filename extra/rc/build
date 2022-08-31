@@ -1,13 +1,25 @@
 #!/bin/sh -e
 
-CFLAGS="$CFLAGS -static"
+patch -p1 < 0001-Avoid-multiple-definitions-of-global-variables.patch
+patch -p1 < 0002-Use-proc-self-fd-0-instead-of-dev-fd-0.patch
 
-./configure \
-    --prefix=/usr \
-    --enable-silent-rules  \
-    --disable-builtin-echo \
-    --with-edit=editline \
-    --disable-dependency-tracking
+sed 's/-lreadline/ -lreadline -lncursesw -static/' Make.Linux > _
+mv -f _ Make.Linux
 
-make
-make install
+sed 's/\/usr\/local/\/usr/' Make.Linux > _
+mv -f _ Make.Linux
+
+make 
+
+mkdir -p \
+    "$1/usr/bin" \
+    "$1/usr/lib" \
+    "$1/usr/share/man/man1"
+
+chmod 755 rc
+chmod 644 rc.1
+chmod 644 rcmain.unix
+
+cp -f rc "$1/usr/bin"
+cp -f rcmain.unix "$1/usr/lib/rcmain"
+cp -f rc.1 "$1/usr/share/man/man1"
