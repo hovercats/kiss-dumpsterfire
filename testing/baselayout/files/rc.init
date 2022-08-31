@@ -7,7 +7,6 @@ echo "Booting..."
 mkdir -p /dev/pts
 mkdir -p /dev/shm
 
-# mount stuff
 echo "mounting proc"
 mount -t proc none /proc
 
@@ -17,16 +16,4 @@ mount -o remount,rw / || /bin/sh
 echo "mounting the rest of the system"
 mount -a || true || /bin/sh
 
-ip link set lo up
-
-# Uncomment to enable gettys
- for getty in 1 2 ; do # add more numbers for more ttys
-     while :; do /sbin/getty tty${getty} 0 linux ; done &  # busybox/toybox getty
-# #    while :; do /sbin/getty /dev/tty${getty} linux ; done &   # ubase getty
-done
-
-# run local configs
-#/etc/rc.local
-
-# start service manager
-#/etc/rc.svc
+/etc/rc.local
