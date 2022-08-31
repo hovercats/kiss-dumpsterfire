@@ -1,12 +1,7 @@
 #!/bin/sh
 
-# kill services
-#svc -k
-
-# unmount the rest
 umount -ra
 
-# remount root as read only
 mount -o remount,ro /
 sync
 
