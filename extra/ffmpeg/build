@@ -9,11 +9,14 @@
     --disable-static \
     --enable-gpl \
     --enable-libdrm \
+    --enable-libass \
     --enable-libmp3lame \
     --enable-libopus \
     --enable-libvorbis \
     --enable-libvpx \
     --enable-libwebp \
+    --enable-libx265 \
+    --enable-libx264 \
     --enable-libxvid \
     --enable-nonfree \
     --enable-libtls \
@@ -21,7 +24,7 @@
     --disable-alsa \
     --enable-shared \
     --enable-version3 \
-    --x86asmexe=nasm \
+    --x86asmexe=nasm
 
 make
 make install
