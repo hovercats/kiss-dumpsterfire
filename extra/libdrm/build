@@ -19,9 +19,9 @@
 
 meson \
     --prefix=/usr \
-    -Dvalgrind=false \
-    -Dintel=false \
-    -Dnouveau=false \
+    -Dintel=disabled \
+    -Dnouveau=disabled \
+    -Dvalgrind=disabled \
     . build
 
 ninja -C build
