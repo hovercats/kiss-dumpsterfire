@@ -1,12 +1,12 @@
 #!/bin/sh -e
 
-#patch -p1 < byacc.patch
+patch -p1 < byacc.patch
 
 mkdir -p \
   "$1/usr/bin/" \
   "$1/usr/share/man/man1"
 
-make CFLAGS="$CFLAGS --static" 
+make
 
 cp a.out "$1/usr/bin/awk"
 cp awk.1 "$1/usr/share/man/man1"
