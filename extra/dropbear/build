@@ -1,0 +1,11 @@
+#!/bin/sh -e
+
+./configure \
+    --prefix=/usr \
+    --disable-syslog \
+    --disable-shadow  \
+    --disable-zlib \
+    --enable-static
+   
+make
+make install
