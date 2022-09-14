@@ -1,35 +1,35 @@
-From 07e2a8207a9fe923664546a884a32cad7b99b9d8 Mon Sep 17 00:00:00 2001
+From 2a6a87c37a8b01031078b0d093e44a9db0ec3ffc Mon Sep 17 00:00:00 2001
 From: hovercats <hovercatswithlasereyes@protonmail.com>
-Date: Wed, 27 Jul 2022 21:51:21 +0200
-Subject: [PATCH] patch fzy
+Date: Thu, 15 Sep 2022 00:48:55 +0200
+Subject: [PATCH] fzy patch
 
 ---
  ytfzf | 10 +++++-----
  1 file changed, 5 insertions(+), 5 deletions(-)
 
 diff --git a/ytfzf b/ytfzf
-index 74d007d..f70c70a 100755
+index f4cce8b..cd8d49c 100755
 --- a/ytfzf
 +++ b/ytfzf
-@@ -200,7 +200,7 @@ trim_url () {
+@@ -264,7 +264,7 @@ trim_url () {
  }
  
  quick_menu () {
--	fzf --ansi --reverse --prompt="$1"
-+	fzf --prompt="$1"
+-    fzf --ansi --reverse --prompt="$1"
++    fzf --prompt="$1"
  }
  quick_menu_ext (){
  	external_menu "$1"
-@@ -1301,7 +1301,7 @@ interface_text () {
+@@ -1608,7 +1608,7 @@ interface_text () {
  			video_info_text
  		done |
          { [ $use_column -eq 1 ] && column -t -s "$tab_space" || cat; } |
 -		fzf -m --tabstop=1 --layout=reverse --expect="$shortcut_binds" | set_keypress |
 +		fzf | set_keypress |
  		trim_url > "$selected_id_file"
- 	#we can't do handle_keypress < "$keypress_file" because it leaves fd0 open which breaks $search_again_shortcut
- 	handle_keypress "$(cat "$keypress_file")"
-@@ -1689,9 +1689,9 @@ interface_thumbnails () {
+ }
+ #}}}
+@@ -1956,9 +1956,9 @@ interface_thumbnails () {
  	#fzf_preview_side will get reset if we don't pass it in
  	jq -r '.[]|[.title,"'"$gap_space"'|"+.channel,"|"+.duration,"|"+.views,"|"+.date,"|"+.url]|join("\t")' < "$video_json_file" |
  	sort_video_data_fn |
@@ -43,5 +43,5 @@ index 74d007d..f70c70a 100755
  
  	preview_stop "$thumbnail_viewer"
 -- 
-2.37.1
+2.37.3
 
