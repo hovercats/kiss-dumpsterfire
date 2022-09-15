@@ -12,11 +12,11 @@ index 4182a5d..0556c95 100644
      }
  }
 diff --git a/compiler/rustc_target/src/spec/mod.rs b/compiler/rustc_target/src/spec/mod.rs
-index bd5b712..e77f142 100644
+index da0589c..ab53f08 100644
 --- a/compiler/rustc_target/src/spec/mod.rs
 +++ b/compiler/rustc_target/src/spec/mod.rs
-@@ -2424,6 +2424,14 @@ impl TargetTriple {
-         Ok(TargetTriple::TargetPath(canonicalized_path))
+@@ -2506,6 +2506,14 @@ impl TargetTriple {
+         Ok(TargetTriple::TargetJson { path_for_rustdoc: canonicalized_path, triple, contents })
      }
  
 +    /// Creates a target triple from its alias

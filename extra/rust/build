@@ -1,7 +1,7 @@
 #!/bin/sh -e
 
-patch -p1 < libressl.patch
 patch -p1 < fix-curl.patch
+patch -p1 < libressl.patch
 patch -p1 < llvm-target.patch
 
 # Instruct the compiler to trim absolute paths in resulting binaries and instead
@@ -14,9 +14,14 @@ sed 's/\(crt_static_default = \)true/\1false/' \
 mv -f _ compiler/rustc_target/src/spec/linux_musl_base.rs
 
 # Ignore checksums of files modified above.
-sed 's/\("files":{\)[^}]*/\1/' \
-    vendor/curl-sys/.cargo-checksum.json > _
-mv -f _ vendor/curl-sys/.cargo-checksum.json
+for p in \
+    curl-sys \
+    libssh2-sys \
+    openssl-sys
+do
+    sed 's/\("files":{\)[^}]*/\1/' vendor/"$p"/.cargo-checksum.json > _
+    mv -f _ vendor/"$p"/.cargo-checksum.json
+done
 
 cat > config.toml <<EOF
 [llvm]
@@ -62,7 +67,7 @@ EOF
         # This mimics the download process of rust's 'x.py'
         # bootstrap library to allow for the removal of the internet
         # connection requirement per build.
-        mkdir -p "${cache_dir:=build/cache/2022-05-19}"
+        mkdir -p "${cache_dir:=build/cache/2022-06-30}"
 
         for tarball in *.tar.xz\?no-extract; do
             mv -f "$tarball" "$cache_dir/${tarball%%\?no-extract}"
