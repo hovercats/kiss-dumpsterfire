@@ -7,5 +7,7 @@
     --disable-zlib \
     --enable-static
    
-make
+make 
 make install
+
+ln -s dbclient "$1/usr/bin/ssh"
