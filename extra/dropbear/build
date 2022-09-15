@@ -1,10 +1,20 @@
 #!/bin/sh -e
 
+export LDFLAGS="$LDFLAGS -Wl,--gc-sections"
+export CFLAGS="$CFLAGS -ffunction-sections -fdata-sections"
+
 ./configure \
     --prefix=/usr \
     --disable-syslog \
     --disable-shadow  \
     --disable-zlib \
+    --disable-utmp \
+    --disable-utmpx \
+    --disable-wtmp \
+    --disable-wtmpx \
+    --disable-pututline \
+    --disable-pututxline \
+    --disable-openpty \
     --enable-static
    
 make 
