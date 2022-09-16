@@ -5,6 +5,7 @@ export CFLAGS="$CFLAGS -ffunction-sections -fdata-sections"
 
 ./configure \
     --prefix=/usr \
+    --libdir=/usr/lib \
     --disable-syslog \
     --disable-shadow  \
     --disable-zlib \
@@ -17,7 +18,7 @@ export CFLAGS="$CFLAGS -ffunction-sections -fdata-sections"
     --disable-openpty \
     --enable-static
    
-make 
-make install
+make MULTI=1
+make MULTI=1 install
 
-ln -s dbclient "$1/usr/bin/ssh"
+ln -sf dropbearmulti dbclient "$1/usr/bin/ssh"
