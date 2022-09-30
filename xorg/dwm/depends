@@ -4,6 +4,7 @@ freetype-harfbuzz make
 libX11 make
 libXau make
 libXft make
+libXinerama make
 libXmu make
 libXrender make
 libpng make
