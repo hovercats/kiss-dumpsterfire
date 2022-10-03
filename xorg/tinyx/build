@@ -1,5 +1,8 @@
 #!/bin/sh -e
 
+export XSERVERCFLAGS_CFLAGS="--static"
+export XSERVERLIBS_LIBS="/usr/lib/*.a -lz -lfreetype -lpng16 -lharfbuzz"
+
 ./autogen.sh
 
 ./configure \
