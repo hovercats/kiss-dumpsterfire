@@ -7,5 +7,6 @@ libXtst
 libfontenc
 libpng
 libtool make
+linux-headers make
 zlib
 xtrans
