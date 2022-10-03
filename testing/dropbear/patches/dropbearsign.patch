@@ -1,0 +1,291 @@
+From fbc8600a9270c7afe47beaf2d1493f2da02f6aa3 Mon Sep 17 00:00:00 2001
+From: Michael Forney <mforney@mforney.org>
+Date: Thu, 15 Sep 2022 13:47:16 -0700
+Subject: [PATCH] Add dropbearsign tool
+
+---
+ Makefile.in    |   9 ++-
+ dropbearsign.c | 216 +++++++++++++++++++++++++++++++++++++++++++++++++
+ 2 files changed, 223 insertions(+), 2 deletions(-)
+ create mode 100644 dropbearsign.c
+
+diff --git a/Makefile.in b/Makefile.in
+index e824491..bc581d8 100644
+--- a/Makefile.in
++++ b/Makefile.in
+@@ -9,7 +9,7 @@
+ # dbclient functionality, and includes the progress-bar functionality in scp.
+ 
+ ifndef PROGRAMS
+-	PROGRAMS=dropbear dbclient dropbearkey dropbearconvert
++	PROGRAMS=dropbear dbclient dropbearkey dropbearconvert dropbearsign
+ endif
+ 
+ STATIC_LTC=libtomcrypt/libtomcrypt.a
+@@ -59,6 +59,8 @@ KEYOBJS=dropbearkey.o
+ 
+ CONVERTOBJS=dropbearconvert.o keyimport.o signkey_ossh.o
+ 
++SIGNOBJS=dropbearsign.o keyimport.o signkey_ossh.o
++
+ SCPOBJS=scp.o progressmeter.o atomicio.o scpmisc.o compat.o
+ 
+ ifeq (@DROPBEAR_FUZZ@, 1)
+@@ -70,6 +72,7 @@ ifeq (@DROPBEAR_FUZZ@, 1)
+ 	dbclientobjs=$(allobjs) cli-main.o
+ 	dropbearkeyobjs=$(allobjs) $(KEYOBJS)
+ 	dropbearconvertobjs=$(allobjs) $(CONVERTOBJS)
++	dropbearsignobjs=$(allobjs) $(SIGNOBJS)
+ 	# CXX only set when fuzzing
+ 	CXX=@CXX@
+ 	FUZZ_CLEAN=fuzz-clean
+@@ -78,6 +81,7 @@ else
+ 	dbclientobjs=$(COMMONOBJS) $(CLISVROBJS) $(CLIOBJS)
+ 	dropbearkeyobjs=$(COMMONOBJS) $(KEYOBJS)
+ 	dropbearconvertobjs=$(COMMONOBJS) $(CONVERTOBJS)
++	dropbearsignobjs=$(COMMONOBJS) $(SIGNOBJS)
+ 	scpobjs=$(SCPOBJS)
+ endif
+ 
+@@ -198,6 +202,7 @@ dropbear: $(dropbearobjs)
+ dbclient: $(dbclientobjs)
+ dropbearkey: $(dropbearkeyobjs)
+ dropbearconvert: $(dropbearconvertobjs)
++dropbearsign: $(dropbearsignobjs)
+ 
+ dropbear: $(HEADERS) $(LIBTOM_DEPS) Makefile
+ 	$(CC) $(LDFLAGS) -o $@$(EXEEXT) $($@objs) $(LIBTOM_LIBS) $(LIBS) @CRYPTLIB@ $(PLUGIN_LIBS)
+@@ -205,7 +210,7 @@ dropbear: $(HEADERS) $(LIBTOM_DEPS) Makefile
+ dbclient: $(HEADERS) $(LIBTOM_DEPS) Makefile
+ 	$(CC) $(LDFLAGS) -o $@$(EXEEXT) $($@objs) $(LIBTOM_LIBS) $(LIBS)
+ 
+-dropbearkey dropbearconvert: $(HEADERS) $(LIBTOM_DEPS) Makefile
++dropbearkey dropbearconvert dropbearsign: $(HEADERS) $(LIBTOM_DEPS) Makefile
+ 	$(CC) $(LDFLAGS) -o $@$(EXEEXT) $($@objs) $(LIBTOM_LIBS) $(LIBS)
+ 
+ # scp doesn't use the libs so is special.
+diff --git a/dropbearsign.c b/dropbearsign.c
+new file mode 100644
+index 0000000..8c3dbcb
+--- /dev/null
++++ b/dropbearsign.c
+@@ -0,0 +1,216 @@
++#include "includes.h"
++#include "dbutil.h"
++#include "buffer.h"
++#include "signkey.h"
++#include "keyimport.h"
++
++#define MAGIC_PREAMBLE "SSHSIG"
++#define SIG_VERSION 0x01
++
++/* Print a help message */
++static void printhelp(char *progname) {
++	fprintf(stderr, "Usage: %s -Y sign -n <namespace> -f <keyfile> <filename>\n",
++		progname);
++}
++
++/* cpl has to be less than 100 */
++static void base64_encode_fp(FILE * fp, const unsigned char *data,
++		int datalen, int cpl)
++{
++	unsigned char out[100];
++	int n;
++	unsigned long outlen;
++	int rawcpl;
++	rawcpl = cpl * 3 / 4;
++	dropbear_assert((unsigned int)cpl < sizeof(out));
++
++	while (datalen > 0) {
++		n = (datalen < rawcpl ? datalen : rawcpl);
++		outlen = sizeof(out);
++		base64_encode(data, n, out, &outlen);
++		data += n;
++		datalen -= n;
++		fwrite(out, 1, outlen, fp);
++		fputc('\n', fp);
++	}
++}
++
++static void sign_one(sign_key *key, const char *filename, int fd,
++		const char *namespace) {
++	unsigned char data[1024];
++	ssize_t data_len;
++	hash_state hs;
++	const struct ltc_hash_descriptor *hash_desc = &sha512_desc;
++	FILE *outfile;
++	char *outname;
++	buffer *buf = NULL;
++	unsigned int buf_len;
++	buffer *sig = NULL;
++	unsigned int sig_len;
++	int ret;
++
++	buf_len = sizeof MAGIC_PREAMBLE - 1 +
++		4 + strlen(namespace) +
++		4 + 0 +
++		4 + strlen(hash_desc->name) +
++		4 + hash_desc->hashsize;
++
++	buf = buf_new(buf_len);
++	buf_putbytes(buf, MAGIC_PREAMBLE, sizeof MAGIC_PREAMBLE - 1);
++	buf_putstring(buf, namespace, strlen(namespace));
++	buf_putstring(buf, "", 0);
++	buf_putstring(buf, hash_desc->name, strlen(hash_desc->name));
++	buf_putint(buf, hash_desc->hashsize);
++	hash_desc->init(&hs);
++	for (;;) {
++		data_len = read(fd, data, sizeof data);
++		if (data_len == 0)
++			break;
++		if (data_len == -1) {
++			fprintf(stderr, "Error reading from file '%s': %s\n",
++					filename, strerror(errno));
++			goto out;
++		}
++		hash_desc->process(&hs, data, data_len);
++	}
++	hash_desc->done(&hs, buf_getwriteptr(buf, hash_desc->hashsize));
++	buf_incrwritepos(buf, hash_desc->hashsize);
++
++	sig_len = sizeof MAGIC_PREAMBLE - 1 +
++		4 +
++		4 + MAX_PUBKEY_SIZE +
++		4 + strlen(namespace) +
++		4 + 0 +
++		4 + strlen(hash_desc->name) +
++		4 + MAX_PUBKEY_SIZE;
++		
++	sig = buf_new(sig_len);
++	buf_putbytes(sig, MAGIC_PREAMBLE, sizeof MAGIC_PREAMBLE - 1);
++	buf_putint(sig, SIG_VERSION);
++	buf_put_pub_key(sig, key, key->type);
++	buf_putstring(sig, namespace, strlen(namespace));
++	buf_putstring(sig, "", 0);
++	buf_putstring(sig, hash_desc->name, strlen(hash_desc->name));
++	buf_put_sign(sig, key, signature_type_from_signkey(key->type), buf);
++
++	if (fd == 0) {
++		outfile = stdout;
++	} else {
++		size_t len = strlen(filename) + sizeof ".sig";
++		char *outfilename = m_malloc(len);
++		m_snprintf(outfilename, len, "%s.sig", filename);
++		outfile = fopen(outfilename, "w");
++		if (!outfile) {
++			fprintf(stderr, "Error opening signature file '%s'\n",
++				outfilename);
++		}
++		m_free(outfilename);
++	}
++
++	fputs("-----BEGIN SSH SIGNATURE-----\n", outfile);
++	base64_encode_fp(outfile, sig->data, sig->len, 64);
++	fputs("-----END SSH SIGNATURE-----\n", outfile);
++
++	fflush(outfile);
++	if (ferror(outfile) != 0) {
++		fprintf(stderr, "Error writing signature\n");
++		goto out;
++	}
++
++	ret = 0;
++
++out:
++	if (outfile && fd != 0)
++		fclose(outfile);
++	if (buf)
++		buf_free(buf);
++	if (sig)
++		buf_free(sig);
++	if (ret)
++		exit(ret);
++}
++
++int main(int argc, char *argv[]) {
++	int i, fd;
++	char **next = NULL;
++	char *tool = NULL;
++	char *namespace = NULL;
++	char *keyfile = NULL;
++	sign_key *key = NULL;
++
++	for (i = 1; i < argc; i++) {
++		if (next) {
++			*next = argv[i];
++			next = NULL;
++			continue;
++		}
++
++		if (argv[i][0] == '-') {
++			switch (argv[i][1]) {
++				case 'Y':
++					next = &tool;
++					break;
++				case 'n':
++					next = &namespace;
++					break;
++				case 'f':
++					next = &keyfile;
++					break;
++#if DEBUG_TRACE
++				case 'v':
++					debug_trace = DROPBEAR_VERBOSE_LEVEL;
++					break;
++#endif
++				default:
++					fprintf(stderr, "Unknown argument %s\n", argv[i]);
++					printhelp(argv[0]);
++					exit(EXIT_FAILURE);
++					break;
++			}
++		} else {
++			break;
++		}
++	}
++
++	if (strcmp(tool, "sign") != 0) {
++		fprintf(stderr, "Tool '%s' is not implemented\n", tool);
++		printhelp(argv[0]);
++		exit(EXIT_FAILURE);
++	}
++
++	if (!namespace) {
++		fprintf(stderr, "Must specify a signature namespace\n");
++		printhelp(argv[0]);
++		exit(EXIT_FAILURE);
++	}
++
++	if (!keyfile) {
++		fprintf(stderr, "Must specify a key filename\n");
++		printhelp(argv[0]);
++		exit(EXIT_FAILURE);
++	}
++
++	key = import_read(keyfile, NULL, KEYFILE_DROPBEAR);
++	if (!key) {
++		fprintf(stderr, "Error reading key from '%s'\n",
++				keyfile);
++		exit(EXIT_FAILURE);
++	}
++
++	if (i >= argc) {
++		sign_one(key, "(stdout)", 0, namespace);
++	} else {
++		for (; i < argc; i++) {
++			fd = open(argv[i], O_RDONLY);
++			if (fd == -1) {
++				fprintf(stderr, "Error opening file '%s'\n",
++						argv[i]);
++				exit(EXIT_FAILURE);
++			}
++			sign_one(key, argv[i], fd, namespace);
++			close(fd);
++		}
++	}
++
++	return 0;
++}
+-- 
+2.37.3
+

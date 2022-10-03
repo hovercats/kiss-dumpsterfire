@@ -1,0 +1,5 @@
+https://matt.ucc.asn.au/dropbear/releases/dropbear-2022.82.tar.bz2
+patches/dropbearsign.patch
+patches/fix.patch
+patches/fix2.patch
+files/localoptions.h
