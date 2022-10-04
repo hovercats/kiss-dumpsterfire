@@ -25,6 +25,7 @@ meson \
     -Degl-x11=disabled \
     -Dgl=disabled \
     -Ddrm=disabled \
+    -Dalsa=disabled \
     . build
 
 ninja -C build
