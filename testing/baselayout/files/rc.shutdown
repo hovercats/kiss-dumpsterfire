@@ -1,9 +1,12 @@
 #!/bin/sh
 
+umask 022
+
 umount -ra
 
 mount -o remount,ro /
 sync
+sleep 3
 
 case $1 in
   reboot) reboot -f ;;
