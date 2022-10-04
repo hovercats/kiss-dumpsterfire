@@ -4,7 +4,6 @@ glib-networking
 gperf  make
 gtk+3
 freetype-harfbuzz
-lcms
 libXt
 libgcrypt
 libsoup3
