@@ -11,9 +11,9 @@ echo "mounting proc"
 mount -t proc none /proc
 
 echo "mounting root partition"
-mount -o remount,rw / || /bin/sh
+mount -o remount,rw /
 
 echo "mounting the rest of the system"
-mount -a || true || /bin/sh
+mount -a
 
 /etc/rc.local
