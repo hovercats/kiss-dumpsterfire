@@ -7,6 +7,6 @@ patch -p1 < make-yacc-usage-POSIX-compliant.diff
 #patch -p1 < amdgpufb.patch
 patch -p1 < bash.patch
 
-make
+make YACC=byacc
 
 cp arch/x86/boot/bzImage "$1/boot/kiss.efi"
