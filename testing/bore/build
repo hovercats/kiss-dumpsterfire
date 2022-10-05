@@ -1,9 +1,0 @@
-#!/bin/sh -e
-
-make
-
-mkdir -p "$1/usr/bin"
-
-for bin in cat echo ed false grep head ls mkdir nice pwd rm rmdir sleep sort tee true tty uname wc; do
-cp -f $bin "$1/usr/bin"
-done
