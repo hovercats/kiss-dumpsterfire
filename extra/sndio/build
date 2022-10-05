@@ -1,9 +1,9 @@
 #!/bin/sh -e
 
-patch -p1 < 0003-alsa-Port-to-tinyalsa.patch
 
-sed 's/-DDEBUG//' libsndio/Makefile.in > _
-mv -f _ libsndio/Makefile.in
+for p in *.patch; do
+	patch -p1 < $p
+done
 
 ./configure \
     --prefix=/usr \
@@ -12,6 +12,5 @@ mv -f _ libsndio/Makefile.in
 make LDFLAGS="$LDFLAGS -ltinyalsa"
 make install
 
-mkdir -p                           "$1/etc/sv/sndiod"
-cp -f sndiod.run                   "$1/etc/sv/sndiod/run"
-ln -sf /run/runit/supervise.sndiod "$1/etc/sv/sndiod/supervise" 
+mkdir -p "$1/etc/svc.d/avail"
+cp -f sndiod.run "$1/etc/svc.d/avail/sndiod"
