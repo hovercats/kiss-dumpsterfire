@@ -1,1 +1,2 @@
 git+https://github.com/ibara/baseutils.git
+patches/fcommon.patch

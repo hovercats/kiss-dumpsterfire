@@ -1,6 +1,6 @@
 #!/bin/sh -e
 
-export CFLAGS="$CFLAGS -fcommon"
+patch -p1 < fcommon.patch
 
 make
 make PREFIX=/usr install
