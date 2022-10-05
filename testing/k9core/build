@@ -1,0 +1,12 @@
+#!/bin/sh -e
+
+cd src
+
+# link everything statically
+sed 's/-o/ -static -o/g' Makefile > _
+mv -f _ Makefile
+
+make
+
+mkdir -p "$1/usr/bin"
+cp -f bin/* "$1/usr/bin"
