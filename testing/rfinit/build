@@ -1,1 +1,10 @@
 #!/bin/sh -e
+
+patch -p1 < fix-init-dir.patch
+
+sed '/<unistd.h>/a#include <sys\/wait.h>' init.c > _
+mv -f _ init.c
+
+mkdir -p "$1/usr/bin"
+
+cc -static init.c -o "$1/usr/bin/init"
