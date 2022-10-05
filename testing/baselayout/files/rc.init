@@ -16,4 +16,6 @@ mount -o remount,rw /
 echo "mounting the rest of the system"
 mount -a
 
+swapon -a
+
 /etc/rc.local
