@@ -6,7 +6,7 @@ case $1 in
 		;;
 	-k)
 		ps > _
-		PID="$grep eiwd _ | awk '{print $1}')"
+		PID="$grep iwd _ | awk '{print $1}')"
 		kill -9 $PID
 		rm -rf _
 		;;
