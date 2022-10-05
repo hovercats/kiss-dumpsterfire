@@ -2,7 +2,11 @@
 
 umask 022
 
-umount -ra
+svc -k
+
+swapoff -a
+
+umount -a
 
 mount -o remount,ro /
 sync
