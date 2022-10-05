@@ -1,0 +1,16 @@
+#!/bin/sh -e
+
+patch -p1 < updates.patch
+
+make LDFLAGS="$LDFLAGS -static"
+
+mkdir -p \
+    "$1/usr/bin" \
+    "$1/usr/share/man/man1" \
+    "$1/etc/sv/sdhcp"
+
+cp -f sdhcp "$1/usr/bin"
+cp -f sdhcp.1 "$1/usr/share/man/man1"
+
+mkdir -p "$1/etc/svc.d/avail"
+cp -f sdhcp.run "$1/etc/svc.d/avail/sdhcp"
