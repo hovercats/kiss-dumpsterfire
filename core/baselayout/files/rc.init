@@ -18,4 +18,8 @@ mount -a
 
 swapon -a
 
+for getty in 1 2 3 ; do # add more numbers to spawm more gettys
+	while :; do /sbin/getty /dev/tty${getty} linux ; done &
+done
+
 /etc/rc.local
