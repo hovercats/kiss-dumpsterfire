@@ -8,3 +8,6 @@ mv -f _ init.c
 mkdir -p "$1/usr/bin"
 
 cc -static init.c -o "$1/usr/bin/init"
+
+chmod 755 shutdown
+cp -f shutdown "$1/usr/bin"
