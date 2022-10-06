@@ -31,3 +31,5 @@ for getty in 1 2 3 ; do # add more numbers to spawm more gettys
 done
 
 /etc/rc.local
+
+svc -s
