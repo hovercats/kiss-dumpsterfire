@@ -1,0 +1,3 @@
+byacc make
+linux-firmware make
+libelf make
