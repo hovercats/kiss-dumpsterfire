@@ -8,4 +8,4 @@ done
 
 make YACC=byacc
 
-cp arch/x86/boot/bzImage "$1/boot/boot.efi"
+cp arch/x86/boot/bzImage "$1/boot/kiss.efi"
