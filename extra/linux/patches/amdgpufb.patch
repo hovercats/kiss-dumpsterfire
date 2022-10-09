@@ -1,20 +1,20 @@
-From a6336434802911e357c3cff300bf5c1f9abd3817 Mon Sep 17 00:00:00 2001
+From 62b36b91d292ca9fbbf8ca7ad3049be61cf418df Mon Sep 17 00:00:00 2001
 From: hovercats <hovercatswithlasereyes@protonmail.com>
-Date: Sat, 30 Jul 2022 23:29:26 +0200
-Subject: [PATCH] amdgpufb patch
+Date: Tue, 27 Sep 2022 12:13:44 +0200
+Subject: [PATCH] improve amdgpu fb performance
 
 ---
  drivers/gpu/drm/amd/amdgpu/Makefile         |   2 +-
  drivers/gpu/drm/amd/amdgpu/amdgpu_device.c  |  10 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_display.c |  28 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_display.c |  26 ++
  drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c     |  13 -
  drivers/gpu/drm/amd/amdgpu/amdgpu_fb.c      | 388 ++++++++++++++++++++
- drivers/gpu/drm/amd/amdgpu/amdgpu_mode.h    |  20 +
- 6 files changed, 442 insertions(+), 19 deletions(-)
+ drivers/gpu/drm/amd/amdgpu/amdgpu_mode.h    |  22 ++
+ 6 files changed, 443 insertions(+), 18 deletions(-)
  create mode 100644 drivers/gpu/drm/amd/amdgpu/amdgpu_fb.c
 
 diff --git a/drivers/gpu/drm/amd/amdgpu/Makefile b/drivers/gpu/drm/amd/amdgpu/Makefile
-index 40e2c6e2d..490f9bebc 100644
+index 3e0e2eb7e..44f2d2b9e 100644
 --- a/drivers/gpu/drm/amd/amdgpu/Makefile
 +++ b/drivers/gpu/drm/amd/amdgpu/Makefile
 @@ -45,7 +45,7 @@ amdgpu-y += amdgpu_device.o amdgpu_kms.o \
@@ -27,10 +27,10 @@ index 40e2c6e2d..490f9bebc 100644
  	atombios_dp.o amdgpu_afmt.o amdgpu_trace_points.o \
  	atombios_encoders.o amdgpu_sa.o atombios_i2c.o \
 diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-index 66e40cac5..eb652803a 100644
+index 929f8b75b..c472e299a 100644
 --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
 +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-@@ -3842,6 +3842,7 @@ int amdgpu_device_init(struct amdgpu_device *adev,
+@@ -3864,6 +3864,7 @@ int amdgpu_device_init(struct amdgpu_device *adev,
  		max_MBps = 8; /* Allow 8 MB/s. */
  	/* Get a log2 for easy divisions. */
  	adev->mm_stats.log2_max_MBps = ilog2(max(1u, max_MBps));
@@ -38,7 +38,7 @@ index 66e40cac5..eb652803a 100644
  
  	r = amdgpu_pm_sysfs_init(adev);
  	if (r) {
-@@ -3991,6 +3992,7 @@ void amdgpu_device_fini_hw(struct amdgpu_device *adev)
+@@ -4024,6 +4025,7 @@ void amdgpu_device_fini_hw(struct amdgpu_device *adev)
  	sysfs_remove_files(&adev->dev->kobj, amdgpu_dev_attributes);
  
  	/* disable ras feature must before hw fini */
@@ -46,7 +46,7 @@ index 66e40cac5..eb652803a 100644
  	amdgpu_ras_pre_fini(adev);
  
  	amdgpu_device_ip_fini_early(adev);
-@@ -4103,7 +4105,7 @@ int amdgpu_device_suspend(struct drm_device *dev, bool fbcon)
+@@ -4136,7 +4138,7 @@ int amdgpu_device_suspend(struct drm_device *dev, bool fbcon)
  	drm_kms_helper_poll_disable(dev);
  
  	if (fbcon)
@@ -55,7 +55,7 @@ index 66e40cac5..eb652803a 100644
  
  	cancel_delayed_work_sync(&adev->delayed_init_work);
  
-@@ -4175,7 +4177,7 @@ int amdgpu_device_resume(struct drm_device *dev, bool fbcon)
+@@ -4208,7 +4210,7 @@ int amdgpu_device_resume(struct drm_device *dev, bool fbcon)
  	flush_delayed_work(&adev->delayed_init_work);
  
  	if (fbcon)
@@ -64,7 +64,7 @@ index 66e40cac5..eb652803a 100644
  
  	drm_kms_helper_poll_enable(dev);
  
-@@ -4825,7 +4827,7 @@ int amdgpu_do_asic_reset(struct list_head *device_list_handle,
+@@ -4859,7 +4861,7 @@ int amdgpu_do_asic_reset(struct list_head *device_list_handle,
  				if (r)
  					goto out;
  
@@ -73,7 +73,7 @@ index 66e40cac5..eb652803a 100644
  
  				/*
  				 * The GPU enters bad state once faulty pages
-@@ -5140,7 +5142,7 @@ int amdgpu_device_gpu_recover_imp(struct amdgpu_device *adev,
+@@ -5174,7 +5176,7 @@ int amdgpu_device_gpu_recover_imp(struct amdgpu_device *adev,
  		 */
  		amdgpu_unregister_gpu_instance(tmp_adev);
  
@@ -83,14 +83,13 @@ index 66e40cac5..eb652803a 100644
  		/* disable ras on ALL IPs */
  		if (!need_emergency_restart &&
 diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_display.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_display.c
-index ffb370274..9614a01c9 100644
+index 4dfd6724b..9eef4b56a 100644
 --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_display.c
 +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_display.c
-@@ -1028,7 +1028,32 @@ static int amdgpu_display_get_fb_info(const struct amdgpu_framebuffer *amdgpu_fb
+@@ -1033,6 +1033,31 @@ static int amdgpu_display_get_fb_info(const struct amdgpu_framebuffer *amdgpu_fb
  		return r;
  	}
  
--	if (tiling_flags)
 +int amdgpu_display_gem_fb_init(struct drm_device *dev,
 +                  struct amdgpu_framebuffer *rfb,
 +                  const struct drm_mode_fb_cmd2 *mode_cmd,
@@ -116,11 +115,10 @@ index ffb370274..9614a01c9 100644
 +   return ret;
 +}
 +
-+if (tiling_flags)
+ 	if (tiling_flags)
  		amdgpu_bo_get_tiling_flags(rbo, tiling_flags);
  
- 	if (tmz_surface)
-@@ -1597,6 +1622,7 @@ int amdgpu_display_suspend_helper(struct amdgpu_device *adev)
+@@ -1578,6 +1603,7 @@ int amdgpu_display_suspend_helper(struct amdgpu_device *adev)
  			continue;
  		}
  		robj = gem_to_amdgpu_bo(fb->obj[0]);
@@ -129,10 +127,10 @@ index ffb370274..9614a01c9 100644
  			r = amdgpu_bo_reserve(robj, true);
  			if (r == 0) {
 diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
-index 7e6f84758..d1c5fb9ef 100644
+index 889030076..9da838c76 100644
 --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
 +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
-@@ -2111,19 +2111,6 @@ static int amdgpu_pci_probe(struct pci_dev *pdev,
+@@ -2094,19 +2094,6 @@ static int amdgpu_pci_probe(struct pci_dev *pdev,
  		goto err_pci;
  	}
  
@@ -547,7 +545,7 @@ index 000000000..cd0acbea7
 +	return false;
 +}
 diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_mode.h b/drivers/gpu/drm/amd/amdgpu/amdgpu_mode.h
-index a546cb3cf..16063fc3a 100644
+index f80b4838c..db7efb8af 100644
 --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_mode.h
 +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_mode.h
 @@ -307,6 +307,13 @@ struct amdgpu_framebuffer {
@@ -572,18 +570,19 @@ index a546cb3cf..16063fc3a 100644
  	/* firmware flags */
  	u32 firmware_flags;
  	/* pointer to backlight encoder */
-@@ -584,6 +592,10 @@ struct drm_encoder *amdgpu_get_external_encoder(struct drm_encoder *encoder);
- 
+@@ -585,6 +593,11 @@ struct drm_encoder *amdgpu_get_external_encoder(struct drm_encoder *encoder);
  bool amdgpu_display_ddc_probe(struct amdgpu_connector *amdgpu_connector,
  			      bool use_aux);
+ 
 +int amdgpu_display_gem_fb_init(struct drm_device *dev,
 +			       struct amdgpu_framebuffer *rfb,
 +			       const struct drm_mode_fb_cmd2 *mode_cmd,
 +			       struct drm_gem_object *obj);
- 
++
  void amdgpu_encoder_set_active_device(struct drm_encoder *encoder);
  
-@@ -621,6 +633,14 @@ bool amdgpu_crtc_get_scanout_position(struct drm_crtc *crtc,
+ int amdgpu_display_get_crtc_scanoutpos(struct drm_device *dev,
+@@ -608,6 +621,15 @@ bool amdgpu_crtc_get_scanout_position(struct drm_crtc *crtc,
  			int *hpos, ktime_t *stime, ktime_t *etime,
  			const struct drm_display_mode *mode);
  
@@ -595,9 +594,10 @@ index a546cb3cf..16063fc3a 100644
 +bool amdgpu_fbdev_robj_is_fb(struct amdgpu_device *adev, struct amdgpu_bo *robj);
 +
 +int amdgpu_align_pitch(struct amdgpu_device *adev, int width, int bpp, bool tiled);
++
  /* amdgpu_display.c */
  void amdgpu_display_print_display_setup(struct drm_device *dev);
  int amdgpu_display_modeset_create_props(struct amdgpu_device *adev);
 -- 
-2.37.1
+2.37.3
 

@@ -1,0 +1,17 @@
+diff --git a/dropbearsign.c b/dropbearsign.c
+index 16405a7..10a6fcc 100644
+--- a/dropbearsign.c
++++ b/dropbearsign.c
+@@ -173,6 +173,12 @@ int main(int argc, char *argv[]) {
+ 		}
+ 	}
+ 
++	if (!tool) {
++		fprintf(stderr, "Must specify operating mode\n");
++		printhelp(argv[0]);
++		exit(EXIT_FAILURE);
++	}
++
+ 	if (strcmp(tool, "sign") != 0) {
+ 		fprintf(stderr, "Tool '%s' is not implemented\n", tool);
+ 		printhelp(argv[0]);
