@@ -11,5 +11,5 @@ mv -f _ doc/Makefile.in
     --disable-shared \
     --disable-gtktest
 
-make
+make LDFLAGS="$LDFLAGS --static"
 make install
