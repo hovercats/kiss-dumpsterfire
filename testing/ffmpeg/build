@@ -1,0 +1,32 @@
+#!/bin/sh -e
+
+export PKG_CONFIG_PATH="/usr/lib/pkgconf"
+
+./configure \
+    --cc="${CC:-cc}" \
+    --cxx="${CXX:-c++}" \
+    --prefix=/usr \
+    --disable-debug \
+    --disable-libxml2 \
+    --enable-static \
+    --enable-gpl \
+    --enable-libdrm \
+    --enable-libmp3lame \
+    --enable-libopus \
+    --enable-libvorbis \
+    --enable-libvpx \
+    --enable-libwebp \
+    --enable-libxvid \
+    --enable-nonfree \
+    --enable-libtls \
+    --enable-sndio \
+    --disable-alsa \
+    --enable-shared \
+    --enable-version3 \
+    --enable-lto \
+    --x86asmexe=nasm
+
+make
+make install
+
+rm -rf "$1/usr/share/ffmpeg/examples"

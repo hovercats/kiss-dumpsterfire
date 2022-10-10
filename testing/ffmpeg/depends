@@ -1,0 +1,12 @@
+lame
+libdrm
+libogg
+libvorbis
+libvpx
+libwebp
+linux-headers make
+nasm          make
+opus
+pkgconf make
+sndio
+xvidcore
