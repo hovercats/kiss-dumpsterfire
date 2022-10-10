@@ -1,12 +1,14 @@
-lame
-libdrm
-libogg
-libvorbis
-libvpx
-libwebp
+lame make
+libdrm make
+libogg make
+libvorbis make
+libvpx make
+libwebp make
 linux-headers make
 nasm          make
-opus
-pkgconf make
-sndio
-xvidcore
+opus make
+pkgconf make make
+sndio make
+xvidcore make
+x264 make
+x265 make

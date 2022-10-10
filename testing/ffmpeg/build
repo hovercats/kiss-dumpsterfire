@@ -1,6 +1,6 @@
 #!/bin/sh -e
 
-export PKG_CONFIG_PATH="/usr/lib/pkgconf"
+export PKG_CONFIG_PATH="/usr/lib/pkgconfig"
 
 ./configure \
     --cc="${CC:-cc}" \
@@ -19,12 +19,15 @@ export PKG_CONFIG_PATH="/usr/lib/pkgconf"
     --enable-libxvid \
     --enable-nonfree \
     --enable-libtls \
-    --enable-sndio \
     --disable-alsa \
-    --enable-shared \
     --enable-version3 \
     --enable-lto \
-    --x86asmexe=nasm
+    --enable-libx265 \
+    --enable-libx264 \
+    --x86asmexe=nasm \
+    --pkg-config-flags="--static" \
+    --extra-ldexeflags="--static" \
+    --extra-ldflags="-L/usr/lib"
 
 make
 make install
