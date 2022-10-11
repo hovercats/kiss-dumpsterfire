@@ -12,7 +12,7 @@ sh ./configure \
     --enable-vp9 \
     --enable-experimental \
     --enable-runtime-cpu-detect \
-    --disable-shared \
+    --enable-shared \
     --enable-static \
     --enable-postproc \
     --enable-pic \
