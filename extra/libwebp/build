@@ -3,7 +3,7 @@
 ./configure \
     --prefix=/usr \
     --enable-static \
-    --disable-shared \
+    --enable-shared \
     --disable-tiff \
     --enable-libwebpmux \
     --enable-libwebpdemux \
