@@ -1,0 +1,14 @@
+ffmpeg
+freetype-harfbuzz make
+libXScrnSaver make
+libXext make
+libXinerama make
+libXpresent make
+libXrandr make
+libass make
+libxkbcommon make
+linux-headers make
+meson make
+pkgconf make
+python  make
+samurai make
