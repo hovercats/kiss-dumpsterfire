@@ -17,6 +17,7 @@ export PKG_CONFIG_PATH="/usr/lib/pkgconfig"
     --enable-libvpx \
     --enable-libwebp \
     --enable-libxvid \
+    --enable-libass \
     --enable-nonfree \
     --enable-libtls \
     --disable-alsa \
