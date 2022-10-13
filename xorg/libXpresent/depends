@@ -1,0 +1,4 @@
+libX11 make
+libXrandr make
+pkgconf   make
+xorgproto make
