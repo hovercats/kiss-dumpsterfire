@@ -5,6 +5,10 @@ for p in *.patch; do
 	patch -p1 < $p
 done
 
+# avoid building midicat
+sed '/midicat/d' Makefile.in > _
+mv -f _ Makefile.in
+
 ./configure \
     --prefix=/usr \
     --disable-alsa
