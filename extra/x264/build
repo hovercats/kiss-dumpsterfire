@@ -6,7 +6,8 @@ patch -p1 < portability.patch
     --prefix=/usr \
     --disable-swscale \
     --enable-static \
-    --enable-pic
+    --enable-pic \
+    --enable-lto
 
 make LDFLAGS="$LDFLAGS -static"
 make install
