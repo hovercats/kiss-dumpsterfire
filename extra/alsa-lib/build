@@ -1,0 +1,17 @@
+#!/bin/sh -e
+
+./configure \
+    --prefix=/usr \
+    --without-debug
+
+make
+make install
+
+./configure \
+    --prefix=/usr \
+    --without-debug \
+    --disable-shared \
+    --enable-static
+
+make LDFLAGS="$LDFLAGs --static"
+make install
