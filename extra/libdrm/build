@@ -19,6 +19,7 @@
 
 meson \
     --prefix=/usr \
+    -Ddefault_library=both \
     -Dintel=disabled \
     -Dnouveau=disabled \
     -Dvalgrind=disabled \
