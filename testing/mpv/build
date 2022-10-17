@@ -17,7 +17,7 @@
     export PYTHONPATH
 }
 
-export LDFLAGS="$LDFLAGS -static"
+export LDFLAGS="$LDFLAGS -lXrender -static"
 
 meson \
     --prefix=/usr \
@@ -37,6 +37,8 @@ meson \
 sed 's/\.so/\.a/g' build/build.ninja > _
 mv -f _ build/build.ninja
 sed 's/libatomic.a.1.2.0/libatomic.a/g' build/build.ninja > _
+mv -f _ build/build.ninja
+sed 's/libXrender.a.1.3.0/libXrender.a/' build/build.ninja > _
 mv -f _ build/build.ninja
 
 ninja -C build
