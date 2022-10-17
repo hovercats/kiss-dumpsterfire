@@ -11,4 +11,5 @@ linux-headers make
 meson make
 pkgconf make
 python  make
+python-docutils make
 samurai make
