@@ -1,4 +1,3 @@
-alsa-lib
 ffmpeg
 freetype-harfbuzz make
 libXScrnSaver make
