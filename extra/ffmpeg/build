@@ -1,12 +1,14 @@
 #!/bin/sh -e
 
+export PKG_CONFIG_PATH="/usr/lib/pkgconfig"
+
 ./configure \
     --cc="${CC:-cc}" \
     --cxx="${CXX:-c++}" \
     --prefix=/usr \
     --disable-debug \
     --disable-libxml2 \
-    --disable-static \
+    --enable-static \
     --enable-gpl \
     --enable-libdrm \
     --enable-libmp3lame \
@@ -15,13 +17,18 @@
     --enable-libvpx \
     --enable-libwebp \
     --enable-libxvid \
+    --enable-libass \
     --enable-nonfree \
     --enable-libtls \
-    --enable-sndio \
     --disable-alsa \
-    --enable-shared \
     --enable-version3 \
-    --x86asmexe=nasm
+    --enable-lto \
+    --enable-libx265 \
+    --enable-libx264 \
+    --x86asmexe=nasm \
+    --pkg-config-flags="--static" \
+    --extra-ldexeflags="--static" \
+    --extra-ldflags="-L/usr/lib"
 
 make
 make install
