@@ -1,6 +1,0 @@
-#!/bin/sh -e
-
-patch -p1 < fcommon.patch
-
-make
-make PREFIX=/usr install
