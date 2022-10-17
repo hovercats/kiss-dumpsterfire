@@ -29,7 +29,7 @@ meson \
     -Ddrm=disabled \
     -Dgbm=disabled \
     -Dalsa=disabled \
-    -Dsndio=disabled \
+    -Dsndio=enabled \
     . build
 
 # to avoid having to build only static libs for alot of stuff,
