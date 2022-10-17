@@ -13,7 +13,7 @@ mv -f _ Makefile.in
     --prefix=/usr \
     --disable-alsa
 
-make LDFLAGS="$LDFLAGS -ltinyalsa"
+make LDFLAGS="$LDFLAGS -static -ltinyalsa"
 make install
 
 mkdir -p "$1/etc/svc.d/avail"
