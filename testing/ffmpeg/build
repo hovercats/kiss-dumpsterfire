@@ -20,7 +20,7 @@ export PKG_CONFIG_PATH="/usr/lib/pkgconfig"
     --enable-libass \
     --enable-nonfree \
     --enable-libtls \
-    --enable-alsa \
+    --disable-alsa \
     --enable-version3 \
     --enable-lto \
     --enable-libx265 \
