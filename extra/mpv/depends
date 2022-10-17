@@ -1,12 +1,12 @@
 ffmpeg
-freetype-harfbuzz
-libXScrnSaver
-libXext
-libXinerama
-libXpresent
-libXrandr
-libass
-libxkbcommon
+freetype-harfbuzz make
+libXScrnSaver make
+libXext make
+libXinerama make
+libXpresent make
+libXrandr make
+libass make
+libxkbcommon make
 linux-headers make
 meson make
 pkgconf make

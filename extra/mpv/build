@@ -17,6 +17,8 @@
     export PYTHONPATH
 }
 
+export LDFLAGS="$LDFLAGS -lXrender -static"
+
 meson \
     --prefix=/usr \
     -Dx11=enabled \
@@ -25,8 +27,19 @@ meson \
     -Degl-x11=disabled \
     -Dgl=disabled \
     -Ddrm=disabled \
+    -Dgbm=disabled \
     -Dalsa=disabled \
+    -Dsndio=enabled \
     . build
+
+# to avoid having to build only static libs for alot of stuff,
+# we force the use of static libs instead
+sed 's/\.so/\.a/g' build/build.ninja > _
+mv -f _ build/build.ninja
+sed 's/libatomic.a.1.2.0/libatomic.a/g' build/build.ninja > _
+mv -f _ build/build.ninja
+sed 's/libXrender.a.1.3.0/libXrender.a/' build/build.ninja > _
+mv -f _ build/build.ninja
 
 ninja -C build
 ninja -C build install
