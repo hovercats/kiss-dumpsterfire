@@ -11,7 +11,7 @@ meson \
     -Dgl=disabled \
     -Ddrm=disabled \
     -Dgbm=disabled \
-    -Dalsa=disabled \
+    -Dalsa=enabled \
     -Dsndio=enabled \
     . build
 
