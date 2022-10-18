@@ -3,6 +3,13 @@
 ./configure \
     --without-debug \
     --prefix=/usr \
+
+make 
+make install
+
+./configure \
+    --without-debug \
+    --prefix=/usr \
     --disable-shared \
     --enable-static
 
