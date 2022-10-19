@@ -1,0 +1,28 @@
+diff --git a/Makefile.in b/Makefile.in
+index d087e9e..794940d 100644
+--- a/Makefile.in
++++ b/Makefile.in
+@@ -56,7 +56,7 @@ ifneq (@SECURE_COMPILE@,1)
+ OBJ += lesskey_parse.${O}
+ endif
+ 
+-all: less$(EXEEXT) lesskey$(EXEEXT) lessecho$(EXEEXT)
++all: less$(EXEEXT) 
+ 
+ less$(EXEEXT): ${OBJ}
+ 	${CC} ${LDFLAGS} -o $@ ${OBJ} ${LIBS}
+@@ -71,13 +71,9 @@ charset.${O}: compose.uni ubin.uni wide.uni
+ 
+ ${OBJ}: ${srcdir}/less.h ${srcdir}/funcs.h defines.h 
+ 
+-install: all ${srcdir}/less.nro ${srcdir}/lesskey.nro ${srcdir}/lessecho.nro installdirs
++install: all ${srcdir}/less.nro installdirs
+ 	${INSTALL_PROGRAM} less$(EXEEXT) ${DESTDIR}${bindir}/${binprefix}less$(EXEEXT)
+-	${INSTALL_PROGRAM} lesskey$(EXEEXT) ${DESTDIR}${bindir}/${binprefix}lesskey$(EXEEXT)
+-	${INSTALL_PROGRAM} lessecho$(EXEEXT) ${DESTDIR}${bindir}/${binprefix}lessecho$(EXEEXT)
+ 	${INSTALL_DATA} ${srcdir}/less.nro ${DESTDIR}${mandir}/man${manext}/${manprefix}less.${manext}
+-	${INSTALL_DATA} ${srcdir}/lesskey.nro ${DESTDIR}${mandir}/man${manext}/${manprefix}lesskey.${manext}
+-	${INSTALL_DATA} ${srcdir}/lessecho.nro ${DESTDIR}${mandir}/man${manext}/${manprefix}lessecho.${manext}
+ 
+ install-strip:
+ 	${MAKE} INSTALL_PROGRAM='${INSTALL_PROGRAM} -s' install
