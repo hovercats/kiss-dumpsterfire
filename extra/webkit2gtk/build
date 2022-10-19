@@ -70,7 +70,7 @@ mk() {
         -DENABLE_VIDEO=${streaming:-OFF} \
         -DENABLE_WEB_AUDIO=${streaming:-OFF} \
         -DENABLE_GAMEPAD=OFF \
-        -DUSE_SOUP2=OFF \
+        -DUSE_SOUP2=ON \
         -DUSE_LCMS=OFF \
         -DENABLE_JOURNALD_LOG=OFF \
         -DUSE_LCMS=OFF \
