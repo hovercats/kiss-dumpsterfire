@@ -1,0 +1,16 @@
+#!/bin/sh -e
+
+./configure \
+	--prefix=/usr \
+	--with-system-zlib
+
+make pax LDFLAGS="$LDFLAGS -static"
+
+
+mkdir -p \
+	 "$1/usr/bin" \
+	 "$1/usr/share/man/man1"
+
+chmod 755 pax
+cp -f pax "$1/usr/bin"
+cp -f bin/pax/pax.1 "$1/usr/share/man/man1"
