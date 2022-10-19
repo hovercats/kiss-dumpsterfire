@@ -1,0 +1,11 @@
+#!/bin/sh -e
+
+patch -p1 < disable-shared.patch
+
+cd build/generic
+
+./configure \
+    --prefix=/usr
+
+make
+make DESTDIR="$1" install

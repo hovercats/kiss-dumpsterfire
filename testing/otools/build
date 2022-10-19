@@ -1,0 +1,25 @@
+#!/bin/sh -e
+
+./configure \
+	--prefix=/usr \
+	--with-system-zlib
+
+make pax diff patch LDFLAGS="$LDFLAGS -static"
+
+mkdir -p \
+	 "$1/usr/bin" \
+	 "$1/usr/share/man/man1"
+
+for bin in pax diff patch; do
+	chmod 755 "$bin"
+	cp -f "$bin" "$1/usr/bin"
+done
+
+ln -s pax "$1/usr/bin/tar"
+ln -s pax "$1/usr/bin/cpio"
+
+cp -f bin/pax/pax.1 "$1/usr/share/man/man1"
+cp -f bin/pax/tar.1 "$1/usr/share/man/man1"
+cp -f bin/pax/cpio.1 "$1/usr/share/man/man1"
+cp -f usr.bin/diff/diff.1 "$1/usr/share/man/man1"
+cp -f usr.bin/patch/patch.1 "$1/usr/share/man/man1"

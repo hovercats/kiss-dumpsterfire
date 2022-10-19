@@ -59,7 +59,6 @@ mk() {
         -DENABLE_MINIBROWSER=OFF \
         -DENABLE_SPELLCHECK=OFF \
         -DUSE_GSTREAMER_GL=OFF \
-        -DUSE_SOUP2=ON \
         -DUSE_LIBHYPHEN=OFF \
         -DUSE_LIBNOTIFY=OFF \
         -DUSE_LIBSECRET=OFF \
@@ -72,7 +71,9 @@ mk() {
         -DENABLE_WEB_AUDIO=${streaming:-OFF} \
         -DENABLE_GAMEPAD=OFF \
         -DUSE_SOUP2=OFF \
+        -DUSE_LCMS=OFF \
         -DENABLE_JOURNALD_LOG=OFF \
+        -DUSE_LCMS=OFF \
         -Wno-dev
 
     cmake --build build

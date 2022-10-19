@@ -1,7 +1,0 @@
-#!/bin/sh -e
-
-# Make sbase tar accept arguments without dash
-patch -p1 < tar-dash-remove.patch
-
-make LDFLAGS=-static sbase-box
-make PREFIX=/usr sbase-box-install

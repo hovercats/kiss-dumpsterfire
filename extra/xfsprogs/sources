@@ -1,0 +1,25 @@
+https://mirrors.edge.kernel.org/pub/linux/utils/fs/xfs/xfsprogs/xfsprogs-VERSION.tar.xz
+https://github.com/benhoyt/inih/archive/r53.tar.gz inih
+https://github.com/urcu/userspace-rcu/archive/refs/tags/v0.13.1.tar.gz urcu
+files/configure urcu
+files/compile urcu/config
+files/config.guess urcu/config
+files/config.sub urcu/config
+files/depcomp urcu/config
+files/install-sh urcu/config
+files/ltmain.sh urcu/config
+files/missing urcu/config
+files/test-driver urcu/config
+files/Makefile.in urcu
+files/doc-Makefile.in urcu/doc
+files/examples-Makefile.in urcu/doc/examples
+files/extra-Makefile.in urcu/extras
+files/include-Makefile.in urcu/include
+files/src-Makefile.in urcu/src
+files/tests-Makefile.in urcu/tests
+files/tests-common-Makefile.in urcu/tests/common
+files/tests-unit-Makefile.in urcu/tests/unit
+files/tests-benchmark-Makefile.in urcu/tests/benchmark
+files/tests-regression-Makefile.in urcu/tests/regression
+files/tests-utils-Makefile.in urcu/tests/utils
+files/config.h.in urcu/include

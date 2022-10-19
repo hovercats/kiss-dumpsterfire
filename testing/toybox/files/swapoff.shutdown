@@ -1,4 +1,0 @@
-# toybox does not support the -a flag for swapoff
-# therefore we must disable it manually
-# correct devicename if neccessary
-swapoff /dev/sda2

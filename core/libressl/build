@@ -1,11 +1,24 @@
 #!/bin/sh -e
 
+# build with shared libs first, for compability reasons
 ./configure \
     --prefix=/usr \
     --sysconfdir=/etc \
     --disable-tests
 
 make
+make install
+
+make clean
+
+# reconfigure without shared libs and add static flag
+./configure \
+    --prefix=/usr \
+    --sysconfdir=/etc \
+    --disable-shared \
+    --disable-tests
+
+make LDFLAGS="$LDFLAGS --static"
 make install
 
 cp -f update-certdata.sh "$1/etc/ssl"

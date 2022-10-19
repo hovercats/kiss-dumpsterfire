@@ -1,1 +1,3 @@
-git+https://github.com/rakitzis/rc
+git+https://github.com/benavento/rc
+patches/0001-Avoid-multiple-definitions-of-global-variables.patch
+patches/0002-Use-proc-self-fd-0-instead-of-dev-fd-0.patch

@@ -6,15 +6,5 @@ mv -f _ config.mk
 sed 's/--libs freetype2/--libs --static freetype2/' config.mk > _
 mv -f _ config.mk
 
-patch -p1 < scrollback-keybinds.patch
-patch -p1 < colors.patch
-patch -p1 < font.patch
-patch -p1 < manpage.patch
-patch -p1 < externalpipe.patch
-
-# Install terminfo to right location
-export TERMINFO="$1/usr/share/terminfo"
-mkdir -p "$TERMINFO"
-
 make LDFLAGS="$LDFLAGS --static -lX11 -lXft -lxcb -lX11-xcb -lXrender -lXau"
 make PREFIX=/usr DESTDIR="$1" install

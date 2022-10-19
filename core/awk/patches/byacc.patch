@@ -1,0 +1,27 @@
+From 96e66300f0accf76b4a8f300210b06f1513f3ef6 Mon Sep 17 00:00:00 2001
+From: hovercats <hovercatswithlasereyes@protonmail.com>
+Date: Tue, 13 Sep 2022 02:24:08 +0200
+Subject: [PATCH] byacc patch
+
+---
+ makefile | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/makefile b/makefile
+index df966ef..6124173 100644
+--- a/makefile
++++ b/makefile
+@@ -36,8 +36,8 @@ CC = $(HOSTCC)  # change this is cross-compiling.
+ 
+ # By fiat, to make our lives easier, yacc is now defined to be bison.
+ # If you want something else, you're on your own.
+-# YACC = yacc -d -b awkgram
+-YACC = bison -d
++YACC = yacc -d -b awkgram
++#YACC = bison -d
+ 
+ OFILES = b.o main.o parse.o proctab.o tran.o lib.o run.o lex.o
+ 
+-- 
+2.37.3
+

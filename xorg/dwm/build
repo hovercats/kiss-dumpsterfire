@@ -16,12 +16,6 @@ mv -f _ config.def.h
 sed 's/showbar *= 1/showbar = 0/' config.def.h > _
 mv -f _ config.def.h
 
-# drop Xinerama dep
-sed 's/XINERAMALIBS/#XINERAMALIBS/' config.mk > _
-mv -f _ config.mk
-sed 's/XINERAMAFLAGS/#XINERAMAFLAGS/' config.mk > _
-mv -f _ config.mk
-
 # firefox seems to always wanna spawn in tag 9, which is really annoying.
 sed '/Firefox/d' config.def.h > _
 mv -f _ config.def.h
@@ -36,5 +30,5 @@ make \
     /usr/lib/libXau.a /usr/lib/libXmu.a /usr/lib/libXft.a \
     /usr/lib/libfontconfig.a /usr/lib/libfreetype.a /usr/lib/libXrender.a \
     /usr/lib/libexpat.a /usr/lib/libpng.a /usr/lib/libz.a \
-    /usr/lib/*.a"
+    /usr/lib/libXinerama.a /usr/lib/*.a"
 make PREFIX=/usr install

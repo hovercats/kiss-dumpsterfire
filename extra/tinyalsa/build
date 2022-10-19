@@ -26,4 +26,9 @@ cp -f \
   utils/tinypcminfo.1 \
   utils/tinyplay.1 \
   "$1/usr/share/man/man1"
-  
+
+# copy missing header file
+cp -f include/tinyalsa/attributes.h "$1/usr/include/tinyalsa"
+# copy missing pkgconf file
+mkdir -p "$1/usr/lib/pkgconfig"
+cp -f build/muon-private/tinyalsa.pc "$1/usr/lib/pkgconfig"

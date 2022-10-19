@@ -1,0 +1,6 @@
+fontconfig
+freetype-harfbuzz
+libxcb
+xcb-util
+xcb-util-renderutil
+xcb-util-xrm

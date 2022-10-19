@@ -1,8 +1,12 @@
 #!/bin/sh -e
 
 # Set -Ddefault_library=both by default.
-sed "s/\(value: \)'static'/\1'both'/" src/script/builtin_options.meson > _
-mv -f _ src/script/builtin_options.meson
+sed "/value: /s/'static'/'both'/" src/script/per_project_options.meson > _
+mv -f _ src/script/per_project_options.meson
+
+# workaround static build
+sed '/MUON_STATIC/d' meson.build > _
+mv -f _ meson.build
 
 command -v muon > /dev/null || {
       ./bootstrap.sh build
@@ -13,6 +17,10 @@ command -v muon > /dev/null || {
 muon setup \
       -Dprefix=/usr \
       -Ddocs=disabled \
+      -Dlibcurl=disabled \
+      -Dlibpkgconf=enabled \
+      -Dstatic=true \
+      -Dbestline=disabled \
       build
 
 ninja -C build

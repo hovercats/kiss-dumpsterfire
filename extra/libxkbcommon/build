@@ -1,0 +1,16 @@
+#!/bin/sh -e
+
+export DESTDIR="$1"
+
+meson setup \
+    -Dprefix=/usr \
+    -Dlibexecdir=/usr/lib \
+    -Ddefault_library=both \
+    -Denable-docs=false \
+    -Denable-wayland=false \
+    -Denable-xkbregistry=false \
+    -Dpkg_config_path=/usr/lib/pkgconfig \
+    output
+
+ninja -C output
+ninja -C output install

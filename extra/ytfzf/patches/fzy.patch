@@ -1,38 +1,47 @@
+From 2a6a87c37a8b01031078b0d093e44a9db0ec3ffc Mon Sep 17 00:00:00 2001
+From: hovercats <hovercatswithlasereyes@protonmail.com>
+Date: Thu, 15 Sep 2022 00:48:55 +0200
+Subject: [PATCH] fzy patch
+
+---
+ ytfzf | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
+
 diff --git a/ytfzf b/ytfzf
-index ef79374..7c12ab6 100755
+index f4cce8b..cd8d49c 100755
 --- a/ytfzf
 +++ b/ytfzf
-@@ -141,7 +141,7 @@ trim_url () {
+@@ -264,7 +264,7 @@ trim_url () {
  }
  
- command_exists "quick_menu" || quick_menu () {
--	fzf --reverse --prompt="$1"
-+	fzf --prompt="$1"
+ quick_menu () {
+-    fzf --ansi --reverse --prompt="$1"
++    fzf --prompt="$1"
  }
- command_exists "quick_menu_ext" || quick_menu_ext (){
+ quick_menu_ext (){
  	external_menu "$1"
-@@ -1182,7 +1182,7 @@ interface_text () {
+@@ -1608,7 +1608,7 @@ interface_text () {
  			video_info_text
  		done |
- 		column -t -s "$tab_space" |
+         { [ $use_column -eq 1 ] && column -t -s "$tab_space" || cat; } |
 -		fzf -m --tabstop=1 --layout=reverse --expect="$shortcut_binds" | set_keypress |
 +		fzf | set_keypress |
  		trim_url > "$selected_id_file"
- 	#we can't do handle_keypress < "$keypress_file" because it leaves fd0 open which breaks $search_again_shortcut
- 	handle_keypress "$(cat "$keypress_file")"
-@@ -1446,9 +1446,9 @@ interface_thumbnails () {
+ }
+ #}}}
+@@ -1956,9 +1956,9 @@ interface_thumbnails () {
  	#fzf_preview_side will get reset if we don't pass it in
- 	jq -r '.[]|[.title,"'"$gap_space"'|"+.channel,"|"+.duration,"|"+.views,"|"+.date,"|"+.url]|@tsv' < "$video_json_file" |
+ 	jq -r '.[]|[.title,"'"$gap_space"'|"+.channel,"|"+.duration,"|"+.views,"|"+.date,"|"+.url]|join("\t")' < "$video_json_file" |
  	sort_video_data_fn |
--	fzf -m \
+-	SHELL="$(command -v sh)" fzf -m \
 -	--preview "__is_fzf_preview=1 fzf_preview_side='$fzf_preview_side' scrape='$scrape' thumb_dir='$thumb_dir' YTFZF_PID='$YTFZF_PID' UEBERZUG_FIFO='$UEBERZUG_FIFO' $0 -U preview_img '$thumbnail_viewer' {} '$video_json_file'" \
 -	--preview-window "$fzf_preview_side:50%:wrap" --layout=reverse --expect="$shortcut_binds" | set_keypress |
-+	fzf \
++	SHELL="$(command -v sh)" fzf \
 +	"__is_fzf_preview=1 fzf_preview_side='$fzf_preview_side' scrape='$scrape' thumb_dir='$thumb_dir' YTFZF_PID='$YTFZF_PID' UEBERZUG_FIFO='$UEBERZUG_FIFO' $0 -U preview_img '$thumbnail_viewer' {} '$video_json_file'" \
-+	"$fzf_preview_side:50%:wrap" | set_keypress |
++	--preview-window "$fzf_preview_side:50%:wrap" | set_keypress |
  	trim_url > "$selected_id_file"
  
  	preview_stop "$thumbnail_viewer"
 -- 
-2.35.1
+2.37.3
 

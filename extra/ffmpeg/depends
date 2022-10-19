@@ -1,13 +1,16 @@
 alsa-lib
-lame
-libdrm
-libogg
-libvorbis
-libvpx
-libwebp
+lame make
+libass make
+libdrm make
+libogg make
+libvorbis make
+libvpx make
+libwebp make
 linux-headers make
 nasm          make
-libressl
-opus
-pkgconf make
-xvidcore
+opus make
+pkgconf make make
+sndio make
+xvidcore make
+x264 make
+x265 make

@@ -8,14 +8,13 @@ patch -p1 < rootless_modesetting.patch
     --disable-systemd-logind \
     --disable-xwayland \
     --disable-unit-tests \
-    --enable-dri \
     --enable-dri2 \
-    --enable-dri3 \
     --disable-xvfb \
     --disable-xnest \
     --enable-glx \
     --enable-glamor \
     --enable-xorg \
+    --disable-xephyr \
     --with-sha1=libcrypto \
     --with-systemd-daemon=off
 

@@ -1,0 +1,45 @@
+diff --git a/compiler/rustc_session/src/config.rs b/compiler/rustc_session/src/config.rs
+index 4182a5d..0556c95 100644
+--- a/compiler/rustc_session/src/config.rs
++++ b/compiler/rustc_session/src/config.rs
+@@ -1847,7 +1847,7 @@ pub fn parse_target_triple(
+                 early_error(error_format, &format!("target file {path:?} does not exist"))
+             })
+         }
+-        Some(target) => TargetTriple::TargetTriple(target),
++        Some(target) => TargetTriple::from_alias(target),
+         _ => TargetTriple::from_triple(host_triple()),
+     }
+ }
+diff --git a/compiler/rustc_target/src/spec/mod.rs b/compiler/rustc_target/src/spec/mod.rs
+index da0589c..ab53f08 100644
+--- a/compiler/rustc_target/src/spec/mod.rs
++++ b/compiler/rustc_target/src/spec/mod.rs
+@@ -2506,6 +2506,14 @@ impl TargetTriple {
+         Ok(TargetTriple::TargetJson { path_for_rustdoc: canonicalized_path, triple, contents })
+     }
+ 
++    /// Creates a target triple from its alias
++    pub fn from_alias(triple: String) -> Self {
++        match triple.as_str() {
++            "x86_64-pc-linux-musl" => TargetTriple::from_triple("x86_64-unknown-linux-musl"),
++            _ => TargetTriple::TargetTriple(triple),
++        }
++    }
++
+     /// Returns a string triple for this target.
+     ///
+     /// If this target is a path, the file name (without extension) is returned.
+diff --git a/compiler/rustc_target/src/spec/x86_64_unknown_linux_musl.rs b/compiler/rustc_target/src/spec/x86_64_unknown_linux_musl.rs
+index 8678f06..a20e999 100644
+--- a/compiler/rustc_target/src/spec/x86_64_unknown_linux_musl.rs
++++ b/compiler/rustc_target/src/spec/x86_64_unknown_linux_musl.rs
+@@ -15,7 +15,7 @@ pub fn target() -> Target {
+         | SanitizerSet::THREAD;
+ 
+     Target {
+-        llvm_target: "x86_64-unknown-linux-musl".into(),
++        llvm_target: "x86_64-pc-linux-musl".into(),
+         pointer_width: 64,
+         data_layout: "e-m:e-p270:32:32-p271:32:32-p272:64:64-i64:64-f80:128-n8:16:32:64-S128"
+             .into(),

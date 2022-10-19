@@ -1,0 +1,9 @@
+#!/bin/sh -e
+
+patch -p1 < only-build-less.patch
+
+./configure \
+    --prefix=/usr
+
+make PROGRAM='less' LDFLAGS="$LDFLAGS -static"
+make DESTDIR="$1" install

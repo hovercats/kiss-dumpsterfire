@@ -1,6 +1,8 @@
 #!/bin/sh -e
 
-make LDFLAGS="$LDFLAGS -static -lX11 -lXft -lxcb -lXrender -lfreetype \
--lfontconfig -lpng -lXinerama -lz -lXext -lfontconfig -lexpat \
--lXau"
+#make LDFLAGS="$LDFLAGS -static -lX11 -lXft -lxcb -lXrender -lfreetype \
+#-lfontconfig -lpng -lXinerama -lz -lXext -lfontconfig -lexpat \
+#-lXau"
+
+make
 make PREFIX=/usr install

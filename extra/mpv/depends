@@ -1,12 +1,16 @@
+alsa-lib
 ffmpeg
-freetype-harfbuzz
-libXScrnSaver
-libXinerama
-libXrandr
-libass
-libxkbcommon
+freetype-harfbuzz make
+libXScrnSaver make
+libXext make
+libXinerama make
+libXpresent make
+libXrandr make
+libass make
+libxkbcommon make
 linux-headers make
-mesa
 muon  make
 pkgconf make
 python  make
+python-docutils make
+samurai make

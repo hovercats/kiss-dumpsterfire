@@ -1,0 +1,59 @@
+#!/bin/sh -e
+
+export DESTDIR="$1"
+
+
+build_freetype() (
+    cd freetype
+
+    meson \
+        -Dprefix=/usr \
+        -Ddefault_library=both \
+        -Dbzip2=disabled \
+        -Dzlib=disabled \
+        "$@" \
+        . output
+
+    ninja -C output
+    ninja -C output install
+)
+
+build_harfbuzz() (
+    cd harfbuzz
+
+# harfbuzz-icu is basically harfbuzz with icu and glib enabled.
+# this avoids a new package for stuff that can already be enabled here, which
+# makes much more sense imo. glib remains disabled untill I get to test this
+# further.
+kiss list icu  >/dev/null 2>&1 || icu_enabled=disabled
+
+    meson \
+        -Dprefix=/usr \
+        -Dpkg_config_path="$DESTDIR/usr/lib/pkgconfig" \
+        -Ddefault_library=both \
+        -Dglib=disabled \
+        -Dfreetype=enabled \
+        -Dgobject=disabled \
+        -Dcairo=disabled \
+        -Dbenchmark=disabled \
+        -Dicu="${icu_enabled:-enabled}" \
+        -Dtests=disabled \
+        -Dintrospection=disabled \
+        . output
+
+    ninja -C output
+    ninja -C output install
+)
+
+# Point Freetype to the Harfbuzz files.
+export CFLAGS="$CFLAGS -I$DESTDIR/usr/include/harfbuzz"
+export CFLAGS="$CFLAGS -L$DESTDIR/usr/lib "
+export PKG_CONFIG_PATH="$DESTDIR/usr/lib/pkgconfig"
+
+# Point Harfbuzz to the Freetype files.
+export CXXFLAGS="$CXXFLAGS -I$DESTDIR/usr/include/freetype2"
+export CXXFLAGS="$CXXFLAGS -L$DESTDIR/usr/lib"
+
+build_freetype -Dharfbuzz=disabled
+build_harfbuzz
+build_freetype -Dharfbuzz=enabled  --reconfigure

@@ -1,0 +1,36 @@
+#!/bin/sh
+
+umask 022
+
+echo "Booting..."
+
+
+echo "mounting pseudo filesystems"
+mount -o nosuid,noexec,nodev -t proc proc /proc
+mount -o nosuid,noexec,nodev -t sysfs sys /sys
+
+mount -o mode=0755,nosuid,nodev -t tmpfs run /run
+mount -o mode=0755,nosuid -t devtmpfs dev /dev
+
+mkdir -p /dev/pts
+mkdir -p /dev/shm
+
+mount -o mode=0620,gid=5,nosuid,noexec -t devpts devpts /dev/pts
+mount -o mode=1777,nosuid,nodev -t tmpfs  shm    /dev/shm
+
+echo "mounting root partition"
+mount -o remount,rw /
+
+echo "mounting the rest of the system"
+mount -a
+
+echo "enabling swap"
+swapon -a
+
+for getty in 1 2 3 ; do # add more numbers to spawm more gettys
+	while :; do /sbin/getty /dev/tty${getty} linux ; done &
+done
+
+/etc/rc.local
+
+svc -s

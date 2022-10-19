@@ -1,0 +1,12 @@
+#!/bin/sh -e
+
+./configure \
+    --prefix=/usr \
+    --enable-sh \
+    --enable-ksh \
+    --enable-lto \
+    --no-thanks \
+    --enable-static
+
+make
+make install

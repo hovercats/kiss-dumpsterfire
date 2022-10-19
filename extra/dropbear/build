@@ -1,0 +1,24 @@
+#!/bin/sh -e
+
+export LDFLAGS="$LDFLAGS -Wl,--gc-sections"
+export CFLAGS="$CFLAGS -ffunction-sections -fdata-sections"
+
+./configure \
+    --prefix=/usr \
+    --libdir=/usr/lib \
+    --disable-syslog \
+    --disable-shadow  \
+    --disable-zlib \
+    --disable-utmp \
+    --disable-utmpx \
+    --disable-wtmp \
+    --disable-wtmpx \
+    --disable-pututline \
+    --disable-pututxline \
+    --disable-openpty \
+    --enable-static
+   
+make MULTI=1
+make MULTI=1 install
+
+ln -sf dropbearmulti dbclient "$1/usr/bin/ssh"

@@ -1,0 +1,20 @@
+#!/bin/sh -e
+
+
+for p in *.patch; do
+	patch -p1 < $p
+done
+
+# avoid building midicat
+sed '/midicat/d' Makefile.in > _
+mv -f _ Makefile.in
+
+./configure \
+    --prefix=/usr \
+    --disable-alsa
+
+make LDFLAGS="$LDFLAGS -static -ltinyalsa"
+make install
+
+mkdir -p "$1/etc/svc.d/avail"
+cp -f sndiod.run "$1/etc/svc.d/avail/sndiod"

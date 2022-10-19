@@ -1,0 +1,19 @@
+#!/bin/sh
+
+umask 022
+
+svc -k
+
+swapoff -a
+
+umount -a
+
+mount -o remount,ro /
+sync
+sleep 3
+
+case $1 in
+  reboot) reboot -f ;;
+  poweroff) poweroff -f ;;
+  *) echo "Invalid action for rc.shutdown" && exit 1 ;;
+esac
