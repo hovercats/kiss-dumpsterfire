@@ -1,0 +1,45 @@
+#!/bin/sh -e
+
+for p in *.patch; do
+    patch -p1 < "$p"
+done
+
+# Patch merged upstream
+# https://gitlab.gnome.org/GNOME/gtk/-/merge_requests/4615
+sed "s/'\(true\|false\)'/\1/" meson_options.txt > _
+mv -f _ meson_options.txt
+
+# Disable native language support, disable atk-bridge, don't compile schemas.
+sed -e '/compile_schemas/s/true/false/' \
+    -e '/ENABLE_NLS/s/1/0/' \
+    -e "/subdir('po/d" \
+    -e "/atk-bridge/d" \
+    meson.build > _
+mv -f _ meson.build
+
+# Remove atk-bridge code.
+sed '/<atk-bridge.h>/d;/atk_bridge_adaptor_init/d' \
+    gtk/a11y/gtkaccessibility.c > _
+mv -f _ gtk/a11y/gtkaccessibility.c
+
+export DESTDIR="$1"
+
+meson setup \
+    -Dprefix=/usr \
+    -Dx11_backend=true \
+    -Dwayland_backend=false \
+    -Dxinerama=yes \
+    -Dprint_backends=file,lpr \
+    -Dcolord=no \
+    -Dintrospection=false \
+    -Ddemos=false \
+    -Dexamples=false \
+    -Dtests=false \
+    output
+
+ninja -C output
+ninja -C output install
+
+# We don't compile with librsvg which leads to this utility solely causing
+# compiler errors for some packages. It has no use at all.
+rm -f "$1/usr/bin/gtk-encode-symbolic-svg"
