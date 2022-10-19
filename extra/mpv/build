@@ -1,6 +1,6 @@
 #!/bin/sh -e
 
-export LDFLAGS="$LDFLAGS -lXrender -static"
+export LDFLAGS="$LDFLAGS -lXrandr -lXrender -static"
 
 muon setup \
     -Dprefix=/usr \
