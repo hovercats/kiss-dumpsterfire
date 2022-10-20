@@ -6,8 +6,8 @@
     --bindir=/usr/bin \
     --sbindir=/usr/bin \
     --libdir=/usr/lib \
-    --enable-libuuid \
-    --enable-libblkid \
+    --disable-libuuid \
+    --disable-libblkid \
     --disable-fsck \
     --disable-makeinstall-chown \
     --disable-rpath \
