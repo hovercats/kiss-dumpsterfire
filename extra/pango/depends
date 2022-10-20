@@ -4,6 +4,5 @@ freetype-harfbuzz
 glib
 libXft
 libXrender
-meson   make
-pkgconf make
+muon   make
 samurai make

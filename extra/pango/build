@@ -14,11 +14,11 @@ rm -rf subprojects
 : > examples/meson.build
 : > docs/meson.build
 
-meson setup \
+muon setup \
     -Dprefix=/usr \
     -Dgtk_doc=false \
     -Dintrospection=disabled \
     output
 
 ninja -C output
-ninja -C output install
+muon -C output install
