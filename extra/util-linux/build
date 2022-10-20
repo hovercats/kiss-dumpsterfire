@@ -20,6 +20,8 @@
     --disable-swapon \
     --disable-makeinstall-chown \
     --disable-rpath \
+    --enable-pg \
+    --disable-pg-bell \
     --without-udev \
     --without-python \
     --without-systemd
