@@ -10,6 +10,8 @@
     --disable-libblkid \
     --disable-fsck \
     --disable-mount \
+    --disable-sulogin \
+    --disable-su \
     --disable-makeinstall-chown \
     --disable-rpath \
     --without-udev \
