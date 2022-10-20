@@ -8,7 +8,7 @@
     --libdir=/usr/lib \
     --enable-libuuid \
     --enable-libblkid \
-    --enable-fsck \
+    --disable-fsck \
     --disable-makeinstall-chown \
     --disable-rpath \
     --without-udev \
