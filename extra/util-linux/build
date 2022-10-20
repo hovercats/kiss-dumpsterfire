@@ -17,6 +17,7 @@
     --disable-minix \
     --disable-bfs \
     --disable-cramfs \
+    --disable-swapon \
     --disable-makeinstall-chown \
     --disable-rpath \
     --without-udev \
