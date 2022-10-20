@@ -2,6 +2,9 @@
 
 export CCACHE_SLOPPINESS=time_macros,include_file_mtime
 
+# Check if wether libsoup3 or libsoup is used
+kiss list libsoup3 && libsoup2=OFF
+
 # Enable streaming related options if gstreamer is installed.
 kiss list gst-plugins-base && streaming=ON
 
@@ -71,7 +74,7 @@ mk() {
         -DENABLE_VIDEO=${streaming:-OFF} \
         -DENABLE_WEB_AUDIO=${streaming:-OFF} \
         -DENABLE_GAMEPAD=OFF \
-        -DUSE_SOUP2=OFF \
+        -DUSE_SOUP2=${libsoup2:-ON} \
         -DENABLE_JOURNALD_LOG=OFF \
         -DUSE_LCMS=OFF \
         -Wno-dev

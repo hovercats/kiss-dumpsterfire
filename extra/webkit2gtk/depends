@@ -6,7 +6,7 @@ gtk+3
 freetype-harfbuzz
 libXt
 libgcrypt
-libsoup3
+#libsoup3
 libwebp
 libxslt
 mesa
