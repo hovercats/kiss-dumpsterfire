@@ -12,6 +12,7 @@
     --disable-mount \
     --disable-sulogin \
     --disable-su \
+    --disable-kill \
     --disable-makeinstall-chown \
     --disable-rpath \
     --without-udev \
