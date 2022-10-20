@@ -6,8 +6,8 @@
     --bindir=/usr/bin \
     --sbindir=/usr/bin \
     --libdir=/usr/lib \
-    --disable-libuuid \
-    --disable-libblkid \
+    --enable-libuuid \
+    --enable-libblkid \
     --disable-fsck \
     --disable-mount \
     --disable-sulogin \
