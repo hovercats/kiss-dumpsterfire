@@ -9,6 +9,7 @@
     --disable-libuuid \
     --disable-libblkid \
     --disable-fsck \
+    --disable-mount \
     --disable-makeinstall-chown \
     --disable-rpath \
     --without-udev \
