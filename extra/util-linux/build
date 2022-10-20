@@ -14,6 +14,9 @@
     --disable-su \
     --disable-kill \
     --disable-rfkill \
+    --disable-minix \
+    --disable-bfs \
+    --disable-cramfs \
     --disable-makeinstall-chown \
     --disable-rpath \
     --without-udev \
