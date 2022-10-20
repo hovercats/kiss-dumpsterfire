@@ -1,0 +1,11 @@
+#!/bin/sh -e
+
+mkdir -p "$1/boot"
+
+for p in *.patch; do
+	patch -p1 < $p
+done
+
+make YACC=byacc
+
+cp arch/x86/boot/bzImage "$1/boot/kiss.efi"
