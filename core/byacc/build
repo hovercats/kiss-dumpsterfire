@@ -1,0 +1,12 @@
+#!/bin/sh -e
+
+./configure \
+    --prefix=/usr \
+    --program-prefix=b \
+    --enable-btyacc
+
+make LDFLAGS="$LDFLAGS -static"
+make DESTDIR="$1" install
+
+# Symlink to yacc
+ln -s byacc "$1/usr/bin/yacc"
