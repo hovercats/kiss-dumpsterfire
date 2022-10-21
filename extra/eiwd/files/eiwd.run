@@ -1,2 +1,16 @@
 #!/bin/sh
-exec iwd -d
+
+case $1 in
+	-s)
+		exec iwd -d
+		;;
+	-k)
+		ps > _
+		PID="$grep iwd _ | awk '{print $1}')"
+		kill -9 $PID
+		rm -rf _
+		;;
+	*)
+		echo "Usage: $0 -l|-k"
+		exit 1
+esac
