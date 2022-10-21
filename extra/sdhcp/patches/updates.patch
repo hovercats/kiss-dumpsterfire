@@ -1,0 +1,1039 @@
+diff --git a/LICENSE b/LICENSE
+index ca28a65..67aa74f 100644
+--- a/LICENSE
++++ b/LICENSE
+@@ -1,7 +1,8 @@
+ MIT/X Consortium License
+ 
+ © 2012 David Galos (galosd83 (at) students.rowan.edu)
+-© 2014 Hiltjo Posthuma <hiltjo at codemadness dot org>
++© 2014-2015 Hiltjo Posthuma <hiltjo at codemadness dot org>
++© 2015 Michael Forney <mforney@mforney.org>
+ 
+ Permission is hereby granted, free of charge, to any person obtaining a
+ copy of this software and associated documentation files (the "Software"),
+diff --git a/TODO b/TODO
+index cb6e314..be4d6cf 100644
+--- a/TODO
++++ b/TODO
+@@ -1,12 +1,9 @@
+ TODO:
+-	[ ] manual check memcpy bounds.
+-	[ ] add flag (-s?) to probe a specific DHCP server, not broadcast?
+-	    probably skip in run() Init: etc stages.
+-	[ ] sane default value for client-id and test it.
+-	[ ] add new options to man page (-d, -i).
+-	[ ] update LICENSE.
+-	[ ] replace unsigned char ip[4] and so on from function declarations.
+-	[?] ipv6 support ?
++[ ] manual check memcpy bounds.
++[ ] add flag (-s?) to probe a specific DHCP server, not broadcast?
++    probably skip in run() Init: etc stages.
++[ ] replace unsigned char ip[4] and so on from function declarations.
++[?] ipv6 support ?
+ 
+ Changed (for now):
+ 	- cleanup
+@@ -16,10 +13,10 @@ Changed (for now):
+ 		- code compiles more cleanly (ansi and c99),
+ 		  -D_BSD_SOURCE added and explicitly added missing headers (time.h and unistd.h).
+ 		- moved man page from sdhcp.8 to sdhcp.1
++		- changed man page to mandoc.
+ 	- typos:
+ 		- sdhcp.c: interface typo.
+ 		- sdhcp.1: shdcp typo.
+-	- make exit([01]), EXIT_SUCCESS or EXIT_FAILURE.
+ 	- replace write() for stdout messages with fprintf()
+ 	- replace die() with eprintf().
+ 	- makefile:
+@@ -32,6 +29,7 @@ Changed (for now):
+ 		  "vaio".
+ 		- add -d flag, don't update /etc/resolv.conf.
+ 		- add -i flag, don't set ip.
++		- add -f flag, run in foreground.
+ 		- add -e flag, run program, this has the following variables set:
+ 		  $SERVER, DHCP ip.
+ 		  $DNS, DNS ip.
+diff --git a/config.mk b/config.mk
+index b96bd41..8f32578 100644
+--- a/config.mk
++++ b/config.mk
+@@ -5,9 +5,8 @@ PREFIX    = /usr/local
+ DESTDIR   =
+ MANPREFIX = $(PREFIX)/share/man
+ 
+-#CC       = gcc
+-#CC       = musl-gcc
++CC        = cc
+ LD        = $(CC)
+-CPPFLAGS  = -D_BSD_SOURCE
+-CFLAGS    = -g -Wall -Wextra -O0 -ansi $(CPPFLAGS)
+-LDFLAGS   = -g
++CPPFLAGS  = -D_DEFAULT_SOURCE
++CFLAGS    = -Wall -Wextra -pedantic -std=c99 $(CPPFLAGS)
++LDFLAGS   = -s
+diff --git a/debug.c b/debug.c
+deleted file mode 100644
+index 54898d4..0000000
+--- a/debug.c
++++ /dev/null
+@@ -1,148 +0,0 @@
+-#include <stdarg.h>
+-
+-void bpdump(unsigned char *p, int n);
+-
+-unsigned short
+-nhgets(unsigned char c[2])
+-{
+-	return ((c[0] << 8) + c[1]) & 0xffff;
+-}
+-
+-unsigned long
+-nhgetl(unsigned char c[4])
+-{
+-	return (nhgets(c) << 16) + nhgets(c + 2);
+-}
+-
+-char *
+-ipstr(unsigned char *ip)
+-{
+-	char * ch = malloc(3 * 4 + 3 + 10);
+-	sprintf(ch, "%d.%d.%d.%d", ip[0], ip[1], ip[2], ip[3]);
+-	return ch;
+-}
+-
+-#if 0
+-void
+-dbgprintf(char *str, ...)
+-{
+-	va_list ap;
+-	va_start(ap, str);
+-	vfprintf(stderr, str, ap);
+-	va_end(ap);
+-}
+-#endif
+-
+-void
+-bpdump(unsigned char *p, int n)
+-{
+-	int len, i, code;
+-	Bootp *bp;
+-	unsigned char type;
+-	char *types[] = {
+-		"discover", "offer", "request",
+-		"decline", "ack", "nak", "release", "inform"
+-	};
+-	/* Udphdr *up; */
+-
+-	bp = (Bootp*)p;
+-	/* up = (Udphdr*)bp->udphdr; */
+-
+-	if(n < bp->magic - p) {
+-		fprintf(stderr, "dhcpclient: short bootp packet");
+-		return;
+-	}
+-
+-	optget(bp, &type, ODtype, sizeof type);
+-	fprintf(stderr, "DHCP%s\n", types[type - 1]);
+-	/* fprintf(stderr, "laddr=%I lport=%d raddr=%I rport=%d\n", up->laddr,
+-	nhgets(up->lport), up->raddr, nhgets(up->rport)); */
+-	fprintf(stderr, "op = %d htype = %d hlen = %d hops = %d\n", *bp->op, *bp->htype,
+-	        *bp->hlen, *bp->hops);
+-	fprintf(stderr, "xid = %x secs = %d flags = %x\n", nhgetl(bp->xid),
+-	        nhgets(bp->secs), nhgets(bp->flags));
+-	fprintf(stderr, "ciaddr = %s, yiaddr = %s, siaddr = %s, giaddr = %s\n",
+-	        ipstr(bp->ciaddr), ipstr(bp->yiaddr), ipstr(bp->siaddr), ipstr(bp->giaddr));
+-	fprintf(stderr, "chaddr =");
+-	for(i=0; i<15; i++)
+-		fprintf(stderr, "%.2x:", bp->chaddr[i]);
+-	fprintf(stderr, "%.2x\n", bp->chaddr[15]);
+-	fprintf(stderr, "sname = %s\n", bp->sname);
+-	fprintf(stderr, "file = %s\n", bp->file);
+-
+-	n -= bp->magic - p;
+-	p = bp->magic;
+-
+-	if(n < 4)
+-		return;
+-	if(memcmp(magic, p, 4) != 0)
+-		fprintf(stderr, "dhcpclient: bad opt magic %#x %#x %#x %#x\n",
+-		        p[0], p[1], p[2], p[3]);
+-	p += 4;
+-	n -= 4;
+-
+-	while(n > 0) {
+-		code = *p++;
+-		n--;
+-		if(code == OBpad)
+-			continue;
+-		if(code == OBend)
+-			break;
+-		if(n == 0) {
+-			fprintf(stderr, " bad option: %d", code);
+-			return;
+-		}
+-		len = *p++;
+-		n--;
+-		if(len > n) {
+-			fprintf(stderr, " bad option: %d", code);
+-			return;
+-		}
+-		switch(code) {
+-		case ODtype:
+-			fprintf(stderr, "DHCP type %d\n", p[0]);
+-			break;
+-		case ODclientid:
+-			fprintf(stderr, "client id=");
+-			for(i = 0; i<len; i++)
+-				fprintf(stderr, "%x ", p[i]);
+-			fprintf(stderr, "\n");
+-			break;
+-		case ODlease:
+-			fprintf(stderr, "lease=%d sec\n", nhgetl(p));
+-			break;
+-		case ODserverid:
+-			fprintf(stderr, "server id=%s\n", ipstr(p));
+-			break;
+-		case OBmask:
+-			fprintf(stderr, "mask=%s\n", ipstr(p));
+-			break;
+-		case OBrouter:
+-			fprintf(stderr, "router=%s\n", ipstr(p));
+-			break;
+-		case ODipaddr:
+-			fprintf(stderr, "ip addr=%s\n", ipstr(p));
+-			break;
+-		case OBdnsserver:
+-			fprintf(stderr, "dns=%s\n", ipstr(p));
+-			break;
+-		case OBbaddr:
+-			fprintf(stderr, "broadcast=%s\n", ipstr(p));
+-			break;
+-		case ODrenewaltime:
+-			fprintf(stderr, "renew time=%d sec\n", nhgetl(p));
+-			break;
+-		case ODrebindingtime:
+-			fprintf(stderr, "rebind time=%d sec\n", nhgetl(p));
+-			break;
+-		default:
+-			fprintf(stderr, "unknown option %d\n", code);
+-			for(i = 0; i<len; i++)
+-				fprintf(stderr, "%x ", p[i]);
+-			fprintf(stderr, "\n");
+-			break;
+-		}
+-		p += len;
+-		n -= len;
+-	}
+-}
+diff --git a/sdhcp.1 b/sdhcp.1
+index 3a4a0d2..ba964a1 100644
+--- a/sdhcp.1
++++ b/sdhcp.1
+@@ -1,49 +1,51 @@
+-.TH SDHCP-VERSION 1
+-.SH NAME
+-sdhcp \- a simple dhcp client
+-.SH SYNOPSIS
+-.B sdhcp
+-.RB [ \-d ]
+-.RB [ \-i ]
+-.RB "[ \-e"
+-.IR "program"
+-.RB "]"
+-.RB "[ "
+-.IR interface
+-.RB "]"
+-.RB "["
+-.IR "client\-id"
+-.RB "]"
+-.SH DESCRIPTION
+-sdhcp is a simple, tiny dhcp client. It runs until it enters the "Bound"
++.Dd April 27, 2015
++.Dt SDHCP 1
++.Os
++.Sh NAME
++.Nm sdhcp
++.Nd a simple DHCP client
++.Sh SYNOPSIS
++.Nm
++.Op Fl d
++.Op Fl e Ar program
++.Op Fl f
++.Op Fl i
++.Op Ar interface
++.Op Ar client-id
++.Sh DESCRIPTION
++.Nm
++is a simple, tiny DHCP client. It runs until it enters the "Bound"
+ state, then forks to the background and runs as a daemon to keep
+ the lease alive.
+-.SH OPTIONS
+-.TP
+-.B \-d
+-don't change DNS in /etc/resolv.conf.
+-.TP
+-.B \-i
++.Sh OPTIONS
++.Bl -tag -width Ds
++.It Fl d
++don't change DNS in
++.Pa /etc/resolv.conf .
++.It Fl e Ar program
++run
++.Ar program .
++Variables will be set, see VARIABLES.
++.It Fl f
++run in foreground.
++.It Fl i
+ don't change interface information such as an IP address.
+-.TP
+-.B "\-e program"
+-run program. Variables will be set, see VARIABLES.
+-.SH VARIABLES
+-.LP
++.El
++.Sh VARIABLES
+ The following variables are set:
+-.LP
+-$SERVER    DHCP IP.
+-.LP
+-$DNS       DNS IP.
+-.LP
+-$ROUTER    router IP.
+-.LP
+-$MASK      network mask.
+-.LP
+-$CLIENT    your client IP.
+-.SH BUGS
+-I'm sure there's plenty. It only currently supports a small subset of
++.Bl -tag -width Ds
++.It Ev SERVER
++DHCP IP.
++.It Ev DNS
++DNS IP.
++.It Ev ROUTER
++router IP.
++.It Ev MASK
++network mask.
++.It Ev CLIENT
++your client IP.
++.El
++.Sh BUGS
++I'm sure there are plenty. It only currently supports a small subset of
+ DHCP options, and has been untested on larger networks. It ignores most of
+-the DHCP options it understands. Send bug reports to me!
+-.SH AUTHOR
+-see LICENSE file
++the DHCP options it understands.
+diff --git a/sdhcp.c b/sdhcp.c
+index aa3cef2..7e3f7f5 100644
+--- a/sdhcp.c
++++ b/sdhcp.c
+@@ -1,20 +1,25 @@
+-#include <sys/socket.h>
+ #include <sys/ioctl.h>
++#include <sys/socket.h>
++#include <sys/timerfd.h>
++
+ #include <netinet/in.h>
+ #include <net/if.h>
+ #include <net/route.h>
+-#include <signal.h>
+-#include <poll.h>
++
+ #include <errno.h>
+ #include <fcntl.h>
++#include <limits.h>
++#include <poll.h>
++#include <signal.h>
++#include <stdint.h>
+ #include <stdio.h>
+ #include <stdlib.h>
+ #include <string.h>
+ #include <time.h>
+ #include <unistd.h>
+ 
+-#include "util.h"
+ #include "arg.h"
++#include "util.h"
+ 
+ typedef struct bootp {
+ 	unsigned char op      [1];
+@@ -44,7 +49,9 @@ enum {
+ 	DHCPnak,
+ 	DHCPrelease,
+ 	DHCPinform,
+-	Timeout =          200,
++	Timeout0 =         200,
++	Timeout1,
++	Timeout2,
+ 
+ 	Bootrequest =        1,
+ 	Bootreply =          2,
+@@ -56,6 +63,7 @@ enum {
+ 	OBrouter =           3,
+ 	OBnameserver =       5,
+ 	OBdnsserver =        6,
++	OBhostname =        12,
+ 	OBbaddr =           28,
+ 	ODipaddr =          50, /* 0x32 */
+ 	ODlease =           51,
+@@ -74,38 +82,39 @@ enum {
+ 	OBend =            255,
+ };
+ 
+-enum { Broadcast, Unicast};
++enum { Broadcast, Unicast };
+ 
+-Bootp bp;
+-unsigned char magic[] = {99, 130, 83, 99};
++static Bootp bp;
++static unsigned char magic[] = { 99, 130, 83, 99 };
+ 
+ /* conf */
+-static unsigned char xid[sizeof bp.xid];
++static unsigned char xid[sizeof(bp.xid)];
+ static unsigned char hwaddr[16];
++static char hostname[HOST_NAME_MAX + 1];
+ static time_t starttime;
+ static char *ifname = "eth0";
+-static char *cid = "";
++static unsigned char cid[16];
+ static char *program = "";
+-static int sock;
++static int sock, timers[3];
+ /* sav */
+ static unsigned char server[4];
+ static unsigned char client[4];
+ static unsigned char mask[4];
+ static unsigned char router[4];
+ static unsigned char dns[4];
+-static unsigned long t1;
+ 
+ static int dflag = 1; /* change DNS in /etc/resolv.conf ? */
+ static int iflag = 1; /* set IP ? */
++static int fflag = 0; /* run in foreground */
+ 
+-#define IP(a,b,c,d) (unsigned char[4]){a,b,c,d}
++#define IP(a, b, c, d) (unsigned char[4]){ a, b, c, d }
+ 
+ static void
+-hnput(unsigned char *dst, unsigned long long src, size_t n)
++hnput(unsigned char *dst, uint32_t src, size_t n)
+ {
+ 	unsigned int i;
+ 
+-	for(i = 0; n--; i++)
++	for (i = 0; n--; i++)
+ 		dst[i] = (src >> (n * 8)) & 0xff;
+ }
+ 
+@@ -116,7 +125,8 @@ iptoaddr(struct sockaddr *ifaddr, unsigned char ip[4], int port)
+ 
+ 	in->sin_family = AF_INET;
+ 	in->sin_port = htons(port);
+-	memcpy(&(in->sin_addr), ip, sizeof in->sin_addr);
++	memcpy(&(in->sin_addr), ip, sizeof(in->sin_addr));
++
+ 	return ifaddr;
+ }
+ 
+@@ -125,12 +135,13 @@ static ssize_t
+ udpsend(unsigned char ip[4], int fd, void *data, size_t n)
+ {
+ 	struct sockaddr addr;
+-	socklen_t addrlen = sizeof addr;
++	socklen_t addrlen = sizeof(addr);
+ 	ssize_t sent;
+ 
+ 	iptoaddr(&addr, ip, 67); /* bootp server */
+-	if((sent = sendto(fd, data, n, 0, &addr, addrlen)) == -1)
++	if ((sent = sendto(fd, data, n, 0, &addr, addrlen)) == -1)
+ 		eprintf("sendto:");
++
+ 	return sent;
+ }
+ 
+@@ -139,12 +150,13 @@ static ssize_t
+ udprecv(unsigned char ip[4], int fd, void *data, size_t n)
+ {
+ 	struct sockaddr addr;
+-	socklen_t addrlen = sizeof addr;
++	socklen_t addrlen = sizeof(addr);
+ 	ssize_t r;
+ 
+ 	iptoaddr(&addr, ip, 68); /* bootp client */
+-	if((r = recvfrom(fd, data, n, 0, &addr, &addrlen)) == -1)
++	if ((r = recvfrom(fd, data, n, 0, &addr, &addrlen)) == -1)
+ 		eprintf("recvfrom:");
++
+ 	return r;
+ }
+ 
+@@ -160,7 +172,7 @@ setip(unsigned char ip[4], unsigned char mask[4], unsigned char gateway[4])
+ 
+ 	strlcpy(ifreq.ifr_name, ifname, IF_NAMESIZE);
+ 	iptoaddr(&(ifreq.ifr_addr), ip, 0);
+-	if((fd = socket(PF_INET, SOCK_DGRAM, IPPROTO_IP)) == -1)
++	if ((fd = socket(PF_INET, SOCK_DGRAM, IPPROTO_IP)) == -1)
+ 		eprintf("can't set ip, socket:");
+ 	ioctl(fd, SIOCSIFADDR, &ifreq);
+ 	iptoaddr(&(ifreq.ifr_netmask), mask, 0);
+@@ -183,9 +195,9 @@ cat(int dfd, char *src)
+ 	char buf[BUFSIZ];
+ 	int n, fd;
+ 
+-	if((fd = open(src, O_RDONLY)) == -1)
++	if ((fd = open(src, O_RDONLY)) == -1)
+ 		return; /* can't read, but don't error out */
+-	while((n = read(fd, buf, sizeof buf)) > 0)
++	while ((n = read(fd, buf, sizeof(buf))) > 0)
+ 		write(dfd, buf, n);
+ 	close(fd);
+ }
+@@ -196,12 +208,12 @@ setdns(unsigned char dns[4])
+ 	char buf[128];
+ 	int fd;
+ 
+-	if((fd = creat("/etc/resolv.conf", 0644)) == -1) {
++	if ((fd = creat("/etc/resolv.conf", 0644)) == -1) {
+ 		weprintf("can't change /etc/resolv.conf:");
+ 		return;
+ 	}
+ 	cat(fd, "/etc/resolv.conf.head");
+-	if(snprintf(buf, sizeof(buf) - 1, "\nnameserver %d.%d.%d.%d\n",
++	if (snprintf(buf, sizeof(buf) - 1, "\nnameserver %d.%d.%d.%d\n",
+ 	         dns[0], dns[1], dns[2], dns[3]) > 0)
+ 		write(fd, buf, strlen(buf));
+ 	cat(fd, "/etc/resolv.conf.tail");
+@@ -212,21 +224,21 @@ static void
+ optget(Bootp *bp, void *data, int opt, int n)
+ {
+ 	unsigned char *p = bp->optdata;
+-	unsigned char *top = ((unsigned char *)bp) + sizeof *bp;
++	unsigned char *top = ((unsigned char *)bp) + sizeof(*bp);
+ 	int code, len;
+ 
+-	while(p < top) {
++	while (p < top) {
+ 		code = *p++;
+-		if(code == OBpad)
++		if (code == OBpad)
+ 			continue;
+-		if(code == OBend || p == top)
++		if (code == OBend || p == top)
+ 			break;
+ 		len = *p++;
+-		if(len > top - p)
++		if (len > top - p)
+ 			break;
+-		if(code == opt) {
++		if (code == opt) {
+ 			memcpy(data, p, MIN(len, n));
+-			return;
++			break;
+ 		}
+ 		p += len;
+ 	}
+@@ -238,49 +250,53 @@ optput(unsigned char *p, int opt, unsigned char *data, size_t len)
+ 	*p++ = opt;
+ 	*p++ = (unsigned char)len;
+ 	memcpy(p, data, len);
++
+ 	return p + len;
+ }
+ 
+ static unsigned char *
+-hnoptput(unsigned char *p, int opt, long long data, size_t len)
++hnoptput(unsigned char *p, int opt, uint32_t data, size_t len)
+ {
+ 	*p++ = opt;
+ 	*p++ = (unsigned char)len;
+ 	hnput(p, data, len);
++
+ 	return p + len;
+ }
+ 
+ static void
+ dhcpsend(int type, int how)
+ {
++	static unsigned char params[] = { OBmask, OBrouter, OBdnsserver };
+ 	unsigned char *ip, *p;
+ 
+-	memset(&bp, 0, sizeof bp);
++	memset(&bp, 0, sizeof(bp));
+ 	hnput(bp.op, Bootrequest, 1);
+ 	hnput(bp.htype, 1, 1);
+ 	hnput(bp.hlen, 6, 1);
+-	memcpy(bp.xid, xid, sizeof xid);
+-	hnput(bp.flags, Fbroadcast, sizeof bp.flags);
+-	hnput(bp.secs, time(NULL) - starttime, sizeof bp.secs);
+-	memcpy(bp.magic, magic, sizeof bp.magic);
+-	memcpy(bp.chaddr, hwaddr, sizeof bp.chaddr);
++	memcpy(bp.xid, xid, sizeof(xid));
++	hnput(bp.flags, Fbroadcast, sizeof(bp.flags));
++	hnput(bp.secs, time(NULL) - starttime, sizeof(bp.secs));
++	memcpy(bp.magic, magic, sizeof(bp.magic));
++	memcpy(bp.chaddr, hwaddr, sizeof(bp.chaddr));
+ 	p = bp.optdata;
+ 	p = hnoptput(p, ODtype, type, 1);
+-	p = optput(p, ODclientid, (unsigned char*)cid, strlen(cid));
++	p = optput(p, ODclientid, cid, sizeof(cid));
++	p = optput(p, OBhostname, (unsigned char *)hostname, strlen(hostname));
+ 
+-	switch(type) {
++	switch (type) {
+ 	case DHCPdiscover:
+ 		break;
+ 	case DHCPrequest:
+ 		/* memcpy(bp.ciaddr, client, sizeof bp.ciaddr); */
+-		p = hnoptput(p, ODlease, t1, sizeof t1);
+-		p = optput(p, ODipaddr, client, sizeof client);
+-		p = optput(p, ODserverid, server, sizeof server);
++		p = optput(p, ODipaddr, client, sizeof(client));
++		p = optput(p, ODserverid, server, sizeof(server));
++		p = optput(p, ODparams, params, sizeof(params));
+ 		break;
+ 	case DHCPrelease:
+-		memcpy(bp.ciaddr, client, sizeof client);
+-		p = optput(p, ODipaddr, client, sizeof client);
+-		p = optput(p, ODserverid, server, sizeof server);
++		memcpy(bp.ciaddr, client, sizeof(client));
++		p = optput(p, ODipaddr, client, sizeof(client));
++		p = optput(p, ODserverid, server, sizeof(server));
+ 		break;
+ 	}
+ 	*p++ = OBend;
+@@ -293,21 +309,34 @@ static int
+ dhcprecv(void)
+ {
+ 	unsigned char type;
+-	struct pollfd pfd;
+-
+-	memset(&pfd, 0, sizeof(pfd));
+-	pfd.fd = sock;
+-	pfd.events = POLLIN;
+-
+-	memset(&bp, 0, sizeof bp);
+-	if(poll(&pfd, 1, -1) == -1) {
+-		if(errno != EINTR)
+-			eprintf("poll:");
+-		else
+-			return Timeout;
++	struct pollfd pfd[] = {
++		{ .fd = sock, .events = POLLIN },
++		{ .fd = timers[0], .events = POLLIN },
++		{ .fd = timers[1], .events = POLLIN },
++		{ .fd = timers[2], .events = POLLIN },
++	};
++	uint64_t n;
++
++	if (poll(pfd, LEN(pfd), -1) == -1)
++		eprintf("poll:");
++	if (pfd[0].revents) {
++		memset(&bp, 0, sizeof(bp));
++		udprecv(IP(255, 255, 255, 255), sock, &bp, sizeof(bp));
++		optget(&bp, &type, ODtype, sizeof(type));
++		return type;
++	}
++	if (pfd[1].revents) {
++		type = Timeout0;
++		read(timers[0], &n, sizeof(n));
++	}
++	if (pfd[2].revents) {
++		type = Timeout1;
++		read(timers[1], &n, sizeof(n));
++	}
++	if (pfd[3].revents) {
++		type = Timeout2;
++		read(timers[2], &n, sizeof(n));
+ 	}
+-	udprecv(IP(255, 255, 255, 255), sock, &bp, sizeof bp);
+-	optget(&bp, &type, ODtype, sizeof type);
+ 	return type;
+ }
+ 
+@@ -316,11 +345,11 @@ acceptlease(void)
+ {
+ 	char buf[128];
+ 
+-	if(iflag == 1)
++	if (iflag)
+ 		setip(client, mask, router);
+-	if(dflag == 1)
++	if (dflag)
+ 		setdns(dns);
+-	if(*program) {
++	if (*program) {
+ 		snprintf(buf, sizeof(buf), "%d.%d.%d.%d", server[0], server[1], server[2], server[3]);
+ 		setenv("SERVER", buf, 1);
+ 		snprintf(buf, sizeof(buf), "%d.%d.%d.%d", client[0], client[1], client[2], client[3]);
+@@ -333,108 +362,155 @@ acceptlease(void)
+ 		setenv("DNS", buf, 1);
+ 		system(program);
+ 	}
+-	alarm(t1);
+ }
+ 
+ static void
+-run(void)
++settimeout(int n, const struct itimerspec *ts)
+ {
+-#if 0
+-InitReboot:
+-	/* send DHCPrequest to old server */
+-	dhcpsend(DHCPrequest, Broadcast);
+-	goto Rebooting;
+-Rebooting:
+-	switch (dhcprecv()) {
+-	case DHCPnak:
+-		goto Init;
+-	case DHCPack:
+-		acceptoffer();
+-		goto Bound;
++	if (timerfd_settime(timers[n], 0, ts, NULL) < 0)
++		eprintf("timerfd_settime:");
++}
++
++/* sets ts to expire halfway to the expiration of timer n, minimum of 60 seconds */
++static void
++calctimeout(int n, struct itimerspec *ts)
++{
++	if (timerfd_gettime(timers[n], ts) < 0)
++		eprintf("timerfd_gettime:");
++	ts->it_value.tv_nsec /= 2;
++	if (ts->it_value.tv_sec % 2)
++		ts->it_value.tv_nsec += 500000000;
++	ts->it_value.tv_sec /= 2;
++	if (ts->it_value.tv_sec < 60) {
++		ts->it_value.tv_sec = 60;
++		ts->it_value.tv_nsec = 0;
+ 	}
+-#endif
++}
++
++static void
++run(void)
++{
++	int forked = 0, t;
++	struct itimerspec timeout = { 0 };
++	uint32_t renewaltime, rebindingtime, lease;
++
+ Init:
+ 	dhcpsend(DHCPdiscover, Broadcast);
+-	alarm(1);
++	timeout.it_value.tv_sec = 1;
++	timeout.it_value.tv_nsec = 0;
++	settimeout(0, &timeout);
+ 	goto Selecting;
+ Selecting:
+-	switch(dhcprecv()) {
+-	case DHCPoffer:
+-		alarm(0);
+-		memcpy(client, bp.yiaddr, sizeof client);
+-		optget(&bp, server, ODserverid, sizeof server);
+-		optget(&bp, mask, OBmask, sizeof mask);
+-		optget(&bp, router, OBrouter, sizeof router);
+-		optget(&bp, dns, OBdnsserver, sizeof dns);
+-		optget(&bp, &t1, ODlease, sizeof t1);
+-		t1 = ntohl(t1);
+-		dhcpsend(DHCPrequest, Broadcast);
+-		goto Requesting;
+-	case Timeout:
+-		goto Init;
+-	default:
+-		goto Selecting;
++	for (;;) {
++		switch (dhcprecv()) {
++		case DHCPoffer:
++			memcpy(client, bp.yiaddr, sizeof(client));
++			optget(&bp, server, ODserverid, sizeof(server));
++			goto Requesting;
++		case Timeout0:
++			goto Init;
++		}
+ 	}
+ Requesting:
+-	switch(dhcprecv()) {
+-	case DHCPoffer:
+-		goto Requesting; /* ignore other offers. */
+-#if 0
+-	case DHCPack: /* (and you don't want it) ? */
+-		dhcpsend(DHCPdecline, Unicast);
+-		goto Init;
+-#endif
+-	case DHCPack:
+-		acceptlease();
+-		goto Bound;
++	for (t = 4; t <= 64; t *= 2) {
++		dhcpsend(DHCPrequest, Broadcast);
++		timeout.it_value.tv_sec = t;
++		settimeout(0, &timeout);
++		for (;;) {
++			switch (dhcprecv()) {
++			case DHCPack:
++				goto Bound;
++			case DHCPnak:
++				goto Init;
++			case Timeout0:
++				break;
++			default:
++				continue;
++			}
++			break;
++		}
+ 	}
++	/* no response from DHCPREQUEST after several attempts, go to INIT */
++	goto Init;
+ Bound:
++	optget(&bp, mask, OBmask, sizeof(mask));
++	optget(&bp, router, OBrouter, sizeof(router));
++	optget(&bp, dns, OBdnsserver, sizeof(dns));
++	optget(&bp, &renewaltime, ODrenewaltime, sizeof(renewaltime));
++	optget(&bp, &rebindingtime, ODrebindingtime, sizeof(rebindingtime));
++	optget(&bp, &lease, ODlease, sizeof(lease));
++	renewaltime = ntohl(renewaltime);
++	rebindingtime = ntohl(rebindingtime);
++	lease = ntohl(lease);
++	acceptlease();
+ 	fputs("Congrats! You should be on the 'net.\n", stdout);
+-	if(fork())
+-		exit(EXIT_SUCCESS);
+-	switch (dhcprecv()) {
+-	case DHCPoffer:
+-	case DHCPack:
+-	case DHCPnak:
+-		goto Bound; /* discard offer, ACK or NAK */
+-	case Timeout:
+-		dhcpsend(DHCPrequest, Unicast);
+-		goto Renewing;
++	if (!fflag && !forked) {
++		if (fork())
++			exit(0);
++		forked = 1;
++	}
++	timeout.it_value.tv_sec = renewaltime;
++	settimeout(0, &timeout);
++	timeout.it_value.tv_sec = rebindingtime;
++	settimeout(1, &timeout);
++	timeout.it_value.tv_sec = lease;;
++	settimeout(2, &timeout);
++	for (;;) {
++		switch (dhcprecv()) {
++		case Timeout0: /* t1 elapsed */
++			goto Renewing;
++		case Timeout1: /* t2 elapsed */
++			goto Rebinding;
++		case Timeout2: /* lease expired */
++			goto Init;
++		}
+ 	}
+ Renewing:
+-	switch(dhcprecv()) {
+-	case DHCPack:
+-		acceptlease();
+-		goto Bound;
+-	case DHCPnak:
+-		goto Init;
+-	case Timeout:
+-		dhcpsend(DHCPrequest, Broadcast);
+-		goto Rebinding;
++	dhcpsend(DHCPrequest, Unicast);
++	calctimeout(1, &timeout);
++	settimeout(0, &timeout);
++	for (;;) {
++		switch (dhcprecv()) {
++		case DHCPack:
++			goto Bound;
++		case Timeout0: /* resend request */
++			goto Renewing;
++		case Timeout1: /* t2 elapsed */
++			goto Rebinding;
++		case Timeout2:
++		case DHCPnak:
++			goto Init;
++		}
+ 	}
+ Rebinding:
+-	switch(dhcprecv()) {
+-	case DHCPnak: /* lease expired */
+-		goto Init;
+-	case DHCPack:
+-		acceptlease();
+-		goto Bound;
++	calctimeout(2, &timeout);
++	settimeout(0, &timeout);
++	dhcpsend(DHCPrequest, Broadcast);
++	for (;;) {
++		switch (dhcprecv()) {
++		case DHCPack:
++			goto Bound;
++		case Timeout0: /* resend request */
++			goto Rebinding;
++		case Timeout2: /* lease expired */
++		case DHCPnak:
++			goto Init;
++		}
+ 	}
+ }
+ 
+-static void nop(int unused) {
+-	(void) unused;
+-}
+-
+-static void cleanexit(int unused) {
+-	(void) unused;
++static void
++cleanexit(int unused)
++{
++	(void)unused;
+ 	dhcpsend(DHCPrelease, Unicast);
+-	exit(EXIT_SUCCESS);
++	_exit(0);
+ }
+ 
+ static void
+-usage(void) {
+-	eprintf("usage: sdhcp [-i] [-d] [-e program] [ifname] [clientid]\n");
++usage(void)
++{
++	eprintf("usage: %s [-d] [-e program] [-f] [-i] [ifname] [clientid]\n", argv0);
+ }
+ 
+ int
+@@ -444,52 +520,67 @@ main(int argc, char *argv[])
+ 	struct ifreq ifreq;
+ 	struct sockaddr addr;
+ 	int rnd;
++	size_t i;
+ 
+ 	ARGBEGIN {
++	case 'd': /* don't update DNS in /etc/resolv.conf */
++		dflag = 0;
++		break;
+ 	case 'e': /* run program */
+ 		program = EARGF(usage());
+ 		break;
++	case 'f': /* run in foreground */
++		fflag = 1;
++		break;
+ 	case 'i': /* don't set ip */
+ 		iflag = 0;
+ 		break;
+-	case 'd': /* don't update DNS in/etc/resolv.conf */
+-		dflag = 0;
+-		break;
+ 	default:
+ 		usage();
+ 		break;
+ 	} ARGEND;
+ 
+-	if(argc >= 1)
++	if (argc)
+ 		ifname = argv[0]; /* interface name */
+-	if(argc >= 2)
+-		cid = argv[1]; /* client-id */
++	if (argc >= 2)
++		strlcpy((char *)cid, argv[1], sizeof(cid)); /* client-id */
+ 
+ 	memset(&ifreq, 0, sizeof(ifreq));
+-	signal(SIGALRM, nop);
+ 	signal(SIGTERM, cleanexit);
+ 
+-	if((sock = socket(AF_INET, SOCK_DGRAM, 0)) == -1)
++	if (gethostname(hostname, sizeof(hostname)) == -1)
++		eprintf("gethostname:");
++
++	if ((sock = socket(AF_INET, SOCK_DGRAM, 0)) == -1)
+ 		eprintf("socket:");
+-	if(setsockopt(sock, SOL_SOCKET, SO_BROADCAST, &bcast, sizeof bcast) == -1)
++	if (setsockopt(sock, SOL_SOCKET, SO_BROADCAST, &bcast, sizeof(bcast)) == -1)
+ 		eprintf("setsockopt:");
+ 
+ 	strlcpy(ifreq.ifr_name, ifname, IF_NAMESIZE);
+ 	ioctl(sock, SIOCGIFINDEX, &ifreq);
+-	if(setsockopt(sock, SOL_SOCKET, SO_BINDTODEVICE, &ifreq, sizeof ifreq) == -1)
++	if (setsockopt(sock, SOL_SOCKET, SO_BINDTODEVICE, &ifreq, sizeof(ifreq)) == -1)
+ 		eprintf("setsockopt:");
+ 	iptoaddr(&addr, IP(255, 255, 255, 255), 68);
+-	if(bind(sock, (void*)&addr, sizeof addr) != 0)
++	if (bind(sock, (void*)&addr, sizeof(addr)) != 0)
+ 		eprintf("bind:");
+ 	ioctl(sock, SIOCGIFHWADDR, &ifreq);
+-	memcpy(hwaddr, ifreq.ifr_hwaddr.sa_data, sizeof ifreq.ifr_hwaddr.sa_data);
++	memcpy(hwaddr, ifreq.ifr_hwaddr.sa_data, sizeof(ifreq.ifr_hwaddr.sa_data));
++	if (!cid[0])
++		memcpy(cid, hwaddr, sizeof(cid));
+ 
+-	if((rnd = open("/dev/urandom", O_RDONLY)) == -1)
++	if ((rnd = open("/dev/urandom", O_RDONLY)) == -1)
+ 		eprintf("can't open /dev/urandom to generate unique transaction identifier:");
+-	read(rnd, xid, sizeof xid);
++	read(rnd, xid, sizeof(xid));
+ 	close(rnd);
+ 
++	for (i = 0; i < LEN(timers); ++i) {
++		timers[i] = timerfd_create(CLOCK_BOOTTIME, TFD_CLOEXEC);
++		if (timers[i] == -1)
++			eprintf("timerfd_create:");
++	}
++
+ 	starttime = time(NULL);
+ 	run();
+-	return EXIT_SUCCESS;
++
++	return 0;
+ }
+diff --git a/util.h b/util.h
+index e3b99c8..9071712 100644
+--- a/util.h
++++ b/util.h
+@@ -1,4 +1,5 @@
+ #define MIN(a,b) (((a)<(b))?(a):(b))
++#define LEN(a) (sizeof(a) / sizeof((a)[0]))
+ #define bpdump(p,n) 1
+ 
+ #undef strlcpy
+diff --git a/util/eprintf.c b/util/eprintf.c
+index 91b19b7..4d8f726 100644
+--- a/util/eprintf.c
++++ b/util/eprintf.c
+@@ -16,7 +16,7 @@ eprintf(const char *fmt, ...)
+ 	va_list ap;
+ 
+ 	va_start(ap, fmt);
+-	venprintf(EXIT_FAILURE, fmt, ap);
++	venprintf(1, fmt, ap);
+ 	va_end(ap);
+ }
+ 
+@@ -33,13 +33,12 @@ enprintf(int status, const char *fmt, ...)
+ void
+ venprintf(int status, const char *fmt, va_list ap)
+ {
+-#ifdef DEBUG
+-	fprintf(stderr, "%s: ", argv0);
+-#endif
++	if (strncmp(fmt, "usage", strlen("usage")))
++		fprintf(stderr, "%s: ", argv0);
+ 
+ 	vfprintf(stderr, fmt, ap);
+ 
+-	if(fmt[0] && fmt[strlen(fmt)-1] == ':') {
++	if (fmt[0] && fmt[strlen(fmt)-1] == ':') {
+ 		fputc(' ', stderr);
+ 		perror(NULL);
+ 	}
+@@ -52,9 +51,8 @@ weprintf(const char *fmt, ...)
+ {
+ 	va_list ap;
+ 
+-#ifdef DEBUG
+-	fprintf(stderr, "%s: ", argv0);
+-#endif
++	if (strncmp(fmt, "usage", strlen("usage")))
++		fprintf(stderr, "%s: ", argv0);
+ 
+ 	va_start(ap, fmt);
+ 	vfprintf(stderr, fmt, ap);
