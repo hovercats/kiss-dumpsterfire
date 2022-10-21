@@ -5,7 +5,7 @@ case $1 in
 		exec sdhcp -f wlan0 1> /dev/null
 		;;
 	-k)
-		ps > _
+		ps -A > _
 		PID="$(grep sdhcp _ | awk '{print $1}')"
 		kill -9 $PID
 		rm -rf _
