@@ -24,8 +24,8 @@ stty=$(stty -g)
 tty=$(tty)
 tty=${tty#/dev/tty}
 
-cfgdir=${XDG_CONFIG_HOME:-$HOME/.config}/sx
-datadir=${XDG_DATA_HOME:-$HOME/.local/share}/sx
+cfgdir=${XDG_CONFIG_HOME:-$HOME/etc}/sx
+datadir=${XDG_DATA_HOME:-$HOME/var}/sx
 mkdir -p -- "$cfgdir" "$datadir"
 
 export XAUTHORITY="${XAUTHORITY:-$datadir/xauthority}"
