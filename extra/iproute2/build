@@ -1,0 +1,27 @@
+#!/bin/sh -e
+
+export LDFLAGS="$LDFLAGS -static"
+
+for p in *.patch; do
+    patch -p1 < "$p"
+done
+
+# Fix hardcoded `gcc` ( there is HOST_CC := $(CC) on line after this,
+# but upstream seems to use it inconsistently ). Otherwise build fails on
+# `clang` based systems with no `gcc` installed.
+sed -i 's/CC := gcc/CC ?= gcc/' Makefile
+
+./configure \
+    --include_dir /usr/include
+
+make KERNEL_INCLUDE=y
+
+mkdir -p \
+	"$1/usr/bin" \
+	"$1/usr/share/man/man8"
+
+for bin in ip bridge; do
+	chmod 755 "$bin"/"$bin"
+	cp -f "$bin"/"$bin" "$1/usr/bin"
+	cp -f man/man8/"$bin".8 "$1/usr/share/man/man8"
+done
