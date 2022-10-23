@@ -6,11 +6,10 @@ sed 's|/usr/local|/usr|' config.mk > _
 mv -f _ config.mk
 
 # fix pkgconf looking for 4.0 instead of 4.1
-sed 's/webkit2gtk-4.0/webkit2gtk-4.1/g' config.mk > _
-mv -f _ config.mk
-sed 's/webkit2gtk-web-extension-4.0/webkit2gtk-web-extension-4.1/g' config.mk > _
-mv -f _ config.mk
-
+#sed 's/webkit2gtk-4.0/webkit2gtk-4.1/g' config.mk > _
+#mv -f _ config.mk
+#sed 's/webkit2gtk-web-extension-4.0/webkit2gtk-web-extension-4.1/g' config.mk > _
+#mv -f _ config.mk
 
 make
 make install
