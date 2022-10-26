@@ -5,10 +5,10 @@ case $1 in
 		exec sndiod ${OPTS} -d 2>&1
 		;;
 	-k)
-		ps > _
-		PID="$grep sndiod _ | awk '{print $1}')"
+		ps -A > ps.sniod
+		PID="$grep sndiod ps.sndiod | awk '{print $1}')"
 		kill -9 $PID
-		rm -rf _
+		rm -rf ps.sndiod
 		;;
 	*)
 		echo "Usage: $0 -l|-k"
