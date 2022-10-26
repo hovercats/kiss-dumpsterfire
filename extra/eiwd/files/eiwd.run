@@ -5,10 +5,10 @@ case $1 in
 		exec iwd -d
 		;;
 	-k)
-		ps -A > _
-		PID="$(grep iwd _ | awk '{print $1}')"
+		ps -A > ps.eiwd
+		PID="$(grep iwd ps.eiwd | awk '{print $1}')"
 		kill -9 $PID
-		rm -rf _
+		rm -rf ps.eiwd
 		;;
 	*)
 		echo "Usage: $0 -l|-k"
