@@ -4,16 +4,22 @@ umask 022
 
 svc -k
 
-swapoff -a
+kill -s TERM 1
+sleep 2
+kill -s KILL 1
 
-umount -a
+swapoff -a
 
 mount -o remount,ro /
 sync
 sleep 3
 
+umount -a
+
+wait
+
 case $1 in
-  reboot) reboot -f ;;
-  poweroff) poweroff -f ;;
+  reboot) halt -r ;;
+  poweroff) halt -p ;;
   *) echo "Invalid action for rc.shutdown" && exit 1 ;;
 esac
