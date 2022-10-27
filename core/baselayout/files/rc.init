@@ -33,4 +33,4 @@ done
 
 /etc/rc.local
 
-svc -s
+svc -s 1> /dev/null
