@@ -1,6 +1,5 @@
 #!/bin/sh -e
 
-make PREFIX=/usr DESTDIR="$1" install
-
-chmod 755 sxfb
-cp -f sxfb "$1/usr/bin"
+mkdir -p "$1/usr/bin"
+chmod 755 sx
+cp -f sx "$1/usr/bin"

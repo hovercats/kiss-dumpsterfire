@@ -1,12 +1,13 @@
 #!/bin/sh -e
 
+
 ./configure \
     --cc="${CC:-cc}" \
     --cxx="${CXX:-c++}" \
     --prefix=/usr \
     --disable-debug \
     --disable-libxml2 \
-    --disable-static \
+    --enable-static \
     --enable-gpl \
     --enable-libdrm \
     --enable-libass \
@@ -18,10 +19,13 @@
     --enable-libxvid \
     --enable-nonfree \
     --enable-libtls \
-    --enable-sndio \
-    --disable-alsa \
+    --disable-sndio \
+    --enable-alsa \
     --enable-shared \
     --enable-version3 \
+    --pkg-config-flags="--static" \
+    --extra-ldexeflags="-static" \
+    --extra-ldflags="-L/usr/lib" \
     --x86asmexe=nasm
 
 make

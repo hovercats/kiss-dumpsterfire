@@ -1,0 +1,76 @@
+From c492ecabbcea1d1ce1f0e8100944076eeced3d24 Mon Sep 17 00:00:00 2001
+From: hovercats <hovercatswithlasereyes@protonmail.com>
+Date: Mon, 17 Oct 2022 04:50:03 +0200
+Subject: [PATCH] static lib
+
+---
+ configure            | 6 +++---
+ libsndio/Makefile.in | 7 +++----
+ 2 files changed, 6 insertions(+), 7 deletions(-)
+
+diff --git a/configure b/configure
+index 2ceaf48..e781071 100755
+--- a/configure
++++ b/configure
+@@ -35,7 +35,7 @@ END
+ #
+ version=1.9.0				# package version (used by pkg-config)
+ prefix=/usr/local			# where to install sndio
+-so="libsndio.so.\${MAJ}.\${MIN}"	# shared libs to build
++so="libsndio.a"	# shared libs to build
+ alsa=no					# do we want alsa support ?
+ sun=no					# do we want sun support ?
+ oss=no					# do we want oss support ?
+@@ -65,8 +65,8 @@ case `uname` in
+ 		alsa=yes
+ 		ldadd="-lrt"
+ 		user=sndiod
+-		so_link="libsndio.so libsndio.so.\${MAJ} libsndio.so.\${MAJ}.0"
+-		so_ldflags="-Wl,-soname=libsndio.so.\${MAJ}"
++		so_link=""
++		so_ldflags=""
+ 		defs='-D_GNU_SOURCE -DHAVE_SOCK_CLOEXEC -DHAVE_CLOCK_GETTIME'
+ 		;;
+ 	NetBSD)
+diff --git a/libsndio/Makefile.in b/libsndio/Makefile.in
+index 6225544..685ec07 100644
+--- a/libsndio/Makefile.in
++++ b/libsndio/Makefile.in
+@@ -14,7 +14,7 @@ LDADD = @ldadd@
+ SO_CFLAGS = -fPIC
+ 
+ # extra compiler flags to produce a shared library with the given name
+-SO_LDFLAGS = -shared @so_ldflags@
++SO_LDFLAGS =  @so_ldflags@
+ 
+ # variables defined on configure script command line (if any)
+ @vars@
+@@ -52,7 +52,6 @@ SO = @so@
+ SO_LINK = @so_link@
+ 
+ all:		${SO}
+-		for i in ${SO_LINK}; do ln -sf ${SO} $$i; done
+ 
+ install:
+ 		mkdir -p ${DESTDIR}${INCLUDE_DIR}
+@@ -61,7 +60,7 @@ install:
+ 		mkdir -p ${DESTDIR}${MAN3_DIR}
+ 		mkdir -p ${DESTDIR}${MAN7_DIR}
+ 		cp sndio.h ${DESTDIR}${INCLUDE_DIR}
+-		cp -R ${SO} ${SO_LINK} ${DESTDIR}${LIB_DIR}
++		cp -R ${SO} ${DESTDIR}${LIB_DIR}
+ 		cp sndio.pc ${DESTDIR}${PKGCONF_DIR}
+ 		cp sio_open.3 ${DESTDIR}${MAN3_DIR}
+ 		ln -sf sio_open.3 ${DESTDIR}${MAN3_DIR}/sio_close.3
+@@ -125,7 +124,7 @@ getpeereid.o issetugid.o strlcat.o strlcpy.o strtonum.o clock_gettime.o
+ 		${CC} ${CFLAGS} ${SO_CFLAGS} -I. ${INCLUDE} ${DEFS} -o $@ -c $<
+ 
+ ${SO}:		${OBJS}
+-		${CC} ${LDFLAGS} ${SO_CFLAGS} ${SO_LDFLAGS} -o ${SO} ${OBJS} ${LDADD}
++		ar rcs ${SO} ${OBJS}
+ 
+ getpeereid.o:	../bsd-compat/getpeereid.c
+ 		${CC} ${CFLAGS} ${SO_CFLAGS} ${INCLUDE} ${DEFS} -c -o getpeereid.o ../bsd-compat/getpeereid.c
+-- 
+2.38.0
+

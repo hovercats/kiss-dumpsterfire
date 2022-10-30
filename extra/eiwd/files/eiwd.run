@@ -1,2 +1,16 @@
 #!/bin/sh
-exec iwd -d
+
+case $1 in
+	-s)
+		exec iwd -d
+		;;
+	-k)
+		ps -A > ps.eiwd
+		PID="$(grep iwd ps.eiwd | awk '{print $1}')"
+		kill -9 $PID
+		rm -rf ps.eiwd
+		;;
+	*)
+		echo "Usage: $0 -l|-k"
+		exit 1
+esac

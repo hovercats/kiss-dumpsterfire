@@ -1,0 +1,16 @@
+#!/bin/sh -e
+
+case $1 in
+	-s)
+		exec sdhcp -f wlan0 1> /dev/null
+		;;
+	-k)
+		ps -A > ps.sdhcp
+		PID="$(grep sdhcp ps.sdhcp | awk '{print $1}')"
+		kill -9 $PID
+		rm -rf ps.sdhcp
+		;;
+	*)
+		echo "Usage: $0 -l|-k"
+		exit 1
+esac
