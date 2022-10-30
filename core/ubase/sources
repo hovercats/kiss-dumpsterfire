@@ -1,3 +1,1 @@
-git+git://git.suckless.org/ubase
-patches/f3aa4b156360ce4a18e4a3897f883b663771ba24.patch
-patches/fix-mount.patch
+https://github.com/michaelforney/ubase/archive/f152e7fc3bd1675060818ac224f96541a2d9d6e7.tar.gz
