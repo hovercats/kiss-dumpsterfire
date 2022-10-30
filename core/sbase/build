@@ -3,5 +3,9 @@
 patch -p1 < tar-dash-remove.patch
 patch -p1 < fix-find.patch
 
+# getconf is provided by musl
+sed '/getconf\\/d' Makefile > _
+mv -f _ Makefile
+
 make LDFLAGS="$LDFLAGS -static" sbase-box
 make DESTDIR="$1" PREFIX=/usr   sbase-box-install
