@@ -1,0 +1,17 @@
+#!/bin/sh -e
+
+./configure \
+    --prefix=/usr \
+    --with-system-zlib
+
+make patch diff LDFLAGS="$LDFLAGS -static"
+
+chmod 755 diff patch
+
+mkdir -p \
+	"$1/usr/bin" \
+	"$1/usr/share/man/man1"
+
+cp -f diff patch "$1/usr/bin"
+cp -f usr.bin/diff/diff.1 "$1/usr/share/man/man1"
+cp -f usr.bin/patch/patch.1 "$1/usr/share/man/man1"
