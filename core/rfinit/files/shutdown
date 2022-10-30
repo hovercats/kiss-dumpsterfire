@@ -3,7 +3,7 @@
 BIN="/etc/rc.shutdown"
 
 case $1 in
-	-r) $BIN reboot ;;
-	-p) $BIN poweroff ;;
+	r) $BIN reboot ;;
+	p) $BIN poweroff ;;
 	*) echo 'Invalid option' ;;
 esac

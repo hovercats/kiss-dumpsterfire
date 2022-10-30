@@ -1,13 +1,16 @@
 #!/bin/sh -e
 
-patch -p1 < fix-init-dir.patch
+# respawn is provided by ubase
+sed 's/respawn//' Makefile > _
+mv -f _ Makefile
 
-sed '/<unistd.h>/a#include <sys\/wait.h>' init.c > _
+sed 's/rc/rc.init/g' init.c > _
 mv -f _ init.c
+
+make LDFLAGS="$LDFLAGS -static"
+
+chmod 755 shutdown
 
 mkdir -p "$1/usr/bin"
 
-cc -static init.c -o "$1/usr/bin/init"
-
-chmod 755 shutdown
-cp -f shutdown "$1/usr/bin"
+cp -f init shutdown "$1/usr/bin"
