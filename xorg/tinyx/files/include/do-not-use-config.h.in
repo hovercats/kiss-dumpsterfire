@@ -1,0 +1,463 @@
+/* include/do-not-use-config.h.in.  Generated from configure.ac by autoheader.  */
+
+/* Define if building universal (internal helper macro) */
+#undef AC_APPLE_UNIVERSAL_BUILD
+
+/* Default base font path */
+#undef BASE_FONT_PATH
+
+/* Define to 1 if `struct sockaddr_in' has a `sin_len' member */
+#undef BSD44SOCKETS
+
+/* Builder address */
+#undef BUILDERADDR
+
+/* Default font path */
+#undef COMPILEDDEFAULTFONTPATH
+
+/* System is BSD-like */
+#undef CSRG_BASED
+
+/* Define to 1 if using 'alloca.c'. */
+#undef C_ALLOCA
+
+/* Support DBE extension */
+#undef DBE
+
+/* Support DPMS extension */
+#undef DPMSExtension
+
+/* Support XDM-AUTH*-1 */
+#undef HASXDMAUTH
+
+/* Have the `getdtablesize' function. */
+#undef HAS_GETDTABLESIZE
+
+/* Have the `getifaddrs' function. */
+#undef HAS_GETIFADDRS
+
+/* Have the `getpeereid' function. */
+#undef HAS_GETPEEREID
+
+/* Have the `getpeerucred' function. */
+#undef HAS_GETPEERUCRED
+
+/* Have the `mmap' function. */
+#undef HAS_MMAP
+
+/* Define to 1 if NetBSD built-in MTRR support is available */
+#undef HAS_MTRR_BUILTIN
+
+/* MTRR support available */
+#undef HAS_MTRR_SUPPORT
+
+/* Define to 1 if you have 'alloca', as a function or macro. */
+#undef HAVE_ALLOCA
+
+/* Define to 1 if <alloca.h> works. */
+#undef HAVE_ALLOCA_H
+
+/* Define to 1 if you have the <asm/mtrr.h> header file. */
+#undef HAVE_ASM_MTRR_H
+
+/* Define to 1 if you have the <asm/vm86.h> header file. */
+#undef HAVE_ASM_VM86_H
+
+/* Define to 1 if you have the `authdes_create' function. */
+#undef HAVE_AUTHDES_CREATE
+
+/* Define to 1 if you have the `authdes_seccreate' function. */
+#undef HAVE_AUTHDES_SECCREATE
+
+/* Define to 1 if you have the `clock_gettime' function. */
+#undef HAVE_CLOCK_GETTIME
+
+/* Define to 1 if you have the <dirent.h> header file, and it defines `DIR'.
+   */
+#undef HAVE_DIRENT_H
+
+/* Define to 1 if you have the <dlfcn.h> header file. */
+#undef HAVE_DLFCN_H
+
+/* Define to 1 if you don't have `vprintf' but do have `_doprnt.' */
+#undef HAVE_DOPRNT
+
+/* Define to 1 if you have the <fcntl.h> header file. */
+#undef HAVE_FCNTL_H
+
+/* Define to 1 if you have the `geteuid' function. */
+#undef HAVE_GETEUID
+
+/* Define to 1 if you have the `getopt' function. */
+#undef HAVE_GETOPT
+
+/* Define to 1 if you have the `getopt_long' function. */
+#undef HAVE_GETOPT_LONG
+
+/* Define to 1 if you have the `getuid' function. */
+#undef HAVE_GETUID
+
+/* Define to 1 if you have the <inttypes.h> header file. */
+#undef HAVE_INTTYPES_H
+
+/* Define to 1 if you have the `ife' library (-life). */
+#undef HAVE_LIBIFE
+
+/* Define to 1 if you have the `m' library (-lm). */
+#undef HAVE_LIBM
+
+/* Define to 1 if you have the `ws2_32' library (-lws2_32). */
+#undef HAVE_LIBWS2_32
+
+/* Define to 1 if you have the `link' function. */
+#undef HAVE_LINK
+
+/* Define to 1 if you have the <linux/apm_bios.h> header file. */
+#undef HAVE_LINUX_APM_BIOS_H
+
+/* Define to 1 if you have the <linux/fb.h> header file. */
+#undef HAVE_LINUX_FB_H
+
+/* Define to 1 if you have the <machine/mtrr.h> header file. */
+#undef HAVE_MACHINE_MTRR_H
+
+/* Define to 1 if you have the `memmove' function. */
+#undef HAVE_MEMMOVE
+
+/* Define to 1 if you have the `memset' function. */
+#undef HAVE_MEMSET
+
+/* Define to 1 if you have the <minix/config.h> header file. */
+#undef HAVE_MINIX_CONFIG_H
+
+/* Define to 1 if you have the `mkstemp' function. */
+#undef HAVE_MKSTEMP
+
+/* Define to 1 if you have the <ndir.h> header file, and it defines `DIR'. */
+#undef HAVE_NDIR_H
+
+/* Define to 1 if the system has the type `socklen_t'. */
+#undef HAVE_SOCKLEN_T
+
+/* Define to 1 if you have the <stdint.h> header file. */
+#undef HAVE_STDINT_H
+
+/* Define to 1 if you have the <stdio.h> header file. */
+#undef HAVE_STDIO_H
+
+/* Define to 1 if you have the <stdlib.h> header file. */
+#undef HAVE_STDLIB_H
+
+/* Define to 1 if you have the `strcasecmp' function. */
+#undef HAVE_STRCASECMP
+
+/* Define to 1 if you have the `strchr' function. */
+#undef HAVE_STRCHR
+
+/* Define to 1 if you have the <strings.h> header file. */
+#undef HAVE_STRINGS_H
+
+/* Define to 1 if you have the <string.h> header file. */
+#undef HAVE_STRING_H
+
+/* Define to 1 if you have the `strlcpy' function. */
+#undef HAVE_STRLCPY
+
+/* Define to 1 if you have the `strrchr' function. */
+#undef HAVE_STRRCHR
+
+/* Define to 1 if you have the `strtol' function. */
+#undef HAVE_STRTOL
+
+/* Define to 1 if you have the <sys/dir.h> header file, and it defines `DIR'.
+   */
+#undef HAVE_SYS_DIR_H
+
+/* Define to 1 if you have the <sys/io.h> header file. */
+#undef HAVE_SYS_IO_H
+
+/* Define to 1 if you have the <sys/memrange.h> header file. */
+#undef HAVE_SYS_MEMRANGE_H
+
+/* Define to 1 if you have the <sys/ndir.h> header file, and it defines `DIR'.
+   */
+#undef HAVE_SYS_NDIR_H
+
+/* Define to 1 if you have the <sys/stat.h> header file. */
+#undef HAVE_SYS_STAT_H
+
+/* Define to 1 if you have the <sys/types.h> header file. */
+#undef HAVE_SYS_TYPES_H
+
+/* Define to 1 if you have the <sys/vm86.h> header file. */
+#undef HAVE_SYS_VM86_H
+
+/* Define to 1 if you have the <unistd.h> header file. */
+#undef HAVE_UNISTD_H
+
+/* Define to 1 if you have the `vprintf' function. */
+#undef HAVE_VPRINTF
+
+/* Define to 1 if you have the `vsnprintf' function. */
+#undef HAVE_VSNPRINTF
+
+/* Define to 1 if you have the <wchar.h> header file. */
+#undef HAVE_WCHAR_H
+
+/* Support IPv6 for TCP connections */
+#undef IPv6
+
+/* Build kdrive ddx */
+#undef KDRIVEDDXACTIONS
+
+/* Build fbdev-based kdrive server */
+#undef KDRIVEFBDEV
+
+/* Build Kdrive X server */
+#undef KDRIVESERVER
+
+/* Build VESA-based kdrive servers */
+#undef KDRIVEVESA
+
+/* Support os-specific local connections */
+#undef LOCALCONN
+
+/* Define to the sub-directory where libtool stores uninstalled libraries. */
+#undef LT_OBJDIR
+
+/* Have monotonic clock from clock_gettime() */
+#undef MONOTONIC_CLOCK
+
+/* Disable some debugging code */
+#undef NDEBUG
+
+/* Do not have `strcasecmp'. */
+#undef NEED_STRCASECMP
+
+/* Operating System Name */
+#undef OSNAME
+
+/* Name of package */
+#undef PACKAGE
+
+/* Define to the address where bug reports for this package should be sent. */
+#undef PACKAGE_BUGREPORT
+
+/* Define to the full name of this package. */
+#undef PACKAGE_NAME
+
+/* Define to the full name and version of this package. */
+#undef PACKAGE_STRING
+
+/* Define to the one symbol short name of this package. */
+#undef PACKAGE_TARNAME
+
+/* Define to the home page for this package. */
+#undef PACKAGE_URL
+
+/* Define to the version of this package. */
+#undef PACKAGE_VERSION
+
+/* Major version of this package */
+#undef PACKAGE_VERSION_MAJOR
+
+/* Minor version of this package */
+#undef PACKAGE_VERSION_MINOR
+
+/* Patch version of this package */
+#undef PACKAGE_VERSION_PATCHLEVEL
+
+/* Support X resource extension */
+#undef RES
+
+/* Support MIT-SCREEN-SAVER extension */
+#undef SCREENSAVER
+
+/* Support Secure RPC ("SUN-DES-1") authentication for X11 clients */
+#undef SECURE_RPC
+
+/* The size of `unsigned long', as computed by sizeof. */
+#undef SIZEOF_UNSIGNED_LONG
+
+/* Include time-based scheduler */
+#undef SMART_SCHEDULE
+
+/* If using the C implementation of alloca, define if you know the
+   direction of stack growth for your system; otherwise it will be
+   automatically deduced at runtime.
+	STACK_DIRECTION > 0 => grows toward higher addresses
+	STACK_DIRECTION < 0 => grows toward lower addresses
+	STACK_DIRECTION = 0 => direction of growth unknown */
+#undef STACK_DIRECTION
+
+/* Define to 1 if all of the C90 standard headers exist (not just the ones
+   required in a freestanding environment). This macro is provided for
+   backward compatibility; new code need not use it. */
+#undef STDC_HEADERS
+
+/* Support TCP socket connections */
+#undef TCPCONN
+
+/* Support UNIX socket connections */
+#undef UNIXCONN
+
+/* NetBSD PIO alpha IO */
+#undef USE_ALPHA_PIO
+
+/* BSD AMD64 iopl */
+#undef USE_AMD64_IOPL
+
+/* BSD /dev/io */
+#undef USE_DEV_IO
+
+/* BSD i386 iopl */
+#undef USE_I386_IOPL
+
+/* Enable extensions on AIX 3, Interix.  */
+#ifndef _ALL_SOURCE
+# undef _ALL_SOURCE
+#endif
+/* Enable general extensions on macOS.  */
+#ifndef _DARWIN_C_SOURCE
+# undef _DARWIN_C_SOURCE
+#endif
+/* Enable general extensions on Solaris.  */
+#ifndef __EXTENSIONS__
+# undef __EXTENSIONS__
+#endif
+/* Enable GNU extensions on systems that have them.  */
+#ifndef _GNU_SOURCE
+# undef _GNU_SOURCE
+#endif
+/* Enable X/Open compliant socket functions that do not require linking
+   with -lxnet on HP-UX 11.11.  */
+#ifndef _HPUX_ALT_XOPEN_SOCKET_API
+# undef _HPUX_ALT_XOPEN_SOCKET_API
+#endif
+/* Identify the host operating system as Minix.
+   This macro does not affect the system headers' behavior.
+   A future release of Autoconf may stop defining this macro.  */
+#ifndef _MINIX
+# undef _MINIX
+#endif
+/* Enable general extensions on NetBSD.
+   Enable NetBSD compatibility extensions on Minix.  */
+#ifndef _NETBSD_SOURCE
+# undef _NETBSD_SOURCE
+#endif
+/* Enable OpenBSD compatibility extensions on NetBSD.
+   Oddly enough, this does nothing on OpenBSD.  */
+#ifndef _OPENBSD_SOURCE
+# undef _OPENBSD_SOURCE
+#endif
+/* Define to 1 if needed for POSIX-compatible behavior.  */
+#ifndef _POSIX_SOURCE
+# undef _POSIX_SOURCE
+#endif
+/* Define to 2 if needed for POSIX-compatible behavior.  */
+#ifndef _POSIX_1_SOURCE
+# undef _POSIX_1_SOURCE
+#endif
+/* Enable POSIX-compatible threading on Solaris.  */
+#ifndef _POSIX_PTHREAD_SEMANTICS
+# undef _POSIX_PTHREAD_SEMANTICS
+#endif
+/* Enable extensions specified by ISO/IEC TS 18661-5:2014.  */
+#ifndef __STDC_WANT_IEC_60559_ATTRIBS_EXT__
+# undef __STDC_WANT_IEC_60559_ATTRIBS_EXT__
+#endif
+/* Enable extensions specified by ISO/IEC TS 18661-1:2014.  */
+#ifndef __STDC_WANT_IEC_60559_BFP_EXT__
+# undef __STDC_WANT_IEC_60559_BFP_EXT__
+#endif
+/* Enable extensions specified by ISO/IEC TS 18661-2:2015.  */
+#ifndef __STDC_WANT_IEC_60559_DFP_EXT__
+# undef __STDC_WANT_IEC_60559_DFP_EXT__
+#endif
+/* Enable extensions specified by ISO/IEC TS 18661-4:2015.  */
+#ifndef __STDC_WANT_IEC_60559_FUNCS_EXT__
+# undef __STDC_WANT_IEC_60559_FUNCS_EXT__
+#endif
+/* Enable extensions specified by ISO/IEC TS 18661-3:2015.  */
+#ifndef __STDC_WANT_IEC_60559_TYPES_EXT__
+# undef __STDC_WANT_IEC_60559_TYPES_EXT__
+#endif
+/* Enable extensions specified by ISO/IEC TR 24731-2:2010.  */
+#ifndef __STDC_WANT_LIB_EXT2__
+# undef __STDC_WANT_LIB_EXT2__
+#endif
+/* Enable extensions specified by ISO/IEC 24747:2009.  */
+#ifndef __STDC_WANT_MATH_SPEC_FUNCS__
+# undef __STDC_WANT_MATH_SPEC_FUNCS__
+#endif
+/* Enable extensions on HP NonStop.  */
+#ifndef _TANDEM_SOURCE
+# undef _TANDEM_SOURCE
+#endif
+/* Enable X/Open extensions.  Define to 500 only if necessary
+   to make mbstate_t available.  */
+#ifndef _XOPEN_SOURCE
+# undef _XOPEN_SOURCE
+#endif
+
+
+/* Version number of package */
+#undef VERSION
+
+/* Define WORDS_BIGENDIAN to 1 if your processor stores words with the most
+   significant byte first (like Motorola and SPARC, unlike Intel). */
+#if defined AC_APPLE_UNIVERSAL_BUILD
+# if defined __BIG_ENDIAN__
+#  define WORDS_BIGENDIAN 1
+# endif
+#else
+# ifndef WORDS_BIGENDIAN
+#  undef WORDS_BIGENDIAN
+# endif
+#endif
+
+/* Support XDM Control Protocol */
+#undef XDMCP
+
+/* Support XF86 Big font extension */
+#undef XF86BIGFONT
+
+/* Vendor release */
+#undef XORG_DATE
+
+/* Vendor man version */
+#undef XORG_MAN_VERSION
+
+/* Vendor release */
+#undef XORG_RELEASE
+
+/* Build XRes extension */
+#undef XResExtension
+
+/* Vendor name */
+#undef XVENDORNAME
+
+/* Short vendor name */
+#undef XVENDORNAMESHORT
+
+/* Endian order */
+#undef X_BYTE_ORDER
+
+/* Define to 1 if `lex' declares `yytext' as a `char *' by default, not a
+   `char[]'. */
+#undef YYTEXT_POINTER
+
+/* Defined if needed to expose struct msghdr.msg_control */
+#undef _XOPEN_SOURCE
+
+/* Define to 1 if unsigned long is 64 bits. */
+#undef _XSERVER64
+
+/* Define to empty if `const' does not conform to ANSI C. */
+#undef const
+
+/* Define as a signed integer type capable of holding a process identifier. */
+#undef pid_t
+
+/* Define to `unsigned int' if <sys/types.h> does not define. */
+#undef size_t
