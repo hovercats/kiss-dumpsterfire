@@ -1,7 +1,8 @@
 #!/bin/sh -e
 
-patch -p1 < tar-dash-remove.patch
-patch -p1 < fix-find.patch
+for p in *.patch; do
+	patch -p1 < "$p"
+done
 
 # getconf is provided by musl
 sed '/getconf\\/d' Makefile > _

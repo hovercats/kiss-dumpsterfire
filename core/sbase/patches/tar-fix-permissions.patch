@@ -1,0 +1,27 @@
+From 38b770dcb5e755685dcc6997d8c01312d4539aab Mon Sep 17 00:00:00 2001
+From: hovercats <hovercatswithlasereyes@protonmail.com>
+Date: Tue, 1 Nov 2022 07:43:39 +0100
+Subject: [PATCH] Revert "tar: don't change modes for hardlinks on extraction"
+
+This reverts commit 3c2f8b0cfa592bbe31ee4270cf275acfd261cd71.
+---
+ tar.c | 3 ---
+ 1 file changed, 3 deletions(-)
+
+diff --git a/tar.c b/tar.c
+index d3a9f3b..038ef09 100644
+--- a/tar.c
++++ b/tar.c
+@@ -329,9 +329,6 @@ unarchive(char *fname, ssize_t l, char b[BLKSIZ])
+ 		close(fd);
+ 	}
+ 
+-	if (h->type == HARDLINK)
+-		return 0;
+-
+ 	times[0].tv_sec = times[1].tv_sec = mtime;
+ 	times[0].tv_nsec = times[1].tv_nsec = 0;
+ 	if (!mflag && utimensat(AT_FDCWD, fname, times, AT_SYMLINK_NOFOLLOW) < 0)
+-- 
+2.38.1
+
