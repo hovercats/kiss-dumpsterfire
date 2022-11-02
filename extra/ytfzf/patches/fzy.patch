@@ -1,6 +1,6 @@
-From 2a6a87c37a8b01031078b0d093e44a9db0ec3ffc Mon Sep 17 00:00:00 2001
+From f375cb6600df883852460ae84d8065e1f042beae Mon Sep 17 00:00:00 2001
 From: hovercats <hovercatswithlasereyes@protonmail.com>
-Date: Thu, 15 Sep 2022 00:48:55 +0200
+Date: Wed, 2 Nov 2022 12:52:42 +0100
 Subject: [PATCH] fzy patch
 
 ---
@@ -8,10 +8,10 @@ Subject: [PATCH] fzy patch
  1 file changed, 5 insertions(+), 5 deletions(-)
 
 diff --git a/ytfzf b/ytfzf
-index f4cce8b..cd8d49c 100755
+index 999b063..7d96aa4 100755
 --- a/ytfzf
 +++ b/ytfzf
-@@ -264,7 +264,7 @@ trim_url () {
+@@ -280,7 +280,7 @@ trim_url () {
  }
  
  quick_menu () {
@@ -20,7 +20,7 @@ index f4cce8b..cd8d49c 100755
  }
  quick_menu_ext (){
  	external_menu "$1"
-@@ -1608,7 +1608,7 @@ interface_text () {
+@@ -1649,7 +1649,7 @@ interface_text () {
  			video_info_text
  		done |
          { [ $use_column -eq 1 ] && column -t -s "$tab_space" || cat; } |
@@ -29,19 +29,19 @@ index f4cce8b..cd8d49c 100755
  		trim_url > "$selected_id_file"
  }
  #}}}
-@@ -1956,9 +1956,9 @@ interface_thumbnails () {
- 	#fzf_preview_side will get reset if we don't pass it in
+@@ -2005,9 +2005,9 @@ interface_thumbnails () {
+ 	# fzf_preview_side will get reset if we don't pass it in
  	jq -r '.[]|[.title,"'"$gap_space"'|"+.channel,"|"+.duration,"|"+.views,"|"+.date,"|"+.url]|join("\t")' < "$video_json_file" |
  	sort_video_data_fn |
 -	SHELL="$(command -v sh)" fzf -m \
--	--preview "__is_fzf_preview=1 fzf_preview_side='$fzf_preview_side' scrape='$scrape' thumb_dir='$thumb_dir' YTFZF_PID='$YTFZF_PID' UEBERZUG_FIFO='$UEBERZUG_FIFO' $0 -U preview_img '$thumbnail_viewer' {} '$video_json_file'" \
+-	--preview "__is_fzf_preview=1 fzf_preview_side='$fzf_preview_side' scrape='$scrape' thumb_dir='$thumb_dir' session_cache_dir='$session_cache_dir' session_temp_dir='$session_temp_dir' YTFZF_PID='$YTFZF_PID' UEBERZUG_FIFO='$UEBERZUG_FIFO' $0 -U preview_img '$thumbnail_viewer' {} '$video_json_file'" \
 -	--preview-window "$fzf_preview_side:50%:wrap" --layout=reverse --expect="$shortcut_binds" | set_keypress |
 +	SHELL="$(command -v sh)" fzf \
-+	"__is_fzf_preview=1 fzf_preview_side='$fzf_preview_side' scrape='$scrape' thumb_dir='$thumb_dir' YTFZF_PID='$YTFZF_PID' UEBERZUG_FIFO='$UEBERZUG_FIFO' $0 -U preview_img '$thumbnail_viewer' {} '$video_json_file'" \
-+	--preview-window "$fzf_preview_side:50%:wrap" | set_keypress |
++	"__is_fzf_preview=1 fzf_preview_side='$fzf_preview_side' scrape='$scrape' thumb_dir='$thumb_dir' session_cache_dir='$session_cache_dir' session_temp_dir='$session_temp_dir' YTFZF_PID='$YTFZF_PID' UEBERZUG_FIFO='$UEBERZUG_FIFO' $0 -U preview_img '$thumbnail_viewer' {} '$video_json_file'" \
++	--preview-window "$fzf_preview_side:50%:wrap" --expect="$shortcut_binds" | set_keypress |
  	trim_url > "$selected_id_file"
  
  	preview_stop "$thumbnail_viewer"
 -- 
-2.37.3
+2.38.1
 
