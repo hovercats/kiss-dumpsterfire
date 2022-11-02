@@ -1,0 +1,274 @@
+/* config.h.in.  Generated from configure.ac by autoheader.  */
+
+/* Major version for f2fs-tools */
+#undef F2FS_MAJOR_VERSION
+
+/* Minor version for f2fs-tools */
+#undef F2FS_MINOR_VERSION
+
+/* f2fs-tools date based on Source releases */
+#undef F2FS_TOOLS_DATE
+
+/* f2fs-tools version */
+#undef F2FS_TOOLS_VERSION
+
+/* Define to 1 if you have the `add_key' function. */
+#undef HAVE_ADD_KEY
+
+/* Define to 1 if you have the <attr/xattr.h> header file. */
+#undef HAVE_ATTR_XATTR_H
+
+/* Define to 1 if you have the <blkid/blkid.h> header file. */
+#undef HAVE_BLKID_BLKID_H
+
+/* report zones includes zone capacity */
+#undef HAVE_BLK_ZONE_REP_V2
+
+/* Define to 1 if you have the <byteswap.h> header file. */
+#undef HAVE_BYTESWAP_H
+
+/* Define if CLOCK_BOOTTIME is available */
+#undef HAVE_CLOCK_BOOTTIME
+
+/* Define to 1 if you have the declaration of `bswap_64', and to 0 if you
+   don't. */
+#undef HAVE_DECL_BSWAP_64
+
+/* Define to 1 if you have the <dlfcn.h> header file. */
+#undef HAVE_DLFCN_H
+
+/* Define to 1 if you have the `fallocate' function. */
+#undef HAVE_FALLOCATE
+
+/* Define to 1 if you have the <fcntl.h> header file. */
+#undef HAVE_FCNTL_H
+
+/* Define to 1 if you have the `fsetxattr' function. */
+#undef HAVE_FSETXATTR
+
+/* Define to 1 if you have the `fstat' function. */
+#undef HAVE_FSTAT
+
+/* Define to 1 if you have the `fstat64' function. */
+#undef HAVE_FSTAT64
+
+/* Define to 1 if you have the `fsync' function. */
+#undef HAVE_FSYNC
+
+/* Define to 1 if you have the `getgid' function. */
+#undef HAVE_GETGID
+
+/* Define to 1 if you have the `getmntent' function. */
+#undef HAVE_GETMNTENT
+
+/* Define to 1 if you have the `getuid' function. */
+#undef HAVE_GETUID
+
+/* Define to 1 if you have the <inttypes.h> header file. */
+#undef HAVE_INTTYPES_H
+
+/* Define to 1 if you have the <kernel/uapi/linux/blkzoned.h> header file. */
+#undef HAVE_KERNEL_UAPI_LINUX_BLKZONED_H
+
+/* Define to 1 if you have the `keyctl' function. */
+#undef HAVE_KEYCTL
+
+/* Define if you have libblkid */
+#undef HAVE_LIBBLKID
+
+/* Define if you have liblz4 */
+#undef HAVE_LIBLZ4
+
+/* Define if you have liblzo2 */
+#undef HAVE_LIBLZO2
+
+/* Define if you have libselinux */
+#undef HAVE_LIBSELINUX
+
+/* Define if you have libuuid */
+#undef HAVE_LIBUUID
+
+/* Define if you have libwinpthread */
+#undef HAVE_LIBWINPTHREAD
+
+/* Define to 1 if you have the <linux/blkzoned.h> header file. */
+#undef HAVE_LINUX_BLKZONED_H
+
+/* Define to 1 if you have the <linux/falloc.h> header file. */
+#undef HAVE_LINUX_FALLOC_H
+
+/* Define to 1 if you have the <linux/fiemap.h> header file. */
+#undef HAVE_LINUX_FIEMAP_H
+
+/* Define to 1 if you have the <linux/fs.h> header file. */
+#undef HAVE_LINUX_FS_H
+
+/* Define to 1 if you have the <linux/hdreg.h> header file. */
+#undef HAVE_LINUX_HDREG_H
+
+/* Define to 1 if you have the <linux/limits.h> header file. */
+#undef HAVE_LINUX_LIMITS_H
+
+/* Define to 1 if you have the <linux/posix_acl.h> header file. */
+#undef HAVE_LINUX_POSIX_ACL_H
+
+/* Define to 1 if you have the <linux/types.h> header file. */
+#undef HAVE_LINUX_TYPES_H
+
+/* Define to 1 if you have the <linux/xattr.h> header file. */
+#undef HAVE_LINUX_XATTR_H
+
+/* Define to 1 if you have the `llseek' function. */
+#undef HAVE_LLSEEK
+
+/* Define to 1 if you have the `lseek64' function. */
+#undef HAVE_LSEEK64
+
+/* Define to 1 if you have the <mach/mach_time.h> header file. */
+#undef HAVE_MACH_MACH_TIME_H
+
+/* Define to 1 if you have the `memset' function. */
+#undef HAVE_MEMSET
+
+/* Define to 1 if you have the <mntent.h> header file. */
+#undef HAVE_MNTENT_H
+
+/* Define to 1 if you have the <pthread_time.h> header file. */
+#undef HAVE_PTHREAD_TIME_H
+
+/* Define to 1 if you have the <scsi/sg.h> header file. */
+#undef HAVE_SCSI_SG_H
+
+/* Define to 1 if you have the <selinux/android.h> header file. */
+#undef HAVE_SELINUX_ANDROID_H
+
+/* Define to 1 if you have the <selinux/selinux.h> header file. */
+#undef HAVE_SELINUX_SELINUX_H
+
+/* Define to 1 if you have the `setmntent' function. */
+#undef HAVE_SETMNTENT
+
+/* Define to 1 if you have the <sparse/sparse.h> header file. */
+#undef HAVE_SPARSE_SPARSE_H
+
+/* Define to 1 if you have the <stdint.h> header file. */
+#undef HAVE_STDINT_H
+
+/* Define to 1 if you have the <stdio.h> header file. */
+#undef HAVE_STDIO_H
+
+/* Define to 1 if you have the <stdlib.h> header file. */
+#undef HAVE_STDLIB_H
+
+/* Define to 1 if you have the <strings.h> header file. */
+#undef HAVE_STRINGS_H
+
+/* Define to 1 if you have the <string.h> header file. */
+#undef HAVE_STRING_H
+
+/* Define to 1 if you have the <sys/acl.h> header file. */
+#undef HAVE_SYS_ACL_H
+
+/* Define to 1 if you have the <sys/ioctl.h> header file. */
+#undef HAVE_SYS_IOCTL_H
+
+/* Define to 1 if you have the <sys/mount.h> header file. */
+#undef HAVE_SYS_MOUNT_H
+
+/* Define to 1 if you have the <sys/stat.h> header file. */
+#undef HAVE_SYS_STAT_H
+
+/* Define to 1 if you have the <sys/syscall.h> header file. */
+#undef HAVE_SYS_SYSCALL_H
+
+/* Define to 1 if you have the <sys/sysmacros.h> header file. */
+#undef HAVE_SYS_SYSMACROS_H
+
+/* Define to 1 if you have the <sys/types.h> header file. */
+#undef HAVE_SYS_TYPES_H
+
+/* Define to 1 if you have the <sys/utsname.h> header file. */
+#undef HAVE_SYS_UTSNAME_H
+
+/* Define to 1 if you have the <sys/xattr.h> header file. */
+#undef HAVE_SYS_XATTR_H
+
+/* Define to 1 if you have the <unistd.h> header file. */
+#undef HAVE_UNISTD_H
+
+/* Define to 1 if you have the <uuid/uuid.h> header file. */
+#undef HAVE_UUID_UUID_H
+
+/* Define to the sub-directory where libtool stores uninstalled libraries. */
+#undef LT_OBJDIR
+
+/* Name of package */
+#undef PACKAGE
+
+/* Define to the address where bug reports for this package should be sent. */
+#undef PACKAGE_BUGREPORT
+
+/* Define to the full name of this package. */
+#undef PACKAGE_NAME
+
+/* Define to the full name and version of this package. */
+#undef PACKAGE_STRING
+
+/* Define to the one symbol short name of this package. */
+#undef PACKAGE_TARNAME
+
+/* Define to the home page for this package. */
+#undef PACKAGE_URL
+
+/* Define to the version of this package. */
+#undef PACKAGE_VERSION
+
+/* Define to 1 if all of the C90 standard headers exist (not just the ones
+   required in a freestanding environment). This macro is provided for
+   backward compatibility; new code need not use it. */
+#undef STDC_HEADERS
+
+/* Version number of package */
+#undef VERSION
+
+/* Define to `__inline__' or `__inline' if that's what the C compiler
+   calls it, or to nothing if 'inline' is not supported under any name.  */
+#ifndef __cplusplus
+#undef inline
+#endif
+
+/* Define to the type of a signed integer type of width exactly 32 bits if
+   such a type exists and the standard includes do not define it. */
+#undef int32_t
+
+/* Define to the type of a signed integer type of width exactly 8 bits if such
+   a type exists and the standard includes do not define it. */
+#undef int8_t
+
+/* Define to `unsigned int' if <sys/types.h> does not define. */
+#undef size_t
+
+
+#ifndef _CONFIG_H_
+#define _CONFIG_H_
+
+#ifdef HAVE_SYS_STAT_H
+#include <sys/stat.h>
+#endif
+
+#ifndef HAVE_GETUID
+static inline unsigned int getuid(void) { return -1; }
+#endif
+#ifndef HAVE_GETGID
+static inline unsigned int getgid(void) { return -1; }
+#endif
+
+#ifndef S_ISLNK
+#define S_ISLNK(mode) false
+#endif
+#ifndef S_ISSOCK
+#define S_ISSOCK(mode) false
+#endif
+
+#endif
+
