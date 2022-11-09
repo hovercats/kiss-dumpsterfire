@@ -1,4 +1,4 @@
-bison        make
+byacc        make
 expat
 flex         make
 libX11
@@ -16,6 +16,6 @@ llvm
 m4            make
 meson         make
 pkgconf       make
-python        make
+python-mako  make
 xorgproto
 zlib
