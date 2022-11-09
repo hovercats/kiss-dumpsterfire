@@ -6,7 +6,8 @@
     --with-nettle-mini \
     --with-included-libtasn1 \
     --with-included-unistring \
-    --enable-static
+    --enable-static \
+    --without-p11-kit
 
 make
 make DESTDIR="$1" install
