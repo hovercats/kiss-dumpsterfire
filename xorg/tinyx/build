@@ -1,6 +1,7 @@
 #!/bin/sh -e
 
-export XSERVERCFLAGS_CFLAGS="--static"
+export LDFLAGS="$LDFLAGS -static-pie"
+export XSERVERCFLAGS_CFLAGS="-fPIE"
 export XSERVERLIBS_LIBS="/usr/lib/*.a -lz -lfreetype -lpng16 -lharfbuzz"
 
 ./configure \
