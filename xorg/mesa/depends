@@ -12,10 +12,10 @@ libelf
 libxcb
 libxshmfence
 linux-headers make
-llvm
 m4            make
 meson         make
 pkgconf       make
-python-mako  make
+python        make
+python-mako	 make
 xorgproto
 zlib

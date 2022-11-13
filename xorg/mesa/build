@@ -21,8 +21,7 @@ meson \
     -Dglx-read-only-text=true \
     -Dplatforms=x11 \
     -Dglx=auto \
-    -Dvulkan-drivers=amd \
-    -Dgallium-drivers=radeonsi,swrast \
+    -Dgallium-drivers=swrast \
     -Degl=enabled \
     -Dvalgrind=false \
     -Dzstd=disabled \
