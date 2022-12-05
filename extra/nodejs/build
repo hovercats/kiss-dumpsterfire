@@ -1,20 +1,21 @@
 #!/bin/sh -e
 
+patch -p1 < libressl.patch
+
 # Fix build when libatomic.so does not exist in the system.
 # This may be provided by compiler-rt which requires no additional
 # linker flags to be used.
-[ -r "$KISS_ROOT/usr/lib/libatomic.so" ] || {
+case $("$CC" -print-file-name=libatomic.so) in */*) ;; *)
     sed 's/-latomic//' node.gyp > _
     mv -f _ node.gyp
-}
+esac
 
 ./configure \
     --with-intl=none \
-    --without-etw \
-    --without-dtrace \
     --without-report \
     --without-node-snapshot \
     --without-node-code-cache \
+    --without-npm \
     --ninja
 
 ninja -C out/Release
