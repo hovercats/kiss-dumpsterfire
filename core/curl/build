@@ -19,6 +19,7 @@ mv -f _ src/Makefile.in
     --with-ca-fallback \
     --without-librtmp \
     --without-libpsl \
+    --without-nghttp2 \
     --without-libidn2 \
     --without-brotli \
     --enable-optimize \
