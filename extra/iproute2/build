@@ -1,0 +1,39 @@
+#!/bin/sh -e
+
+export LDFLAGS="$LDFLAGS -static"
+
+for p in *.patch; do
+    patch -p1 < "$p"
+done
+
+# Fix hardcoded `gcc` ( there is HOST_CC := $(CC) on line after this,
+# but upstream seems to use it inconsistently ). Otherwise build fails on
+# `clang` based systems with no `gcc` installed.
+sed 's/CC := gcc/CC ?= gcc/' Makefile > _
+mv -f _ Makefile
+
+./configure \
+    --include_dir /usr/include
+
+# remove dependency on libelf, among other things
+for var in HAVE_BERKELEY_DB HAVE_CAP HAVE_LIBCAP HAVE_MNL \
+	HAVE_ELF HAVE_RPC HAVE_SELINUX HAVE_LIBBSD TC_CONFIG_XT; do
+		sed "/$var/d" config.mk > _
+		echo "$var := n" >> _
+		mv -f _ config.mk
+done
+
+sed '/LDLIBS/d' config.mk > _
+mv -f _ config.mk
+
+make KERNEL_INCLUDE=y
+
+mkdir -p \
+	"$1/usr/bin" \
+	"$1/usr/share/man/man8"
+
+for bin in ip bridge; do
+	chmod 755 "$bin"/"$bin"
+	cp -f "$bin"/"$bin" "$1/usr/bin"
+	cp -f man/man8/"$bin".8 "$1/usr/share/man/man8"
+done

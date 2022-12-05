@@ -1,0 +1,12 @@
+#!/bin/sh -e
+
+for p in *.patch; do
+	patch -p1 < "$p"
+done
+
+# getconf is provided by musl
+sed '/getconf\\/d' Makefile > _
+mv -f _ Makefile
+
+make LDFLAGS="$LDFLAGS -static" sbase-box
+make DESTDIR="$1" PREFIX=/usr   sbase-box-install

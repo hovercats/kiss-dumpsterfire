@@ -1,0 +1,3 @@
+https://github.com/michaelforney/sbase/archive/VERSION.tar.gz
+patches/tar-dash-remove.patch
+patches/tar-fix-permissions.patch
