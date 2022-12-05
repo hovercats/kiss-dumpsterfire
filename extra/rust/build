@@ -46,14 +46,18 @@ profiler       = false
 full-bootstrap = false
 EOF
 
+# If possible, use system rust to bootstrap.
 maj="${2%%.*}"
 min="${2%.*}"
 min="${min#*.}"
 
+# Fall back to vendor binaries if rustc, et al are not present, or if one of
+# them suffered ABI breakage.
 rust_version=$(rustc --version 2>/dev/null) || rust_version=null
+cargo --version 2>/dev/null || rust_version=null
+rustfmt --version 2>/dev/null || rust_version=null
 rust_version="${rust_version#rustc }"
 
-# If possible, use system rust to bootstrap.
 case "$rust_version" in
     "$maj.$min".*|"$maj.$((min - 1))".*)
         cat >> config.toml <<EOF
@@ -67,7 +71,7 @@ EOF
         # This mimics the download process of rust's 'x.py'
         # bootstrap library to allow for the removal of the internet
         # connection requirement per build.
-        mkdir -p "${cache_dir:=build/cache/2022-08-11}"
+        mkdir -p "${cache_dir:=build/cache/2022-09-22}"
 
         for tarball in *.tar.xz\?no-extract; do
             mv -f "$tarball" "$cache_dir/${tarball%%\?no-extract}"
