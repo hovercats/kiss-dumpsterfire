@@ -1,0 +1,15 @@
+#!/bin/sh -e
+
+export DESTDIR="$1"
+
+meson \
+    --prefix=/usr \
+    -Ddefault_library=static \
+    -Dwith_INIReader=false \
+    -Dmulti-line_entries=false \
+    -Dinline_comments=false \
+    -Duse_heap=false \
+    . output
+
+ninja -C output
+ninja -C output install

@@ -1,0 +1,24 @@
+https://github.com/urcu/userspace-rcu/archive/refs/tags/vVERSION.tar.gz
+files/ltmain.sh config
+files/compile config
+files/missing config
+files/missing config
+files/config.guess config
+files/config.sub config
+files/install-sh config
+files/depcomp config
+files/test-driver config
+files/configure
+files/Makefile.in
+files/src/Makefile.in src
+files/doc/Makefile.in doc
+files/doc/examples/Makefile.in doc/examples
+files/extras/Makefile.in extras
+files/include/Makefile.in include
+files/include/config.h.in include
+files/tests/Makefile.in tests
+files/tests/common/Makefile.in tests/common
+files/tests/unit/Makefile.in tests/unit
+files/tests/benchmark/Makefile.in tests/benchmark
+files/tests/regression/Makefile.in tests/regression
+files/tests/utils/Makefile.in tests/utils
