@@ -1,5 +1,7 @@
 #!/bin/sh
 
+patch -p1 < prevent-clobbering.patch
+
 make 
 make  PREFIX=/usr install
 
