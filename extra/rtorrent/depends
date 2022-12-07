@@ -1,5 +1,5 @@
 curl
-ncurses
+netbsd-curses
 libressl
 pkgconf make
 zlib
