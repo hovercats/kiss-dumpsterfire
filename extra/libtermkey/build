@@ -1,0 +1,6 @@
+#!/bin/sh -e
+
+patch -p1 < static-no-libtool.patch
+
+make libtermkey.a
+make PREFIX=/usr DESTDIR="$1" install
