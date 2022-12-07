@@ -1,0 +1,24 @@
+#!/bin/sh
+
+umask 022
+
+echo "Booting..."
+
+mount -t proc none /proc
+
+mkdir -p /dev/pts
+mkdir -p /dev/shm
+
+echo "mounting root partition"
+mount -o remount,rw /
+
+echo "mounting the rest of the system"
+mount -a
+
+for getty in 1 2 3 ; do # add more numbers to spawm more gettys
+	while :; do /sbin/getty /dev/tty${getty} linux ; done &
+done
+
+/etc/rc.local
+
+svc -s 1> /dev/null
