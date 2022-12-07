@@ -1,1 +1,6 @@
 https://git.causal.agency/catgirl/snapshot/catgirl-VERSION.tar.gz
+patches/0001-Revert-Use-gnu-case-range-and-gnu-conditional-omitte.patch
+patches/0002-Break-out-of-input-loop-when-UI-is-hidden.patch
+patches/0003-Resize-status-window-explicitly-during-resize.patch
+patches/0004-HACK-Disable-colorized-output-in-M-l-window-list.patch
+patches/0005-Don-t-rely-on-internal-struct-tags-of-curses-impleme.patch
