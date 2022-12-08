@@ -8,3 +8,8 @@ make  PREFIX=/usr install
 for libs in curses terminfo panel menu form; do
     chmod 755 "$1/usr/lib/lib${libs}.so"
 done
+
+# clear is provided by ubase
+rm -rf \
+	"$1/usr/share/man/man1/clear.1" \
+	"$1/usr/bin/clear"
