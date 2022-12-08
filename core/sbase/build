@@ -8,5 +8,9 @@ done
 sed '/getconf\\/d' Makefile > _
 mv -f _ Makefile
 
+# strings is provided by binutils
+sed '/strings\\/d' Makefile > _
+mv -f _ Makefile
+
 make LDFLAGS="$LDFLAGS -static" sbase-box
 make DESTDIR="$1" PREFIX=/usr   sbase-box-install
