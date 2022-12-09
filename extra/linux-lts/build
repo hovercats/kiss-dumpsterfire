@@ -6,6 +6,10 @@ for p in *.patch; do
 	patch -p1 < $p
 done
 
+# fix build for unsupported ln flag that sbase doesnt have
+sed 's/ln -fsn/ln -fs/' arch/x86/Makefile > _
+mv -f _ arch/x86/Makefile
+
 make YACC=byacc
 
 cp arch/x86/boot/bzImage "$1/boot/kiss.efi"
