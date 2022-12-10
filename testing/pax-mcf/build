@@ -1,0 +1,6 @@
+#!/bin/sh -e
+
+make LDFLAGS="$LDFLAGS -static"
+
+mkdir -p "$1/usr/bin"
+cp -f pax "$1/usr/bin"
