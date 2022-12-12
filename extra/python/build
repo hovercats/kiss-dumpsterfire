@@ -1,8 +1,8 @@
 #!/bin/sh -e
 
-patch -p1 < libressl-support.patch
-patch -p1 < python3-always-pip.patch
-patch -p1 < python3-pyc-hash.patch
+for p in *.patch; do
+	patch -p1 < "$p"
+done
 
 # Remove util-linux dependency among other things.
 cat >> Modules/Setup <<EOF
@@ -24,7 +24,8 @@ export LDFLAGS="$LDFLAGS -fno-semantic-interposition"
     --without-doc-strings \
     --without-pymalloc \
     --with-builtin-hashlib-hashes="sha3,blake2,sha1,sha512,sha256,md5" \
-    --with-ssl-default-suites="TLSv1.3:TLSv1.2+AEAD+ECDHE:TLSv1.2+AEAD+DHE"
+    --with-ssl-default-suites="TLSv1.3:TLSv1.2+AEAD+ECDHE:TLSv1.2+AEAD+DHE" \
+    ax_cv_c_float_words_bigendian=no
 
 make EXTRA_CFLAGS="$CFLAGS -DTHREAD_STACK_SIZE=0x100000"
 make install
