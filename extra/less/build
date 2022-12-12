@@ -3,5 +3,12 @@
 ./configure \
     --prefix=/usr
 
-make LDFLAGS="$LDFLAGS -static"
-make DESTDIR="$1" install
+make less LDFLAGS="$LDFLAGS -static"
+
+# Makefile sometimes seems to bork?
+mkdir -p \
+	"$1/usr/bin" \
+	"$1/usr/share/man/man1"
+
+cp -f less "$1/usr/bin"
+cp -f less.nro "$1/usr/share/man/man1/less.1"
