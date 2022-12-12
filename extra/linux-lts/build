@@ -3,7 +3,7 @@
 mkdir -p "$1/boot"
 
 for p in *.patch; do
-	patch -p1 < $p
+	patch -p1 < "$p"
 done
 
 # fix build for unsupported ln flag that sbase doesnt have

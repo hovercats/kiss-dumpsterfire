@@ -2,7 +2,7 @@
 
 
 for p in *.patch; do
-	patch -p1 < $p
+	patch -p1 < "$p"
 done
 
 # avoid building midicat
