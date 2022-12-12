@@ -1,6 +1,5 @@
 #!/bin/sh -e
 
-patch -p1 < rwx.patch
 patch -p1 < pax.patch
 
 mkdir -p \
