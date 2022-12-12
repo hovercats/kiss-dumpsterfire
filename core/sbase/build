@@ -4,12 +4,15 @@ for p in *.patch; do
 	patch -p1 < "$p"
 done
 
-# getconf is provided by musl
-sed '/getconf\\/d' Makefile > _
-mv -f _ Makefile
-
-# strings is provided by binutils
-sed '/strings\\/d' Makefile > _
+# getconf and strings is provided elsewhere.
+# also remove other unneeded utilities
+sed -e '/getconf\\/d' \
+	-e '/strings\\/d' \
+	-e '/sha224sum\\/d' \
+	-e '/sha384sum\\/d' \
+	-e '/sha512-224sum\\/d' \
+	-e '/sha512-256sum\\/d' \
+	Makefile > _
 mv -f _ Makefile
 
 make LDFLAGS="$LDFLAGS -static" sbase-box
