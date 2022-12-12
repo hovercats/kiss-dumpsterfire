@@ -4,14 +4,22 @@
     --prefix=/usr \
     --with-system-zlib
 
-make patch diff LDFLAGS="$LDFLAGS -static"
+make pax patch diff LDFLAGS="$LDFLAGS -static"
 
-chmod 755 diff patch
+chmod 755 diff patch pax
 
 mkdir -p \
 	"$1/usr/bin" \
 	"$1/usr/share/man/man1"
 
-cp -f diff patch "$1/usr/bin"
+cp -f pax diff patch "$1/usr/bin"
+
 cp -f usr.bin/diff/diff.1 "$1/usr/share/man/man1"
 cp -f usr.bin/patch/patch.1 "$1/usr/share/man/man1"
+cp -f bin/pax/pax.1 "$1/usr/share/man/man1"
+cp -f bin/pax/tar.1 "$1/usr/share/man/man1"
+cp -f bin/pax/cpio.1 "$1/usr/share/man/man1"
+
+# symlink to tar and cpio
+ln -s pax "$1/usr/bin/tar"
+ln -s pax "$1/usr/bin/cpio"
