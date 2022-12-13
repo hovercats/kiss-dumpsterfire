@@ -2,5 +2,9 @@
 # See fstab(5) for details.
 
 # <file system> <dir> <type> <options> <dump> <pass>
-
 tmpfs /tmp tmpfs defaults,nosuid,nodev 0 0
+devpts /dev/pts devpts mode=0620,gid=5,nosuid,noexec 0 0
+tmpfs /dev/shm tmpfs nodev,nosuid 0 0
+proc /proc proc nodev,noexec,nosuid 0 0
+tmpfs /run tmpfs nodev,noexec,nosuid,mode=755 0 0
+sysfs /sys sysfs nodev,noexec,nosuid 0 0
