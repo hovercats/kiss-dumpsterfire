@@ -2,15 +2,11 @@
 
 export LDFLAGS="$LDFLAGS  -static"
 
-# Make sure gmp is built with generic options.
-cp gcc/gmp/configfsf.guess gcc/gmp/config.guess
-cp gcc/gmp/configfsf.sub   gcc/gmp/config.sub
-
 # Use lib not lib64 by default.
-sed '/m64=/s/lib64/lib/' gcc/gcc/config/i386/t-linux64 > _
-mv -f _ gcc/gcc/config/i386/t-linux64
-sed 's/lib64/lib/' gcc/gcc/config/i386/linux64.h > _
-mv -f _ gcc/gcc/config/i386/linux64.h
+sed '/m64=/s/lib64/lib/' gcc/config/i386/t-linux64 > _
+mv -f _ gcc/config/i386/t-linux64
+sed 's/lib64/lib/' gcc/config/i386/linux64.h > _
+mv -f _ gcc/config/i386/linux64.h
 
 # Build must happen outside of gcc source.
 mkdir -p gcc-build
@@ -26,7 +22,7 @@ case $2 in "$gcc_version"*)
 esac
 
 # first build gcc regularly
-../gcc/configure \
+..//configure \
     libat_cv_have_ifunc=no \
     --prefix=/usr \
     --libexecdir=/usr/lib \

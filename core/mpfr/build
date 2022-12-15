@@ -1,0 +1,11 @@
+#!/bin/sh -e
+
+./configure \
+    --prefix=/usr \
+    --disable-shared \
+    --enable-thread-safe
+
+make
+make install
+
+rm -rf "$1/usr/share/"
