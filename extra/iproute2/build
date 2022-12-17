@@ -12,8 +12,12 @@ done
 sed 's/CC := gcc/CC ?= gcc/' Makefile > _
 mv -f _ Makefile
 
+sed 's/YACC=bison/YACC=yacc/' configure > _
+mv -f _ configure
+chmod +x configure
+
 ./configure \
-    --include_dir /usr/include
+    --include_dir=/usr/include
 
 # remove dependency on libelf, among other things
 for var in HAVE_BERKELEY_DB HAVE_CAP HAVE_LIBCAP HAVE_MNL \
