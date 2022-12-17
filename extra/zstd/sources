@@ -1,1 +1,2 @@
 https://github.com/facebook/zstd/releases/download/vVERSION/zstd-VERSION.tar.gz
+patches/drop-shared-libs.patch

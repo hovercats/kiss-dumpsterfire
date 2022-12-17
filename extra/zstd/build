@@ -1,5 +1,7 @@
 #!/bin/sh -e
 
+patch -p1 < drop-shared-libs.patch
+
 sed 's/^FLAGS.*=/FLAGS = -static /' programs/Makefile > _
 mv -f _ programs/Makefile
 
