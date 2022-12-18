@@ -5,7 +5,7 @@ gstreamer
 lame
 libjpeg-turbo
 libpng
-libsoup3
+libsoup
 libvorbis
 libvpx
 libwebp
