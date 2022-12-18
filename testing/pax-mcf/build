@@ -4,3 +4,5 @@ make LDFLAGS="$LDFLAGS -static"
 
 mkdir -p "$1/usr/bin"
 cp -f pax "$1/usr/bin"
+
+ln -sf pax "$1/usr/bin/cpio"
