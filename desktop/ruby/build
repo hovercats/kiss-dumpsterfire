@@ -1,0 +1,17 @@
+#!/bin/sh -e
+
+# There is a problem with the archive format.
+# both pax and sbase tar shares this issue currently.
+# busybox and librachive tar implementation however seems to work fine.
+busybox tar -xJ --strip-components 1 -f "ruby-$2.tar.xz?no_extract"
+
+patch -p1 < ext_openssl_ossl_pkey_c.patch
+
+./configure \
+    --prefix=/usr \
+    --enable-shared \
+    --enable-static \
+    --disable-rpath
+
+make
+make install
