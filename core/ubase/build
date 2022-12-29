@@ -1,4 +1,21 @@
 #!/bin/sh -e
 
+# remove unneeded utils
+sed -e '/lsmod/d' \
+	-e '/eject/d' \
+	-e '/freeramdisk/d' \
+	-e '/fsfreeze/d' \
+	-e '/vtallow/d' \
+	-e '/vmstat/d' \
+	-e '/swaplabel/d' \
+	-e '/rmmod/d' \
+	-e '/insmod/d' \
+	-e '/unshare/d' \
+	-e '/nologin/d' \
+	-e '/lastlog/d' \
+	-e '/login/d' \
+	Makefile > _
+mv -f _ Makefile
+
 make ubase-box LDFLAGS="$LDFLAGS -static"
 make DESTDIR="$1" PREFIX=/usr ubase-box-install
