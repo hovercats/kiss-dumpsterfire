@@ -16,8 +16,8 @@ kiss list libtasn1 && tasn=ON
 
 # Use clang if installed, decreases compilation time by 25%.
 if command -v clang; then
-	exportCC=clang 
-	exportCXX=clang++
+	export CC=clang 
+	export CXX=clang++
 fi
 
 # Remove gettext requirement.
