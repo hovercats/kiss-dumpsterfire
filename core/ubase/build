@@ -11,9 +11,7 @@ sed -e '/lsmod/d' \
 	-e '/rmmod/d' \
 	-e '/insmod/d' \
 	-e '/unshare/d' \
-	-e '/nologin/d' \
 	-e '/lastlog/d' \
-	-e '/login/d' \
 	Makefile > _
 mv -f _ Makefile
 
