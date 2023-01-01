@@ -68,15 +68,15 @@ mk() {
         -DUSE_LIBHYPHEN=OFF \
         -DUSE_LIBNOTIFY=OFF \
         -DUSE_LIBSECRET=OFF \
-        -DUSE_OPENJPEG=${jpeg:-OFF} \
+        -DUSE_OPENJPEG="${jpeg:-OFF}" \
         -DUSE_SYSTEMD=OFF \
         -DUSE_WOFF2=OFF \
         -DUSE_WPE_RENDERER=OFF \
-        -DENABLE_WEB_CRYPTO=${tasn:-OFF} \
-        -DENABLE_VIDEO=${streaming:-OFF} \
-        -DENABLE_WEB_AUDIO=${streaming:-OFF} \
+        -DENABLE_WEB_CRYPTO="${tasn:-OFF}" \
+        -DENABLE_VIDEO="${streaming:-OFF}" \
+        -DENABLE_WEB_AUDIO="${streaming:-OFF}" \
         -DENABLE_GAMEPAD=OFF \
-        -DUSE_SOUP2=${libsoup2:-ON} \
+        -DUSE_SOUP2="${libsoup2:-ON}" \
         -DENABLE_JOURNALD_LOG=OFF \
         -DUSE_LCMS=OFF \
         -Wno-dev
