@@ -1,14 +1,11 @@
 #!/bin/sh
 case $1 in
 	-s)
-		[ -r conf ] && . ./conf
-		exec sndiod ${OPTS} -d 2>&1
+		exec sndiod snd/1
 		;;
 	-k)
-		ps -A > ps.sniod
-		PID="$grep sndiod ps.sndiod | awk '{print $1}')"
-		kill -9 $PID
-		rm -rf ps.sndiod
+		PID="$(pidof sndiod)"
+		kill -9 "$PID"
 		;;
 	*)
 		echo "Usage: $0 -l|-k"
