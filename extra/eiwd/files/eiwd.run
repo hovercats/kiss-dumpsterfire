@@ -6,7 +6,7 @@ case $1 in
 		;;
 	-k)
 		PID="$(pidof iwd)"
-		kill -9 $PID
+		kill -9 "$PID"
 		;;
 	*)
 		echo "Usage: $0 -l|-k"
