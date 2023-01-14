@@ -1,17 +1,10 @@
 #!/bin/sh -e
 
-# fix typo in filename before we can unpack it
-mv -f xfsprogs-6.1.0.tag.xz?no_extract xfsprogs-6.1.0.tar.xz
-xz -dc xfsprogs-6.1.0.tar.xz | pax -r
-
-cd xfsprogs-6.1.0
-
 # Remove incorrect bash dependency.
 sed 's/bash/sh/' install-sh > _
 mv -f _ install-sh
 
-# There seem to be a permission error, making this non-executable, which makes
-# the build fail
+# Fix permissions 
 chmod +x install-sh
 
 # Explicitly include <signal.h> instead of implicit inclusion.
