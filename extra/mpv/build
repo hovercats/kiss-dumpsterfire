@@ -8,6 +8,7 @@ meson \
     -Degl-x11=disabled \
     -Dgl=disabled \
     -Ddrm=disabled \
+    -Dgbm=disabled \
     . build
 
 ninja -C build
