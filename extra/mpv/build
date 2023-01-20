@@ -9,6 +9,7 @@ meson \
     -Dgl=disabled \
     -Ddrm=disabled \
     -Dgbm=disabled \
+    -Dstdatomic=disabled \
     . build
 
 ninja -C build
