@@ -1,5 +1,10 @@
 #!/bin/sh -e
 
+# switch to busybox ln to avoid build breaking
+if [ "$(kiss owns /usr/bin/ln" = busybox ]; then
+	kiss a busybox /usr/bin/ln
+fi
+
 export CCACHE_SLOPPINESS=time_macros,include_file_mtime
 
 # Check if wether libsoup3 or libsoup is used
@@ -92,4 +97,9 @@ if [ "$(kiss owns /usr/bin/ld)" = mold ]; then
     kiss alternatives mold "/usr/bin/ld"
 else
     mk
+fi
+
+# switch back to sbase
+if [ "$(kiss owns /usr/bin/ln" = sbase ]; then
+	kiss a sbase /usr/bin/ln
 fi

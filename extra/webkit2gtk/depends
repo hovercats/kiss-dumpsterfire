@@ -1,3 +1,4 @@
+busybox make
 cairo
 cmake  make
 glib-networking
