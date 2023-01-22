@@ -1,0 +1,6 @@
+busybox make
+git make
+linux-headers make
+nspr
+sqlite
+zlib
