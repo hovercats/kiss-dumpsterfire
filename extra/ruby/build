@@ -3,7 +3,7 @@
 # There is a problem with the archive format.
 # both pax and sbase tar shares this issue currently.
 # busybox and librachive tar implementation however seems to work fine.
-bsdtar -xJ --strip-components 1 -f "ruby-$2.tar.xz?no_extract"
+busybox tar -xJ --strip-components 1 -f "ruby-$2.tar.xz?no_extract"
 
 ./configure \
     --prefix=/usr \
