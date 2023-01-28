@@ -1,15 +1,14 @@
 #!/bin/sh -e
 
 # vendor libwm, as its not needed elsewhere at all
+(
 cd libwm
 
+export CFLAGS="$CFLAGS -I/."
+export LDFLAGS="$LDFLAGS -L/."
+
 make
-make PREFIX=/usr install
-
-cd ..
-
-# glazier complains about wm.h is missing in the dir
-cp libwm/wm.h .
+)
 
 make 
 make PREFIX=/usr install
@@ -17,8 +16,3 @@ make PREFIX=/usr install
 # install manpage
 mkdir -p "$1/usr/share/man/man1"
 cp glazier.1 "$1/usr/share/man/man1"
-
-# libwm's files is no longer needed
-rm -rf \
-	"$1/usr/lib" \
-	"$1/usr/include"
