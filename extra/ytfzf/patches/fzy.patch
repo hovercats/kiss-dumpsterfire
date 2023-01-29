@@ -1,8 +1,8 @@
 diff --git a/ytfzf b/ytfzf
-index 8f022c6..54f3ef2 100755
+index cc97e2e..e3d6647 100755
 --- a/ytfzf
 +++ b/ytfzf
-@@ -370,7 +370,7 @@ remove_ansi_escapes () {
+@@ -777,7 +777,7 @@ remove_ansi_escapes () {
  
  #Menu stuff{{{
  quick_menu () {
@@ -11,25 +11,31 @@ index 8f022c6..54f3ef2 100755
  }
  quick_menu_ext (){
  	external_menu "$1"
-@@ -1790,7 +1790,7 @@ interface_text () {
- 			video_info_text
- 		done |
+@@ -2297,9 +2297,7 @@ interface_text () {
+     printf "%s\n" "$const_SORTED_VIDEO_DATA" |
+         video_info_text |
          { [ $use_column -eq 1 ] && column -t -s "$tab_space" || cat; } |
--		fzf -m --tabstop=1 --layout=reverse --expect="$shortcut_binds" | set_keypress |
+-		fzf -m --sync --tabstop=1 --layout=reverse --expect="$shortcut_binds" \
+-            $_fzf_start_bind \
+-            --bind "${next_page_action_shortcut}:reload(__is_fzf_preview=1 YTFZF_CHECK_VARS_EXISTS=1 session_cache_dir='$session_cache_dir' session_temp_dir='$session_temp_dir' $0 -W \"next_page"$EOT"{f}\")" | set_keypress |
 +		fzf | set_keypress |
  		trim_url > "$selected_id_file"
- }
- #}}}
-@@ -2185,9 +2185,9 @@ interface_thumbnails () {
- 	# fzf_preview_side will get reset if we don't pass it in
- 	jq -r '.[]|[.title,"'"$gap_space"'|"+.channel,"|"+.duration,"|"+.views,"|"+.date,"|"+.url]|join("\t")' < "$video_json_file" |
- 	sort_video_data_fn |
--	SHELL="$(command -v sh)" fzf -m \
--	--preview "__is_fzf_preview=1 YTFZF_CHECK_VARS_EXISTS=1 fzf_preview_side='$fzf_preview_side' scrape='$scrape' thumb_dir='$thumb_dir' session_cache_dir='$session_cache_dir' session_temp_dir='$session_temp_dir' YTFZF_PID='$YTFZF_PID' UEBERZUG_FIFO='$UEBERZUG_FIFO' $0 -W \"preview_img"$EOT"$thumbnail_viewer"$EOT"$video_json_file"$EOT"{+f}\"" \
--	--preview-window "$fzf_preview_side:50%:wrap" --layout=reverse --expect="$shortcut_binds" | set_keypress |
-+	SHELL="$(command -v sh)" fzf \
-+	"__is_fzf_preview=1 YTFZF_CHECK_VARS_EXISTS=1 fzf_preview_side='$fzf_preview_side' scrape='$scrape' thumb_dir='$thumb_dir' session_cache_dir='$session_cache_dir' session_temp_dir='$session_temp_dir' YTFZF_PID='$YTFZF_PID' UEBERZUG_FIFO='$UEBERZUG_FIFO' $0 \"preview_img"$EOT"$thumbnail_viewer"$EOT"$video_json_file"$EOT"{+f}\"" \
-+	--preview-window "$fzf_preview_side:50%:wrap"  --expect="$shortcut_binds" | set_keypress |
- 	trim_url > "$selected_id_file"
+ 
+     _const_top_url="$(head -n 1 "$selected_id_file")"
+@@ -2687,12 +2685,11 @@ interface_thumbnails () {
+ 
+     printf "%s\n" "$const_SORTED_VIDEO_DATA" |
+         jq -r '"\(.title)'"$gap_space"'\t|\(.channel)\t|\(.duration)\t|\(.views)\t|\(.date)\t|\(.url)"' |
+-        SHELL="$(command -v sh)" fzf -m --sync \
+-            --expect="$shortcut_binds" \
+-            --preview "__is_fzf_preview=1 YTFZF_CHECK_VARS_EXISTS=1 session_cache_dir='$session_cache_dir' session_temp_dir='$session_temp_dir' $0 -W \"preview_img"$EOT"{f}\"" \
++        SHELL="$(command -v sh)" fzf \
++            "__is_fzf_preview=1 YTFZF_CHECK_VARS_EXISTS=1 session_cache_dir='$session_cache_dir' session_temp_dir='$session_temp_dir' $0 -W \"preview_img"$EOT"{f}\"" \
+             $_fzf_start_bind \
+-            --bind "${next_page_action_shortcut}:reload(__is_fzf_preview=1 YTFZF_CHECK_VARS_EXISTS=1 session_cache_dir='$session_cache_dir' session_temp_dir='$session_temp_dir' $0 -W \"next_page"$EOT"{f}\")" \
+-            --preview-window "$fzf_preview_side:50%:wrap" --layout=reverse  | set_keypress |
++            "${next_page_action_shortcut}:reload(__is_fzf_preview=1 YTFZF_CHECK_VARS_EXISTS=1 session_cache_dir='$session_cache_dir' session_temp_dir='$session_temp_dir' $0 -W \"next_page"$EOT"{f}\")" \
++            "$fzf_preview_side:50%:wrap" | set_keypress |
+         trim_url > "$selected_id_file"
  
  	preview_stop "$thumbnail_viewer"
