@@ -1,11 +1,8 @@
 #!/bin/sh -e
 
-# nss dont build with sbase sed or tr, so we need to switch them
+# nss dont build with sbase tr, so we need to switch them
 if [ "$(kiss owns /usr/bin/tr)" != busybox ]; then
 	kiss a busybox /usr/bin/tr
-fi
-if [ "$(kiss owns /usr/bin/sed)" != busybox ]; then
-	kiss a busybox /usr/bin/sed
 fi
 
 export USE_64=1
@@ -53,10 +50,7 @@ done
 cmp generated.hash build.hash
 
 
- # revert back to sbase when build is complete
+# revert back to sbase when build is complete
 if [ "$(kiss owns /usr/bin/tr)" != sbase ]; then
 	kiss a sbase /usr/bin/tr
-fi
-if [ "$(kiss owns /usr/bin/sed)" != sbase ]; then
-	kiss a sbase /usr/bin/sed
 fi
