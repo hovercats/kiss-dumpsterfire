@@ -12,6 +12,7 @@ sed -e '/getconf\\/d' \
 	-e '/sha384sum\\/d' \
 	-e '/sha512-224sum\\/d' \
 	-e '/sha512-256sum\\/d' \
+	-e '/tar\\/d' \
 	Makefile > _
 mv -f _ Makefile
 
