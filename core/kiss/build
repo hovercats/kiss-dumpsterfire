@@ -2,6 +2,13 @@
 
 patch -p1 < pax.patch
 
+# fix orphan exclusion list
+sed -e 's/baseinit/awk b3sum/' \
+	-e 's/busybox/sbase ubase/' \
+	-e 's/bzip2/otools libressl/' \
+	-e 's/grub/rfinit/' \
+	> _; mv -f _ contrib/kiss-orphans
+
 mkdir -p \
     "$1/usr/bin" \
     "$1/usr/share/doc/kiss"
