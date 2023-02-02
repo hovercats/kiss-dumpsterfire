@@ -2,6 +2,12 @@
 
 patch -p1 < cmake-no-execinfo.patch
 
+# stolen from sabotage linux. should fix linking issues with static netbsd-curses libs
+sed 's,curses_version,baudrate,' Source/Checks/Curses/CheckCurses.c > _
+mv -f _ Source/Checks/Curses/CheckCurses.c
+sed 's,defined(HAVE_LIBCRYPTO),0,' Utilities/cmlibarchive/libarchive/archive_hmac.c > _
+mv -f _ Utilities/cmlibarchive/libarchive/archive_hmac.c
+
 if kiss l cmake; then
     cmake -B build \
         -DCMAKE_INSTALL_PREFIX=/usr \
