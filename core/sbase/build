@@ -1,9 +1,5 @@
 #!/bin/sh -e
 
-for p in *.patch; do
-	patch -p1 < "$p"
-done
-
 # getconf and strings is provided elsewhere.
 # also remove other unneeded utilities
 sed -e '/getconf\\/d' \
