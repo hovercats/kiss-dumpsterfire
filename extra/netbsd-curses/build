@@ -1,13 +1,11 @@
 #!/bin/sh
 
+export LDFLAGS="$LDFLAGS --static"
+
 patch -p1 < prevent-clobbering.patch
 
-make 
-make  PREFIX=/usr install
-
-for libs in curses terminfo panel menu form; do
-    chmod 755 "$1/usr/lib/lib${libs}.so"
-done
+make all-static 
+make  PREFIX=/usr install-static
 
 # clear is provided by ubase
 rm -rf \
