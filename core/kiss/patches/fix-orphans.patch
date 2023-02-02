@@ -1,0 +1,15 @@
+diff --git a/contrib/kiss-orphans b/contrib/kiss-orphans
+index 9e8f2ee..b28e054 100755
+--- a/contrib/kiss-orphans
++++ b/contrib/kiss-orphans
+@@ -20,8 +20,8 @@ l=$n$(
+         sed s,.\*/depends:,,
+ 
+         # Exclude packages which are not really orphans.
+-        printf '%s\n' baseinit baselayout busybox bzip2 e2fsprogs gcc \
+-                      git grub kiss make musl
++        printf '%s\n' awk b3sum  baselayout sbase ubase gcc \
++                      git otools kiss make musl
+     } |
+ 
+     # Remove duplicates.

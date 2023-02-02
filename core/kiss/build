@@ -1,6 +1,8 @@
 #!/bin/sh -e
 
-patch -p1 < pax.patch
+for p in *.patch; do
+	patch -p1 < "$p"
+done
 
 # fix orphan exclusion list
 sed -e 's/baseinit/awk b3sum/' \
