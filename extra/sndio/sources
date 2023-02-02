@@ -3,4 +3,5 @@ files/sndiod.run
 patches/0001-sndiod-Fix-build-without-DEBUG.patch
 patches/0002-aucat-Use-unsigned-char-for-wav_guid-to-prevent-over.patch
 patches/0003-alsa-Port-to-tinyalsa.patch
-#patches/0004-static-lib.patch
+patches/0004-alsa-Add-support-for-s24le3-s24be3.patch
+patches/0005-static-lib.patch

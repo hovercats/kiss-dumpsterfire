@@ -1,13 +1,22 @@
 #!/bin/sh -e
 
-
-for p in *.patch; do
-	patch -p1 < "$p"
-done
+patch -p1 < 0001-sndiod-Fix-build-without-DEBUG.patch
+patch -p1 < 0002-aucat-Use-unsigned-char-for-wav_guid-to-prevent-over.patch
+patch -p1 < 0003-alsa-Port-to-tinyalsa.patch
+patch -p1 < 0004-alsa-Add-support-for-s24le3-s24be3.patch
 
 # avoid building midicat
 sed '/midicat/d' Makefile.in > _
 mv -f _ Makefile.in
+
+./configure \
+    --prefix=/usr \
+    --disable-alsa
+
+make LDFLAGS="$LDFLAGS -ltinyalsa"
+make install
+
+patch -p1 < 0005-static-lib.patch
 
 ./configure \
     --prefix=/usr \
