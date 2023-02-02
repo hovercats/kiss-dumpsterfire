@@ -1,8 +1,8 @@
 diff --git a/kiss b/kiss
-index 3c668f9..6d019a3 100755
+index 6f57355..4c73d34 100755
 --- a/kiss
 +++ b/kiss
-@@ -505,57 +505,6 @@ pkg_source_git() {
+@@ -527,57 +527,6 @@ pkg_source_git() {
      git reset --hard FETCH_HEAD
  }
  
@@ -60,7 +60,7 @@ index 3c668f9..6d019a3 100755
  pkg_extract() {
      # Extract all source archives to the build directory and copy over any
      # local repository files.
-@@ -580,7 +529,8 @@ pkg_extract() {
+@@ -602,7 +551,8 @@ pkg_extract() {
              ;;
  
              *.tar|*.tar.??|*.tar.???|*.tar.????|*.t?z)
@@ -70,16 +70,16 @@ index 3c668f9..6d019a3 100755
              ;;
  
              *?*)
-@@ -956,7 +906,7 @@ pkg_tar() {
+@@ -986,7 +936,7 @@ pkg_tar() {
      cd "$pkg_dir/$1"
  
      # Create a tarball from the contents of the built package.
--    tar cf - . | case $KISS_COMPRESS in
-+    pax -w . | case $KISS_COMPRESS in
-         bz2)  bzip2 -z ;;
-         gz)   gzip -6  ;;
-         lzma) lzma -z  ;;
-@@ -1622,7 +1572,7 @@ pkg_install() {
+-    tar cf - . | compress > "$_tar_file"
++    pax -w . | compress > "$_tar_file"
+ 
+     cd "$OLDPWD"
+ 
+@@ -1674,7 +1624,7 @@ pkg_install() {
      # then "installed" to the filesystem. Running this step as soon as possible
      # allows us to also check the validity of the tarball and bail out early
      # if needed.
