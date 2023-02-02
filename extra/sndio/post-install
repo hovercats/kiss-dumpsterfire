@@ -1,5 +1,3 @@
 #!/bin/sh
 
-adduser -D -S -H -h /dev/nul -G audio -g sndiod sndiod 2>/dev/null
-
-exit 0
+printf "Please create user 'sndiod', and add said user to audio group\n"
