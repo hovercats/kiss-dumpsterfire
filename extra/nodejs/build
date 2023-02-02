@@ -21,6 +21,14 @@ esac
 ninja -C out/Release
 tools/install.py install "$1" /usr
 
+# thanks Carbslinux
+# name value exceeds what ustar format allows
+cd "$1/usr/lib/node_modules/corepack/dist"
+mv -f vendors-_yarn*.js vendors-_yarn_berry_cache.js
+sed '/yarn_berry/s/vendors-[^"]*/vendors-_yarn_berry_cache/' \
+	corepack.js > _
+	mv -f _ corepack.js
+
 # Remove unneeded files.
 rm -rf \
     "$1/usr/include/node/openssl" \
@@ -28,3 +36,4 @@ rm -rf \
     "$1/usr/share/systemtap" \
     "$1/usr/lib/node_modules/npm/scripts" \
     "$1/usr/lib/node_modules/npm/configure"
+ 
