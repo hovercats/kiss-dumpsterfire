@@ -22,7 +22,7 @@ case $2 in "$gcc_version"*)
 esac
 
 # first build gcc regularly
-..//configure \
+../configure \
     libat_cv_have_ifunc=no \
     --prefix=/usr \
     --libexecdir=/usr/lib \
