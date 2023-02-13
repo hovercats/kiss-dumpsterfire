@@ -20,5 +20,3 @@ make clean
 
 make LDFLAGS="$LDFLAGS --static"
 make install
-
-cp -f update-certdata.sh "$1/etc/ssl"
