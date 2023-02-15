@@ -2,6 +2,10 @@
 
 patch -p1 < updates.patch
 
+# respect compiler flags
+sed -e '11s/=/+=/' -e '12s/=/+=/' config.mk > _
+mv -f _ config.mk
+
 make LDFLAGS="$LDFLAGS -static"
 
 mkdir -p \
