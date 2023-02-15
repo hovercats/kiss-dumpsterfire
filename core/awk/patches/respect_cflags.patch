@@ -1,0 +1,16 @@
+diff --git a/makefile b/makefile
+index df966ef..369cd4a 100644
+--- a/makefile
++++ b/makefile
+@@ -22,10 +22,7 @@
+ # THIS SOFTWARE.
+ # ****************************************************************/
+ 
+-CFLAGS = -fsanitize=address -O1 -g -fno-omit-frame-pointer -fno-optimize-sibling-calls
+-CFLAGS = -g
+-CFLAGS =
+-CFLAGS = -O2
++CFLAGS +=
+ 
+ # compiler options
+ #CC = gcc -Wall -g -Wwrite-strings

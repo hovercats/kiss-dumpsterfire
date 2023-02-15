@@ -1,6 +1,8 @@
 #!/bin/sh -e
 
-patch -p1 < byacc.patch
+for p in *.patch; do
+	patch -p1 < "$p"
+done
 
 mkdir -p \
   "$1/usr/bin/" \
