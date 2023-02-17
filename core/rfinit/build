@@ -4,6 +4,11 @@
 sed 's/respawn//' Makefile > _
 mv -f _ Makefile
 
+# respect compiler flags
+sed -e 's/CFLAGS =/CFLAGS +=/' \
+	-e 's/LDFLAGS =/LDFLAGS +=/' Makefile > _
+mv -f _ Makefile
+
 sed 's/rc/rc.init/g' init.c > _
 mv -f _ init.c
 
