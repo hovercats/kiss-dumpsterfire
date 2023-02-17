@@ -1,4 +1,0 @@
-autoconf make
-automake make
-libpng
-libtool make

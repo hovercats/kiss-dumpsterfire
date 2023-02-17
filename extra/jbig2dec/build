@@ -1,10 +1,9 @@
 #!/bin/sh -e
 
-autoreconf -fi
-
 ./configure \
     --prefix=/usr \
-    --disable-shared
+    --disable-shared \
+    --without-libpng
 
 make
 make install
