@@ -1,0 +1,27 @@
+#!/bin/sh -e
+
+export LDFLAGS="$LDFLAGS -static"
+
+./configure \
+    --prefix=/usr \
+    --without-nettle \
+    --without-openssl \
+    --without-xml2 \
+    --without-expat \
+    --disable-bsdcpio \
+    --disable-bsdcat \
+    --disable-shared \
+    --without-zstd
+
+make
+make install
+
+# we only build bsdtar, and its statically linked.
+# bsdtar manpage is in man1, and we dont need the rest
+rm -rf \
+	"$1/usr/lib" \
+	"$1/usr/include" \
+	"$1/usr/share/man/man3" \
+	"$1/usr/share/man/man5"
+
+ln -s bsdtar  "$1/usr/bin/tar"
