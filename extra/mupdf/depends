@@ -1,5 +1,5 @@
 freetype-harfbuzz
-jbig2dec
+jbig2dec make
 libX11
 libXau
 libXext
