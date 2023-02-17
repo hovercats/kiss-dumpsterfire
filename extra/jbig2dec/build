@@ -1,6 +1,7 @@
 #!/bin/sh -e
 
 # we only need the header and library, so dont build the bin
+# shellcheck disable=SC2016
 sed 's/jbig2dec\$(EXEEXT)//' Makefile.in > _
 mv -f _ Makefile.in
 
@@ -12,4 +13,5 @@ mv -f _ Makefile.in
 make
 make install
 
+# shellcheck disable=SC2115
 rm -rf "$1/usr/share"
