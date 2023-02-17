@@ -1,5 +1,9 @@
 #!/bin/sh -e
 
+# we only need the header and library, so dont build the bin
+sed 's/jbig2dec\$(EXEEXT)//' Makefile.in > _
+mv -f _ Makefile.in
+
 ./configure \
     --prefix=/usr \
     --disable-shared \
@@ -7,3 +11,5 @@
 
 make
 make install
+
+rm -rf "$1/usr/share"
