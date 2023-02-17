@@ -10,6 +10,11 @@ export LDFLAGS="$LDFLAGS -L/."
 make
 )
 
+# fix compiler flags not being respected
+sed -e 's/CFLAGS =/CFLAGS +=/' \
+	-e 's/LDFLAGS =/LDFLAGS +=/' config.mk > _
+mv -f _ config.mk
+
 make 
 make PREFIX=/usr install
 
