@@ -1,6 +1,3 @@
 #!/bin/sh
 
-
-if [ -n "$(cat /proc/mounts | grep /boot)" ]; then
-	umount /boot
-fi
+umount /boot || printf "/boot was not unmounted\n"
