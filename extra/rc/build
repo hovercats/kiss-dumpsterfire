@@ -3,10 +3,13 @@
 patch -p1 < 0001-Avoid-multiple-definitions-of-global-variables.patch
 patch -p1 < 0002-Use-proc-self-fd-0-instead-of-dev-fd-0.patch
 
-sed 's/-lreadline/ -lreadline -lncursesw -static/' Make.Linux > _
+# remove readline dependency
+sed -e 's/-lreadline/-static/' \
+	-e 's/PROMPT=readline/PROMPT=null/' Make.Linux > _
 mv -f _ Make.Linux
 
-sed 's/\/usr\/local/\/usr/' Make.Linux > _
+# some strange issue with rc not detecting rcmain file.
+sed 's/usr\/local/usr/' Make.Linux > _
 mv -f _ Make.Linux
 
 make 
@@ -17,8 +20,7 @@ mkdir -p \
     "$1/usr/share/man/man1"
 
 chmod 755 rc
-chmod 644 rc.1
-chmod 644 rcmain.unix
+chmod 644 rc.1 rcmain.unix
 
 cp -f rc "$1/usr/bin"
 cp -f rcmain.unix "$1/usr/lib/rcmain"
