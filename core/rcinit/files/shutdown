@@ -1,9 +1,11 @@
-#!/bin/sh
+#!/bin/rc
 
-BIN="/etc/rc.shutdown"
+args=()
+switch($1) {
+case p
+	args=poweroff
+case r
+	args=reboot
+}
 
-case $1 in
-	r) $BIN reboot ;;
-	p) $BIN poweroff ;;
-	*) echo 'Invalid option' ;;
-esac
+/etc/rc.shutdown $args
