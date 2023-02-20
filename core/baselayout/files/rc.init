@@ -17,4 +17,4 @@ mount -a
 
 /etc/rc.local
 
-svc -s 1> /dev/null
+svc -s >[1]/dev/null

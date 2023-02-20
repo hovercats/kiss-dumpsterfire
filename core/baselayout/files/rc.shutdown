@@ -2,7 +2,7 @@
 
 umask 022
 
-svc -k 1> /dev/null
+svc -k >[1] /dev/null
 
 kill 1
 sleep 1
