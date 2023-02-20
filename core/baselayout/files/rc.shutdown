@@ -21,9 +21,8 @@ wait
 arg=()
 switch($1) {
 case poweroff
-	arg=p
+	halt -p
 case reboot
-	arg=r
+	halt -r
 }
 
-halt $arg
