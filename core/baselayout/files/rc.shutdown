@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/rc
 
 umask 022
 
@@ -18,8 +18,12 @@ umount -al
 
 wait
 
-case $1 in
-  reboot) halt -r ;;
-  poweroff) halt -p ;;
-  *) echo "Invalid action for rc.shutdown" && exit 1 ;;
-esac
+arg=()
+switch($1) {
+case poweroff
+	arg=p
+case reboot
+	arg=r
+}
+
+halt $arg
