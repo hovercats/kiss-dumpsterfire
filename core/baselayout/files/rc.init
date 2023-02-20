@@ -2,17 +2,13 @@
 
 umask 022
 
-printf "Booting...\n"
-
 mount -t proc none /proc
 
 mkdir -p /dev/pts
 mkdir -p /dev/shm
 
-printf "mounting root partition\n"
 mount -o remount,rw /
 
-printf "mounting the rest of the system\n"
 mount -a
 
 /etc/rc.local
