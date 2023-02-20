@@ -1,3 +1,7 @@
 #!/bin/sh -e
 
 make PREFIX=/usr install
+
+mkdir -p "$1/etc/svc.d/avail"
+chmod +x getty*
+cp -f getty* "$1/etc/svc.d/avail"
