@@ -1,5 +1,7 @@
 #!/bin/sh -e
 
+patch -p1 < cp-dont-check-symlinks.patch
+
 # getconf and strings is provided elsewhere.
 # also remove other unneeded utilities
 sed -e '/getconf\\/d' \

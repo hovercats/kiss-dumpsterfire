@@ -1,0 +1,13 @@
+diff --git a/libutil/fnck.c b/libutil/fnck.c
+index 92da1f4..0998c3d 100644
+--- a/libutil/fnck.c
++++ b/libutil/fnck.c
+@@ -10,7 +10,7 @@ fnck(const char *a, const char *b,
+ 	struct stat sta, stb;
+ 
+ 	if (!stat(a, &sta)
+-	    && !stat(b, &stb)
++	    && !lstat(b, &stb)
+ 	    && sta.st_dev == stb.st_dev
+ 	    && sta.st_ino == stb.st_ino) {
+ 		eprintf("%s -> %s: same file\n", a, b);

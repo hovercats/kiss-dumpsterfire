@@ -1,1 +1,2 @@
 https://github.com/michaelforney/sbase/archive/VERSION.tar.gz
+patches/cp-dont-check-symlinks.patch
