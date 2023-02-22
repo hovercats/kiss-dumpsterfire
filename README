@@ -1,14 +1,22 @@
- _  ___           ___                     _            __ _         
-| |/ (_)_________|   \ _  _ _ __  _ __ __| |_ ___ _ _ / _(_)_ _ ___ 
-| ' <| (_-<_-<___| |) | || | '  \| '_ (_-<  _/ -_) '_|  _| | '_/ -_)
-|_|\_\_/__/__/   |___/ \_,_|_|_|_| .__/__/\__\___|_| |_| |_|_| \___|
-                                 |_|                                
-________________________________________________________________________________
+kiss-dumpsterfire
+-----------------
 
-This is my personal repo, with packages that I use, or have modifies for my
-usecase. 
-Packages have a probability of being set to build statically.
+This is my personal kiss-repo.
 
-I also have other kiss-related stuff:
+It has several differences to upstream.
+Some key notes:
+	- rewritten init scripts in rc
+	- init has been replaced by rcinit[0], a small rc script
+	- svc[1] instead of runit
+	- prefer static linking whereever possible
+	- sbase/ubase instead of busybox
+	- libressl instead of openssl
+	- pax instead of tar
+	- tinyx instead of wayland or xorg
 
-[0] https://github.com/hovercats/kiss-somethingsomethingstatic
+
+links
+-----
+
+[0] https://github.com/hovercats/rfinit
+[1] https://github.com/hovercats/svc
