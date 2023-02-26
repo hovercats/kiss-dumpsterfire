@@ -1,3 +1,0 @@
-#!/bin/sh
-
-umount /boot || printf "/boot was not unmounted\n"

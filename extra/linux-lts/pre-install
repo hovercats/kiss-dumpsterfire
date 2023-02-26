@@ -1,5 +1,0 @@
-#!/bin/sh
-
-if [ ! -n "$(cat /proc/mounts | grep /boot)" ]; then
-	mount -t vfat /dev/sda1 /boot
-fi
