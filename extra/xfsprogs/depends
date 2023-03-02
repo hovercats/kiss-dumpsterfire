@@ -2,4 +2,4 @@ inih make
 userspace-rcu make
 linux-headers make
 meson         make
-util-linux
+util-linux make

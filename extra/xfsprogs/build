@@ -1,5 +1,7 @@
 #!/bin/sh -e
 
+export LDFLAGS="$LDFLAGS --static"
+
 # Remove incorrect bash dependency.
 sed 's/bash/sh/' install-sh > _
 mv -f _ install-sh
