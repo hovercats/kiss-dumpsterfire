@@ -1,3 +1,5 @@
+inih make
+liburcu make
 linux-headers make
 meson         make
 util-linux
