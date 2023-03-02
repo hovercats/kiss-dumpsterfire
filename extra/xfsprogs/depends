@@ -1,5 +1,5 @@
 inih make
-liburcu make
+userspace-rcu make
 linux-headers make
 meson         make
 util-linux
