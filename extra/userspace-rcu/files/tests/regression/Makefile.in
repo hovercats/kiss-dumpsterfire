@@ -91,9 +91,15 @@ build_triplet = @build@
 host_triplet = @host@
 target_triplet = @target@
 noinst_PROGRAMS = test_urcu_fork.tap$(EXEEXT) \
+	test_urcu_fork_cxx.tap$(EXEEXT) \
 	rcutorture_urcu_membarrier$(EXEEXT) \
-	rcutorture_urcu_signal$(EXEEXT) rcutorture_urcu_mb$(EXEEXT) \
-	rcutorture_urcu_bp$(EXEEXT) rcutorture_urcu_qsbr$(EXEEXT)
+	rcutorture_urcu_membarrier_cxx$(EXEEXT) \
+	rcutorture_urcu_signal$(EXEEXT) \
+	rcutorture_urcu_signal_cxx$(EXEEXT) \
+	rcutorture_urcu_mb$(EXEEXT) rcutorture_urcu_mb_cxx$(EXEEXT) \
+	rcutorture_urcu_bp$(EXEEXT) rcutorture_urcu_bp_cxx$(EXEEXT) \
+	rcutorture_urcu_qsbr$(EXEEXT) \
+	rcutorture_urcu_qsbr_cxx$(EXEEXT)
 TESTS =
 subdir = tests/regression
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
@@ -102,6 +108,7 @@ am__aclocal_m4_deps = $(top_srcdir)/m4/ae_config_feature.m4 \
 	$(top_srcdir)/m4/ax_append_flag.m4 \
 	$(top_srcdir)/m4/ax_c___attribute__.m4 \
 	$(top_srcdir)/m4/ax_check_compile_flag.m4 \
+	$(top_srcdir)/m4/ax_cxx_compile_stdcxx.m4 \
 	$(top_srcdir)/m4/ax_pthread.m4 \
 	$(top_srcdir)/m4/ax_require_defined.m4 \
 	$(top_srcdir)/m4/libtool.m4 $(top_srcdir)/m4/ltoptions.m4 \
@@ -110,71 +117,12 @@ am__aclocal_m4_deps = $(top_srcdir)/m4/ae_config_feature.m4 \
 	$(top_srcdir)/configure.ac
 am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
 	$(ACLOCAL_M4)
-DIST_COMMON = $(srcdir)/Makefile.am $(noinst_HEADERS) \
-	$(am__DIST_COMMON)
+DIST_COMMON = $(srcdir)/Makefile.am $(dist_check_SCRIPTS) \
+	$(noinst_HEADERS) $(am__DIST_COMMON)
 mkinstalldirs = $(install_sh) -d
 CONFIG_HEADER = $(top_builddir)/include/config.h \
 	$(top_builddir)/include/urcu/config.h
-CONFIG_CLEAN_FILES = rcutorture_urcu_bp_perf_global.tap \
-	rcutorture_urcu_bp_perf_percpu.tap \
-	rcutorture_urcu_bp_perf_perthread.tap \
-	rcutorture_urcu_bp_rperf_global.tap \
-	rcutorture_urcu_bp_rperf_percpu.tap \
-	rcutorture_urcu_bp_rperf_perthread.tap \
-	rcutorture_urcu_bp_stress_global.tap \
-	rcutorture_urcu_bp_stress_percpu.tap \
-	rcutorture_urcu_bp_stress_perthread.tap \
-	rcutorture_urcu_bp_uperf_global.tap \
-	rcutorture_urcu_bp_uperf_percpu.tap \
-	rcutorture_urcu_bp_uperf_perthread.tap \
-	rcutorture_urcu_mb_perf_global.tap \
-	rcutorture_urcu_mb_perf_percpu.tap \
-	rcutorture_urcu_mb_perf_perthread.tap \
-	rcutorture_urcu_mb_rperf_global.tap \
-	rcutorture_urcu_mb_rperf_percpu.tap \
-	rcutorture_urcu_mb_rperf_perthread.tap \
-	rcutorture_urcu_mb_stress_global.tap \
-	rcutorture_urcu_mb_stress_percpu.tap \
-	rcutorture_urcu_mb_stress_perthread.tap \
-	rcutorture_urcu_mb_uperf_global.tap \
-	rcutorture_urcu_mb_uperf_percpu.tap \
-	rcutorture_urcu_mb_uperf_perthread.tap \
-	rcutorture_urcu_membarrier_perf_global.tap \
-	rcutorture_urcu_membarrier_perf_percpu.tap \
-	rcutorture_urcu_membarrier_perf_perthread.tap \
-	rcutorture_urcu_membarrier_rperf_global.tap \
-	rcutorture_urcu_membarrier_rperf_percpu.tap \
-	rcutorture_urcu_membarrier_rperf_perthread.tap \
-	rcutorture_urcu_membarrier_stress_global.tap \
-	rcutorture_urcu_membarrier_stress_percpu.tap \
-	rcutorture_urcu_membarrier_stress_perthread.tap \
-	rcutorture_urcu_membarrier_uperf_global.tap \
-	rcutorture_urcu_membarrier_uperf_percpu.tap \
-	rcutorture_urcu_membarrier_uperf_perthread.tap \
-	rcutorture_urcu_qsbr_perf_global.tap \
-	rcutorture_urcu_qsbr_perf_percpu.tap \
-	rcutorture_urcu_qsbr_perf_perthread.tap \
-	rcutorture_urcu_qsbr_rperf_global.tap \
-	rcutorture_urcu_qsbr_rperf_percpu.tap \
-	rcutorture_urcu_qsbr_rperf_perthread.tap \
-	rcutorture_urcu_qsbr_stress_global.tap \
-	rcutorture_urcu_qsbr_stress_percpu.tap \
-	rcutorture_urcu_qsbr_stress_perthread.tap \
-	rcutorture_urcu_qsbr_uperf_global.tap \
-	rcutorture_urcu_qsbr_uperf_percpu.tap \
-	rcutorture_urcu_qsbr_uperf_perthread.tap \
-	rcutorture_urcu_signal_perf_global.tap \
-	rcutorture_urcu_signal_perf_percpu.tap \
-	rcutorture_urcu_signal_perf_perthread.tap \
-	rcutorture_urcu_signal_rperf_global.tap \
-	rcutorture_urcu_signal_rperf_percpu.tap \
-	rcutorture_urcu_signal_rperf_perthread.tap \
-	rcutorture_urcu_signal_stress_global.tap \
-	rcutorture_urcu_signal_stress_percpu.tap \
-	rcutorture_urcu_signal_stress_perthread.tap \
-	rcutorture_urcu_signal_uperf_global.tap \
-	rcutorture_urcu_signal_uperf_percpu.tap \
-	rcutorture_urcu_signal_uperf_perthread.tap
+CONFIG_CLEAN_FILES =
 CONFIG_CLEAN_VPATH_FILES =
 PROGRAMS = $(noinst_PROGRAMS)
 am_rcutorture_urcu_bp_OBJECTS =  \
@@ -189,6 +137,14 @@ rcutorture_urcu_bp_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CC \
 	$(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=link $(CCLD) \
 	$(rcutorture_urcu_bp_CFLAGS) $(CFLAGS) $(AM_LDFLAGS) \
 	$(LDFLAGS) -o $@
+am_rcutorture_urcu_bp_cxx_OBJECTS =  \
+	rcutorture_urcu_bp_cxx-urcutorture_cxx.$(OBJEXT)
+rcutorture_urcu_bp_cxx_OBJECTS = $(am_rcutorture_urcu_bp_cxx_OBJECTS)
+rcutorture_urcu_bp_cxx_DEPENDENCIES = $(URCU_BP_LIB) $(TAP_LIB)
+rcutorture_urcu_bp_cxx_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CXX \
+	$(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=link $(CXXLD) \
+	$(rcutorture_urcu_bp_cxx_CXXFLAGS) $(CXXFLAGS) $(AM_LDFLAGS) \
+	$(LDFLAGS) -o $@
 am_rcutorture_urcu_mb_OBJECTS =  \
 	rcutorture_urcu_mb-urcutorture.$(OBJEXT)
 rcutorture_urcu_mb_OBJECTS = $(am_rcutorture_urcu_mb_OBJECTS)
@@ -196,6 +152,14 @@ rcutorture_urcu_mb_DEPENDENCIES = $(URCU_MB_LIB) $(TAP_LIB)
 rcutorture_urcu_mb_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CC \
 	$(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=link $(CCLD) \
 	$(rcutorture_urcu_mb_CFLAGS) $(CFLAGS) $(AM_LDFLAGS) \
+	$(LDFLAGS) -o $@
+am_rcutorture_urcu_mb_cxx_OBJECTS =  \
+	rcutorture_urcu_mb_cxx-urcutorture_cxx.$(OBJEXT)
+rcutorture_urcu_mb_cxx_OBJECTS = $(am_rcutorture_urcu_mb_cxx_OBJECTS)
+rcutorture_urcu_mb_cxx_DEPENDENCIES = $(URCU_MB_LIB) $(TAP_LIB)
+rcutorture_urcu_mb_cxx_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CXX \
+	$(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=link $(CXXLD) \
+	$(rcutorture_urcu_mb_cxx_CXXFLAGS) $(CXXFLAGS) $(AM_LDFLAGS) \
 	$(LDFLAGS) -o $@
 am_rcutorture_urcu_membarrier_OBJECTS =  \
 	rcutorture_urcu_membarrier-urcutorture.$(OBJEXT)
@@ -206,6 +170,15 @@ rcutorture_urcu_membarrier_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CC \
 	$(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=link $(CCLD) \
 	$(rcutorture_urcu_membarrier_CFLAGS) $(CFLAGS) $(AM_LDFLAGS) \
 	$(LDFLAGS) -o $@
+am_rcutorture_urcu_membarrier_cxx_OBJECTS =  \
+	rcutorture_urcu_membarrier_cxx-urcutorture_cxx.$(OBJEXT)
+rcutorture_urcu_membarrier_cxx_OBJECTS =  \
+	$(am_rcutorture_urcu_membarrier_cxx_OBJECTS)
+rcutorture_urcu_membarrier_cxx_DEPENDENCIES = $(URCU_LIB) $(TAP_LIB)
+rcutorture_urcu_membarrier_cxx_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CXX \
+	$(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=link $(CXXLD) \
+	$(rcutorture_urcu_membarrier_cxx_CXXFLAGS) $(CXXFLAGS) \
+	$(AM_LDFLAGS) $(LDFLAGS) -o $@
 am_rcutorture_urcu_qsbr_OBJECTS =  \
 	rcutorture_urcu_qsbr-urcutorture.$(OBJEXT)
 rcutorture_urcu_qsbr_OBJECTS = $(am_rcutorture_urcu_qsbr_OBJECTS)
@@ -213,6 +186,15 @@ rcutorture_urcu_qsbr_DEPENDENCIES = $(URCU_QSBR_LIB) $(TAP_LIB)
 rcutorture_urcu_qsbr_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CC \
 	$(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=link $(CCLD) \
 	$(rcutorture_urcu_qsbr_CFLAGS) $(CFLAGS) $(AM_LDFLAGS) \
+	$(LDFLAGS) -o $@
+am_rcutorture_urcu_qsbr_cxx_OBJECTS =  \
+	rcutorture_urcu_qsbr_cxx-urcutorture_cxx.$(OBJEXT)
+rcutorture_urcu_qsbr_cxx_OBJECTS =  \
+	$(am_rcutorture_urcu_qsbr_cxx_OBJECTS)
+rcutorture_urcu_qsbr_cxx_DEPENDENCIES = $(URCU_QSBR_LIB) $(TAP_LIB)
+rcutorture_urcu_qsbr_cxx_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CXX \
+	$(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=link $(CXXLD) \
+	$(rcutorture_urcu_qsbr_cxx_CXXFLAGS) $(CXXFLAGS) $(AM_LDFLAGS) \
 	$(LDFLAGS) -o $@
 am_rcutorture_urcu_signal_OBJECTS =  \
 	rcutorture_urcu_signal-urcutorture.$(OBJEXT)
@@ -222,9 +204,22 @@ rcutorture_urcu_signal_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CC \
 	$(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=link $(CCLD) \
 	$(rcutorture_urcu_signal_CFLAGS) $(CFLAGS) $(AM_LDFLAGS) \
 	$(LDFLAGS) -o $@
+am_rcutorture_urcu_signal_cxx_OBJECTS =  \
+	rcutorture_urcu_signal_cxx-urcutorture_cxx.$(OBJEXT)
+rcutorture_urcu_signal_cxx_OBJECTS =  \
+	$(am_rcutorture_urcu_signal_cxx_OBJECTS)
+rcutorture_urcu_signal_cxx_DEPENDENCIES = $(URCU_SIGNAL_LIB) \
+	$(TAP_LIB)
+rcutorture_urcu_signal_cxx_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CXX \
+	$(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=link $(CXXLD) \
+	$(rcutorture_urcu_signal_cxx_CXXFLAGS) $(CXXFLAGS) \
+	$(AM_LDFLAGS) $(LDFLAGS) -o $@
 am_test_urcu_fork_tap_OBJECTS = test_urcu_fork.$(OBJEXT)
 test_urcu_fork_tap_OBJECTS = $(am_test_urcu_fork_tap_OBJECTS)
 test_urcu_fork_tap_DEPENDENCIES = $(URCU_LIB) $(TAP_LIB)
+am_test_urcu_fork_cxx_tap_OBJECTS = test_urcu_fork_cxx.$(OBJEXT)
+test_urcu_fork_cxx_tap_OBJECTS = $(am_test_urcu_fork_cxx_tap_OBJECTS)
+test_urcu_fork_cxx_tap_DEPENDENCIES = $(URCU_LIB) $(TAP_LIB)
 AM_V_P = $(am__v_P_@AM_V@)
 am__v_P_ = $(am__v_P_@AM_DEFAULT_V@)
 am__v_P_0 = false
@@ -241,11 +236,17 @@ DEFAULT_INCLUDES =
 depcomp = $(SHELL) $(top_srcdir)/config/depcomp
 am__maybe_remake_depfiles = depfiles
 am__depfiles_remade = ./$(DEPDIR)/rcutorture_urcu_bp-urcutorture.Po \
+	./$(DEPDIR)/rcutorture_urcu_bp_cxx-urcutorture_cxx.Po \
 	./$(DEPDIR)/rcutorture_urcu_mb-urcutorture.Po \
+	./$(DEPDIR)/rcutorture_urcu_mb_cxx-urcutorture_cxx.Po \
 	./$(DEPDIR)/rcutorture_urcu_membarrier-urcutorture.Po \
+	./$(DEPDIR)/rcutorture_urcu_membarrier_cxx-urcutorture_cxx.Po \
 	./$(DEPDIR)/rcutorture_urcu_qsbr-urcutorture.Po \
+	./$(DEPDIR)/rcutorture_urcu_qsbr_cxx-urcutorture_cxx.Po \
 	./$(DEPDIR)/rcutorture_urcu_signal-urcutorture.Po \
-	./$(DEPDIR)/test_urcu_fork.Po
+	./$(DEPDIR)/rcutorture_urcu_signal_cxx-urcutorture_cxx.Po \
+	./$(DEPDIR)/test_urcu_fork.Po \
+	./$(DEPDIR)/test_urcu_fork_cxx.Po
 am__mv = mv -f
 COMPILE = $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) \
 	$(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
@@ -265,17 +266,48 @@ AM_V_CCLD = $(am__v_CCLD_@AM_V@)
 am__v_CCLD_ = $(am__v_CCLD_@AM_DEFAULT_V@)
 am__v_CCLD_0 = @echo "  CCLD    " $@;
 am__v_CCLD_1 = 
-SOURCES = $(rcutorture_urcu_bp_SOURCES) $(rcutorture_urcu_mb_SOURCES) \
-	$(rcutorture_urcu_membarrier_SOURCES) \
-	$(rcutorture_urcu_qsbr_SOURCES) \
-	$(rcutorture_urcu_signal_SOURCES) \
-	$(test_urcu_fork_tap_SOURCES)
-DIST_SOURCES = $(rcutorture_urcu_bp_SOURCES) \
+CXXCOMPILE = $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) \
+	$(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS)
+LTCXXCOMPILE = $(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) \
+	$(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) \
+	$(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) \
+	$(AM_CXXFLAGS) $(CXXFLAGS)
+AM_V_CXX = $(am__v_CXX_@AM_V@)
+am__v_CXX_ = $(am__v_CXX_@AM_DEFAULT_V@)
+am__v_CXX_0 = @echo "  CXX     " $@;
+am__v_CXX_1 = 
+CXXLD = $(CXX)
+CXXLINK = $(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) \
+	$(LIBTOOLFLAGS) --mode=link $(CXXLD) $(AM_CXXFLAGS) \
+	$(CXXFLAGS) $(AM_LDFLAGS) $(LDFLAGS) -o $@
+AM_V_CXXLD = $(am__v_CXXLD_@AM_V@)
+am__v_CXXLD_ = $(am__v_CXXLD_@AM_DEFAULT_V@)
+am__v_CXXLD_0 = @echo "  CXXLD   " $@;
+am__v_CXXLD_1 = 
+SOURCES = $(rcutorture_urcu_bp_SOURCES) \
+	$(rcutorture_urcu_bp_cxx_SOURCES) \
 	$(rcutorture_urcu_mb_SOURCES) \
+	$(rcutorture_urcu_mb_cxx_SOURCES) \
 	$(rcutorture_urcu_membarrier_SOURCES) \
+	$(rcutorture_urcu_membarrier_cxx_SOURCES) \
 	$(rcutorture_urcu_qsbr_SOURCES) \
+	$(rcutorture_urcu_qsbr_cxx_SOURCES) \
 	$(rcutorture_urcu_signal_SOURCES) \
-	$(test_urcu_fork_tap_SOURCES)
+	$(rcutorture_urcu_signal_cxx_SOURCES) \
+	$(test_urcu_fork_tap_SOURCES) \
+	$(test_urcu_fork_cxx_tap_SOURCES)
+DIST_SOURCES = $(rcutorture_urcu_bp_SOURCES) \
+	$(rcutorture_urcu_bp_cxx_SOURCES) \
+	$(rcutorture_urcu_mb_SOURCES) \
+	$(rcutorture_urcu_mb_cxx_SOURCES) \
+	$(rcutorture_urcu_membarrier_SOURCES) \
+	$(rcutorture_urcu_membarrier_cxx_SOURCES) \
+	$(rcutorture_urcu_qsbr_SOURCES) \
+	$(rcutorture_urcu_qsbr_cxx_SOURCES) \
+	$(rcutorture_urcu_signal_SOURCES) \
+	$(rcutorture_urcu_signal_cxx_SOURCES) \
+	$(test_urcu_fork_tap_SOURCES) \
+	$(test_urcu_fork_cxx_tap_SOURCES)
 am__can_run_installinfo = \
   case $$AM_UPDATE_INFO_DIR in \
     n|no|NO) false;; \
@@ -500,74 +532,14 @@ am__set_b = \
     *) \
       b='$*';; \
   esac
-am__DIST_COMMON = $(srcdir)/Makefile.in \
-	$(srcdir)/rcutorture_urcu_bp_perf_global.tap.in \
-	$(srcdir)/rcutorture_urcu_bp_perf_percpu.tap.in \
-	$(srcdir)/rcutorture_urcu_bp_perf_perthread.tap.in \
-	$(srcdir)/rcutorture_urcu_bp_rperf_global.tap.in \
-	$(srcdir)/rcutorture_urcu_bp_rperf_percpu.tap.in \
-	$(srcdir)/rcutorture_urcu_bp_rperf_perthread.tap.in \
-	$(srcdir)/rcutorture_urcu_bp_stress_global.tap.in \
-	$(srcdir)/rcutorture_urcu_bp_stress_percpu.tap.in \
-	$(srcdir)/rcutorture_urcu_bp_stress_perthread.tap.in \
-	$(srcdir)/rcutorture_urcu_bp_uperf_global.tap.in \
-	$(srcdir)/rcutorture_urcu_bp_uperf_percpu.tap.in \
-	$(srcdir)/rcutorture_urcu_bp_uperf_perthread.tap.in \
-	$(srcdir)/rcutorture_urcu_mb_perf_global.tap.in \
-	$(srcdir)/rcutorture_urcu_mb_perf_percpu.tap.in \
-	$(srcdir)/rcutorture_urcu_mb_perf_perthread.tap.in \
-	$(srcdir)/rcutorture_urcu_mb_rperf_global.tap.in \
-	$(srcdir)/rcutorture_urcu_mb_rperf_percpu.tap.in \
-	$(srcdir)/rcutorture_urcu_mb_rperf_perthread.tap.in \
-	$(srcdir)/rcutorture_urcu_mb_stress_global.tap.in \
-	$(srcdir)/rcutorture_urcu_mb_stress_percpu.tap.in \
-	$(srcdir)/rcutorture_urcu_mb_stress_perthread.tap.in \
-	$(srcdir)/rcutorture_urcu_mb_uperf_global.tap.in \
-	$(srcdir)/rcutorture_urcu_mb_uperf_percpu.tap.in \
-	$(srcdir)/rcutorture_urcu_mb_uperf_perthread.tap.in \
-	$(srcdir)/rcutorture_urcu_membarrier_perf_global.tap.in \
-	$(srcdir)/rcutorture_urcu_membarrier_perf_percpu.tap.in \
-	$(srcdir)/rcutorture_urcu_membarrier_perf_perthread.tap.in \
-	$(srcdir)/rcutorture_urcu_membarrier_rperf_global.tap.in \
-	$(srcdir)/rcutorture_urcu_membarrier_rperf_percpu.tap.in \
-	$(srcdir)/rcutorture_urcu_membarrier_rperf_perthread.tap.in \
-	$(srcdir)/rcutorture_urcu_membarrier_stress_global.tap.in \
-	$(srcdir)/rcutorture_urcu_membarrier_stress_percpu.tap.in \
-	$(srcdir)/rcutorture_urcu_membarrier_stress_perthread.tap.in \
-	$(srcdir)/rcutorture_urcu_membarrier_uperf_global.tap.in \
-	$(srcdir)/rcutorture_urcu_membarrier_uperf_percpu.tap.in \
-	$(srcdir)/rcutorture_urcu_membarrier_uperf_perthread.tap.in \
-	$(srcdir)/rcutorture_urcu_qsbr_perf_global.tap.in \
-	$(srcdir)/rcutorture_urcu_qsbr_perf_percpu.tap.in \
-	$(srcdir)/rcutorture_urcu_qsbr_perf_perthread.tap.in \
-	$(srcdir)/rcutorture_urcu_qsbr_rperf_global.tap.in \
-	$(srcdir)/rcutorture_urcu_qsbr_rperf_percpu.tap.in \
-	$(srcdir)/rcutorture_urcu_qsbr_rperf_perthread.tap.in \
-	$(srcdir)/rcutorture_urcu_qsbr_stress_global.tap.in \
-	$(srcdir)/rcutorture_urcu_qsbr_stress_percpu.tap.in \
-	$(srcdir)/rcutorture_urcu_qsbr_stress_perthread.tap.in \
-	$(srcdir)/rcutorture_urcu_qsbr_uperf_global.tap.in \
-	$(srcdir)/rcutorture_urcu_qsbr_uperf_percpu.tap.in \
-	$(srcdir)/rcutorture_urcu_qsbr_uperf_perthread.tap.in \
-	$(srcdir)/rcutorture_urcu_signal_perf_global.tap.in \
-	$(srcdir)/rcutorture_urcu_signal_perf_percpu.tap.in \
-	$(srcdir)/rcutorture_urcu_signal_perf_perthread.tap.in \
-	$(srcdir)/rcutorture_urcu_signal_rperf_global.tap.in \
-	$(srcdir)/rcutorture_urcu_signal_rperf_percpu.tap.in \
-	$(srcdir)/rcutorture_urcu_signal_rperf_perthread.tap.in \
-	$(srcdir)/rcutorture_urcu_signal_stress_global.tap.in \
-	$(srcdir)/rcutorture_urcu_signal_stress_percpu.tap.in \
-	$(srcdir)/rcutorture_urcu_signal_stress_perthread.tap.in \
-	$(srcdir)/rcutorture_urcu_signal_uperf_global.tap.in \
-	$(srcdir)/rcutorture_urcu_signal_uperf_percpu.tap.in \
-	$(srcdir)/rcutorture_urcu_signal_uperf_perthread.tap.in \
-	$(top_srcdir)/config/depcomp
+am__DIST_COMMON = $(srcdir)/Makefile.in $(top_srcdir)/config/depcomp
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
 ACLOCAL = @ACLOCAL@
 AMTAR = @AMTAR@
 AM_CFLAGS = @AM_CFLAGS@
 AM_CPPFLAGS = @AM_CPPFLAGS@ -I$(top_srcdir)/src \
 	-I$(top_srcdir)/tests/utils -I$(top_srcdir)/tests/common
+AM_CXXFLAGS = @AM_CXXFLAGS@
 AM_DEFAULT_VERBOSITY = @AM_DEFAULT_VERBOSITY@
 AR = @AR@
 AUTOCONF = @AUTOCONF@
@@ -581,6 +553,10 @@ CPP = @CPP@
 CPPFLAGS = @CPPFLAGS@
 CSCOPE = @CSCOPE@
 CTAGS = @CTAGS@
+CXX = @CXX@
+CXXCPP = @CXXCPP@
+CXXDEPMODE = @CXXDEPMODE@
+CXXFLAGS = @CXXFLAGS@
 CYGPATH_W = @CYGPATH_W@
 DEFS = @DEFS@
 DEPDIR = @DEPDIR@
@@ -597,6 +573,7 @@ FGREP = @FGREP@
 FILECMD = @FILECMD@
 GETCONF = @GETCONF@
 GREP = @GREP@
+HAVE_CXX11 = @HAVE_CXX11@
 INSTALL = @INSTALL@
 INSTALL_DATA = @INSTALL_DATA@
 INSTALL_PROGRAM = @INSTALL_PROGRAM@
@@ -619,7 +596,6 @@ MKDIR_P = @MKDIR_P@
 NM = @NM@
 NMEDIT = @NMEDIT@
 NPROC = @NPROC@
-NPROC_CMD = @NPROC_CMD@
 OBJDUMP = @OBJDUMP@
 OBJEXT = @OBJEXT@
 OTOOL = @OTOOL@
@@ -640,6 +616,7 @@ SED = @SED@
 SET_MAKE = @SET_MAKE@
 SHELL = @SHELL@
 STRIP = @STRIP@
+TIME = @TIME@
 URCU_LIBRARY_VERSION = @URCU_LIBRARY_VERSION@
 VERSION = @VERSION@
 abs_builddir = @abs_builddir@
@@ -648,6 +625,7 @@ abs_top_builddir = @abs_top_builddir@
 abs_top_srcdir = @abs_top_srcdir@
 ac_ct_AR = @ac_ct_AR@
 ac_ct_CC = @ac_ct_CC@
+ac_ct_CXX = @ac_ct_CXX@
 ac_ct_DUMPBIN = @ac_ct_DUMPBIN@
 am__include = @am__include@
 am__leading_dot = @am__leading_dot@
@@ -703,8 +681,10 @@ top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 TEST_EXTENSIONS = .tap
 TAP_LOG_DRIVER_FLAGS = --merge --comments
-TAP_LOG_DRIVER = env AM_TAP_AWK='$(AWK)' $(SHELL) \
-	$(top_srcdir)/tests/utils/tap-driver.sh
+TAP_LOG_DRIVER = env AM_TAP_AWK='$(AWK)' \
+	URCU_TESTS_SRCDIR='$(abs_top_srcdir)/tests' \
+	URCU_TESTS_BUILDDIR='$(abs_top_builddir)/tests' \
+	$(SHELL) $(top_srcdir)/tests/utils/tap-driver.sh
 
 noinst_HEADERS = rcutorture.h
 URCU_COMMON_LIB = $(top_builddir)/src/liburcu-common.la
@@ -717,87 +697,288 @@ URCU_CDS_LIB = $(top_builddir)/src/liburcu-cds.la
 TAP_LIB = $(top_builddir)/tests/utils/libtap.a
 test_urcu_fork_tap_SOURCES = test_urcu_fork.c
 test_urcu_fork_tap_LDADD = $(URCU_LIB) $(TAP_LIB)
+test_urcu_fork_cxx_tap_SOURCES = test_urcu_fork_cxx.cpp
+test_urcu_fork_cxx_tap_LDADD = $(URCU_LIB) $(TAP_LIB)
 rcutorture_urcu_membarrier_SOURCES = urcutorture.c
 rcutorture_urcu_membarrier_CFLAGS = -DRCU_MEMBARRIER $(AM_CFLAGS)
 rcutorture_urcu_membarrier_LDADD = $(URCU_LIB) $(TAP_LIB)
+rcutorture_urcu_membarrier_cxx_SOURCES = urcutorture_cxx.cpp
+rcutorture_urcu_membarrier_cxx_CXXFLAGS = -DRCU_MEMBARRIER $(AM_CXXFLAGS)
+rcutorture_urcu_membarrier_cxx_LDADD = $(URCU_LIB) $(TAP_LIB)
 rcutorture_urcu_mb_SOURCES = urcutorture.c
 rcutorture_urcu_mb_CFLAGS = -DRCU_MB $(AM_CFLAGS)
 rcutorture_urcu_mb_LDADD = $(URCU_MB_LIB)  $(TAP_LIB)
+rcutorture_urcu_mb_cxx_SOURCES = urcutorture_cxx.cpp
+rcutorture_urcu_mb_cxx_CXXFLAGS = -DRCU_MB $(AM_CXXFLAGS)
+rcutorture_urcu_mb_cxx_LDADD = $(URCU_MB_LIB)  $(TAP_LIB)
 rcutorture_urcu_qsbr_SOURCES = urcutorture.c
 rcutorture_urcu_qsbr_CFLAGS = -DTORTURE_QSBR -DRCU_QSBR $(AM_CFLAGS)
 rcutorture_urcu_qsbr_LDADD = $(URCU_QSBR_LIB) $(TAP_LIB)
+rcutorture_urcu_qsbr_cxx_SOURCES = urcutorture_cxx.cpp
+rcutorture_urcu_qsbr_cxx_CXXFLAGS = -DTORTURE_QSBR -DRCU_QSBR $(AM_CXXFLAGS)
+rcutorture_urcu_qsbr_cxx_LDADD = $(URCU_QSBR_LIB) $(TAP_LIB)
 rcutorture_urcu_signal_SOURCES = urcutorture.c
 rcutorture_urcu_signal_CFLAGS = -DRCU_SIGNAL $(AM_CFLAGS)
 rcutorture_urcu_signal_LDADD = $(URCU_SIGNAL_LIB) $(TAP_LIB)
+rcutorture_urcu_signal_cxx_SOURCES = urcutorture_cxx.cpp
+rcutorture_urcu_signal_cxx_CXXFLAGS = -DRCU_SIGNAL $(AM_CXXFLAGS)
+rcutorture_urcu_signal_cxx_LDADD = $(URCU_SIGNAL_LIB) $(TAP_LIB)
 rcutorture_urcu_bp_SOURCES = urcutorture.c
 rcutorture_urcu_bp_CFLAGS = -DRCU_BP $(AM_CFLAGS)
 rcutorture_urcu_bp_LDADD = $(URCU_BP_LIB) $(TAP_LIB)
-REGTEST_TESTS = test_urcu_fork.tap \
-	rcutorture_urcu_bp_perf_global.tap \
-	rcutorture_urcu_bp_perf_percpu.tap \
-	rcutorture_urcu_bp_perf_perthread.tap \
-	rcutorture_urcu_bp_rperf_global.tap \
-	rcutorture_urcu_bp_rperf_percpu.tap \
-	rcutorture_urcu_bp_rperf_perthread.tap \
-	rcutorture_urcu_bp_stress_global.tap \
-	rcutorture_urcu_bp_stress_percpu.tap \
-	rcutorture_urcu_bp_stress_perthread.tap \
-	rcutorture_urcu_bp_uperf_global.tap \
-	rcutorture_urcu_bp_uperf_percpu.tap \
-	rcutorture_urcu_bp_uperf_perthread.tap \
-	rcutorture_urcu_mb_perf_global.tap \
-	rcutorture_urcu_mb_perf_percpu.tap \
-	rcutorture_urcu_mb_perf_perthread.tap \
-	rcutorture_urcu_mb_rperf_global.tap \
-	rcutorture_urcu_mb_rperf_percpu.tap \
-	rcutorture_urcu_mb_rperf_perthread.tap \
-	rcutorture_urcu_mb_stress_global.tap \
-	rcutorture_urcu_mb_stress_percpu.tap \
-	rcutorture_urcu_mb_stress_perthread.tap \
-	rcutorture_urcu_mb_uperf_global.tap \
-	rcutorture_urcu_mb_uperf_percpu.tap \
-	rcutorture_urcu_mb_uperf_perthread.tap \
-	rcutorture_urcu_membarrier_perf_global.tap \
-	rcutorture_urcu_membarrier_perf_percpu.tap \
-	rcutorture_urcu_membarrier_perf_perthread.tap \
-	rcutorture_urcu_membarrier_rperf_global.tap \
-	rcutorture_urcu_membarrier_rperf_percpu.tap \
-	rcutorture_urcu_membarrier_rperf_perthread.tap \
-	rcutorture_urcu_membarrier_stress_global.tap \
-	rcutorture_urcu_membarrier_stress_percpu.tap \
-	rcutorture_urcu_membarrier_stress_perthread.tap \
-	rcutorture_urcu_membarrier_uperf_global.tap \
-	rcutorture_urcu_membarrier_uperf_percpu.tap \
-	rcutorture_urcu_membarrier_uperf_perthread.tap \
-	rcutorture_urcu_qsbr_perf_global.tap \
-	rcutorture_urcu_qsbr_perf_percpu.tap \
-	rcutorture_urcu_qsbr_perf_perthread.tap \
-	rcutorture_urcu_qsbr_rperf_global.tap \
-	rcutorture_urcu_qsbr_rperf_percpu.tap \
-	rcutorture_urcu_qsbr_rperf_perthread.tap \
-	rcutorture_urcu_qsbr_stress_global.tap \
-	rcutorture_urcu_qsbr_stress_percpu.tap \
-	rcutorture_urcu_qsbr_stress_perthread.tap \
-	rcutorture_urcu_qsbr_uperf_global.tap \
-	rcutorture_urcu_qsbr_uperf_percpu.tap \
-	rcutorture_urcu_qsbr_uperf_perthread.tap \
-	rcutorture_urcu_signal_perf_global.tap \
-	rcutorture_urcu_signal_perf_percpu.tap \
-	rcutorture_urcu_signal_perf_perthread.tap \
-	rcutorture_urcu_signal_rperf_global.tap \
-	rcutorture_urcu_signal_rperf_percpu.tap \
-	rcutorture_urcu_signal_rperf_perthread.tap \
-	rcutorture_urcu_signal_stress_global.tap \
-	rcutorture_urcu_signal_stress_percpu.tap \
-	rcutorture_urcu_signal_stress_perthread.tap \
-	rcutorture_urcu_signal_uperf_global.tap \
-	rcutorture_urcu_signal_uperf_percpu.tap \
-	rcutorture_urcu_signal_uperf_perthread.tap
+rcutorture_urcu_bp_cxx_SOURCES = urcutorture_cxx.cpp
+rcutorture_urcu_bp_cxx_CXXFLAGS = -DRCU_BP $(AM_CXXFLAGS)
+rcutorture_urcu_bp_cxx_LDADD = $(URCU_BP_LIB) $(TAP_LIB)
+dist_check_SCRIPTS = \
+	test_rcutorture_urcu_bp_perf_global.tap \
+	test_rcutorture_urcu_bp_perf_global_cxx.tap \
+	test_rcutorture_urcu_bp_perf_percpu.tap \
+	test_rcutorture_urcu_bp_perf_percpu_cxx.tap \
+	test_rcutorture_urcu_bp_perf_perthread.tap \
+	test_rcutorture_urcu_bp_perf_perthread_cxx.tap \
+	test_rcutorture_urcu_bp_rperf_global.tap \
+	test_rcutorture_urcu_bp_rperf_global_cxx.tap \
+	test_rcutorture_urcu_bp_rperf_percpu.tap \
+	test_rcutorture_urcu_bp_rperf_percpu_cxx.tap \
+	test_rcutorture_urcu_bp_rperf_perthread.tap \
+	test_rcutorture_urcu_bp_rperf_perthread_cxx.tap \
+	test_rcutorture_urcu_bp_stress_global.tap \
+	test_rcutorture_urcu_bp_stress_global_cxx.tap \
+	test_rcutorture_urcu_bp_stress_percpu.tap \
+	test_rcutorture_urcu_bp_stress_percpu_cxx.tap \
+	test_rcutorture_urcu_bp_stress_perthread.tap \
+	test_rcutorture_urcu_bp_stress_perthread_cxx.tap \
+	test_rcutorture_urcu_bp_uperf_global.tap \
+	test_rcutorture_urcu_bp_uperf_global_cxx.tap \
+	test_rcutorture_urcu_bp_uperf_percpu.tap \
+	test_rcutorture_urcu_bp_uperf_percpu_cxx.tap \
+	test_rcutorture_urcu_bp_uperf_perthread.tap \
+	test_rcutorture_urcu_bp_uperf_perthread_cxx.tap \
+	test_rcutorture_urcu_mb_perf_global.tap \
+	test_rcutorture_urcu_mb_perf_global_cxx.tap \
+	test_rcutorture_urcu_mb_perf_percpu.tap \
+	test_rcutorture_urcu_mb_perf_percpu_cxx.tap \
+	test_rcutorture_urcu_mb_perf_perthread.tap \
+	test_rcutorture_urcu_mb_perf_perthread_cxx.tap \
+	test_rcutorture_urcu_mb_rperf_global.tap \
+	test_rcutorture_urcu_mb_rperf_global_cxx.tap \
+	test_rcutorture_urcu_mb_rperf_percpu.tap \
+	test_rcutorture_urcu_mb_rperf_percpu_cxx.tap \
+	test_rcutorture_urcu_mb_rperf_perthread.tap \
+	test_rcutorture_urcu_mb_rperf_perthread_cxx.tap \
+	test_rcutorture_urcu_mb_stress_global.tap \
+	test_rcutorture_urcu_mb_stress_global_cxx.tap \
+	test_rcutorture_urcu_mb_stress_percpu.tap \
+	test_rcutorture_urcu_mb_stress_percpu_cxx.tap \
+	test_rcutorture_urcu_mb_stress_perthread.tap \
+	test_rcutorture_urcu_mb_stress_perthread_cxx.tap \
+	test_rcutorture_urcu_mb_uperf_global.tap \
+	test_rcutorture_urcu_mb_uperf_global_cxx.tap \
+	test_rcutorture_urcu_mb_uperf_percpu.tap \
+	test_rcutorture_urcu_mb_uperf_percpu_cxx.tap \
+	test_rcutorture_urcu_mb_uperf_perthread.tap \
+	test_rcutorture_urcu_mb_uperf_perthread_cxx.tap \
+	test_rcutorture_urcu_membarrier_perf_global.tap \
+	test_rcutorture_urcu_membarrier_perf_global_cxx.tap \
+	test_rcutorture_urcu_membarrier_perf_percpu.tap \
+	test_rcutorture_urcu_membarrier_perf_percpu_cxx.tap \
+	test_rcutorture_urcu_membarrier_perf_perthread.tap \
+	test_rcutorture_urcu_membarrier_perf_perthread_cxx.tap \
+	test_rcutorture_urcu_membarrier_rperf_global.tap \
+	test_rcutorture_urcu_membarrier_rperf_global_cxx.tap \
+	test_rcutorture_urcu_membarrier_rperf_percpu.tap \
+	test_rcutorture_urcu_membarrier_rperf_percpu_cxx.tap \
+	test_rcutorture_urcu_membarrier_rperf_perthread.tap \
+	test_rcutorture_urcu_membarrier_rperf_perthread_cxx.tap \
+	test_rcutorture_urcu_membarrier_stress_global.tap \
+	test_rcutorture_urcu_membarrier_stress_global_cxx.tap \
+	test_rcutorture_urcu_membarrier_stress_percpu.tap \
+	test_rcutorture_urcu_membarrier_stress_percpu_cxx.tap \
+	test_rcutorture_urcu_membarrier_stress_perthread.tap \
+	test_rcutorture_urcu_membarrier_stress_perthread_cxx.tap \
+	test_rcutorture_urcu_membarrier_uperf_global.tap \
+	test_rcutorture_urcu_membarrier_uperf_global_cxx.tap \
+	test_rcutorture_urcu_membarrier_uperf_percpu.tap \
+	test_rcutorture_urcu_membarrier_uperf_percpu_cxx.tap \
+	test_rcutorture_urcu_membarrier_uperf_perthread.tap \
+	test_rcutorture_urcu_membarrier_uperf_perthread_cxx.tap \
+	test_rcutorture_urcu_qsbr_perf_global.tap \
+	test_rcutorture_urcu_qsbr_perf_global_cxx.tap \
+	test_rcutorture_urcu_qsbr_perf_percpu.tap \
+	test_rcutorture_urcu_qsbr_perf_percpu_cxx.tap \
+	test_rcutorture_urcu_qsbr_perf_perthread.tap \
+	test_rcutorture_urcu_qsbr_perf_perthread_cxx.tap \
+	test_rcutorture_urcu_qsbr_rperf_global.tap \
+	test_rcutorture_urcu_qsbr_rperf_global_cxx.tap \
+	test_rcutorture_urcu_qsbr_rperf_percpu.tap \
+	test_rcutorture_urcu_qsbr_rperf_percpu_cxx.tap \
+	test_rcutorture_urcu_qsbr_rperf_perthread.tap \
+	test_rcutorture_urcu_qsbr_rperf_perthread_cxx.tap \
+	test_rcutorture_urcu_qsbr_stress_global.tap \
+	test_rcutorture_urcu_qsbr_stress_global_cxx.tap \
+	test_rcutorture_urcu_qsbr_stress_percpu.tap \
+	test_rcutorture_urcu_qsbr_stress_percpu_cxx.tap \
+	test_rcutorture_urcu_qsbr_stress_perthread.tap \
+	test_rcutorture_urcu_qsbr_stress_perthread_cxx.tap \
+	test_rcutorture_urcu_qsbr_uperf_global.tap \
+	test_rcutorture_urcu_qsbr_uperf_global_cxx.tap \
+	test_rcutorture_urcu_qsbr_uperf_percpu.tap \
+	test_rcutorture_urcu_qsbr_uperf_percpu_cxx.tap \
+	test_rcutorture_urcu_qsbr_uperf_perthread.tap \
+	test_rcutorture_urcu_qsbr_uperf_perthread_cxx.tap \
+	test_rcutorture_urcu_signal_perf_global.tap \
+	test_rcutorture_urcu_signal_perf_global_cxx.tap \
+	test_rcutorture_urcu_signal_perf_percpu.tap \
+	test_rcutorture_urcu_signal_perf_percpu_cxx.tap \
+	test_rcutorture_urcu_signal_perf_perthread.tap \
+	test_rcutorture_urcu_signal_perf_perthread_cxx.tap \
+	test_rcutorture_urcu_signal_rperf_global.tap \
+	test_rcutorture_urcu_signal_rperf_global_cxx.tap \
+	test_rcutorture_urcu_signal_rperf_percpu.tap \
+	test_rcutorture_urcu_signal_rperf_percpu_cxx.tap \
+	test_rcutorture_urcu_signal_rperf_perthread.tap \
+	test_rcutorture_urcu_signal_rperf_perthread_cxx.tap \
+	test_rcutorture_urcu_signal_stress_global.tap \
+	test_rcutorture_urcu_signal_stress_global_cxx.tap \
+	test_rcutorture_urcu_signal_stress_percpu.tap \
+	test_rcutorture_urcu_signal_stress_percpu_cxx.tap \
+	test_rcutorture_urcu_signal_stress_perthread.tap \
+	test_rcutorture_urcu_signal_stress_perthread_cxx.tap \
+	test_rcutorture_urcu_signal_uperf_global.tap \
+	test_rcutorture_urcu_signal_uperf_global_cxx.tap \
+	test_rcutorture_urcu_signal_uperf_percpu.tap \
+	test_rcutorture_urcu_signal_uperf_percpu_cxx.tap \
+	test_rcutorture_urcu_signal_uperf_perthread.tap \
+	test_rcutorture_urcu_signal_uperf_perthread_cxx.tap
+
+REGTEST_TESTS = \
+	test_urcu_fork.tap \
+	test_urcu_fork_cxx.tap \
+	test_rcutorture_urcu_bp_perf_global.tap \
+	test_rcutorture_urcu_bp_perf_global_cxx.tap \
+	test_rcutorture_urcu_bp_perf_percpu.tap \
+	test_rcutorture_urcu_bp_perf_percpu_cxx.tap \
+	test_rcutorture_urcu_bp_perf_perthread.tap \
+	test_rcutorture_urcu_bp_perf_perthread_cxx.tap \
+	test_rcutorture_urcu_bp_rperf_global.tap \
+	test_rcutorture_urcu_bp_rperf_global_cxx.tap \
+	test_rcutorture_urcu_bp_rperf_percpu.tap \
+	test_rcutorture_urcu_bp_rperf_percpu_cxx.tap \
+	test_rcutorture_urcu_bp_rperf_perthread.tap \
+	test_rcutorture_urcu_bp_rperf_perthread_cxx.tap \
+	test_rcutorture_urcu_bp_stress_global.tap \
+	test_rcutorture_urcu_bp_stress_global_cxx.tap \
+	test_rcutorture_urcu_bp_stress_percpu.tap \
+	test_rcutorture_urcu_bp_stress_percpu_cxx.tap \
+	test_rcutorture_urcu_bp_stress_perthread.tap \
+	test_rcutorture_urcu_bp_stress_perthread_cxx.tap \
+	test_rcutorture_urcu_bp_uperf_global.tap \
+	test_rcutorture_urcu_bp_uperf_global_cxx.tap \
+	test_rcutorture_urcu_bp_uperf_percpu.tap \
+	test_rcutorture_urcu_bp_uperf_percpu_cxx.tap \
+	test_rcutorture_urcu_bp_uperf_perthread.tap \
+	test_rcutorture_urcu_bp_uperf_perthread_cxx.tap \
+	test_rcutorture_urcu_mb_perf_global.tap \
+	test_rcutorture_urcu_mb_perf_global_cxx.tap \
+	test_rcutorture_urcu_mb_perf_percpu.tap \
+	test_rcutorture_urcu_mb_perf_percpu_cxx.tap \
+	test_rcutorture_urcu_mb_perf_perthread.tap \
+	test_rcutorture_urcu_mb_perf_perthread_cxx.tap \
+	test_rcutorture_urcu_mb_rperf_global.tap \
+	test_rcutorture_urcu_mb_rperf_global_cxx.tap \
+	test_rcutorture_urcu_mb_rperf_percpu.tap \
+	test_rcutorture_urcu_mb_rperf_percpu_cxx.tap \
+	test_rcutorture_urcu_mb_rperf_perthread.tap \
+	test_rcutorture_urcu_mb_rperf_perthread_cxx.tap \
+	test_rcutorture_urcu_mb_stress_global.tap \
+	test_rcutorture_urcu_mb_stress_global_cxx.tap \
+	test_rcutorture_urcu_mb_stress_percpu.tap \
+	test_rcutorture_urcu_mb_stress_percpu_cxx.tap \
+	test_rcutorture_urcu_mb_stress_perthread.tap \
+	test_rcutorture_urcu_mb_stress_perthread_cxx.tap \
+	test_rcutorture_urcu_mb_uperf_global.tap \
+	test_rcutorture_urcu_mb_uperf_global_cxx.tap \
+	test_rcutorture_urcu_mb_uperf_percpu.tap \
+	test_rcutorture_urcu_mb_uperf_percpu_cxx.tap \
+	test_rcutorture_urcu_mb_uperf_perthread.tap \
+	test_rcutorture_urcu_mb_uperf_perthread_cxx.tap \
+	test_rcutorture_urcu_membarrier_perf_global.tap \
+	test_rcutorture_urcu_membarrier_perf_global_cxx.tap \
+	test_rcutorture_urcu_membarrier_perf_percpu.tap \
+	test_rcutorture_urcu_membarrier_perf_percpu_cxx.tap \
+	test_rcutorture_urcu_membarrier_perf_perthread.tap \
+	test_rcutorture_urcu_membarrier_perf_perthread_cxx.tap \
+	test_rcutorture_urcu_membarrier_rperf_global.tap \
+	test_rcutorture_urcu_membarrier_rperf_global_cxx.tap \
+	test_rcutorture_urcu_membarrier_rperf_percpu.tap \
+	test_rcutorture_urcu_membarrier_rperf_percpu_cxx.tap \
+	test_rcutorture_urcu_membarrier_rperf_perthread.tap \
+	test_rcutorture_urcu_membarrier_rperf_perthread_cxx.tap \
+	test_rcutorture_urcu_membarrier_stress_global.tap \
+	test_rcutorture_urcu_membarrier_stress_global_cxx.tap \
+	test_rcutorture_urcu_membarrier_stress_percpu.tap \
+	test_rcutorture_urcu_membarrier_stress_percpu_cxx.tap \
+	test_rcutorture_urcu_membarrier_stress_perthread.tap \
+	test_rcutorture_urcu_membarrier_stress_perthread_cxx.tap \
+	test_rcutorture_urcu_membarrier_uperf_global.tap \
+	test_rcutorture_urcu_membarrier_uperf_global_cxx.tap \
+	test_rcutorture_urcu_membarrier_uperf_percpu.tap \
+	test_rcutorture_urcu_membarrier_uperf_percpu_cxx.tap \
+	test_rcutorture_urcu_membarrier_uperf_perthread.tap \
+	test_rcutorture_urcu_membarrier_uperf_perthread_cxx.tap \
+	test_rcutorture_urcu_qsbr_perf_global.tap \
+	test_rcutorture_urcu_qsbr_perf_global_cxx.tap \
+	test_rcutorture_urcu_qsbr_perf_percpu.tap \
+	test_rcutorture_urcu_qsbr_perf_percpu_cxx.tap \
+	test_rcutorture_urcu_qsbr_perf_perthread.tap \
+	test_rcutorture_urcu_qsbr_perf_perthread_cxx.tap \
+	test_rcutorture_urcu_qsbr_rperf_global.tap \
+	test_rcutorture_urcu_qsbr_rperf_global_cxx.tap \
+	test_rcutorture_urcu_qsbr_rperf_percpu.tap \
+	test_rcutorture_urcu_qsbr_rperf_percpu_cxx.tap \
+	test_rcutorture_urcu_qsbr_rperf_perthread.tap \
+	test_rcutorture_urcu_qsbr_rperf_perthread_cxx.tap \
+	test_rcutorture_urcu_qsbr_stress_global.tap \
+	test_rcutorture_urcu_qsbr_stress_global_cxx.tap \
+	test_rcutorture_urcu_qsbr_stress_percpu.tap \
+	test_rcutorture_urcu_qsbr_stress_percpu_cxx.tap \
+	test_rcutorture_urcu_qsbr_stress_perthread.tap \
+	test_rcutorture_urcu_qsbr_stress_perthread_cxx.tap \
+	test_rcutorture_urcu_qsbr_uperf_global.tap \
+	test_rcutorture_urcu_qsbr_uperf_global_cxx.tap \
+	test_rcutorture_urcu_qsbr_uperf_percpu.tap \
+	test_rcutorture_urcu_qsbr_uperf_percpu_cxx.tap \
+	test_rcutorture_urcu_qsbr_uperf_perthread.tap \
+	test_rcutorture_urcu_qsbr_uperf_perthread_cxx.tap \
+	test_rcutorture_urcu_signal_perf_global.tap \
+	test_rcutorture_urcu_signal_perf_global_cxx.tap \
+	test_rcutorture_urcu_signal_perf_percpu.tap \
+	test_rcutorture_urcu_signal_perf_percpu_cxx.tap \
+	test_rcutorture_urcu_signal_perf_perthread.tap \
+	test_rcutorture_urcu_signal_perf_perthread_cxx.tap \
+	test_rcutorture_urcu_signal_rperf_global.tap \
+	test_rcutorture_urcu_signal_rperf_global_cxx.tap \
+	test_rcutorture_urcu_signal_rperf_percpu.tap \
+	test_rcutorture_urcu_signal_rperf_percpu_cxx.tap \
+	test_rcutorture_urcu_signal_rperf_perthread.tap \
+	test_rcutorture_urcu_signal_rperf_perthread_cxx.tap \
+	test_rcutorture_urcu_signal_stress_global.tap \
+	test_rcutorture_urcu_signal_stress_global_cxx.tap \
+	test_rcutorture_urcu_signal_stress_percpu.tap \
+	test_rcutorture_urcu_signal_stress_percpu_cxx.tap \
+	test_rcutorture_urcu_signal_stress_perthread.tap \
+	test_rcutorture_urcu_signal_stress_perthread_cxx.tap \
+	test_rcutorture_urcu_signal_uperf_global.tap \
+	test_rcutorture_urcu_signal_uperf_global_cxx.tap \
+	test_rcutorture_urcu_signal_uperf_percpu.tap \
+	test_rcutorture_urcu_signal_uperf_percpu_cxx.tap \
+	test_rcutorture_urcu_signal_uperf_perthread.tap \
+	test_rcutorture_urcu_signal_uperf_perthread_cxx.tap
 
 all: all-am
 
 .SUFFIXES:
-.SUFFIXES: .c .lo .log .o .obj .tap .tap$(EXEEXT) .trs
+.SUFFIXES: .c .cpp .lo .log .o .obj .tap .tap$(EXEEXT) .trs
 $(srcdir)/Makefile.in: @MAINTAINER_MODE_TRUE@ $(srcdir)/Makefile.am  $(am__configure_deps)
 	@for dep in $?; do \
 	  case '$(am__configure_deps)' in \
@@ -827,126 +1008,6 @@ $(top_srcdir)/configure: @MAINTAINER_MODE_TRUE@ $(am__configure_deps)
 $(ACLOCAL_M4): @MAINTAINER_MODE_TRUE@ $(am__aclocal_m4_deps)
 	cd $(top_builddir) && $(MAKE) $(AM_MAKEFLAGS) am--refresh
 $(am__aclocal_m4_deps):
-rcutorture_urcu_bp_perf_global.tap: $(top_builddir)/config.status $(srcdir)/rcutorture_urcu_bp_perf_global.tap.in
-	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
-rcutorture_urcu_bp_perf_percpu.tap: $(top_builddir)/config.status $(srcdir)/rcutorture_urcu_bp_perf_percpu.tap.in
-	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
-rcutorture_urcu_bp_perf_perthread.tap: $(top_builddir)/config.status $(srcdir)/rcutorture_urcu_bp_perf_perthread.tap.in
-	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
-rcutorture_urcu_bp_rperf_global.tap: $(top_builddir)/config.status $(srcdir)/rcutorture_urcu_bp_rperf_global.tap.in
-	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
-rcutorture_urcu_bp_rperf_percpu.tap: $(top_builddir)/config.status $(srcdir)/rcutorture_urcu_bp_rperf_percpu.tap.in
-	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
-rcutorture_urcu_bp_rperf_perthread.tap: $(top_builddir)/config.status $(srcdir)/rcutorture_urcu_bp_rperf_perthread.tap.in
-	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
-rcutorture_urcu_bp_stress_global.tap: $(top_builddir)/config.status $(srcdir)/rcutorture_urcu_bp_stress_global.tap.in
-	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
-rcutorture_urcu_bp_stress_percpu.tap: $(top_builddir)/config.status $(srcdir)/rcutorture_urcu_bp_stress_percpu.tap.in
-	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
-rcutorture_urcu_bp_stress_perthread.tap: $(top_builddir)/config.status $(srcdir)/rcutorture_urcu_bp_stress_perthread.tap.in
-	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
-rcutorture_urcu_bp_uperf_global.tap: $(top_builddir)/config.status $(srcdir)/rcutorture_urcu_bp_uperf_global.tap.in
-	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
-rcutorture_urcu_bp_uperf_percpu.tap: $(top_builddir)/config.status $(srcdir)/rcutorture_urcu_bp_uperf_percpu.tap.in
-	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
-rcutorture_urcu_bp_uperf_perthread.tap: $(top_builddir)/config.status $(srcdir)/rcutorture_urcu_bp_uperf_perthread.tap.in
-	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
-rcutorture_urcu_mb_perf_global.tap: $(top_builddir)/config.status $(srcdir)/rcutorture_urcu_mb_perf_global.tap.in
-	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
-rcutorture_urcu_mb_perf_percpu.tap: $(top_builddir)/config.status $(srcdir)/rcutorture_urcu_mb_perf_percpu.tap.in
-	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
-rcutorture_urcu_mb_perf_perthread.tap: $(top_builddir)/config.status $(srcdir)/rcutorture_urcu_mb_perf_perthread.tap.in
-	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
-rcutorture_urcu_mb_rperf_global.tap: $(top_builddir)/config.status $(srcdir)/rcutorture_urcu_mb_rperf_global.tap.in
-	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
-rcutorture_urcu_mb_rperf_percpu.tap: $(top_builddir)/config.status $(srcdir)/rcutorture_urcu_mb_rperf_percpu.tap.in
-	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
-rcutorture_urcu_mb_rperf_perthread.tap: $(top_builddir)/config.status $(srcdir)/rcutorture_urcu_mb_rperf_perthread.tap.in
-	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
-rcutorture_urcu_mb_stress_global.tap: $(top_builddir)/config.status $(srcdir)/rcutorture_urcu_mb_stress_global.tap.in
-	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
-rcutorture_urcu_mb_stress_percpu.tap: $(top_builddir)/config.status $(srcdir)/rcutorture_urcu_mb_stress_percpu.tap.in
-	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
-rcutorture_urcu_mb_stress_perthread.tap: $(top_builddir)/config.status $(srcdir)/rcutorture_urcu_mb_stress_perthread.tap.in
-	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
-rcutorture_urcu_mb_uperf_global.tap: $(top_builddir)/config.status $(srcdir)/rcutorture_urcu_mb_uperf_global.tap.in
-	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
-rcutorture_urcu_mb_uperf_percpu.tap: $(top_builddir)/config.status $(srcdir)/rcutorture_urcu_mb_uperf_percpu.tap.in
-	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
-rcutorture_urcu_mb_uperf_perthread.tap: $(top_builddir)/config.status $(srcdir)/rcutorture_urcu_mb_uperf_perthread.tap.in
-	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
-rcutorture_urcu_membarrier_perf_global.tap: $(top_builddir)/config.status $(srcdir)/rcutorture_urcu_membarrier_perf_global.tap.in
-	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
-rcutorture_urcu_membarrier_perf_percpu.tap: $(top_builddir)/config.status $(srcdir)/rcutorture_urcu_membarrier_perf_percpu.tap.in
-	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
-rcutorture_urcu_membarrier_perf_perthread.tap: $(top_builddir)/config.status $(srcdir)/rcutorture_urcu_membarrier_perf_perthread.tap.in
-	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
-rcutorture_urcu_membarrier_rperf_global.tap: $(top_builddir)/config.status $(srcdir)/rcutorture_urcu_membarrier_rperf_global.tap.in
-	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
-rcutorture_urcu_membarrier_rperf_percpu.tap: $(top_builddir)/config.status $(srcdir)/rcutorture_urcu_membarrier_rperf_percpu.tap.in
-	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
-rcutorture_urcu_membarrier_rperf_perthread.tap: $(top_builddir)/config.status $(srcdir)/rcutorture_urcu_membarrier_rperf_perthread.tap.in
-	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
-rcutorture_urcu_membarrier_stress_global.tap: $(top_builddir)/config.status $(srcdir)/rcutorture_urcu_membarrier_stress_global.tap.in
-	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
-rcutorture_urcu_membarrier_stress_percpu.tap: $(top_builddir)/config.status $(srcdir)/rcutorture_urcu_membarrier_stress_percpu.tap.in
-	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
-rcutorture_urcu_membarrier_stress_perthread.tap: $(top_builddir)/config.status $(srcdir)/rcutorture_urcu_membarrier_stress_perthread.tap.in
-	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
-rcutorture_urcu_membarrier_uperf_global.tap: $(top_builddir)/config.status $(srcdir)/rcutorture_urcu_membarrier_uperf_global.tap.in
-	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
-rcutorture_urcu_membarrier_uperf_percpu.tap: $(top_builddir)/config.status $(srcdir)/rcutorture_urcu_membarrier_uperf_percpu.tap.in
-	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
-rcutorture_urcu_membarrier_uperf_perthread.tap: $(top_builddir)/config.status $(srcdir)/rcutorture_urcu_membarrier_uperf_perthread.tap.in
-	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
-rcutorture_urcu_qsbr_perf_global.tap: $(top_builddir)/config.status $(srcdir)/rcutorture_urcu_qsbr_perf_global.tap.in
-	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
-rcutorture_urcu_qsbr_perf_percpu.tap: $(top_builddir)/config.status $(srcdir)/rcutorture_urcu_qsbr_perf_percpu.tap.in
-	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
-rcutorture_urcu_qsbr_perf_perthread.tap: $(top_builddir)/config.status $(srcdir)/rcutorture_urcu_qsbr_perf_perthread.tap.in
-	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
-rcutorture_urcu_qsbr_rperf_global.tap: $(top_builddir)/config.status $(srcdir)/rcutorture_urcu_qsbr_rperf_global.tap.in
-	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
-rcutorture_urcu_qsbr_rperf_percpu.tap: $(top_builddir)/config.status $(srcdir)/rcutorture_urcu_qsbr_rperf_percpu.tap.in
-	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
-rcutorture_urcu_qsbr_rperf_perthread.tap: $(top_builddir)/config.status $(srcdir)/rcutorture_urcu_qsbr_rperf_perthread.tap.in
-	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
-rcutorture_urcu_qsbr_stress_global.tap: $(top_builddir)/config.status $(srcdir)/rcutorture_urcu_qsbr_stress_global.tap.in
-	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
-rcutorture_urcu_qsbr_stress_percpu.tap: $(top_builddir)/config.status $(srcdir)/rcutorture_urcu_qsbr_stress_percpu.tap.in
-	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
-rcutorture_urcu_qsbr_stress_perthread.tap: $(top_builddir)/config.status $(srcdir)/rcutorture_urcu_qsbr_stress_perthread.tap.in
-	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
-rcutorture_urcu_qsbr_uperf_global.tap: $(top_builddir)/config.status $(srcdir)/rcutorture_urcu_qsbr_uperf_global.tap.in
-	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
-rcutorture_urcu_qsbr_uperf_percpu.tap: $(top_builddir)/config.status $(srcdir)/rcutorture_urcu_qsbr_uperf_percpu.tap.in
-	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
-rcutorture_urcu_qsbr_uperf_perthread.tap: $(top_builddir)/config.status $(srcdir)/rcutorture_urcu_qsbr_uperf_perthread.tap.in
-	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
-rcutorture_urcu_signal_perf_global.tap: $(top_builddir)/config.status $(srcdir)/rcutorture_urcu_signal_perf_global.tap.in
-	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
-rcutorture_urcu_signal_perf_percpu.tap: $(top_builddir)/config.status $(srcdir)/rcutorture_urcu_signal_perf_percpu.tap.in
-	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
-rcutorture_urcu_signal_perf_perthread.tap: $(top_builddir)/config.status $(srcdir)/rcutorture_urcu_signal_perf_perthread.tap.in
-	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
-rcutorture_urcu_signal_rperf_global.tap: $(top_builddir)/config.status $(srcdir)/rcutorture_urcu_signal_rperf_global.tap.in
-	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
-rcutorture_urcu_signal_rperf_percpu.tap: $(top_builddir)/config.status $(srcdir)/rcutorture_urcu_signal_rperf_percpu.tap.in
-	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
-rcutorture_urcu_signal_rperf_perthread.tap: $(top_builddir)/config.status $(srcdir)/rcutorture_urcu_signal_rperf_perthread.tap.in
-	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
-rcutorture_urcu_signal_stress_global.tap: $(top_builddir)/config.status $(srcdir)/rcutorture_urcu_signal_stress_global.tap.in
-	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
-rcutorture_urcu_signal_stress_percpu.tap: $(top_builddir)/config.status $(srcdir)/rcutorture_urcu_signal_stress_percpu.tap.in
-	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
-rcutorture_urcu_signal_stress_perthread.tap: $(top_builddir)/config.status $(srcdir)/rcutorture_urcu_signal_stress_perthread.tap.in
-	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
-rcutorture_urcu_signal_uperf_global.tap: $(top_builddir)/config.status $(srcdir)/rcutorture_urcu_signal_uperf_global.tap.in
-	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
-rcutorture_urcu_signal_uperf_percpu.tap: $(top_builddir)/config.status $(srcdir)/rcutorture_urcu_signal_uperf_percpu.tap.in
-	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
-rcutorture_urcu_signal_uperf_perthread.tap: $(top_builddir)/config.status $(srcdir)/rcutorture_urcu_signal_uperf_perthread.tap.in
-	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
 
 clean-noinstPROGRAMS:
 	@list='$(noinst_PROGRAMS)'; test -n "$$list" || exit 0; \
@@ -961,25 +1022,49 @@ rcutorture_urcu_bp$(EXEEXT): $(rcutorture_urcu_bp_OBJECTS) $(rcutorture_urcu_bp_
 	@rm -f rcutorture_urcu_bp$(EXEEXT)
 	$(AM_V_CCLD)$(rcutorture_urcu_bp_LINK) $(rcutorture_urcu_bp_OBJECTS) $(rcutorture_urcu_bp_LDADD) $(LIBS)
 
+rcutorture_urcu_bp_cxx$(EXEEXT): $(rcutorture_urcu_bp_cxx_OBJECTS) $(rcutorture_urcu_bp_cxx_DEPENDENCIES) $(EXTRA_rcutorture_urcu_bp_cxx_DEPENDENCIES) 
+	@rm -f rcutorture_urcu_bp_cxx$(EXEEXT)
+	$(AM_V_CXXLD)$(rcutorture_urcu_bp_cxx_LINK) $(rcutorture_urcu_bp_cxx_OBJECTS) $(rcutorture_urcu_bp_cxx_LDADD) $(LIBS)
+
 rcutorture_urcu_mb$(EXEEXT): $(rcutorture_urcu_mb_OBJECTS) $(rcutorture_urcu_mb_DEPENDENCIES) $(EXTRA_rcutorture_urcu_mb_DEPENDENCIES) 
 	@rm -f rcutorture_urcu_mb$(EXEEXT)
 	$(AM_V_CCLD)$(rcutorture_urcu_mb_LINK) $(rcutorture_urcu_mb_OBJECTS) $(rcutorture_urcu_mb_LDADD) $(LIBS)
+
+rcutorture_urcu_mb_cxx$(EXEEXT): $(rcutorture_urcu_mb_cxx_OBJECTS) $(rcutorture_urcu_mb_cxx_DEPENDENCIES) $(EXTRA_rcutorture_urcu_mb_cxx_DEPENDENCIES) 
+	@rm -f rcutorture_urcu_mb_cxx$(EXEEXT)
+	$(AM_V_CXXLD)$(rcutorture_urcu_mb_cxx_LINK) $(rcutorture_urcu_mb_cxx_OBJECTS) $(rcutorture_urcu_mb_cxx_LDADD) $(LIBS)
 
 rcutorture_urcu_membarrier$(EXEEXT): $(rcutorture_urcu_membarrier_OBJECTS) $(rcutorture_urcu_membarrier_DEPENDENCIES) $(EXTRA_rcutorture_urcu_membarrier_DEPENDENCIES) 
 	@rm -f rcutorture_urcu_membarrier$(EXEEXT)
 	$(AM_V_CCLD)$(rcutorture_urcu_membarrier_LINK) $(rcutorture_urcu_membarrier_OBJECTS) $(rcutorture_urcu_membarrier_LDADD) $(LIBS)
 
+rcutorture_urcu_membarrier_cxx$(EXEEXT): $(rcutorture_urcu_membarrier_cxx_OBJECTS) $(rcutorture_urcu_membarrier_cxx_DEPENDENCIES) $(EXTRA_rcutorture_urcu_membarrier_cxx_DEPENDENCIES) 
+	@rm -f rcutorture_urcu_membarrier_cxx$(EXEEXT)
+	$(AM_V_CXXLD)$(rcutorture_urcu_membarrier_cxx_LINK) $(rcutorture_urcu_membarrier_cxx_OBJECTS) $(rcutorture_urcu_membarrier_cxx_LDADD) $(LIBS)
+
 rcutorture_urcu_qsbr$(EXEEXT): $(rcutorture_urcu_qsbr_OBJECTS) $(rcutorture_urcu_qsbr_DEPENDENCIES) $(EXTRA_rcutorture_urcu_qsbr_DEPENDENCIES) 
 	@rm -f rcutorture_urcu_qsbr$(EXEEXT)
 	$(AM_V_CCLD)$(rcutorture_urcu_qsbr_LINK) $(rcutorture_urcu_qsbr_OBJECTS) $(rcutorture_urcu_qsbr_LDADD) $(LIBS)
+
+rcutorture_urcu_qsbr_cxx$(EXEEXT): $(rcutorture_urcu_qsbr_cxx_OBJECTS) $(rcutorture_urcu_qsbr_cxx_DEPENDENCIES) $(EXTRA_rcutorture_urcu_qsbr_cxx_DEPENDENCIES) 
+	@rm -f rcutorture_urcu_qsbr_cxx$(EXEEXT)
+	$(AM_V_CXXLD)$(rcutorture_urcu_qsbr_cxx_LINK) $(rcutorture_urcu_qsbr_cxx_OBJECTS) $(rcutorture_urcu_qsbr_cxx_LDADD) $(LIBS)
 
 rcutorture_urcu_signal$(EXEEXT): $(rcutorture_urcu_signal_OBJECTS) $(rcutorture_urcu_signal_DEPENDENCIES) $(EXTRA_rcutorture_urcu_signal_DEPENDENCIES) 
 	@rm -f rcutorture_urcu_signal$(EXEEXT)
 	$(AM_V_CCLD)$(rcutorture_urcu_signal_LINK) $(rcutorture_urcu_signal_OBJECTS) $(rcutorture_urcu_signal_LDADD) $(LIBS)
 
+rcutorture_urcu_signal_cxx$(EXEEXT): $(rcutorture_urcu_signal_cxx_OBJECTS) $(rcutorture_urcu_signal_cxx_DEPENDENCIES) $(EXTRA_rcutorture_urcu_signal_cxx_DEPENDENCIES) 
+	@rm -f rcutorture_urcu_signal_cxx$(EXEEXT)
+	$(AM_V_CXXLD)$(rcutorture_urcu_signal_cxx_LINK) $(rcutorture_urcu_signal_cxx_OBJECTS) $(rcutorture_urcu_signal_cxx_LDADD) $(LIBS)
+
 test_urcu_fork.tap$(EXEEXT): $(test_urcu_fork_tap_OBJECTS) $(test_urcu_fork_tap_DEPENDENCIES) $(EXTRA_test_urcu_fork_tap_DEPENDENCIES) 
 	@rm -f test_urcu_fork.tap$(EXEEXT)
 	$(AM_V_CCLD)$(LINK) $(test_urcu_fork_tap_OBJECTS) $(test_urcu_fork_tap_LDADD) $(LIBS)
+
+test_urcu_fork_cxx.tap$(EXEEXT): $(test_urcu_fork_cxx_tap_OBJECTS) $(test_urcu_fork_cxx_tap_DEPENDENCIES) $(EXTRA_test_urcu_fork_cxx_tap_DEPENDENCIES) 
+	@rm -f test_urcu_fork_cxx.tap$(EXEEXT)
+	$(AM_V_CXXLD)$(CXXLINK) $(test_urcu_fork_cxx_tap_OBJECTS) $(test_urcu_fork_cxx_tap_LDADD) $(LIBS)
 
 mostlyclean-compile:
 	-rm -f *.$(OBJEXT)
@@ -988,11 +1073,17 @@ distclean-compile:
 	-rm -f *.tab.c
 
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/rcutorture_urcu_bp-urcutorture.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/rcutorture_urcu_bp_cxx-urcutorture_cxx.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/rcutorture_urcu_mb-urcutorture.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/rcutorture_urcu_mb_cxx-urcutorture_cxx.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/rcutorture_urcu_membarrier-urcutorture.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/rcutorture_urcu_membarrier_cxx-urcutorture_cxx.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/rcutorture_urcu_qsbr-urcutorture.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/rcutorture_urcu_qsbr_cxx-urcutorture_cxx.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/rcutorture_urcu_signal-urcutorture.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/rcutorture_urcu_signal_cxx-urcutorture_cxx.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/test_urcu_fork.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/test_urcu_fork_cxx.Po@am__quote@ # am--include-marker
 
 $(am__depfiles_remade):
 	@$(MKDIR_P) $(@D)
@@ -1090,6 +1181,97 @@ rcutorture_urcu_signal-urcutorture.obj: urcutorture.c
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='urcutorture.c' object='rcutorture_urcu_signal-urcutorture.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(rcutorture_urcu_signal_CFLAGS) $(CFLAGS) -c -o rcutorture_urcu_signal-urcutorture.obj `if test -f 'urcutorture.c'; then $(CYGPATH_W) 'urcutorture.c'; else $(CYGPATH_W) '$(srcdir)/urcutorture.c'; fi`
+
+.cpp.o:
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXXCOMPILE) -MT $@ -MD -MP -MF $(DEPDIR)/$*.Tpo -c -o $@ $<
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/$*.Tpo $(DEPDIR)/$*.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='$<' object='$@' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXXCOMPILE) -c -o $@ $<
+
+.cpp.obj:
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXXCOMPILE) -MT $@ -MD -MP -MF $(DEPDIR)/$*.Tpo -c -o $@ `$(CYGPATH_W) '$<'`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/$*.Tpo $(DEPDIR)/$*.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='$<' object='$@' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXXCOMPILE) -c -o $@ `$(CYGPATH_W) '$<'`
+
+.cpp.lo:
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(LTCXXCOMPILE) -MT $@ -MD -MP -MF $(DEPDIR)/$*.Tpo -c -o $@ $<
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/$*.Tpo $(DEPDIR)/$*.Plo
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='$<' object='$@' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(LTCXXCOMPILE) -c -o $@ $<
+
+rcutorture_urcu_bp_cxx-urcutorture_cxx.o: urcutorture_cxx.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(rcutorture_urcu_bp_cxx_CXXFLAGS) $(CXXFLAGS) -MT rcutorture_urcu_bp_cxx-urcutorture_cxx.o -MD -MP -MF $(DEPDIR)/rcutorture_urcu_bp_cxx-urcutorture_cxx.Tpo -c -o rcutorture_urcu_bp_cxx-urcutorture_cxx.o `test -f 'urcutorture_cxx.cpp' || echo '$(srcdir)/'`urcutorture_cxx.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/rcutorture_urcu_bp_cxx-urcutorture_cxx.Tpo $(DEPDIR)/rcutorture_urcu_bp_cxx-urcutorture_cxx.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='urcutorture_cxx.cpp' object='rcutorture_urcu_bp_cxx-urcutorture_cxx.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(rcutorture_urcu_bp_cxx_CXXFLAGS) $(CXXFLAGS) -c -o rcutorture_urcu_bp_cxx-urcutorture_cxx.o `test -f 'urcutorture_cxx.cpp' || echo '$(srcdir)/'`urcutorture_cxx.cpp
+
+rcutorture_urcu_bp_cxx-urcutorture_cxx.obj: urcutorture_cxx.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(rcutorture_urcu_bp_cxx_CXXFLAGS) $(CXXFLAGS) -MT rcutorture_urcu_bp_cxx-urcutorture_cxx.obj -MD -MP -MF $(DEPDIR)/rcutorture_urcu_bp_cxx-urcutorture_cxx.Tpo -c -o rcutorture_urcu_bp_cxx-urcutorture_cxx.obj `if test -f 'urcutorture_cxx.cpp'; then $(CYGPATH_W) 'urcutorture_cxx.cpp'; else $(CYGPATH_W) '$(srcdir)/urcutorture_cxx.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/rcutorture_urcu_bp_cxx-urcutorture_cxx.Tpo $(DEPDIR)/rcutorture_urcu_bp_cxx-urcutorture_cxx.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='urcutorture_cxx.cpp' object='rcutorture_urcu_bp_cxx-urcutorture_cxx.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(rcutorture_urcu_bp_cxx_CXXFLAGS) $(CXXFLAGS) -c -o rcutorture_urcu_bp_cxx-urcutorture_cxx.obj `if test -f 'urcutorture_cxx.cpp'; then $(CYGPATH_W) 'urcutorture_cxx.cpp'; else $(CYGPATH_W) '$(srcdir)/urcutorture_cxx.cpp'; fi`
+
+rcutorture_urcu_mb_cxx-urcutorture_cxx.o: urcutorture_cxx.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(rcutorture_urcu_mb_cxx_CXXFLAGS) $(CXXFLAGS) -MT rcutorture_urcu_mb_cxx-urcutorture_cxx.o -MD -MP -MF $(DEPDIR)/rcutorture_urcu_mb_cxx-urcutorture_cxx.Tpo -c -o rcutorture_urcu_mb_cxx-urcutorture_cxx.o `test -f 'urcutorture_cxx.cpp' || echo '$(srcdir)/'`urcutorture_cxx.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/rcutorture_urcu_mb_cxx-urcutorture_cxx.Tpo $(DEPDIR)/rcutorture_urcu_mb_cxx-urcutorture_cxx.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='urcutorture_cxx.cpp' object='rcutorture_urcu_mb_cxx-urcutorture_cxx.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(rcutorture_urcu_mb_cxx_CXXFLAGS) $(CXXFLAGS) -c -o rcutorture_urcu_mb_cxx-urcutorture_cxx.o `test -f 'urcutorture_cxx.cpp' || echo '$(srcdir)/'`urcutorture_cxx.cpp
+
+rcutorture_urcu_mb_cxx-urcutorture_cxx.obj: urcutorture_cxx.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(rcutorture_urcu_mb_cxx_CXXFLAGS) $(CXXFLAGS) -MT rcutorture_urcu_mb_cxx-urcutorture_cxx.obj -MD -MP -MF $(DEPDIR)/rcutorture_urcu_mb_cxx-urcutorture_cxx.Tpo -c -o rcutorture_urcu_mb_cxx-urcutorture_cxx.obj `if test -f 'urcutorture_cxx.cpp'; then $(CYGPATH_W) 'urcutorture_cxx.cpp'; else $(CYGPATH_W) '$(srcdir)/urcutorture_cxx.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/rcutorture_urcu_mb_cxx-urcutorture_cxx.Tpo $(DEPDIR)/rcutorture_urcu_mb_cxx-urcutorture_cxx.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='urcutorture_cxx.cpp' object='rcutorture_urcu_mb_cxx-urcutorture_cxx.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(rcutorture_urcu_mb_cxx_CXXFLAGS) $(CXXFLAGS) -c -o rcutorture_urcu_mb_cxx-urcutorture_cxx.obj `if test -f 'urcutorture_cxx.cpp'; then $(CYGPATH_W) 'urcutorture_cxx.cpp'; else $(CYGPATH_W) '$(srcdir)/urcutorture_cxx.cpp'; fi`
+
+rcutorture_urcu_membarrier_cxx-urcutorture_cxx.o: urcutorture_cxx.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(rcutorture_urcu_membarrier_cxx_CXXFLAGS) $(CXXFLAGS) -MT rcutorture_urcu_membarrier_cxx-urcutorture_cxx.o -MD -MP -MF $(DEPDIR)/rcutorture_urcu_membarrier_cxx-urcutorture_cxx.Tpo -c -o rcutorture_urcu_membarrier_cxx-urcutorture_cxx.o `test -f 'urcutorture_cxx.cpp' || echo '$(srcdir)/'`urcutorture_cxx.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/rcutorture_urcu_membarrier_cxx-urcutorture_cxx.Tpo $(DEPDIR)/rcutorture_urcu_membarrier_cxx-urcutorture_cxx.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='urcutorture_cxx.cpp' object='rcutorture_urcu_membarrier_cxx-urcutorture_cxx.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(rcutorture_urcu_membarrier_cxx_CXXFLAGS) $(CXXFLAGS) -c -o rcutorture_urcu_membarrier_cxx-urcutorture_cxx.o `test -f 'urcutorture_cxx.cpp' || echo '$(srcdir)/'`urcutorture_cxx.cpp
+
+rcutorture_urcu_membarrier_cxx-urcutorture_cxx.obj: urcutorture_cxx.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(rcutorture_urcu_membarrier_cxx_CXXFLAGS) $(CXXFLAGS) -MT rcutorture_urcu_membarrier_cxx-urcutorture_cxx.obj -MD -MP -MF $(DEPDIR)/rcutorture_urcu_membarrier_cxx-urcutorture_cxx.Tpo -c -o rcutorture_urcu_membarrier_cxx-urcutorture_cxx.obj `if test -f 'urcutorture_cxx.cpp'; then $(CYGPATH_W) 'urcutorture_cxx.cpp'; else $(CYGPATH_W) '$(srcdir)/urcutorture_cxx.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/rcutorture_urcu_membarrier_cxx-urcutorture_cxx.Tpo $(DEPDIR)/rcutorture_urcu_membarrier_cxx-urcutorture_cxx.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='urcutorture_cxx.cpp' object='rcutorture_urcu_membarrier_cxx-urcutorture_cxx.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(rcutorture_urcu_membarrier_cxx_CXXFLAGS) $(CXXFLAGS) -c -o rcutorture_urcu_membarrier_cxx-urcutorture_cxx.obj `if test -f 'urcutorture_cxx.cpp'; then $(CYGPATH_W) 'urcutorture_cxx.cpp'; else $(CYGPATH_W) '$(srcdir)/urcutorture_cxx.cpp'; fi`
+
+rcutorture_urcu_qsbr_cxx-urcutorture_cxx.o: urcutorture_cxx.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(rcutorture_urcu_qsbr_cxx_CXXFLAGS) $(CXXFLAGS) -MT rcutorture_urcu_qsbr_cxx-urcutorture_cxx.o -MD -MP -MF $(DEPDIR)/rcutorture_urcu_qsbr_cxx-urcutorture_cxx.Tpo -c -o rcutorture_urcu_qsbr_cxx-urcutorture_cxx.o `test -f 'urcutorture_cxx.cpp' || echo '$(srcdir)/'`urcutorture_cxx.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/rcutorture_urcu_qsbr_cxx-urcutorture_cxx.Tpo $(DEPDIR)/rcutorture_urcu_qsbr_cxx-urcutorture_cxx.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='urcutorture_cxx.cpp' object='rcutorture_urcu_qsbr_cxx-urcutorture_cxx.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(rcutorture_urcu_qsbr_cxx_CXXFLAGS) $(CXXFLAGS) -c -o rcutorture_urcu_qsbr_cxx-urcutorture_cxx.o `test -f 'urcutorture_cxx.cpp' || echo '$(srcdir)/'`urcutorture_cxx.cpp
+
+rcutorture_urcu_qsbr_cxx-urcutorture_cxx.obj: urcutorture_cxx.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(rcutorture_urcu_qsbr_cxx_CXXFLAGS) $(CXXFLAGS) -MT rcutorture_urcu_qsbr_cxx-urcutorture_cxx.obj -MD -MP -MF $(DEPDIR)/rcutorture_urcu_qsbr_cxx-urcutorture_cxx.Tpo -c -o rcutorture_urcu_qsbr_cxx-urcutorture_cxx.obj `if test -f 'urcutorture_cxx.cpp'; then $(CYGPATH_W) 'urcutorture_cxx.cpp'; else $(CYGPATH_W) '$(srcdir)/urcutorture_cxx.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/rcutorture_urcu_qsbr_cxx-urcutorture_cxx.Tpo $(DEPDIR)/rcutorture_urcu_qsbr_cxx-urcutorture_cxx.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='urcutorture_cxx.cpp' object='rcutorture_urcu_qsbr_cxx-urcutorture_cxx.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(rcutorture_urcu_qsbr_cxx_CXXFLAGS) $(CXXFLAGS) -c -o rcutorture_urcu_qsbr_cxx-urcutorture_cxx.obj `if test -f 'urcutorture_cxx.cpp'; then $(CYGPATH_W) 'urcutorture_cxx.cpp'; else $(CYGPATH_W) '$(srcdir)/urcutorture_cxx.cpp'; fi`
+
+rcutorture_urcu_signal_cxx-urcutorture_cxx.o: urcutorture_cxx.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(rcutorture_urcu_signal_cxx_CXXFLAGS) $(CXXFLAGS) -MT rcutorture_urcu_signal_cxx-urcutorture_cxx.o -MD -MP -MF $(DEPDIR)/rcutorture_urcu_signal_cxx-urcutorture_cxx.Tpo -c -o rcutorture_urcu_signal_cxx-urcutorture_cxx.o `test -f 'urcutorture_cxx.cpp' || echo '$(srcdir)/'`urcutorture_cxx.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/rcutorture_urcu_signal_cxx-urcutorture_cxx.Tpo $(DEPDIR)/rcutorture_urcu_signal_cxx-urcutorture_cxx.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='urcutorture_cxx.cpp' object='rcutorture_urcu_signal_cxx-urcutorture_cxx.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(rcutorture_urcu_signal_cxx_CXXFLAGS) $(CXXFLAGS) -c -o rcutorture_urcu_signal_cxx-urcutorture_cxx.o `test -f 'urcutorture_cxx.cpp' || echo '$(srcdir)/'`urcutorture_cxx.cpp
+
+rcutorture_urcu_signal_cxx-urcutorture_cxx.obj: urcutorture_cxx.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(rcutorture_urcu_signal_cxx_CXXFLAGS) $(CXXFLAGS) -MT rcutorture_urcu_signal_cxx-urcutorture_cxx.obj -MD -MP -MF $(DEPDIR)/rcutorture_urcu_signal_cxx-urcutorture_cxx.Tpo -c -o rcutorture_urcu_signal_cxx-urcutorture_cxx.obj `if test -f 'urcutorture_cxx.cpp'; then $(CYGPATH_W) 'urcutorture_cxx.cpp'; else $(CYGPATH_W) '$(srcdir)/urcutorture_cxx.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/rcutorture_urcu_signal_cxx-urcutorture_cxx.Tpo $(DEPDIR)/rcutorture_urcu_signal_cxx-urcutorture_cxx.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='urcutorture_cxx.cpp' object='rcutorture_urcu_signal_cxx-urcutorture_cxx.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(rcutorture_urcu_signal_cxx_CXXFLAGS) $(CXXFLAGS) -c -o rcutorture_urcu_signal_cxx-urcutorture_cxx.obj `if test -f 'urcutorture_cxx.cpp'; then $(CYGPATH_W) 'urcutorture_cxx.cpp'; else $(CYGPATH_W) '$(srcdir)/urcutorture_cxx.cpp'; fi`
 
 mostlyclean-libtool:
 	-rm -f *.lo
@@ -1269,7 +1451,7 @@ $(TEST_SUITE_LOG): $(TEST_LOGS)
 	fi;								\
 	$$success || exit 1
 
-check-TESTS: 
+check-TESTS: $(dist_check_SCRIPTS)
 	@list='$(RECHECK_LOGS)';           test -z "$$list" || rm -f $$list
 	@list='$(RECHECK_LOGS:.log=.trs)'; test -z "$$list" || rm -f $$list
 	@test -z "$(TEST_SUITE_LOG)" || rm -f $(TEST_SUITE_LOG)
@@ -1279,7 +1461,7 @@ check-TESTS:
 	log_list=`echo $$log_list`; trs_list=`echo $$trs_list`; \
 	$(MAKE) $(AM_MAKEFLAGS) $(TEST_SUITE_LOG) TEST_LOGS="$$log_list"; \
 	exit $$?;
-recheck: all 
+recheck: all $(dist_check_SCRIPTS)
 	@test -z "$(TEST_SUITE_LOG)" || rm -f $(TEST_SUITE_LOG)
 	@set +e; $(am__set_TESTS_bases); \
 	bases=`for i in $$bases; do echo $$i; done \
@@ -1338,6 +1520,7 @@ distdir-am: $(DISTFILES)
 	  fi; \
 	done
 check-am: all-am
+	$(MAKE) $(AM_MAKEFLAGS) $(dist_check_SCRIPTS)
 	$(MAKE) $(AM_MAKEFLAGS) check-TESTS
 check: check-am
 all-am: Makefile $(PROGRAMS) $(HEADERS)
@@ -1382,11 +1565,17 @@ clean-am: clean-generic clean-libtool clean-noinstPROGRAMS \
 
 distclean: distclean-am
 		-rm -f ./$(DEPDIR)/rcutorture_urcu_bp-urcutorture.Po
+	-rm -f ./$(DEPDIR)/rcutorture_urcu_bp_cxx-urcutorture_cxx.Po
 	-rm -f ./$(DEPDIR)/rcutorture_urcu_mb-urcutorture.Po
+	-rm -f ./$(DEPDIR)/rcutorture_urcu_mb_cxx-urcutorture_cxx.Po
 	-rm -f ./$(DEPDIR)/rcutorture_urcu_membarrier-urcutorture.Po
+	-rm -f ./$(DEPDIR)/rcutorture_urcu_membarrier_cxx-urcutorture_cxx.Po
 	-rm -f ./$(DEPDIR)/rcutorture_urcu_qsbr-urcutorture.Po
+	-rm -f ./$(DEPDIR)/rcutorture_urcu_qsbr_cxx-urcutorture_cxx.Po
 	-rm -f ./$(DEPDIR)/rcutorture_urcu_signal-urcutorture.Po
+	-rm -f ./$(DEPDIR)/rcutorture_urcu_signal_cxx-urcutorture_cxx.Po
 	-rm -f ./$(DEPDIR)/test_urcu_fork.Po
+	-rm -f ./$(DEPDIR)/test_urcu_fork_cxx.Po
 	-rm -f Makefile
 distclean-am: clean-am distclean-compile distclean-generic \
 	distclean-tags
@@ -1433,11 +1622,17 @@ installcheck-am:
 
 maintainer-clean: maintainer-clean-am
 		-rm -f ./$(DEPDIR)/rcutorture_urcu_bp-urcutorture.Po
+	-rm -f ./$(DEPDIR)/rcutorture_urcu_bp_cxx-urcutorture_cxx.Po
 	-rm -f ./$(DEPDIR)/rcutorture_urcu_mb-urcutorture.Po
+	-rm -f ./$(DEPDIR)/rcutorture_urcu_mb_cxx-urcutorture_cxx.Po
 	-rm -f ./$(DEPDIR)/rcutorture_urcu_membarrier-urcutorture.Po
+	-rm -f ./$(DEPDIR)/rcutorture_urcu_membarrier_cxx-urcutorture_cxx.Po
 	-rm -f ./$(DEPDIR)/rcutorture_urcu_qsbr-urcutorture.Po
+	-rm -f ./$(DEPDIR)/rcutorture_urcu_qsbr_cxx-urcutorture_cxx.Po
 	-rm -f ./$(DEPDIR)/rcutorture_urcu_signal-urcutorture.Po
+	-rm -f ./$(DEPDIR)/rcutorture_urcu_signal_cxx-urcutorture_cxx.Po
 	-rm -f ./$(DEPDIR)/test_urcu_fork.Po
+	-rm -f ./$(DEPDIR)/test_urcu_fork_cxx.Po
 	-rm -f Makefile
 maintainer-clean-am: distclean-am maintainer-clean-generic
 

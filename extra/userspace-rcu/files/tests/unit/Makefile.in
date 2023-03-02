@@ -15,6 +15,7 @@
 @SET_MAKE@
 
 
+
 VPATH = @srcdir@
 am__is_gnu_make = { \
   if test -z '$(MAKELEVEL)'; then \
@@ -90,11 +91,44 @@ POST_UNINSTALL = :
 build_triplet = @build@
 host_triplet = @host@
 target_triplet = @target@
-noinst_PROGRAMS = test_arch$(EXEEXT) test_uatomic$(EXEEXT) \
+noinst_PROGRAMS = get_cpu_mask_from_sysfs$(EXEEXT) \
+	get_cpu_mask_from_sysfs_cxx$(EXEEXT) \
+	get_max_cpuid_from_sysfs$(EXEEXT) \
+	get_max_cpuid_from_sysfs_cxx$(EXEEXT) test_arch$(EXEEXT) \
+	test_arch_cxx$(EXEEXT) test_get_max_cpuid_from_mask$(EXEEXT) \
+	test_get_max_cpuid_from_mask_cxx$(EXEEXT) \
+	test_get_possible_cpus_array_len$(EXEEXT) \
+	test_get_possible_cpus_array_len_cxx$(EXEEXT) \
+	test_uatomic$(EXEEXT) test_uatomic_cxx$(EXEEXT) \
 	test_urcu_multiflavor$(EXEEXT) \
+	test_urcu_multiflavor_cxx$(EXEEXT) \
 	test_urcu_multiflavor_dynlink$(EXEEXT) \
+	test_urcu_multiflavor_dynlink_cxx$(EXEEXT) \
 	test_urcu_multiflavor_single_unit$(EXEEXT) \
-	test_urcu_multiflavor_single_unit_dynlink$(EXEEXT)
+	test_urcu_multiflavor_single_unit_cxx$(EXEEXT) \
+	test_urcu_multiflavor_single_unit_dynlink$(EXEEXT) \
+	test_urcu_multiflavor_single_unit_dynlink_cxx$(EXEEXT) \
+	test_build$(EXEEXT) test_build_cxx$(EXEEXT) \
+	test_build_dynlink$(EXEEXT) test_build_dynlink_cxx$(EXEEXT)
+TESTS = test_arch$(EXEEXT) test_arch_cxx$(EXEEXT) \
+	test_get_cpu_mask_from_sysfs test_get_cpu_mask_from_sysfs_cxx \
+	test_get_max_cpuid_from_mask$(EXEEXT) \
+	test_get_max_cpuid_from_mask_cxx$(EXEEXT) \
+	test_get_max_cpuid_from_sysfs \
+	test_get_max_cpuid_from_sysfs_cxx \
+	test_get_possible_cpus_array_len$(EXEEXT) \
+	test_get_possible_cpus_array_len_cxx$(EXEEXT) \
+	test_uatomic$(EXEEXT) test_uatomic_cxx$(EXEEXT) \
+	test_urcu_multiflavor$(EXEEXT) \
+	test_urcu_multiflavor_cxx$(EXEEXT) \
+	test_urcu_multiflavor_dynlink$(EXEEXT) \
+	test_urcu_multiflavor_dynlink_cxx$(EXEEXT) \
+	test_urcu_multiflavor_single_unit$(EXEEXT) \
+	test_urcu_multiflavor_single_unit_cxx$(EXEEXT) \
+	test_urcu_multiflavor_single_unit_dynlink$(EXEEXT) \
+	test_urcu_multiflavor_single_unit_dynlink_cxx$(EXEEXT) \
+	test_build$(EXEEXT) test_build_cxx$(EXEEXT) \
+	test_build_dynlink$(EXEEXT) test_build_dynlink_cxx$(EXEEXT)
 subdir = tests/unit
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/m4/ae_config_feature.m4 \
@@ -102,6 +136,7 @@ am__aclocal_m4_deps = $(top_srcdir)/m4/ae_config_feature.m4 \
 	$(top_srcdir)/m4/ax_append_flag.m4 \
 	$(top_srcdir)/m4/ax_c___attribute__.m4 \
 	$(top_srcdir)/m4/ax_check_compile_flag.m4 \
+	$(top_srcdir)/m4/ax_cxx_compile_stdcxx.m4 \
 	$(top_srcdir)/m4/ax_pthread.m4 \
 	$(top_srcdir)/m4/ax_require_defined.m4 \
 	$(top_srcdir)/m4/libtool.m4 $(top_srcdir)/m4/ltoptions.m4 \
@@ -110,24 +145,96 @@ am__aclocal_m4_deps = $(top_srcdir)/m4/ae_config_feature.m4 \
 	$(top_srcdir)/configure.ac
 am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
 	$(ACLOCAL_M4)
-DIST_COMMON = $(srcdir)/Makefile.am $(noinst_HEADERS) \
-	$(am__DIST_COMMON)
+DIST_COMMON = $(srcdir)/Makefile.am $(dist_noinst_SCRIPTS) \
+	$(noinst_HEADERS) $(am__DIST_COMMON)
 mkinstalldirs = $(install_sh) -d
 CONFIG_HEADER = $(top_builddir)/include/config.h \
 	$(top_builddir)/include/urcu/config.h
 CONFIG_CLEAN_FILES =
 CONFIG_CLEAN_VPATH_FILES =
 PROGRAMS = $(noinst_PROGRAMS)
-am_test_arch_OBJECTS = test_arch.$(OBJEXT)
-test_arch_OBJECTS = $(am_test_arch_OBJECTS)
-test_arch_DEPENDENCIES = $(URCU_COMMON_LIB) $(TAP_LIB)
+am_get_cpu_mask_from_sysfs_OBJECTS =  \
+	get_cpu_mask_from_sysfs.$(OBJEXT)
+get_cpu_mask_from_sysfs_OBJECTS =  \
+	$(am_get_cpu_mask_from_sysfs_OBJECTS)
+get_cpu_mask_from_sysfs_LDADD = $(LDADD)
 AM_V_lt = $(am__v_lt_@AM_V@)
 am__v_lt_ = $(am__v_lt_@AM_DEFAULT_V@)
 am__v_lt_0 = --silent
 am__v_lt_1 = 
+am_get_cpu_mask_from_sysfs_cxx_OBJECTS =  \
+	get_cpu_mask_from_sysfs_cxx.$(OBJEXT)
+get_cpu_mask_from_sysfs_cxx_OBJECTS =  \
+	$(am_get_cpu_mask_from_sysfs_cxx_OBJECTS)
+get_cpu_mask_from_sysfs_cxx_LDADD = $(LDADD)
+am_get_max_cpuid_from_sysfs_OBJECTS =  \
+	get_max_cpuid_from_sysfs.$(OBJEXT)
+get_max_cpuid_from_sysfs_OBJECTS =  \
+	$(am_get_max_cpuid_from_sysfs_OBJECTS)
+get_max_cpuid_from_sysfs_LDADD = $(LDADD)
+am_get_max_cpuid_from_sysfs_cxx_OBJECTS =  \
+	get_max_cpuid_from_sysfs_cxx.$(OBJEXT)
+get_max_cpuid_from_sysfs_cxx_OBJECTS =  \
+	$(am_get_max_cpuid_from_sysfs_cxx_OBJECTS)
+get_max_cpuid_from_sysfs_cxx_LDADD = $(LDADD)
+am_test_arch_OBJECTS = test_arch.$(OBJEXT)
+test_arch_OBJECTS = $(am_test_arch_OBJECTS)
+test_arch_DEPENDENCIES = $(URCU_COMMON_LIB) $(TAP_LIB)
+am_test_arch_cxx_OBJECTS = test_arch_cxx.$(OBJEXT)
+test_arch_cxx_OBJECTS = $(am_test_arch_cxx_OBJECTS)
+test_arch_cxx_DEPENDENCIES = $(TAP_LIB)
+am_test_build_OBJECTS = test_build.$(OBJEXT)
+test_build_OBJECTS = $(am_test_build_OBJECTS)
+test_build_DEPENDENCIES = $(URCU_COMMON_LIB) $(URCU_CDS_LIB) \
+	$(TAP_LIB)
+am_test_build_cxx_OBJECTS = test_build_cxx.$(OBJEXT)
+test_build_cxx_OBJECTS = $(am_test_build_cxx_OBJECTS)
+test_build_cxx_DEPENDENCIES = $(URCU_COMMON_LIB) $(URCU_CDS_LIB) \
+	$(TAP_LIB)
+am_test_build_dynlink_OBJECTS =  \
+	test_build_dynlink-test_build.$(OBJEXT)
+test_build_dynlink_OBJECTS = $(am_test_build_dynlink_OBJECTS)
+test_build_dynlink_DEPENDENCIES = $(URCU_LIB) $(URCU_COMMON_LIB) \
+	$(URCU_CDS_LIB) $(TAP_LIB)
+test_build_dynlink_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CC \
+	$(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=link $(CCLD) \
+	$(test_build_dynlink_CFLAGS) $(CFLAGS) $(AM_LDFLAGS) \
+	$(LDFLAGS) -o $@
+am_test_build_dynlink_cxx_OBJECTS =  \
+	test_build_dynlink_cxx-test_build_cxx.$(OBJEXT)
+test_build_dynlink_cxx_OBJECTS = $(am_test_build_dynlink_cxx_OBJECTS)
+test_build_dynlink_cxx_DEPENDENCIES = $(URCU_LIB) $(URCU_COMMON_LIB) \
+	$(URCU_CDS_LIB) $(TAP_LIB)
+test_build_dynlink_cxx_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CXX \
+	$(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=link $(CXXLD) \
+	$(test_build_dynlink_cxx_CXXFLAGS) $(CXXFLAGS) $(AM_LDFLAGS) \
+	$(LDFLAGS) -o $@
+am_test_get_max_cpuid_from_mask_OBJECTS =  \
+	test_get_max_cpuid_from_mask.$(OBJEXT)
+test_get_max_cpuid_from_mask_OBJECTS =  \
+	$(am_test_get_max_cpuid_from_mask_OBJECTS)
+test_get_max_cpuid_from_mask_DEPENDENCIES = $(TAP_LIB)
+am_test_get_max_cpuid_from_mask_cxx_OBJECTS =  \
+	test_get_max_cpuid_from_mask_cxx.$(OBJEXT)
+test_get_max_cpuid_from_mask_cxx_OBJECTS =  \
+	$(am_test_get_max_cpuid_from_mask_cxx_OBJECTS)
+test_get_max_cpuid_from_mask_cxx_DEPENDENCIES = $(TAP_LIB)
+am_test_get_possible_cpus_array_len_OBJECTS =  \
+	test_get_possible_cpus_array_len.$(OBJEXT)
+test_get_possible_cpus_array_len_OBJECTS =  \
+	$(am_test_get_possible_cpus_array_len_OBJECTS)
+test_get_possible_cpus_array_len_DEPENDENCIES = $(TAP_LIB)
+am_test_get_possible_cpus_array_len_cxx_OBJECTS =  \
+	test_get_possible_cpus_array_len_cxx.$(OBJEXT)
+test_get_possible_cpus_array_len_cxx_OBJECTS =  \
+	$(am_test_get_possible_cpus_array_len_cxx_OBJECTS)
+test_get_possible_cpus_array_len_cxx_DEPENDENCIES = $(TAP_LIB)
 am_test_uatomic_OBJECTS = test_uatomic.$(OBJEXT)
 test_uatomic_OBJECTS = $(am_test_uatomic_OBJECTS)
 test_uatomic_DEPENDENCIES = $(URCU_COMMON_LIB) $(TAP_LIB)
+am_test_uatomic_cxx_OBJECTS = test_uatomic_cxx.$(OBJEXT)
+test_uatomic_cxx_OBJECTS = $(am_test_uatomic_cxx_OBJECTS)
+test_uatomic_cxx_DEPENDENCIES = $(URCU_COMMON_LIB) $(TAP_LIB)
 am_test_urcu_multiflavor_OBJECTS = test_urcu_multiflavor.$(OBJEXT) \
 	test_urcu_multiflavor-memb.$(OBJEXT) \
 	test_urcu_multiflavor-mb.$(OBJEXT) \
@@ -136,6 +243,17 @@ am_test_urcu_multiflavor_OBJECTS = test_urcu_multiflavor.$(OBJEXT) \
 	test_urcu_multiflavor-bp.$(OBJEXT)
 test_urcu_multiflavor_OBJECTS = $(am_test_urcu_multiflavor_OBJECTS)
 test_urcu_multiflavor_DEPENDENCIES = $(URCU_LIB) $(URCU_MB_LIB) \
+	$(URCU_SIGNAL_LIB) $(URCU_QSBR_LIB) $(URCU_BP_LIB) $(TAP_LIB)
+am_test_urcu_multiflavor_cxx_OBJECTS =  \
+	test_urcu_multiflavor_cxx.$(OBJEXT) \
+	test_urcu_multiflavor-memb_cxx.$(OBJEXT) \
+	test_urcu_multiflavor-mb_cxx.$(OBJEXT) \
+	test_urcu_multiflavor-signal_cxx.$(OBJEXT) \
+	test_urcu_multiflavor-qsbr_cxx.$(OBJEXT) \
+	test_urcu_multiflavor-bp_cxx.$(OBJEXT)
+test_urcu_multiflavor_cxx_OBJECTS =  \
+	$(am_test_urcu_multiflavor_cxx_OBJECTS)
+test_urcu_multiflavor_cxx_DEPENDENCIES = $(URCU_LIB) $(URCU_MB_LIB) \
 	$(URCU_SIGNAL_LIB) $(URCU_QSBR_LIB) $(URCU_BP_LIB) $(TAP_LIB)
 am_test_urcu_multiflavor_dynlink_OBJECTS =  \
 	test_urcu_multiflavor_dynlink-test_urcu_multiflavor.$(OBJEXT) \
@@ -153,11 +271,33 @@ test_urcu_multiflavor_dynlink_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CC \
 	$(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=link $(CCLD) \
 	$(test_urcu_multiflavor_dynlink_CFLAGS) $(CFLAGS) \
 	$(AM_LDFLAGS) $(LDFLAGS) -o $@
+am_test_urcu_multiflavor_dynlink_cxx_OBJECTS = test_urcu_multiflavor_dynlink_cxx-test_urcu_multiflavor_cxx.$(OBJEXT) \
+	test_urcu_multiflavor_dynlink_cxx-test_urcu_multiflavor-memb_cxx.$(OBJEXT) \
+	test_urcu_multiflavor_dynlink_cxx-test_urcu_multiflavor-mb_cxx.$(OBJEXT) \
+	test_urcu_multiflavor_dynlink_cxx-test_urcu_multiflavor-signal_cxx.$(OBJEXT) \
+	test_urcu_multiflavor_dynlink_cxx-test_urcu_multiflavor-qsbr_cxx.$(OBJEXT) \
+	test_urcu_multiflavor_dynlink_cxx-test_urcu_multiflavor-bp_cxx.$(OBJEXT)
+test_urcu_multiflavor_dynlink_cxx_OBJECTS =  \
+	$(am_test_urcu_multiflavor_dynlink_cxx_OBJECTS)
+test_urcu_multiflavor_dynlink_cxx_DEPENDENCIES = $(URCU_LIB) \
+	$(URCU_MB_LIB) $(URCU_SIGNAL_LIB) $(URCU_QSBR_LIB) \
+	$(URCU_BP_LIB) $(TAP_LIB)
+test_urcu_multiflavor_dynlink_cxx_LINK = $(LIBTOOL) $(AM_V_lt) \
+	--tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=link \
+	$(CXXLD) $(test_urcu_multiflavor_dynlink_cxx_CXXFLAGS) \
+	$(CXXFLAGS) $(AM_LDFLAGS) $(LDFLAGS) -o $@
 am_test_urcu_multiflavor_single_unit_OBJECTS =  \
 	test_urcu_multiflavor_single_unit.$(OBJEXT)
 test_urcu_multiflavor_single_unit_OBJECTS =  \
 	$(am_test_urcu_multiflavor_single_unit_OBJECTS)
 test_urcu_multiflavor_single_unit_DEPENDENCIES = $(URCU_LIB) \
+	$(URCU_MB_LIB) $(URCU_SIGNAL_LIB) $(URCU_QSBR_LIB) \
+	$(URCU_BP_LIB) $(TAP_LIB)
+am_test_urcu_multiflavor_single_unit_cxx_OBJECTS =  \
+	test_urcu_multiflavor_single_unit_cxx.$(OBJEXT)
+test_urcu_multiflavor_single_unit_cxx_OBJECTS =  \
+	$(am_test_urcu_multiflavor_single_unit_cxx_OBJECTS)
+test_urcu_multiflavor_single_unit_cxx_DEPENDENCIES = $(URCU_LIB) \
 	$(URCU_MB_LIB) $(URCU_SIGNAL_LIB) $(URCU_QSBR_LIB) \
 	$(URCU_BP_LIB) $(TAP_LIB)
 am_test_urcu_multiflavor_single_unit_dynlink_OBJECTS = test_urcu_multiflavor_single_unit_dynlink-test_urcu_multiflavor_single_unit.$(OBJEXT)
@@ -170,6 +310,18 @@ test_urcu_multiflavor_single_unit_dynlink_LINK = $(LIBTOOL) $(AM_V_lt) \
 	--tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=link \
 	$(CCLD) $(test_urcu_multiflavor_single_unit_dynlink_CFLAGS) \
 	$(CFLAGS) $(AM_LDFLAGS) $(LDFLAGS) -o $@
+am_test_urcu_multiflavor_single_unit_dynlink_cxx_OBJECTS = test_urcu_multiflavor_single_unit_dynlink_cxx-test_urcu_multiflavor_single_unit_cxx.$(OBJEXT)
+test_urcu_multiflavor_single_unit_dynlink_cxx_OBJECTS =  \
+	$(am_test_urcu_multiflavor_single_unit_dynlink_cxx_OBJECTS)
+test_urcu_multiflavor_single_unit_dynlink_cxx_DEPENDENCIES =  \
+	$(URCU_LIB) $(URCU_MB_LIB) $(URCU_SIGNAL_LIB) $(URCU_QSBR_LIB) \
+	$(URCU_BP_LIB) $(TAP_LIB)
+test_urcu_multiflavor_single_unit_dynlink_cxx_LINK = $(LIBTOOL) \
+	$(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) \
+	--mode=link $(CXXLD) \
+	$(test_urcu_multiflavor_single_unit_dynlink_cxx_CXXFLAGS) \
+	$(CXXFLAGS) $(AM_LDFLAGS) $(LDFLAGS) -o $@
+SCRIPTS = $(dist_noinst_SCRIPTS)
 AM_V_P = $(am__v_P_@AM_V@)
 am__v_P_ = $(am__v_P_@AM_DEFAULT_V@)
 am__v_P_0 = false
@@ -185,22 +337,47 @@ am__v_at_1 =
 DEFAULT_INCLUDES = 
 depcomp = $(SHELL) $(top_srcdir)/config/depcomp
 am__maybe_remake_depfiles = depfiles
-am__depfiles_remade = ./$(DEPDIR)/test_arch.Po \
-	./$(DEPDIR)/test_uatomic.Po \
+am__depfiles_remade = ./$(DEPDIR)/get_cpu_mask_from_sysfs.Po \
+	./$(DEPDIR)/get_cpu_mask_from_sysfs_cxx.Po \
+	./$(DEPDIR)/get_max_cpuid_from_sysfs.Po \
+	./$(DEPDIR)/get_max_cpuid_from_sysfs_cxx.Po \
+	./$(DEPDIR)/test_arch.Po ./$(DEPDIR)/test_arch_cxx.Po \
+	./$(DEPDIR)/test_build.Po ./$(DEPDIR)/test_build_cxx.Po \
+	./$(DEPDIR)/test_build_dynlink-test_build.Po \
+	./$(DEPDIR)/test_build_dynlink_cxx-test_build_cxx.Po \
+	./$(DEPDIR)/test_get_max_cpuid_from_mask.Po \
+	./$(DEPDIR)/test_get_max_cpuid_from_mask_cxx.Po \
+	./$(DEPDIR)/test_get_possible_cpus_array_len.Po \
+	./$(DEPDIR)/test_get_possible_cpus_array_len_cxx.Po \
+	./$(DEPDIR)/test_uatomic.Po ./$(DEPDIR)/test_uatomic_cxx.Po \
 	./$(DEPDIR)/test_urcu_multiflavor-bp.Po \
+	./$(DEPDIR)/test_urcu_multiflavor-bp_cxx.Po \
 	./$(DEPDIR)/test_urcu_multiflavor-mb.Po \
+	./$(DEPDIR)/test_urcu_multiflavor-mb_cxx.Po \
 	./$(DEPDIR)/test_urcu_multiflavor-memb.Po \
+	./$(DEPDIR)/test_urcu_multiflavor-memb_cxx.Po \
 	./$(DEPDIR)/test_urcu_multiflavor-qsbr.Po \
+	./$(DEPDIR)/test_urcu_multiflavor-qsbr_cxx.Po \
 	./$(DEPDIR)/test_urcu_multiflavor-signal.Po \
+	./$(DEPDIR)/test_urcu_multiflavor-signal_cxx.Po \
 	./$(DEPDIR)/test_urcu_multiflavor.Po \
+	./$(DEPDIR)/test_urcu_multiflavor_cxx.Po \
 	./$(DEPDIR)/test_urcu_multiflavor_dynlink-test_urcu_multiflavor-bp.Po \
 	./$(DEPDIR)/test_urcu_multiflavor_dynlink-test_urcu_multiflavor-mb.Po \
 	./$(DEPDIR)/test_urcu_multiflavor_dynlink-test_urcu_multiflavor-memb.Po \
 	./$(DEPDIR)/test_urcu_multiflavor_dynlink-test_urcu_multiflavor-qsbr.Po \
 	./$(DEPDIR)/test_urcu_multiflavor_dynlink-test_urcu_multiflavor-signal.Po \
 	./$(DEPDIR)/test_urcu_multiflavor_dynlink-test_urcu_multiflavor.Po \
+	./$(DEPDIR)/test_urcu_multiflavor_dynlink_cxx-test_urcu_multiflavor-bp_cxx.Po \
+	./$(DEPDIR)/test_urcu_multiflavor_dynlink_cxx-test_urcu_multiflavor-mb_cxx.Po \
+	./$(DEPDIR)/test_urcu_multiflavor_dynlink_cxx-test_urcu_multiflavor-memb_cxx.Po \
+	./$(DEPDIR)/test_urcu_multiflavor_dynlink_cxx-test_urcu_multiflavor-qsbr_cxx.Po \
+	./$(DEPDIR)/test_urcu_multiflavor_dynlink_cxx-test_urcu_multiflavor-signal_cxx.Po \
+	./$(DEPDIR)/test_urcu_multiflavor_dynlink_cxx-test_urcu_multiflavor_cxx.Po \
 	./$(DEPDIR)/test_urcu_multiflavor_single_unit.Po \
-	./$(DEPDIR)/test_urcu_multiflavor_single_unit_dynlink-test_urcu_multiflavor_single_unit.Po
+	./$(DEPDIR)/test_urcu_multiflavor_single_unit_cxx.Po \
+	./$(DEPDIR)/test_urcu_multiflavor_single_unit_dynlink-test_urcu_multiflavor_single_unit.Po \
+	./$(DEPDIR)/test_urcu_multiflavor_single_unit_dynlink_cxx-test_urcu_multiflavor_single_unit_cxx.Po
 am__mv = mv -f
 COMPILE = $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) \
 	$(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
@@ -220,16 +397,64 @@ AM_V_CCLD = $(am__v_CCLD_@AM_V@)
 am__v_CCLD_ = $(am__v_CCLD_@AM_DEFAULT_V@)
 am__v_CCLD_0 = @echo "  CCLD    " $@;
 am__v_CCLD_1 = 
-SOURCES = $(test_arch_SOURCES) $(test_uatomic_SOURCES) \
+CXXCOMPILE = $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) \
+	$(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS)
+LTCXXCOMPILE = $(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) \
+	$(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) \
+	$(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) \
+	$(AM_CXXFLAGS) $(CXXFLAGS)
+AM_V_CXX = $(am__v_CXX_@AM_V@)
+am__v_CXX_ = $(am__v_CXX_@AM_DEFAULT_V@)
+am__v_CXX_0 = @echo "  CXX     " $@;
+am__v_CXX_1 = 
+CXXLD = $(CXX)
+CXXLINK = $(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) \
+	$(LIBTOOLFLAGS) --mode=link $(CXXLD) $(AM_CXXFLAGS) \
+	$(CXXFLAGS) $(AM_LDFLAGS) $(LDFLAGS) -o $@
+AM_V_CXXLD = $(am__v_CXXLD_@AM_V@)
+am__v_CXXLD_ = $(am__v_CXXLD_@AM_DEFAULT_V@)
+am__v_CXXLD_0 = @echo "  CXXLD   " $@;
+am__v_CXXLD_1 = 
+SOURCES = $(get_cpu_mask_from_sysfs_SOURCES) \
+	$(get_cpu_mask_from_sysfs_cxx_SOURCES) \
+	$(get_max_cpuid_from_sysfs_SOURCES) \
+	$(get_max_cpuid_from_sysfs_cxx_SOURCES) $(test_arch_SOURCES) \
+	$(test_arch_cxx_SOURCES) $(test_build_SOURCES) \
+	$(test_build_cxx_SOURCES) $(test_build_dynlink_SOURCES) \
+	$(test_build_dynlink_cxx_SOURCES) \
+	$(test_get_max_cpuid_from_mask_SOURCES) \
+	$(test_get_max_cpuid_from_mask_cxx_SOURCES) \
+	$(test_get_possible_cpus_array_len_SOURCES) \
+	$(test_get_possible_cpus_array_len_cxx_SOURCES) \
+	$(test_uatomic_SOURCES) $(test_uatomic_cxx_SOURCES) \
 	$(test_urcu_multiflavor_SOURCES) \
+	$(test_urcu_multiflavor_cxx_SOURCES) \
 	$(test_urcu_multiflavor_dynlink_SOURCES) \
+	$(test_urcu_multiflavor_dynlink_cxx_SOURCES) \
 	$(test_urcu_multiflavor_single_unit_SOURCES) \
-	$(test_urcu_multiflavor_single_unit_dynlink_SOURCES)
-DIST_SOURCES = $(test_arch_SOURCES) $(test_uatomic_SOURCES) \
+	$(test_urcu_multiflavor_single_unit_cxx_SOURCES) \
+	$(test_urcu_multiflavor_single_unit_dynlink_SOURCES) \
+	$(test_urcu_multiflavor_single_unit_dynlink_cxx_SOURCES)
+DIST_SOURCES = $(get_cpu_mask_from_sysfs_SOURCES) \
+	$(get_cpu_mask_from_sysfs_cxx_SOURCES) \
+	$(get_max_cpuid_from_sysfs_SOURCES) \
+	$(get_max_cpuid_from_sysfs_cxx_SOURCES) $(test_arch_SOURCES) \
+	$(test_arch_cxx_SOURCES) $(test_build_SOURCES) \
+	$(test_build_cxx_SOURCES) $(test_build_dynlink_SOURCES) \
+	$(test_build_dynlink_cxx_SOURCES) \
+	$(test_get_max_cpuid_from_mask_SOURCES) \
+	$(test_get_max_cpuid_from_mask_cxx_SOURCES) \
+	$(test_get_possible_cpus_array_len_SOURCES) \
+	$(test_get_possible_cpus_array_len_cxx_SOURCES) \
+	$(test_uatomic_SOURCES) $(test_uatomic_cxx_SOURCES) \
 	$(test_urcu_multiflavor_SOURCES) \
+	$(test_urcu_multiflavor_cxx_SOURCES) \
 	$(test_urcu_multiflavor_dynlink_SOURCES) \
+	$(test_urcu_multiflavor_dynlink_cxx_SOURCES) \
 	$(test_urcu_multiflavor_single_unit_SOURCES) \
-	$(test_urcu_multiflavor_single_unit_dynlink_SOURCES)
+	$(test_urcu_multiflavor_single_unit_cxx_SOURCES) \
+	$(test_urcu_multiflavor_single_unit_dynlink_SOURCES) \
+	$(test_urcu_multiflavor_single_unit_dynlink_cxx_SOURCES)
 am__can_run_installinfo = \
   case $$AM_UPDATE_INFO_DIR in \
     n|no|NO) false;; \
@@ -465,6 +690,7 @@ AMTAR = @AMTAR@
 AM_CFLAGS = @AM_CFLAGS@
 AM_CPPFLAGS = @AM_CPPFLAGS@ -I$(top_srcdir)/src \
 	-I$(top_srcdir)/tests/utils -I$(top_srcdir)/tests/common
+AM_CXXFLAGS = @AM_CXXFLAGS@
 AM_DEFAULT_VERBOSITY = @AM_DEFAULT_VERBOSITY@
 AR = @AR@
 AUTOCONF = @AUTOCONF@
@@ -478,6 +704,10 @@ CPP = @CPP@
 CPPFLAGS = @CPPFLAGS@
 CSCOPE = @CSCOPE@
 CTAGS = @CTAGS@
+CXX = @CXX@
+CXXCPP = @CXXCPP@
+CXXDEPMODE = @CXXDEPMODE@
+CXXFLAGS = @CXXFLAGS@
 CYGPATH_W = @CYGPATH_W@
 DEFS = @DEFS@
 DEPDIR = @DEPDIR@
@@ -494,6 +724,7 @@ FGREP = @FGREP@
 FILECMD = @FILECMD@
 GETCONF = @GETCONF@
 GREP = @GREP@
+HAVE_CXX11 = @HAVE_CXX11@
 INSTALL = @INSTALL@
 INSTALL_DATA = @INSTALL_DATA@
 INSTALL_PROGRAM = @INSTALL_PROGRAM@
@@ -516,7 +747,6 @@ MKDIR_P = @MKDIR_P@
 NM = @NM@
 NMEDIT = @NMEDIT@
 NPROC = @NPROC@
-NPROC_CMD = @NPROC_CMD@
 OBJDUMP = @OBJDUMP@
 OBJEXT = @OBJEXT@
 OTOOL = @OTOOL@
@@ -537,6 +767,7 @@ SED = @SED@
 SET_MAKE = @SET_MAKE@
 SHELL = @SHELL@
 STRIP = @STRIP@
+TIME = @TIME@
 URCU_LIBRARY_VERSION = @URCU_LIBRARY_VERSION@
 VERSION = @VERSION@
 abs_builddir = @abs_builddir@
@@ -545,6 +776,7 @@ abs_top_builddir = @abs_top_builddir@
 abs_top_srcdir = @abs_top_srcdir@
 ac_ct_AR = @ac_ct_AR@
 ac_ct_CC = @ac_ct_CC@
+ac_ct_CXX = @ac_ct_CXX@
 ac_ct_DUMPBIN = @ac_ct_DUMPBIN@
 am__include = @am__include@
 am__leading_dot = @am__leading_dot@
@@ -599,10 +831,17 @@ top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 LOG_DRIVER_FLAGS = --merge --comments
-LOG_DRIVER = env AM_TAP_AWK='$(AWK)' $(SHELL) \
-	$(top_srcdir)/tests/utils/tap-driver.sh
+LOG_DRIVER = env AM_TAP_AWK='$(AWK)' \
+	URCU_TESTS_SRCDIR='$(abs_top_srcdir)/tests' \
+	URCU_TESTS_BUILDDIR='$(abs_top_builddir)/tests' \
+	$(SHELL) $(top_srcdir)/tests/utils/tap-driver.sh
 
-TESTS = $(noinst_PROGRAMS)
+dist_noinst_SCRIPTS = \
+	test_get_cpu_mask_from_sysfs \
+	test_get_cpu_mask_from_sysfs_cxx \
+	test_get_max_cpuid_from_sysfs \
+	test_get_max_cpuid_from_sysfs_cxx
+
 noinst_HEADERS = test_urcu_multiflavor.h
 URCU_COMMON_LIB = $(top_builddir)/src/liburcu-common.la
 URCU_LIB = $(top_builddir)/src/liburcu.la
@@ -612,10 +851,26 @@ URCU_SIGNAL_LIB = $(top_builddir)/src/liburcu-signal.la
 URCU_BP_LIB = $(top_builddir)/src/liburcu-bp.la
 URCU_CDS_LIB = $(top_builddir)/src/liburcu-cds.la
 TAP_LIB = $(top_builddir)/tests/utils/libtap.a
+get_cpu_mask_from_sysfs_cxx_SOURCES = get_cpu_mask_from_sysfs_cxx.cpp
+get_cpu_mask_from_sysfs_SOURCES = get_cpu_mask_from_sysfs.c
+get_max_cpuid_from_sysfs_cxx_SOURCES = get_max_cpuid_from_sysfs_cxx.cpp
+get_max_cpuid_from_sysfs_SOURCES = get_max_cpuid_from_sysfs.c
 test_arch_SOURCES = test_arch.c
 test_arch_LDADD = $(URCU_COMMON_LIB) $(TAP_LIB)
+test_arch_cxx_SOURCES = test_arch_cxx.cpp
+test_arch_cxx_LDADD = $(URCU_COMMO_LIB) $(TAP_LIB)
+test_get_max_cpuid_from_mask_SOURCES = test_get_max_cpuid_from_mask.c
+test_get_max_cpuid_from_mask_LDADD = $(TAP_LIB)
+test_get_max_cpuid_from_mask_cxx_SOURCES = test_get_max_cpuid_from_mask_cxx.cpp
+test_get_max_cpuid_from_mask_cxx_LDADD = $(TAP_LIB)
+test_get_possible_cpus_array_len_SOURCES = test_get_possible_cpus_array_len.c
+test_get_possible_cpus_array_len_LDADD = $(TAP_LIB)
+test_get_possible_cpus_array_len_cxx_SOURCES = test_get_possible_cpus_array_len_cxx.cpp
+test_get_possible_cpus_array_len_cxx_LDADD = $(TAP_LIB)
 test_uatomic_SOURCES = test_uatomic.c
 test_uatomic_LDADD = $(URCU_COMMON_LIB) $(TAP_LIB)
+test_uatomic_cxx_SOURCES = test_uatomic_cxx.cpp
+test_uatomic_cxx_LDADD = $(URCU_COMMON_LIB) $(TAP_LIB)
 test_urcu_multiflavor_SOURCES = test_urcu_multiflavor.c \
 	test_urcu_multiflavor-memb.c \
 	test_urcu_multiflavor-mb.c \
@@ -624,6 +879,16 @@ test_urcu_multiflavor_SOURCES = test_urcu_multiflavor.c \
 	test_urcu_multiflavor-bp.c
 
 test_urcu_multiflavor_LDADD = $(URCU_LIB) $(URCU_MB_LIB) \
+	$(URCU_SIGNAL_LIB) $(URCU_QSBR_LIB) $(URCU_BP_LIB) $(TAP_LIB)
+
+test_urcu_multiflavor_cxx_SOURCES = test_urcu_multiflavor_cxx.cpp \
+	test_urcu_multiflavor-memb_cxx.cpp \
+	test_urcu_multiflavor-mb_cxx.cpp \
+	test_urcu_multiflavor-signal_cxx.cpp \
+	test_urcu_multiflavor-qsbr_cxx.cpp \
+	test_urcu_multiflavor-bp_cxx.cpp
+
+test_urcu_multiflavor_cxx_LDADD = $(URCU_LIB) $(URCU_MB_LIB) \
 	$(URCU_SIGNAL_LIB) $(URCU_QSBR_LIB) $(URCU_BP_LIB) $(TAP_LIB)
 
 test_urcu_multiflavor_dynlink_SOURCES = test_urcu_multiflavor.c \
@@ -637,8 +902,23 @@ test_urcu_multiflavor_dynlink_CFLAGS = -DDYNAMIC_LINK_TEST $(AM_CFLAGS)
 test_urcu_multiflavor_dynlink_LDADD = $(URCU_LIB) $(URCU_MB_LIB) \
 	$(URCU_SIGNAL_LIB) $(URCU_QSBR_LIB) $(URCU_BP_LIB) $(TAP_LIB)
 
+test_urcu_multiflavor_dynlink_cxx_SOURCES = test_urcu_multiflavor_cxx.cpp \
+	test_urcu_multiflavor-memb_cxx.cpp \
+	test_urcu_multiflavor-mb_cxx.cpp \
+	test_urcu_multiflavor-signal_cxx.cpp \
+	test_urcu_multiflavor-qsbr_cxx.cpp \
+	test_urcu_multiflavor-bp_cxx.cpp
+
+test_urcu_multiflavor_dynlink_cxx_CXXFLAGS = -DDYNAMIC_LINK_TEST $(AM_CXXFLAGS)
+test_urcu_multiflavor_dynlink_cxx_LDADD = $(URCU_LIB) $(URCU_MB_LIB) \
+	$(URCU_SIGNAL_LIB) $(URCU_QSBR_LIB) $(URCU_BP_LIB) $(TAP_LIB)
+
 test_urcu_multiflavor_single_unit_SOURCES = test_urcu_multiflavor_single_unit.c
 test_urcu_multiflavor_single_unit_LDADD = $(URCU_LIB) $(URCU_MB_LIB) \
+	$(URCU_SIGNAL_LIB) $(URCU_QSBR_LIB) $(URCU_BP_LIB) $(TAP_LIB)
+
+test_urcu_multiflavor_single_unit_cxx_SOURCES = test_urcu_multiflavor_single_unit_cxx.cpp
+test_urcu_multiflavor_single_unit_cxx_LDADD = $(URCU_LIB) $(URCU_MB_LIB) \
 	$(URCU_SIGNAL_LIB) $(URCU_QSBR_LIB) $(URCU_BP_LIB) $(TAP_LIB)
 
 test_urcu_multiflavor_single_unit_dynlink_SOURCES = test_urcu_multiflavor_single_unit.c
@@ -646,10 +926,33 @@ test_urcu_multiflavor_single_unit_dynlink_CFLAGS = -DDYNAMIC_LINK_TEST $(AM_CFLA
 test_urcu_multiflavor_single_unit_dynlink_LDADD = $(URCU_LIB) $(URCU_MB_LIB) \
 	$(URCU_SIGNAL_LIB) $(URCU_QSBR_LIB) $(URCU_BP_LIB) $(TAP_LIB)
 
+test_urcu_multiflavor_single_unit_dynlink_cxx_SOURCES = test_urcu_multiflavor_single_unit_cxx.cpp
+test_urcu_multiflavor_single_unit_dynlink_cxx_CXXFLAGS = -DDYNAMIC_LINK_TEST $(AM_CXXFLAGS)
+test_urcu_multiflavor_single_unit_dynlink_cxx_LDADD = $(URCU_LIB) $(URCU_MB_LIB) \
+	$(URCU_SIGNAL_LIB) $(URCU_QSBR_LIB) $(URCU_BP_LIB) $(TAP_LIB)
+
+test_build_SOURCES = \
+	test_build.c
+
+test_build_LDADD = $(URCU_COMMON_LIB) $(URCU_CDS_LIB) $(TAP_LIB)
+test_build_cxx_SOURCES = \
+	test_build_cxx.cpp
+
+test_build_cxx_LDADD = $(URCU_COMMON_LIB) $(URCU_CDS_LIB) $(TAP_LIB)
+test_build_dynlink_SOURCES = \
+	test_build.c
+
+test_build_dynlink_CFLAGS = -DDYNAMIC_LINK_TEST $(AM_CFLAGS)
+test_build_dynlink_LDADD = $(URCU_LIB) $(URCU_COMMON_LIB) $(URCU_CDS_LIB) $(TAP_LIB)
+test_build_dynlink_cxx_SOURCES = \
+	test_build_cxx.cpp
+
+test_build_dynlink_cxx_CXXFLAGS = -DDYNAMIC_LINK_TEST $(AM_CXXFLAGS)
+test_build_dynlink_cxx_LDADD = $(URCU_LIB) $(URCU_COMMON_LIB) $(URCU_CDS_LIB) $(TAP_LIB)
 all: all-am
 
 .SUFFIXES:
-.SUFFIXES: .c .lo .log .o .obj .test .test$(EXEEXT) .trs
+.SUFFIXES: .c .cpp .lo .log .o .obj .test .test$(EXEEXT) .trs
 $(srcdir)/Makefile.in: @MAINTAINER_MODE_TRUE@ $(srcdir)/Makefile.am  $(am__configure_deps)
 	@for dep in $?; do \
 	  case '$(am__configure_deps)' in \
@@ -689,29 +992,101 @@ clean-noinstPROGRAMS:
 	echo " rm -f" $$list; \
 	rm -f $$list
 
+get_cpu_mask_from_sysfs$(EXEEXT): $(get_cpu_mask_from_sysfs_OBJECTS) $(get_cpu_mask_from_sysfs_DEPENDENCIES) $(EXTRA_get_cpu_mask_from_sysfs_DEPENDENCIES) 
+	@rm -f get_cpu_mask_from_sysfs$(EXEEXT)
+	$(AM_V_CCLD)$(LINK) $(get_cpu_mask_from_sysfs_OBJECTS) $(get_cpu_mask_from_sysfs_LDADD) $(LIBS)
+
+get_cpu_mask_from_sysfs_cxx$(EXEEXT): $(get_cpu_mask_from_sysfs_cxx_OBJECTS) $(get_cpu_mask_from_sysfs_cxx_DEPENDENCIES) $(EXTRA_get_cpu_mask_from_sysfs_cxx_DEPENDENCIES) 
+	@rm -f get_cpu_mask_from_sysfs_cxx$(EXEEXT)
+	$(AM_V_CXXLD)$(CXXLINK) $(get_cpu_mask_from_sysfs_cxx_OBJECTS) $(get_cpu_mask_from_sysfs_cxx_LDADD) $(LIBS)
+
+get_max_cpuid_from_sysfs$(EXEEXT): $(get_max_cpuid_from_sysfs_OBJECTS) $(get_max_cpuid_from_sysfs_DEPENDENCIES) $(EXTRA_get_max_cpuid_from_sysfs_DEPENDENCIES) 
+	@rm -f get_max_cpuid_from_sysfs$(EXEEXT)
+	$(AM_V_CCLD)$(LINK) $(get_max_cpuid_from_sysfs_OBJECTS) $(get_max_cpuid_from_sysfs_LDADD) $(LIBS)
+
+get_max_cpuid_from_sysfs_cxx$(EXEEXT): $(get_max_cpuid_from_sysfs_cxx_OBJECTS) $(get_max_cpuid_from_sysfs_cxx_DEPENDENCIES) $(EXTRA_get_max_cpuid_from_sysfs_cxx_DEPENDENCIES) 
+	@rm -f get_max_cpuid_from_sysfs_cxx$(EXEEXT)
+	$(AM_V_CXXLD)$(CXXLINK) $(get_max_cpuid_from_sysfs_cxx_OBJECTS) $(get_max_cpuid_from_sysfs_cxx_LDADD) $(LIBS)
+
 test_arch$(EXEEXT): $(test_arch_OBJECTS) $(test_arch_DEPENDENCIES) $(EXTRA_test_arch_DEPENDENCIES) 
 	@rm -f test_arch$(EXEEXT)
 	$(AM_V_CCLD)$(LINK) $(test_arch_OBJECTS) $(test_arch_LDADD) $(LIBS)
+
+test_arch_cxx$(EXEEXT): $(test_arch_cxx_OBJECTS) $(test_arch_cxx_DEPENDENCIES) $(EXTRA_test_arch_cxx_DEPENDENCIES) 
+	@rm -f test_arch_cxx$(EXEEXT)
+	$(AM_V_CXXLD)$(CXXLINK) $(test_arch_cxx_OBJECTS) $(test_arch_cxx_LDADD) $(LIBS)
+
+test_build$(EXEEXT): $(test_build_OBJECTS) $(test_build_DEPENDENCIES) $(EXTRA_test_build_DEPENDENCIES) 
+	@rm -f test_build$(EXEEXT)
+	$(AM_V_CCLD)$(LINK) $(test_build_OBJECTS) $(test_build_LDADD) $(LIBS)
+
+test_build_cxx$(EXEEXT): $(test_build_cxx_OBJECTS) $(test_build_cxx_DEPENDENCIES) $(EXTRA_test_build_cxx_DEPENDENCIES) 
+	@rm -f test_build_cxx$(EXEEXT)
+	$(AM_V_CXXLD)$(CXXLINK) $(test_build_cxx_OBJECTS) $(test_build_cxx_LDADD) $(LIBS)
+
+test_build_dynlink$(EXEEXT): $(test_build_dynlink_OBJECTS) $(test_build_dynlink_DEPENDENCIES) $(EXTRA_test_build_dynlink_DEPENDENCIES) 
+	@rm -f test_build_dynlink$(EXEEXT)
+	$(AM_V_CCLD)$(test_build_dynlink_LINK) $(test_build_dynlink_OBJECTS) $(test_build_dynlink_LDADD) $(LIBS)
+
+test_build_dynlink_cxx$(EXEEXT): $(test_build_dynlink_cxx_OBJECTS) $(test_build_dynlink_cxx_DEPENDENCIES) $(EXTRA_test_build_dynlink_cxx_DEPENDENCIES) 
+	@rm -f test_build_dynlink_cxx$(EXEEXT)
+	$(AM_V_CXXLD)$(test_build_dynlink_cxx_LINK) $(test_build_dynlink_cxx_OBJECTS) $(test_build_dynlink_cxx_LDADD) $(LIBS)
+
+test_get_max_cpuid_from_mask$(EXEEXT): $(test_get_max_cpuid_from_mask_OBJECTS) $(test_get_max_cpuid_from_mask_DEPENDENCIES) $(EXTRA_test_get_max_cpuid_from_mask_DEPENDENCIES) 
+	@rm -f test_get_max_cpuid_from_mask$(EXEEXT)
+	$(AM_V_CCLD)$(LINK) $(test_get_max_cpuid_from_mask_OBJECTS) $(test_get_max_cpuid_from_mask_LDADD) $(LIBS)
+
+test_get_max_cpuid_from_mask_cxx$(EXEEXT): $(test_get_max_cpuid_from_mask_cxx_OBJECTS) $(test_get_max_cpuid_from_mask_cxx_DEPENDENCIES) $(EXTRA_test_get_max_cpuid_from_mask_cxx_DEPENDENCIES) 
+	@rm -f test_get_max_cpuid_from_mask_cxx$(EXEEXT)
+	$(AM_V_CXXLD)$(CXXLINK) $(test_get_max_cpuid_from_mask_cxx_OBJECTS) $(test_get_max_cpuid_from_mask_cxx_LDADD) $(LIBS)
+
+test_get_possible_cpus_array_len$(EXEEXT): $(test_get_possible_cpus_array_len_OBJECTS) $(test_get_possible_cpus_array_len_DEPENDENCIES) $(EXTRA_test_get_possible_cpus_array_len_DEPENDENCIES) 
+	@rm -f test_get_possible_cpus_array_len$(EXEEXT)
+	$(AM_V_CCLD)$(LINK) $(test_get_possible_cpus_array_len_OBJECTS) $(test_get_possible_cpus_array_len_LDADD) $(LIBS)
+
+test_get_possible_cpus_array_len_cxx$(EXEEXT): $(test_get_possible_cpus_array_len_cxx_OBJECTS) $(test_get_possible_cpus_array_len_cxx_DEPENDENCIES) $(EXTRA_test_get_possible_cpus_array_len_cxx_DEPENDENCIES) 
+	@rm -f test_get_possible_cpus_array_len_cxx$(EXEEXT)
+	$(AM_V_CXXLD)$(CXXLINK) $(test_get_possible_cpus_array_len_cxx_OBJECTS) $(test_get_possible_cpus_array_len_cxx_LDADD) $(LIBS)
 
 test_uatomic$(EXEEXT): $(test_uatomic_OBJECTS) $(test_uatomic_DEPENDENCIES) $(EXTRA_test_uatomic_DEPENDENCIES) 
 	@rm -f test_uatomic$(EXEEXT)
 	$(AM_V_CCLD)$(LINK) $(test_uatomic_OBJECTS) $(test_uatomic_LDADD) $(LIBS)
 
+test_uatomic_cxx$(EXEEXT): $(test_uatomic_cxx_OBJECTS) $(test_uatomic_cxx_DEPENDENCIES) $(EXTRA_test_uatomic_cxx_DEPENDENCIES) 
+	@rm -f test_uatomic_cxx$(EXEEXT)
+	$(AM_V_CXXLD)$(CXXLINK) $(test_uatomic_cxx_OBJECTS) $(test_uatomic_cxx_LDADD) $(LIBS)
+
 test_urcu_multiflavor$(EXEEXT): $(test_urcu_multiflavor_OBJECTS) $(test_urcu_multiflavor_DEPENDENCIES) $(EXTRA_test_urcu_multiflavor_DEPENDENCIES) 
 	@rm -f test_urcu_multiflavor$(EXEEXT)
 	$(AM_V_CCLD)$(LINK) $(test_urcu_multiflavor_OBJECTS) $(test_urcu_multiflavor_LDADD) $(LIBS)
+
+test_urcu_multiflavor_cxx$(EXEEXT): $(test_urcu_multiflavor_cxx_OBJECTS) $(test_urcu_multiflavor_cxx_DEPENDENCIES) $(EXTRA_test_urcu_multiflavor_cxx_DEPENDENCIES) 
+	@rm -f test_urcu_multiflavor_cxx$(EXEEXT)
+	$(AM_V_CXXLD)$(CXXLINK) $(test_urcu_multiflavor_cxx_OBJECTS) $(test_urcu_multiflavor_cxx_LDADD) $(LIBS)
 
 test_urcu_multiflavor_dynlink$(EXEEXT): $(test_urcu_multiflavor_dynlink_OBJECTS) $(test_urcu_multiflavor_dynlink_DEPENDENCIES) $(EXTRA_test_urcu_multiflavor_dynlink_DEPENDENCIES) 
 	@rm -f test_urcu_multiflavor_dynlink$(EXEEXT)
 	$(AM_V_CCLD)$(test_urcu_multiflavor_dynlink_LINK) $(test_urcu_multiflavor_dynlink_OBJECTS) $(test_urcu_multiflavor_dynlink_LDADD) $(LIBS)
 
+test_urcu_multiflavor_dynlink_cxx$(EXEEXT): $(test_urcu_multiflavor_dynlink_cxx_OBJECTS) $(test_urcu_multiflavor_dynlink_cxx_DEPENDENCIES) $(EXTRA_test_urcu_multiflavor_dynlink_cxx_DEPENDENCIES) 
+	@rm -f test_urcu_multiflavor_dynlink_cxx$(EXEEXT)
+	$(AM_V_CXXLD)$(test_urcu_multiflavor_dynlink_cxx_LINK) $(test_urcu_multiflavor_dynlink_cxx_OBJECTS) $(test_urcu_multiflavor_dynlink_cxx_LDADD) $(LIBS)
+
 test_urcu_multiflavor_single_unit$(EXEEXT): $(test_urcu_multiflavor_single_unit_OBJECTS) $(test_urcu_multiflavor_single_unit_DEPENDENCIES) $(EXTRA_test_urcu_multiflavor_single_unit_DEPENDENCIES) 
 	@rm -f test_urcu_multiflavor_single_unit$(EXEEXT)
 	$(AM_V_CCLD)$(LINK) $(test_urcu_multiflavor_single_unit_OBJECTS) $(test_urcu_multiflavor_single_unit_LDADD) $(LIBS)
 
+test_urcu_multiflavor_single_unit_cxx$(EXEEXT): $(test_urcu_multiflavor_single_unit_cxx_OBJECTS) $(test_urcu_multiflavor_single_unit_cxx_DEPENDENCIES) $(EXTRA_test_urcu_multiflavor_single_unit_cxx_DEPENDENCIES) 
+	@rm -f test_urcu_multiflavor_single_unit_cxx$(EXEEXT)
+	$(AM_V_CXXLD)$(CXXLINK) $(test_urcu_multiflavor_single_unit_cxx_OBJECTS) $(test_urcu_multiflavor_single_unit_cxx_LDADD) $(LIBS)
+
 test_urcu_multiflavor_single_unit_dynlink$(EXEEXT): $(test_urcu_multiflavor_single_unit_dynlink_OBJECTS) $(test_urcu_multiflavor_single_unit_dynlink_DEPENDENCIES) $(EXTRA_test_urcu_multiflavor_single_unit_dynlink_DEPENDENCIES) 
 	@rm -f test_urcu_multiflavor_single_unit_dynlink$(EXEEXT)
 	$(AM_V_CCLD)$(test_urcu_multiflavor_single_unit_dynlink_LINK) $(test_urcu_multiflavor_single_unit_dynlink_OBJECTS) $(test_urcu_multiflavor_single_unit_dynlink_LDADD) $(LIBS)
+
+test_urcu_multiflavor_single_unit_dynlink_cxx$(EXEEXT): $(test_urcu_multiflavor_single_unit_dynlink_cxx_OBJECTS) $(test_urcu_multiflavor_single_unit_dynlink_cxx_DEPENDENCIES) $(EXTRA_test_urcu_multiflavor_single_unit_dynlink_cxx_DEPENDENCIES) 
+	@rm -f test_urcu_multiflavor_single_unit_dynlink_cxx$(EXEEXT)
+	$(AM_V_CXXLD)$(test_urcu_multiflavor_single_unit_dynlink_cxx_LINK) $(test_urcu_multiflavor_single_unit_dynlink_cxx_OBJECTS) $(test_urcu_multiflavor_single_unit_dynlink_cxx_LDADD) $(LIBS)
 
 mostlyclean-compile:
 	-rm -f *.$(OBJEXT)
@@ -719,22 +1094,50 @@ mostlyclean-compile:
 distclean-compile:
 	-rm -f *.tab.c
 
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/get_cpu_mask_from_sysfs.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/get_cpu_mask_from_sysfs_cxx.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/get_max_cpuid_from_sysfs.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/get_max_cpuid_from_sysfs_cxx.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/test_arch.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/test_arch_cxx.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/test_build.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/test_build_cxx.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/test_build_dynlink-test_build.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/test_build_dynlink_cxx-test_build_cxx.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/test_get_max_cpuid_from_mask.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/test_get_max_cpuid_from_mask_cxx.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/test_get_possible_cpus_array_len.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/test_get_possible_cpus_array_len_cxx.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/test_uatomic.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/test_uatomic_cxx.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/test_urcu_multiflavor-bp.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/test_urcu_multiflavor-bp_cxx.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/test_urcu_multiflavor-mb.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/test_urcu_multiflavor-mb_cxx.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/test_urcu_multiflavor-memb.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/test_urcu_multiflavor-memb_cxx.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/test_urcu_multiflavor-qsbr.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/test_urcu_multiflavor-qsbr_cxx.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/test_urcu_multiflavor-signal.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/test_urcu_multiflavor-signal_cxx.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/test_urcu_multiflavor.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/test_urcu_multiflavor_cxx.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/test_urcu_multiflavor_dynlink-test_urcu_multiflavor-bp.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/test_urcu_multiflavor_dynlink-test_urcu_multiflavor-mb.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/test_urcu_multiflavor_dynlink-test_urcu_multiflavor-memb.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/test_urcu_multiflavor_dynlink-test_urcu_multiflavor-qsbr.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/test_urcu_multiflavor_dynlink-test_urcu_multiflavor-signal.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/test_urcu_multiflavor_dynlink-test_urcu_multiflavor.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/test_urcu_multiflavor_dynlink_cxx-test_urcu_multiflavor-bp_cxx.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/test_urcu_multiflavor_dynlink_cxx-test_urcu_multiflavor-mb_cxx.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/test_urcu_multiflavor_dynlink_cxx-test_urcu_multiflavor-memb_cxx.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/test_urcu_multiflavor_dynlink_cxx-test_urcu_multiflavor-qsbr_cxx.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/test_urcu_multiflavor_dynlink_cxx-test_urcu_multiflavor-signal_cxx.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/test_urcu_multiflavor_dynlink_cxx-test_urcu_multiflavor_cxx.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/test_urcu_multiflavor_single_unit.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/test_urcu_multiflavor_single_unit_cxx.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/test_urcu_multiflavor_single_unit_dynlink-test_urcu_multiflavor_single_unit.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/test_urcu_multiflavor_single_unit_dynlink_cxx-test_urcu_multiflavor_single_unit_cxx.Po@am__quote@ # am--include-marker
 
 $(am__depfiles_remade):
 	@$(MKDIR_P) $(@D)
@@ -762,6 +1165,20 @@ am--depfiles: $(am__depfiles_remade)
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='$<' object='$@' libtool=yes @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LTCOMPILE) -c -o $@ $<
+
+test_build_dynlink-test_build.o: test_build.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(test_build_dynlink_CFLAGS) $(CFLAGS) -MT test_build_dynlink-test_build.o -MD -MP -MF $(DEPDIR)/test_build_dynlink-test_build.Tpo -c -o test_build_dynlink-test_build.o `test -f 'test_build.c' || echo '$(srcdir)/'`test_build.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/test_build_dynlink-test_build.Tpo $(DEPDIR)/test_build_dynlink-test_build.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='test_build.c' object='test_build_dynlink-test_build.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(test_build_dynlink_CFLAGS) $(CFLAGS) -c -o test_build_dynlink-test_build.o `test -f 'test_build.c' || echo '$(srcdir)/'`test_build.c
+
+test_build_dynlink-test_build.obj: test_build.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(test_build_dynlink_CFLAGS) $(CFLAGS) -MT test_build_dynlink-test_build.obj -MD -MP -MF $(DEPDIR)/test_build_dynlink-test_build.Tpo -c -o test_build_dynlink-test_build.obj `if test -f 'test_build.c'; then $(CYGPATH_W) 'test_build.c'; else $(CYGPATH_W) '$(srcdir)/test_build.c'; fi`
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/test_build_dynlink-test_build.Tpo $(DEPDIR)/test_build_dynlink-test_build.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='test_build.c' object='test_build_dynlink-test_build.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(test_build_dynlink_CFLAGS) $(CFLAGS) -c -o test_build_dynlink-test_build.obj `if test -f 'test_build.c'; then $(CYGPATH_W) 'test_build.c'; else $(CYGPATH_W) '$(srcdir)/test_build.c'; fi`
 
 test_urcu_multiflavor_dynlink-test_urcu_multiflavor.o: test_urcu_multiflavor.c
 @am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(test_urcu_multiflavor_dynlink_CFLAGS) $(CFLAGS) -MT test_urcu_multiflavor_dynlink-test_urcu_multiflavor.o -MD -MP -MF $(DEPDIR)/test_urcu_multiflavor_dynlink-test_urcu_multiflavor.Tpo -c -o test_urcu_multiflavor_dynlink-test_urcu_multiflavor.o `test -f 'test_urcu_multiflavor.c' || echo '$(srcdir)/'`test_urcu_multiflavor.c
@@ -860,6 +1277,139 @@ test_urcu_multiflavor_single_unit_dynlink-test_urcu_multiflavor_single_unit.obj:
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='test_urcu_multiflavor_single_unit.c' object='test_urcu_multiflavor_single_unit_dynlink-test_urcu_multiflavor_single_unit.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(test_urcu_multiflavor_single_unit_dynlink_CFLAGS) $(CFLAGS) -c -o test_urcu_multiflavor_single_unit_dynlink-test_urcu_multiflavor_single_unit.obj `if test -f 'test_urcu_multiflavor_single_unit.c'; then $(CYGPATH_W) 'test_urcu_multiflavor_single_unit.c'; else $(CYGPATH_W) '$(srcdir)/test_urcu_multiflavor_single_unit.c'; fi`
+
+.cpp.o:
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXXCOMPILE) -MT $@ -MD -MP -MF $(DEPDIR)/$*.Tpo -c -o $@ $<
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/$*.Tpo $(DEPDIR)/$*.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='$<' object='$@' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXXCOMPILE) -c -o $@ $<
+
+.cpp.obj:
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXXCOMPILE) -MT $@ -MD -MP -MF $(DEPDIR)/$*.Tpo -c -o $@ `$(CYGPATH_W) '$<'`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/$*.Tpo $(DEPDIR)/$*.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='$<' object='$@' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXXCOMPILE) -c -o $@ `$(CYGPATH_W) '$<'`
+
+.cpp.lo:
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(LTCXXCOMPILE) -MT $@ -MD -MP -MF $(DEPDIR)/$*.Tpo -c -o $@ $<
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/$*.Tpo $(DEPDIR)/$*.Plo
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='$<' object='$@' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(LTCXXCOMPILE) -c -o $@ $<
+
+test_build_dynlink_cxx-test_build_cxx.o: test_build_cxx.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(test_build_dynlink_cxx_CXXFLAGS) $(CXXFLAGS) -MT test_build_dynlink_cxx-test_build_cxx.o -MD -MP -MF $(DEPDIR)/test_build_dynlink_cxx-test_build_cxx.Tpo -c -o test_build_dynlink_cxx-test_build_cxx.o `test -f 'test_build_cxx.cpp' || echo '$(srcdir)/'`test_build_cxx.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/test_build_dynlink_cxx-test_build_cxx.Tpo $(DEPDIR)/test_build_dynlink_cxx-test_build_cxx.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='test_build_cxx.cpp' object='test_build_dynlink_cxx-test_build_cxx.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(test_build_dynlink_cxx_CXXFLAGS) $(CXXFLAGS) -c -o test_build_dynlink_cxx-test_build_cxx.o `test -f 'test_build_cxx.cpp' || echo '$(srcdir)/'`test_build_cxx.cpp
+
+test_build_dynlink_cxx-test_build_cxx.obj: test_build_cxx.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(test_build_dynlink_cxx_CXXFLAGS) $(CXXFLAGS) -MT test_build_dynlink_cxx-test_build_cxx.obj -MD -MP -MF $(DEPDIR)/test_build_dynlink_cxx-test_build_cxx.Tpo -c -o test_build_dynlink_cxx-test_build_cxx.obj `if test -f 'test_build_cxx.cpp'; then $(CYGPATH_W) 'test_build_cxx.cpp'; else $(CYGPATH_W) '$(srcdir)/test_build_cxx.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/test_build_dynlink_cxx-test_build_cxx.Tpo $(DEPDIR)/test_build_dynlink_cxx-test_build_cxx.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='test_build_cxx.cpp' object='test_build_dynlink_cxx-test_build_cxx.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(test_build_dynlink_cxx_CXXFLAGS) $(CXXFLAGS) -c -o test_build_dynlink_cxx-test_build_cxx.obj `if test -f 'test_build_cxx.cpp'; then $(CYGPATH_W) 'test_build_cxx.cpp'; else $(CYGPATH_W) '$(srcdir)/test_build_cxx.cpp'; fi`
+
+test_urcu_multiflavor_dynlink_cxx-test_urcu_multiflavor_cxx.o: test_urcu_multiflavor_cxx.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(test_urcu_multiflavor_dynlink_cxx_CXXFLAGS) $(CXXFLAGS) -MT test_urcu_multiflavor_dynlink_cxx-test_urcu_multiflavor_cxx.o -MD -MP -MF $(DEPDIR)/test_urcu_multiflavor_dynlink_cxx-test_urcu_multiflavor_cxx.Tpo -c -o test_urcu_multiflavor_dynlink_cxx-test_urcu_multiflavor_cxx.o `test -f 'test_urcu_multiflavor_cxx.cpp' || echo '$(srcdir)/'`test_urcu_multiflavor_cxx.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/test_urcu_multiflavor_dynlink_cxx-test_urcu_multiflavor_cxx.Tpo $(DEPDIR)/test_urcu_multiflavor_dynlink_cxx-test_urcu_multiflavor_cxx.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='test_urcu_multiflavor_cxx.cpp' object='test_urcu_multiflavor_dynlink_cxx-test_urcu_multiflavor_cxx.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(test_urcu_multiflavor_dynlink_cxx_CXXFLAGS) $(CXXFLAGS) -c -o test_urcu_multiflavor_dynlink_cxx-test_urcu_multiflavor_cxx.o `test -f 'test_urcu_multiflavor_cxx.cpp' || echo '$(srcdir)/'`test_urcu_multiflavor_cxx.cpp
+
+test_urcu_multiflavor_dynlink_cxx-test_urcu_multiflavor_cxx.obj: test_urcu_multiflavor_cxx.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(test_urcu_multiflavor_dynlink_cxx_CXXFLAGS) $(CXXFLAGS) -MT test_urcu_multiflavor_dynlink_cxx-test_urcu_multiflavor_cxx.obj -MD -MP -MF $(DEPDIR)/test_urcu_multiflavor_dynlink_cxx-test_urcu_multiflavor_cxx.Tpo -c -o test_urcu_multiflavor_dynlink_cxx-test_urcu_multiflavor_cxx.obj `if test -f 'test_urcu_multiflavor_cxx.cpp'; then $(CYGPATH_W) 'test_urcu_multiflavor_cxx.cpp'; else $(CYGPATH_W) '$(srcdir)/test_urcu_multiflavor_cxx.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/test_urcu_multiflavor_dynlink_cxx-test_urcu_multiflavor_cxx.Tpo $(DEPDIR)/test_urcu_multiflavor_dynlink_cxx-test_urcu_multiflavor_cxx.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='test_urcu_multiflavor_cxx.cpp' object='test_urcu_multiflavor_dynlink_cxx-test_urcu_multiflavor_cxx.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(test_urcu_multiflavor_dynlink_cxx_CXXFLAGS) $(CXXFLAGS) -c -o test_urcu_multiflavor_dynlink_cxx-test_urcu_multiflavor_cxx.obj `if test -f 'test_urcu_multiflavor_cxx.cpp'; then $(CYGPATH_W) 'test_urcu_multiflavor_cxx.cpp'; else $(CYGPATH_W) '$(srcdir)/test_urcu_multiflavor_cxx.cpp'; fi`
+
+test_urcu_multiflavor_dynlink_cxx-test_urcu_multiflavor-memb_cxx.o: test_urcu_multiflavor-memb_cxx.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(test_urcu_multiflavor_dynlink_cxx_CXXFLAGS) $(CXXFLAGS) -MT test_urcu_multiflavor_dynlink_cxx-test_urcu_multiflavor-memb_cxx.o -MD -MP -MF $(DEPDIR)/test_urcu_multiflavor_dynlink_cxx-test_urcu_multiflavor-memb_cxx.Tpo -c -o test_urcu_multiflavor_dynlink_cxx-test_urcu_multiflavor-memb_cxx.o `test -f 'test_urcu_multiflavor-memb_cxx.cpp' || echo '$(srcdir)/'`test_urcu_multiflavor-memb_cxx.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/test_urcu_multiflavor_dynlink_cxx-test_urcu_multiflavor-memb_cxx.Tpo $(DEPDIR)/test_urcu_multiflavor_dynlink_cxx-test_urcu_multiflavor-memb_cxx.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='test_urcu_multiflavor-memb_cxx.cpp' object='test_urcu_multiflavor_dynlink_cxx-test_urcu_multiflavor-memb_cxx.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(test_urcu_multiflavor_dynlink_cxx_CXXFLAGS) $(CXXFLAGS) -c -o test_urcu_multiflavor_dynlink_cxx-test_urcu_multiflavor-memb_cxx.o `test -f 'test_urcu_multiflavor-memb_cxx.cpp' || echo '$(srcdir)/'`test_urcu_multiflavor-memb_cxx.cpp
+
+test_urcu_multiflavor_dynlink_cxx-test_urcu_multiflavor-memb_cxx.obj: test_urcu_multiflavor-memb_cxx.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(test_urcu_multiflavor_dynlink_cxx_CXXFLAGS) $(CXXFLAGS) -MT test_urcu_multiflavor_dynlink_cxx-test_urcu_multiflavor-memb_cxx.obj -MD -MP -MF $(DEPDIR)/test_urcu_multiflavor_dynlink_cxx-test_urcu_multiflavor-memb_cxx.Tpo -c -o test_urcu_multiflavor_dynlink_cxx-test_urcu_multiflavor-memb_cxx.obj `if test -f 'test_urcu_multiflavor-memb_cxx.cpp'; then $(CYGPATH_W) 'test_urcu_multiflavor-memb_cxx.cpp'; else $(CYGPATH_W) '$(srcdir)/test_urcu_multiflavor-memb_cxx.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/test_urcu_multiflavor_dynlink_cxx-test_urcu_multiflavor-memb_cxx.Tpo $(DEPDIR)/test_urcu_multiflavor_dynlink_cxx-test_urcu_multiflavor-memb_cxx.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='test_urcu_multiflavor-memb_cxx.cpp' object='test_urcu_multiflavor_dynlink_cxx-test_urcu_multiflavor-memb_cxx.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(test_urcu_multiflavor_dynlink_cxx_CXXFLAGS) $(CXXFLAGS) -c -o test_urcu_multiflavor_dynlink_cxx-test_urcu_multiflavor-memb_cxx.obj `if test -f 'test_urcu_multiflavor-memb_cxx.cpp'; then $(CYGPATH_W) 'test_urcu_multiflavor-memb_cxx.cpp'; else $(CYGPATH_W) '$(srcdir)/test_urcu_multiflavor-memb_cxx.cpp'; fi`
+
+test_urcu_multiflavor_dynlink_cxx-test_urcu_multiflavor-mb_cxx.o: test_urcu_multiflavor-mb_cxx.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(test_urcu_multiflavor_dynlink_cxx_CXXFLAGS) $(CXXFLAGS) -MT test_urcu_multiflavor_dynlink_cxx-test_urcu_multiflavor-mb_cxx.o -MD -MP -MF $(DEPDIR)/test_urcu_multiflavor_dynlink_cxx-test_urcu_multiflavor-mb_cxx.Tpo -c -o test_urcu_multiflavor_dynlink_cxx-test_urcu_multiflavor-mb_cxx.o `test -f 'test_urcu_multiflavor-mb_cxx.cpp' || echo '$(srcdir)/'`test_urcu_multiflavor-mb_cxx.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/test_urcu_multiflavor_dynlink_cxx-test_urcu_multiflavor-mb_cxx.Tpo $(DEPDIR)/test_urcu_multiflavor_dynlink_cxx-test_urcu_multiflavor-mb_cxx.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='test_urcu_multiflavor-mb_cxx.cpp' object='test_urcu_multiflavor_dynlink_cxx-test_urcu_multiflavor-mb_cxx.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(test_urcu_multiflavor_dynlink_cxx_CXXFLAGS) $(CXXFLAGS) -c -o test_urcu_multiflavor_dynlink_cxx-test_urcu_multiflavor-mb_cxx.o `test -f 'test_urcu_multiflavor-mb_cxx.cpp' || echo '$(srcdir)/'`test_urcu_multiflavor-mb_cxx.cpp
+
+test_urcu_multiflavor_dynlink_cxx-test_urcu_multiflavor-mb_cxx.obj: test_urcu_multiflavor-mb_cxx.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(test_urcu_multiflavor_dynlink_cxx_CXXFLAGS) $(CXXFLAGS) -MT test_urcu_multiflavor_dynlink_cxx-test_urcu_multiflavor-mb_cxx.obj -MD -MP -MF $(DEPDIR)/test_urcu_multiflavor_dynlink_cxx-test_urcu_multiflavor-mb_cxx.Tpo -c -o test_urcu_multiflavor_dynlink_cxx-test_urcu_multiflavor-mb_cxx.obj `if test -f 'test_urcu_multiflavor-mb_cxx.cpp'; then $(CYGPATH_W) 'test_urcu_multiflavor-mb_cxx.cpp'; else $(CYGPATH_W) '$(srcdir)/test_urcu_multiflavor-mb_cxx.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/test_urcu_multiflavor_dynlink_cxx-test_urcu_multiflavor-mb_cxx.Tpo $(DEPDIR)/test_urcu_multiflavor_dynlink_cxx-test_urcu_multiflavor-mb_cxx.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='test_urcu_multiflavor-mb_cxx.cpp' object='test_urcu_multiflavor_dynlink_cxx-test_urcu_multiflavor-mb_cxx.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(test_urcu_multiflavor_dynlink_cxx_CXXFLAGS) $(CXXFLAGS) -c -o test_urcu_multiflavor_dynlink_cxx-test_urcu_multiflavor-mb_cxx.obj `if test -f 'test_urcu_multiflavor-mb_cxx.cpp'; then $(CYGPATH_W) 'test_urcu_multiflavor-mb_cxx.cpp'; else $(CYGPATH_W) '$(srcdir)/test_urcu_multiflavor-mb_cxx.cpp'; fi`
+
+test_urcu_multiflavor_dynlink_cxx-test_urcu_multiflavor-signal_cxx.o: test_urcu_multiflavor-signal_cxx.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(test_urcu_multiflavor_dynlink_cxx_CXXFLAGS) $(CXXFLAGS) -MT test_urcu_multiflavor_dynlink_cxx-test_urcu_multiflavor-signal_cxx.o -MD -MP -MF $(DEPDIR)/test_urcu_multiflavor_dynlink_cxx-test_urcu_multiflavor-signal_cxx.Tpo -c -o test_urcu_multiflavor_dynlink_cxx-test_urcu_multiflavor-signal_cxx.o `test -f 'test_urcu_multiflavor-signal_cxx.cpp' || echo '$(srcdir)/'`test_urcu_multiflavor-signal_cxx.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/test_urcu_multiflavor_dynlink_cxx-test_urcu_multiflavor-signal_cxx.Tpo $(DEPDIR)/test_urcu_multiflavor_dynlink_cxx-test_urcu_multiflavor-signal_cxx.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='test_urcu_multiflavor-signal_cxx.cpp' object='test_urcu_multiflavor_dynlink_cxx-test_urcu_multiflavor-signal_cxx.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(test_urcu_multiflavor_dynlink_cxx_CXXFLAGS) $(CXXFLAGS) -c -o test_urcu_multiflavor_dynlink_cxx-test_urcu_multiflavor-signal_cxx.o `test -f 'test_urcu_multiflavor-signal_cxx.cpp' || echo '$(srcdir)/'`test_urcu_multiflavor-signal_cxx.cpp
+
+test_urcu_multiflavor_dynlink_cxx-test_urcu_multiflavor-signal_cxx.obj: test_urcu_multiflavor-signal_cxx.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(test_urcu_multiflavor_dynlink_cxx_CXXFLAGS) $(CXXFLAGS) -MT test_urcu_multiflavor_dynlink_cxx-test_urcu_multiflavor-signal_cxx.obj -MD -MP -MF $(DEPDIR)/test_urcu_multiflavor_dynlink_cxx-test_urcu_multiflavor-signal_cxx.Tpo -c -o test_urcu_multiflavor_dynlink_cxx-test_urcu_multiflavor-signal_cxx.obj `if test -f 'test_urcu_multiflavor-signal_cxx.cpp'; then $(CYGPATH_W) 'test_urcu_multiflavor-signal_cxx.cpp'; else $(CYGPATH_W) '$(srcdir)/test_urcu_multiflavor-signal_cxx.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/test_urcu_multiflavor_dynlink_cxx-test_urcu_multiflavor-signal_cxx.Tpo $(DEPDIR)/test_urcu_multiflavor_dynlink_cxx-test_urcu_multiflavor-signal_cxx.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='test_urcu_multiflavor-signal_cxx.cpp' object='test_urcu_multiflavor_dynlink_cxx-test_urcu_multiflavor-signal_cxx.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(test_urcu_multiflavor_dynlink_cxx_CXXFLAGS) $(CXXFLAGS) -c -o test_urcu_multiflavor_dynlink_cxx-test_urcu_multiflavor-signal_cxx.obj `if test -f 'test_urcu_multiflavor-signal_cxx.cpp'; then $(CYGPATH_W) 'test_urcu_multiflavor-signal_cxx.cpp'; else $(CYGPATH_W) '$(srcdir)/test_urcu_multiflavor-signal_cxx.cpp'; fi`
+
+test_urcu_multiflavor_dynlink_cxx-test_urcu_multiflavor-qsbr_cxx.o: test_urcu_multiflavor-qsbr_cxx.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(test_urcu_multiflavor_dynlink_cxx_CXXFLAGS) $(CXXFLAGS) -MT test_urcu_multiflavor_dynlink_cxx-test_urcu_multiflavor-qsbr_cxx.o -MD -MP -MF $(DEPDIR)/test_urcu_multiflavor_dynlink_cxx-test_urcu_multiflavor-qsbr_cxx.Tpo -c -o test_urcu_multiflavor_dynlink_cxx-test_urcu_multiflavor-qsbr_cxx.o `test -f 'test_urcu_multiflavor-qsbr_cxx.cpp' || echo '$(srcdir)/'`test_urcu_multiflavor-qsbr_cxx.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/test_urcu_multiflavor_dynlink_cxx-test_urcu_multiflavor-qsbr_cxx.Tpo $(DEPDIR)/test_urcu_multiflavor_dynlink_cxx-test_urcu_multiflavor-qsbr_cxx.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='test_urcu_multiflavor-qsbr_cxx.cpp' object='test_urcu_multiflavor_dynlink_cxx-test_urcu_multiflavor-qsbr_cxx.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(test_urcu_multiflavor_dynlink_cxx_CXXFLAGS) $(CXXFLAGS) -c -o test_urcu_multiflavor_dynlink_cxx-test_urcu_multiflavor-qsbr_cxx.o `test -f 'test_urcu_multiflavor-qsbr_cxx.cpp' || echo '$(srcdir)/'`test_urcu_multiflavor-qsbr_cxx.cpp
+
+test_urcu_multiflavor_dynlink_cxx-test_urcu_multiflavor-qsbr_cxx.obj: test_urcu_multiflavor-qsbr_cxx.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(test_urcu_multiflavor_dynlink_cxx_CXXFLAGS) $(CXXFLAGS) -MT test_urcu_multiflavor_dynlink_cxx-test_urcu_multiflavor-qsbr_cxx.obj -MD -MP -MF $(DEPDIR)/test_urcu_multiflavor_dynlink_cxx-test_urcu_multiflavor-qsbr_cxx.Tpo -c -o test_urcu_multiflavor_dynlink_cxx-test_urcu_multiflavor-qsbr_cxx.obj `if test -f 'test_urcu_multiflavor-qsbr_cxx.cpp'; then $(CYGPATH_W) 'test_urcu_multiflavor-qsbr_cxx.cpp'; else $(CYGPATH_W) '$(srcdir)/test_urcu_multiflavor-qsbr_cxx.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/test_urcu_multiflavor_dynlink_cxx-test_urcu_multiflavor-qsbr_cxx.Tpo $(DEPDIR)/test_urcu_multiflavor_dynlink_cxx-test_urcu_multiflavor-qsbr_cxx.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='test_urcu_multiflavor-qsbr_cxx.cpp' object='test_urcu_multiflavor_dynlink_cxx-test_urcu_multiflavor-qsbr_cxx.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(test_urcu_multiflavor_dynlink_cxx_CXXFLAGS) $(CXXFLAGS) -c -o test_urcu_multiflavor_dynlink_cxx-test_urcu_multiflavor-qsbr_cxx.obj `if test -f 'test_urcu_multiflavor-qsbr_cxx.cpp'; then $(CYGPATH_W) 'test_urcu_multiflavor-qsbr_cxx.cpp'; else $(CYGPATH_W) '$(srcdir)/test_urcu_multiflavor-qsbr_cxx.cpp'; fi`
+
+test_urcu_multiflavor_dynlink_cxx-test_urcu_multiflavor-bp_cxx.o: test_urcu_multiflavor-bp_cxx.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(test_urcu_multiflavor_dynlink_cxx_CXXFLAGS) $(CXXFLAGS) -MT test_urcu_multiflavor_dynlink_cxx-test_urcu_multiflavor-bp_cxx.o -MD -MP -MF $(DEPDIR)/test_urcu_multiflavor_dynlink_cxx-test_urcu_multiflavor-bp_cxx.Tpo -c -o test_urcu_multiflavor_dynlink_cxx-test_urcu_multiflavor-bp_cxx.o `test -f 'test_urcu_multiflavor-bp_cxx.cpp' || echo '$(srcdir)/'`test_urcu_multiflavor-bp_cxx.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/test_urcu_multiflavor_dynlink_cxx-test_urcu_multiflavor-bp_cxx.Tpo $(DEPDIR)/test_urcu_multiflavor_dynlink_cxx-test_urcu_multiflavor-bp_cxx.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='test_urcu_multiflavor-bp_cxx.cpp' object='test_urcu_multiflavor_dynlink_cxx-test_urcu_multiflavor-bp_cxx.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(test_urcu_multiflavor_dynlink_cxx_CXXFLAGS) $(CXXFLAGS) -c -o test_urcu_multiflavor_dynlink_cxx-test_urcu_multiflavor-bp_cxx.o `test -f 'test_urcu_multiflavor-bp_cxx.cpp' || echo '$(srcdir)/'`test_urcu_multiflavor-bp_cxx.cpp
+
+test_urcu_multiflavor_dynlink_cxx-test_urcu_multiflavor-bp_cxx.obj: test_urcu_multiflavor-bp_cxx.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(test_urcu_multiflavor_dynlink_cxx_CXXFLAGS) $(CXXFLAGS) -MT test_urcu_multiflavor_dynlink_cxx-test_urcu_multiflavor-bp_cxx.obj -MD -MP -MF $(DEPDIR)/test_urcu_multiflavor_dynlink_cxx-test_urcu_multiflavor-bp_cxx.Tpo -c -o test_urcu_multiflavor_dynlink_cxx-test_urcu_multiflavor-bp_cxx.obj `if test -f 'test_urcu_multiflavor-bp_cxx.cpp'; then $(CYGPATH_W) 'test_urcu_multiflavor-bp_cxx.cpp'; else $(CYGPATH_W) '$(srcdir)/test_urcu_multiflavor-bp_cxx.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/test_urcu_multiflavor_dynlink_cxx-test_urcu_multiflavor-bp_cxx.Tpo $(DEPDIR)/test_urcu_multiflavor_dynlink_cxx-test_urcu_multiflavor-bp_cxx.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='test_urcu_multiflavor-bp_cxx.cpp' object='test_urcu_multiflavor_dynlink_cxx-test_urcu_multiflavor-bp_cxx.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(test_urcu_multiflavor_dynlink_cxx_CXXFLAGS) $(CXXFLAGS) -c -o test_urcu_multiflavor_dynlink_cxx-test_urcu_multiflavor-bp_cxx.obj `if test -f 'test_urcu_multiflavor-bp_cxx.cpp'; then $(CYGPATH_W) 'test_urcu_multiflavor-bp_cxx.cpp'; else $(CYGPATH_W) '$(srcdir)/test_urcu_multiflavor-bp_cxx.cpp'; fi`
+
+test_urcu_multiflavor_single_unit_dynlink_cxx-test_urcu_multiflavor_single_unit_cxx.o: test_urcu_multiflavor_single_unit_cxx.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(test_urcu_multiflavor_single_unit_dynlink_cxx_CXXFLAGS) $(CXXFLAGS) -MT test_urcu_multiflavor_single_unit_dynlink_cxx-test_urcu_multiflavor_single_unit_cxx.o -MD -MP -MF $(DEPDIR)/test_urcu_multiflavor_single_unit_dynlink_cxx-test_urcu_multiflavor_single_unit_cxx.Tpo -c -o test_urcu_multiflavor_single_unit_dynlink_cxx-test_urcu_multiflavor_single_unit_cxx.o `test -f 'test_urcu_multiflavor_single_unit_cxx.cpp' || echo '$(srcdir)/'`test_urcu_multiflavor_single_unit_cxx.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/test_urcu_multiflavor_single_unit_dynlink_cxx-test_urcu_multiflavor_single_unit_cxx.Tpo $(DEPDIR)/test_urcu_multiflavor_single_unit_dynlink_cxx-test_urcu_multiflavor_single_unit_cxx.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='test_urcu_multiflavor_single_unit_cxx.cpp' object='test_urcu_multiflavor_single_unit_dynlink_cxx-test_urcu_multiflavor_single_unit_cxx.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(test_urcu_multiflavor_single_unit_dynlink_cxx_CXXFLAGS) $(CXXFLAGS) -c -o test_urcu_multiflavor_single_unit_dynlink_cxx-test_urcu_multiflavor_single_unit_cxx.o `test -f 'test_urcu_multiflavor_single_unit_cxx.cpp' || echo '$(srcdir)/'`test_urcu_multiflavor_single_unit_cxx.cpp
+
+test_urcu_multiflavor_single_unit_dynlink_cxx-test_urcu_multiflavor_single_unit_cxx.obj: test_urcu_multiflavor_single_unit_cxx.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(test_urcu_multiflavor_single_unit_dynlink_cxx_CXXFLAGS) $(CXXFLAGS) -MT test_urcu_multiflavor_single_unit_dynlink_cxx-test_urcu_multiflavor_single_unit_cxx.obj -MD -MP -MF $(DEPDIR)/test_urcu_multiflavor_single_unit_dynlink_cxx-test_urcu_multiflavor_single_unit_cxx.Tpo -c -o test_urcu_multiflavor_single_unit_dynlink_cxx-test_urcu_multiflavor_single_unit_cxx.obj `if test -f 'test_urcu_multiflavor_single_unit_cxx.cpp'; then $(CYGPATH_W) 'test_urcu_multiflavor_single_unit_cxx.cpp'; else $(CYGPATH_W) '$(srcdir)/test_urcu_multiflavor_single_unit_cxx.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/test_urcu_multiflavor_single_unit_dynlink_cxx-test_urcu_multiflavor_single_unit_cxx.Tpo $(DEPDIR)/test_urcu_multiflavor_single_unit_dynlink_cxx-test_urcu_multiflavor_single_unit_cxx.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='test_urcu_multiflavor_single_unit_cxx.cpp' object='test_urcu_multiflavor_single_unit_dynlink_cxx-test_urcu_multiflavor_single_unit_cxx.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(test_urcu_multiflavor_single_unit_dynlink_cxx_CXXFLAGS) $(CXXFLAGS) -c -o test_urcu_multiflavor_single_unit_dynlink_cxx-test_urcu_multiflavor_single_unit_cxx.obj `if test -f 'test_urcu_multiflavor_single_unit_cxx.cpp'; then $(CYGPATH_W) 'test_urcu_multiflavor_single_unit_cxx.cpp'; else $(CYGPATH_W) '$(srcdir)/test_urcu_multiflavor_single_unit_cxx.cpp'; fi`
 
 mostlyclean-libtool:
 	-rm -f *.lo
@@ -1067,9 +1617,79 @@ test_arch.log: test_arch$(EXEEXT)
 	--log-file $$b.log --trs-file $$b.trs \
 	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
 	"$$tst" $(AM_TESTS_FD_REDIRECT)
+test_arch_cxx.log: test_arch_cxx$(EXEEXT)
+	@p='test_arch_cxx$(EXEEXT)'; \
+	b='test_arch_cxx'; \
+	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
+	--log-file $$b.log --trs-file $$b.trs \
+	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
+	"$$tst" $(AM_TESTS_FD_REDIRECT)
+test_get_cpu_mask_from_sysfs.log: test_get_cpu_mask_from_sysfs
+	@p='test_get_cpu_mask_from_sysfs'; \
+	b='test_get_cpu_mask_from_sysfs'; \
+	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
+	--log-file $$b.log --trs-file $$b.trs \
+	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
+	"$$tst" $(AM_TESTS_FD_REDIRECT)
+test_get_cpu_mask_from_sysfs_cxx.log: test_get_cpu_mask_from_sysfs_cxx
+	@p='test_get_cpu_mask_from_sysfs_cxx'; \
+	b='test_get_cpu_mask_from_sysfs_cxx'; \
+	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
+	--log-file $$b.log --trs-file $$b.trs \
+	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
+	"$$tst" $(AM_TESTS_FD_REDIRECT)
+test_get_max_cpuid_from_mask.log: test_get_max_cpuid_from_mask$(EXEEXT)
+	@p='test_get_max_cpuid_from_mask$(EXEEXT)'; \
+	b='test_get_max_cpuid_from_mask'; \
+	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
+	--log-file $$b.log --trs-file $$b.trs \
+	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
+	"$$tst" $(AM_TESTS_FD_REDIRECT)
+test_get_max_cpuid_from_mask_cxx.log: test_get_max_cpuid_from_mask_cxx$(EXEEXT)
+	@p='test_get_max_cpuid_from_mask_cxx$(EXEEXT)'; \
+	b='test_get_max_cpuid_from_mask_cxx'; \
+	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
+	--log-file $$b.log --trs-file $$b.trs \
+	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
+	"$$tst" $(AM_TESTS_FD_REDIRECT)
+test_get_max_cpuid_from_sysfs.log: test_get_max_cpuid_from_sysfs
+	@p='test_get_max_cpuid_from_sysfs'; \
+	b='test_get_max_cpuid_from_sysfs'; \
+	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
+	--log-file $$b.log --trs-file $$b.trs \
+	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
+	"$$tst" $(AM_TESTS_FD_REDIRECT)
+test_get_max_cpuid_from_sysfs_cxx.log: test_get_max_cpuid_from_sysfs_cxx
+	@p='test_get_max_cpuid_from_sysfs_cxx'; \
+	b='test_get_max_cpuid_from_sysfs_cxx'; \
+	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
+	--log-file $$b.log --trs-file $$b.trs \
+	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
+	"$$tst" $(AM_TESTS_FD_REDIRECT)
+test_get_possible_cpus_array_len.log: test_get_possible_cpus_array_len$(EXEEXT)
+	@p='test_get_possible_cpus_array_len$(EXEEXT)'; \
+	b='test_get_possible_cpus_array_len'; \
+	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
+	--log-file $$b.log --trs-file $$b.trs \
+	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
+	"$$tst" $(AM_TESTS_FD_REDIRECT)
+test_get_possible_cpus_array_len_cxx.log: test_get_possible_cpus_array_len_cxx$(EXEEXT)
+	@p='test_get_possible_cpus_array_len_cxx$(EXEEXT)'; \
+	b='test_get_possible_cpus_array_len_cxx'; \
+	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
+	--log-file $$b.log --trs-file $$b.trs \
+	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
+	"$$tst" $(AM_TESTS_FD_REDIRECT)
 test_uatomic.log: test_uatomic$(EXEEXT)
 	@p='test_uatomic$(EXEEXT)'; \
 	b='test_uatomic'; \
+	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
+	--log-file $$b.log --trs-file $$b.trs \
+	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
+	"$$tst" $(AM_TESTS_FD_REDIRECT)
+test_uatomic_cxx.log: test_uatomic_cxx$(EXEEXT)
+	@p='test_uatomic_cxx$(EXEEXT)'; \
+	b='test_uatomic_cxx'; \
 	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
 	--log-file $$b.log --trs-file $$b.trs \
 	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
@@ -1081,9 +1701,23 @@ test_urcu_multiflavor.log: test_urcu_multiflavor$(EXEEXT)
 	--log-file $$b.log --trs-file $$b.trs \
 	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
 	"$$tst" $(AM_TESTS_FD_REDIRECT)
+test_urcu_multiflavor_cxx.log: test_urcu_multiflavor_cxx$(EXEEXT)
+	@p='test_urcu_multiflavor_cxx$(EXEEXT)'; \
+	b='test_urcu_multiflavor_cxx'; \
+	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
+	--log-file $$b.log --trs-file $$b.trs \
+	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
+	"$$tst" $(AM_TESTS_FD_REDIRECT)
 test_urcu_multiflavor_dynlink.log: test_urcu_multiflavor_dynlink$(EXEEXT)
 	@p='test_urcu_multiflavor_dynlink$(EXEEXT)'; \
 	b='test_urcu_multiflavor_dynlink'; \
+	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
+	--log-file $$b.log --trs-file $$b.trs \
+	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
+	"$$tst" $(AM_TESTS_FD_REDIRECT)
+test_urcu_multiflavor_dynlink_cxx.log: test_urcu_multiflavor_dynlink_cxx$(EXEEXT)
+	@p='test_urcu_multiflavor_dynlink_cxx$(EXEEXT)'; \
+	b='test_urcu_multiflavor_dynlink_cxx'; \
 	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
 	--log-file $$b.log --trs-file $$b.trs \
 	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
@@ -1095,9 +1729,51 @@ test_urcu_multiflavor_single_unit.log: test_urcu_multiflavor_single_unit$(EXEEXT
 	--log-file $$b.log --trs-file $$b.trs \
 	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
 	"$$tst" $(AM_TESTS_FD_REDIRECT)
+test_urcu_multiflavor_single_unit_cxx.log: test_urcu_multiflavor_single_unit_cxx$(EXEEXT)
+	@p='test_urcu_multiflavor_single_unit_cxx$(EXEEXT)'; \
+	b='test_urcu_multiflavor_single_unit_cxx'; \
+	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
+	--log-file $$b.log --trs-file $$b.trs \
+	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
+	"$$tst" $(AM_TESTS_FD_REDIRECT)
 test_urcu_multiflavor_single_unit_dynlink.log: test_urcu_multiflavor_single_unit_dynlink$(EXEEXT)
 	@p='test_urcu_multiflavor_single_unit_dynlink$(EXEEXT)'; \
 	b='test_urcu_multiflavor_single_unit_dynlink'; \
+	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
+	--log-file $$b.log --trs-file $$b.trs \
+	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
+	"$$tst" $(AM_TESTS_FD_REDIRECT)
+test_urcu_multiflavor_single_unit_dynlink_cxx.log: test_urcu_multiflavor_single_unit_dynlink_cxx$(EXEEXT)
+	@p='test_urcu_multiflavor_single_unit_dynlink_cxx$(EXEEXT)'; \
+	b='test_urcu_multiflavor_single_unit_dynlink_cxx'; \
+	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
+	--log-file $$b.log --trs-file $$b.trs \
+	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
+	"$$tst" $(AM_TESTS_FD_REDIRECT)
+test_build.log: test_build$(EXEEXT)
+	@p='test_build$(EXEEXT)'; \
+	b='test_build'; \
+	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
+	--log-file $$b.log --trs-file $$b.trs \
+	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
+	"$$tst" $(AM_TESTS_FD_REDIRECT)
+test_build_cxx.log: test_build_cxx$(EXEEXT)
+	@p='test_build_cxx$(EXEEXT)'; \
+	b='test_build_cxx'; \
+	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
+	--log-file $$b.log --trs-file $$b.trs \
+	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
+	"$$tst" $(AM_TESTS_FD_REDIRECT)
+test_build_dynlink.log: test_build_dynlink$(EXEEXT)
+	@p='test_build_dynlink$(EXEEXT)'; \
+	b='test_build_dynlink'; \
+	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
+	--log-file $$b.log --trs-file $$b.trs \
+	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
+	"$$tst" $(AM_TESTS_FD_REDIRECT)
+test_build_dynlink_cxx.log: test_build_dynlink_cxx$(EXEEXT)
+	@p='test_build_dynlink_cxx$(EXEEXT)'; \
+	b='test_build_dynlink_cxx'; \
 	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
 	--log-file $$b.log --trs-file $$b.trs \
 	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
@@ -1152,7 +1828,7 @@ distdir-am: $(DISTFILES)
 check-am: all-am
 	$(MAKE) $(AM_MAKEFLAGS) check-TESTS
 check: check-am
-all-am: Makefile $(PROGRAMS) $(HEADERS) all-local
+all-am: Makefile $(PROGRAMS) $(SCRIPTS) $(HEADERS)
 installdirs:
 install: install-am
 install-exec: install-exec-am
@@ -1189,26 +1865,54 @@ maintainer-clean-generic:
 	@echo "it deletes files that may require special tools to rebuild."
 clean: clean-am
 
-clean-am: clean-generic clean-libtool clean-local clean-noinstPROGRAMS \
+clean-am: clean-generic clean-libtool clean-noinstPROGRAMS \
 	mostlyclean-am
 
 distclean: distclean-am
-		-rm -f ./$(DEPDIR)/test_arch.Po
+		-rm -f ./$(DEPDIR)/get_cpu_mask_from_sysfs.Po
+	-rm -f ./$(DEPDIR)/get_cpu_mask_from_sysfs_cxx.Po
+	-rm -f ./$(DEPDIR)/get_max_cpuid_from_sysfs.Po
+	-rm -f ./$(DEPDIR)/get_max_cpuid_from_sysfs_cxx.Po
+	-rm -f ./$(DEPDIR)/test_arch.Po
+	-rm -f ./$(DEPDIR)/test_arch_cxx.Po
+	-rm -f ./$(DEPDIR)/test_build.Po
+	-rm -f ./$(DEPDIR)/test_build_cxx.Po
+	-rm -f ./$(DEPDIR)/test_build_dynlink-test_build.Po
+	-rm -f ./$(DEPDIR)/test_build_dynlink_cxx-test_build_cxx.Po
+	-rm -f ./$(DEPDIR)/test_get_max_cpuid_from_mask.Po
+	-rm -f ./$(DEPDIR)/test_get_max_cpuid_from_mask_cxx.Po
+	-rm -f ./$(DEPDIR)/test_get_possible_cpus_array_len.Po
+	-rm -f ./$(DEPDIR)/test_get_possible_cpus_array_len_cxx.Po
 	-rm -f ./$(DEPDIR)/test_uatomic.Po
+	-rm -f ./$(DEPDIR)/test_uatomic_cxx.Po
 	-rm -f ./$(DEPDIR)/test_urcu_multiflavor-bp.Po
+	-rm -f ./$(DEPDIR)/test_urcu_multiflavor-bp_cxx.Po
 	-rm -f ./$(DEPDIR)/test_urcu_multiflavor-mb.Po
+	-rm -f ./$(DEPDIR)/test_urcu_multiflavor-mb_cxx.Po
 	-rm -f ./$(DEPDIR)/test_urcu_multiflavor-memb.Po
+	-rm -f ./$(DEPDIR)/test_urcu_multiflavor-memb_cxx.Po
 	-rm -f ./$(DEPDIR)/test_urcu_multiflavor-qsbr.Po
+	-rm -f ./$(DEPDIR)/test_urcu_multiflavor-qsbr_cxx.Po
 	-rm -f ./$(DEPDIR)/test_urcu_multiflavor-signal.Po
+	-rm -f ./$(DEPDIR)/test_urcu_multiflavor-signal_cxx.Po
 	-rm -f ./$(DEPDIR)/test_urcu_multiflavor.Po
+	-rm -f ./$(DEPDIR)/test_urcu_multiflavor_cxx.Po
 	-rm -f ./$(DEPDIR)/test_urcu_multiflavor_dynlink-test_urcu_multiflavor-bp.Po
 	-rm -f ./$(DEPDIR)/test_urcu_multiflavor_dynlink-test_urcu_multiflavor-mb.Po
 	-rm -f ./$(DEPDIR)/test_urcu_multiflavor_dynlink-test_urcu_multiflavor-memb.Po
 	-rm -f ./$(DEPDIR)/test_urcu_multiflavor_dynlink-test_urcu_multiflavor-qsbr.Po
 	-rm -f ./$(DEPDIR)/test_urcu_multiflavor_dynlink-test_urcu_multiflavor-signal.Po
 	-rm -f ./$(DEPDIR)/test_urcu_multiflavor_dynlink-test_urcu_multiflavor.Po
+	-rm -f ./$(DEPDIR)/test_urcu_multiflavor_dynlink_cxx-test_urcu_multiflavor-bp_cxx.Po
+	-rm -f ./$(DEPDIR)/test_urcu_multiflavor_dynlink_cxx-test_urcu_multiflavor-mb_cxx.Po
+	-rm -f ./$(DEPDIR)/test_urcu_multiflavor_dynlink_cxx-test_urcu_multiflavor-memb_cxx.Po
+	-rm -f ./$(DEPDIR)/test_urcu_multiflavor_dynlink_cxx-test_urcu_multiflavor-qsbr_cxx.Po
+	-rm -f ./$(DEPDIR)/test_urcu_multiflavor_dynlink_cxx-test_urcu_multiflavor-signal_cxx.Po
+	-rm -f ./$(DEPDIR)/test_urcu_multiflavor_dynlink_cxx-test_urcu_multiflavor_cxx.Po
 	-rm -f ./$(DEPDIR)/test_urcu_multiflavor_single_unit.Po
+	-rm -f ./$(DEPDIR)/test_urcu_multiflavor_single_unit_cxx.Po
 	-rm -f ./$(DEPDIR)/test_urcu_multiflavor_single_unit_dynlink-test_urcu_multiflavor_single_unit.Po
+	-rm -f ./$(DEPDIR)/test_urcu_multiflavor_single_unit_dynlink_cxx-test_urcu_multiflavor_single_unit_cxx.Po
 	-rm -f Makefile
 distclean-am: clean-am distclean-compile distclean-generic \
 	distclean-tags
@@ -1254,22 +1958,50 @@ install-ps-am:
 installcheck-am:
 
 maintainer-clean: maintainer-clean-am
-		-rm -f ./$(DEPDIR)/test_arch.Po
+		-rm -f ./$(DEPDIR)/get_cpu_mask_from_sysfs.Po
+	-rm -f ./$(DEPDIR)/get_cpu_mask_from_sysfs_cxx.Po
+	-rm -f ./$(DEPDIR)/get_max_cpuid_from_sysfs.Po
+	-rm -f ./$(DEPDIR)/get_max_cpuid_from_sysfs_cxx.Po
+	-rm -f ./$(DEPDIR)/test_arch.Po
+	-rm -f ./$(DEPDIR)/test_arch_cxx.Po
+	-rm -f ./$(DEPDIR)/test_build.Po
+	-rm -f ./$(DEPDIR)/test_build_cxx.Po
+	-rm -f ./$(DEPDIR)/test_build_dynlink-test_build.Po
+	-rm -f ./$(DEPDIR)/test_build_dynlink_cxx-test_build_cxx.Po
+	-rm -f ./$(DEPDIR)/test_get_max_cpuid_from_mask.Po
+	-rm -f ./$(DEPDIR)/test_get_max_cpuid_from_mask_cxx.Po
+	-rm -f ./$(DEPDIR)/test_get_possible_cpus_array_len.Po
+	-rm -f ./$(DEPDIR)/test_get_possible_cpus_array_len_cxx.Po
 	-rm -f ./$(DEPDIR)/test_uatomic.Po
+	-rm -f ./$(DEPDIR)/test_uatomic_cxx.Po
 	-rm -f ./$(DEPDIR)/test_urcu_multiflavor-bp.Po
+	-rm -f ./$(DEPDIR)/test_urcu_multiflavor-bp_cxx.Po
 	-rm -f ./$(DEPDIR)/test_urcu_multiflavor-mb.Po
+	-rm -f ./$(DEPDIR)/test_urcu_multiflavor-mb_cxx.Po
 	-rm -f ./$(DEPDIR)/test_urcu_multiflavor-memb.Po
+	-rm -f ./$(DEPDIR)/test_urcu_multiflavor-memb_cxx.Po
 	-rm -f ./$(DEPDIR)/test_urcu_multiflavor-qsbr.Po
+	-rm -f ./$(DEPDIR)/test_urcu_multiflavor-qsbr_cxx.Po
 	-rm -f ./$(DEPDIR)/test_urcu_multiflavor-signal.Po
+	-rm -f ./$(DEPDIR)/test_urcu_multiflavor-signal_cxx.Po
 	-rm -f ./$(DEPDIR)/test_urcu_multiflavor.Po
+	-rm -f ./$(DEPDIR)/test_urcu_multiflavor_cxx.Po
 	-rm -f ./$(DEPDIR)/test_urcu_multiflavor_dynlink-test_urcu_multiflavor-bp.Po
 	-rm -f ./$(DEPDIR)/test_urcu_multiflavor_dynlink-test_urcu_multiflavor-mb.Po
 	-rm -f ./$(DEPDIR)/test_urcu_multiflavor_dynlink-test_urcu_multiflavor-memb.Po
 	-rm -f ./$(DEPDIR)/test_urcu_multiflavor_dynlink-test_urcu_multiflavor-qsbr.Po
 	-rm -f ./$(DEPDIR)/test_urcu_multiflavor_dynlink-test_urcu_multiflavor-signal.Po
 	-rm -f ./$(DEPDIR)/test_urcu_multiflavor_dynlink-test_urcu_multiflavor.Po
+	-rm -f ./$(DEPDIR)/test_urcu_multiflavor_dynlink_cxx-test_urcu_multiflavor-bp_cxx.Po
+	-rm -f ./$(DEPDIR)/test_urcu_multiflavor_dynlink_cxx-test_urcu_multiflavor-mb_cxx.Po
+	-rm -f ./$(DEPDIR)/test_urcu_multiflavor_dynlink_cxx-test_urcu_multiflavor-memb_cxx.Po
+	-rm -f ./$(DEPDIR)/test_urcu_multiflavor_dynlink_cxx-test_urcu_multiflavor-qsbr_cxx.Po
+	-rm -f ./$(DEPDIR)/test_urcu_multiflavor_dynlink_cxx-test_urcu_multiflavor-signal_cxx.Po
+	-rm -f ./$(DEPDIR)/test_urcu_multiflavor_dynlink_cxx-test_urcu_multiflavor_cxx.Po
 	-rm -f ./$(DEPDIR)/test_urcu_multiflavor_single_unit.Po
+	-rm -f ./$(DEPDIR)/test_urcu_multiflavor_single_unit_cxx.Po
 	-rm -f ./$(DEPDIR)/test_urcu_multiflavor_single_unit_dynlink-test_urcu_multiflavor_single_unit.Po
+	-rm -f ./$(DEPDIR)/test_urcu_multiflavor_single_unit_dynlink_cxx-test_urcu_multiflavor_single_unit_cxx.Po
 	-rm -f Makefile
 maintainer-clean-am: distclean-am maintainer-clean-generic
 
@@ -1290,37 +2022,23 @@ uninstall-am:
 
 .MAKE: check-am install-am install-strip
 
-.PHONY: CTAGS GTAGS TAGS all all-am all-local am--depfiles check \
-	check-TESTS check-am clean clean-generic clean-libtool \
-	clean-local clean-noinstPROGRAMS cscopelist-am ctags ctags-am \
-	distclean distclean-compile distclean-generic \
-	distclean-libtool distclean-tags distdir dvi dvi-am html \
-	html-am info info-am install install-am install-data \
-	install-data-am install-dvi install-dvi-am install-exec \
-	install-exec-am install-html install-html-am install-info \
-	install-info-am install-man install-pdf install-pdf-am \
-	install-ps install-ps-am install-strip installcheck \
-	installcheck-am installdirs maintainer-clean \
-	maintainer-clean-generic mostlyclean mostlyclean-compile \
-	mostlyclean-generic mostlyclean-libtool pdf pdf-am ps ps-am \
-	recheck tags tags-am uninstall uninstall-am
+.PHONY: CTAGS GTAGS TAGS all all-am am--depfiles check check-TESTS \
+	check-am clean clean-generic clean-libtool \
+	clean-noinstPROGRAMS cscopelist-am ctags ctags-am distclean \
+	distclean-compile distclean-generic distclean-libtool \
+	distclean-tags distdir dvi dvi-am html html-am info info-am \
+	install install-am install-data install-data-am install-dvi \
+	install-dvi-am install-exec install-exec-am install-html \
+	install-html-am install-info install-info-am install-man \
+	install-pdf install-pdf-am install-ps install-ps-am \
+	install-strip installcheck installcheck-am installdirs \
+	maintainer-clean maintainer-clean-generic mostlyclean \
+	mostlyclean-compile mostlyclean-generic mostlyclean-libtool \
+	pdf pdf-am ps ps-am recheck tags tags-am uninstall \
+	uninstall-am
 
 .PRECIOUS: Makefile
 
-
-all-local:
-	@if [ x"$(srcdir)" != x"$(builddir)" ]; then \
-		for script in $(SCRIPT_LIST); do \
-			cp -f $(srcdir)/$$script $(builddir); \
-		done; \
-	fi
-
-clean-local:
-	@if [ x"$(srcdir)" != x"$(builddir)" ]; then \
-		for script in $(SCRIPT_LIST); do \
-			rm -f $(builddir)/$$script; \
-		done; \
-	fi
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.
