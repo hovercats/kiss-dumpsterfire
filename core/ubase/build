@@ -15,5 +15,8 @@ sed -e '/lsmod/d' \
 	Makefile > _
 mv -f _ Makefile
 
-make ubase-box LDFLAGS="$LDFLAGS -static"
-make DESTDIR="$1" PREFIX=/usr ubase-box-install
+make LDFLAGS="$LDFLAGS -static"
+make DESTDIR="$1" PREFIX=/usr install
+
+# su needs setuid to work properly
+chmod 4755 "$1/usr/bin/su"
