@@ -1,4 +1,6 @@
 #!/bin/rc
 
 case -s
-	/sbin/getty /dev/tty3 linux &
+	while(){
+	/sbin/getty /dev/tty3 linux
+	} &
