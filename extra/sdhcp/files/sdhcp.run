@@ -2,10 +2,10 @@
 
 case $1 in
 	-s)
+		sleep 2
 		exec sdhcp -f wlan0 1> /dev/null
 		;;
 	-k)
-		sleep 2
 		PID="$(pidof sdhcp)"
 		kill -9 "$PID"
 		;;
