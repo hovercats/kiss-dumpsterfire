@@ -1,13 +1,13 @@
+#libsoup3
 busybox make
 cairo
 cmake  make
+freetype-harfbuzz
 glib-networking
 gperf  make
 gtk+3
-freetype-harfbuzz
 libXt
 libgcrypt
-#libsoup3
 libwebp
 libxslt
 mesa
@@ -15,3 +15,4 @@ perl   make
 python make
 ruby   make
 sqlite
+unifdef make

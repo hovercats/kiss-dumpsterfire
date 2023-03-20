@@ -45,15 +45,6 @@ mv -f _ Source/cmake/WebKitCompilerFlags.cmake
 # Reduce memory usage.
 export LDFLAGS="$LDFLAGS -Wl,--no-keep-memory"
 
-# Have webkit play nicer with ccache (taken from Void).
-for f in Source/WebCore/bindings/scripts/CodeGenerator.pm \
-    Source/WebCore/bindings/scripts/CodeGeneratorJS.pm \
-    Source/WebCore/css/makeprop.pl \
-    Source/cmake/tools/scripts/version-stamp.pl; do
-    sed -e '/foreach my.*(keys/s/(keys/(sort keys/' "$f" > _
-    mv -f _ "$f"
-done
-
 mk() {
     cmake -B build \
         -DCMAKE_BUILD_TYPE=Release \
@@ -84,6 +75,8 @@ mk() {
         -DUSE_SOUP2="${libsoup2:-ON}" \
         -DENABLE_JOURNALD_LOG=OFF \
         -DUSE_LCMS=OFF \
+        -DENABLE_WAYLAND_TARGET=OFF \
+        -DUSE_AVIF=OFF \
         -Wno-dev
 
     cmake --build build
