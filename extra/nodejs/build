@@ -18,16 +18,12 @@ esac
     --without-npm \
     --ninja
 
+# remove broken subninja
+sed  '/^subninja.*openssl-fipsmodule/d' out/Release/build.ninja > _
+mv -f _ out/Release/build.ninja
+
 ninja -C out/Release
 tools/install.py install "$1" /usr
-
-# thanks Carbslinux
-# name value exceeds what ustar format allows
-cd "$1/usr/lib/node_modules/corepack/dist"
-mv -f vendors-_yarn*.js vendors-_yarn_berry_cache.js
-sed '/yarn_berry/s/vendors-[^"]*/vendors-_yarn_berry_cache/' \
-	corepack.js > _
-	mv -f _ corepack.js
 
 # Remove unneeded files.
 rm -rf \
