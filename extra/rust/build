@@ -1,8 +1,10 @@
 #!/bin/sh -e
 
-patch -p1 < fix-curl.patch
-patch -p1 < libressl.patch
-patch -p1 < llvm-target.patch
+export DESTDIR="$1"
+
+for p in *.patch; do
+	patch -p1 < "$p"
+done
 
 # Instruct the compiler to trim absolute paths in resulting binaries and instead
 # change them to relative paths ($PWD/... ./...).
@@ -71,7 +73,7 @@ EOF
         # This mimics the download process of rust's 'x.py'
         # bootstrap library to allow for the removal of the internet
         # connection requirement per build.
-        mkdir -p "${cache_dir:=build/cache/2022-11-03}"
+        mkdir -p "${cache_dir:=build/cache/2023-02-09}"
 
         for tarball in *.tar.xz\?no-extract; do
             mv -f "$tarball" "$cache_dir/${tarball%%\?no-extract}"
