@@ -1,3 +1,2 @@
-https://dl.2f30.org/releases/sdhcp-0.1.tar.gz
-patches/updates.patch
+https://github.com/michaelforney/sdhcp/archive/5f9956c8706215f8b8887c0beb77ed7d1810ec7a.tar.gz
 files/sdhcp.run
