@@ -13,6 +13,7 @@ meson \
     -Dlibproxy=disabled \
     -Dopenssl=disabled \
     -Dgnutls=enabled \
+    -Dgnome_proxy=disabled \
     . output
 
 ninja -C output
