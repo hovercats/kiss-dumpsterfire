@@ -1,7 +1,5 @@
 #!/bin/sh -e
 
-patch -p1 < cmake-no-execinfo.patch
-
 # stolen from sabotage linux. should fix linking issues with static netbsd-curses libs
 sed 's,curses_version,baudrate,' Source/Checks/Curses/CheckCurses.c > _
 mv -f _ Source/Checks/Curses/CheckCurses.c
@@ -17,6 +15,7 @@ if kiss l cmake; then
         -DCMAKE_USE_SYSTEM_ZLIB=True \
         -DCMAKE_USE_SYSTEM_BZIP2=True \
         -DCMAKE_USE_SYSTEM_NGHTTP2=False \
+        -DBUILD_CursesDialog=OFF \
         -DBUILD_TESTING=OFF
 
     cmake --build   build
@@ -29,6 +28,8 @@ else
         --system-expat \
         --system-zlib \
         --system-bzip2 \
+        --parallel="$(grep -scF 'core id' /proc/cpuinfo)" -- \
+        -DBUILD_CursesDialog=OFF \
         --no-system-nghttp2 
 
     make
