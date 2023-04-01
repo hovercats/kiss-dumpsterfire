@@ -1,6 +1,0 @@
-#!/bin/sh -e
-
-# patch out fzf specific stuff, because we use fzy instead
-patch -p1 < fzy.patch
-
-make PREFIX=/usr DESTDIR="$1" install doc
