@@ -5,6 +5,9 @@ if [ "$(kiss owns /usr/bin/ln)" != busybox ]; then
 	kiss a busybox /usr/bin/ln
 fi
 
+# Stolen from alpine linux
+patch -p1 < initial-exec.patch
+
 export CCACHE_SLOPPINESS=time_macros,include_file_mtime
 
 # Check if wether libsoup3 or libsoup is used
