@@ -1,6 +1,8 @@
 #!/bin/sh -e
 
-patch -p1 < cp-dont-check-symlinks.patch
+for p in *.patch; do
+	patch -p1 < "$p"
+done
 
 # getconf and strings is provided elsewhere.
 # also remove other unneeded utilities
