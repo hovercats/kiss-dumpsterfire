@@ -50,6 +50,7 @@ esac
     --with-zstd=no \
     --with-system-zlib \
     --build=x86_64-pc-linux-musl \
+    --disable-lto \
     "${bootstrap:---enable-bootstrap}"
 
 make 
