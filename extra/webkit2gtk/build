@@ -95,7 +95,7 @@ mk() {
         -Wno-dev
 
     ninja -C build
-    ninja -C install build
+    ninja -C build install
 }
 
 # If using mold as system linker, switch since mold cannot link all of webkit (yet).
