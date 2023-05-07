@@ -1,9 +1,18 @@
 #!/bin/sh -e
 
 # There is a problem with the archive format.
-# both pax and sbase tar shares this issue currently.
-# busybox and librachive tar implementation however seems to work fine.
-busybox tar -xJ --strip-components 1 -f "ruby-$2.tar.xz?no_extract"
+# both otools pax (but not tar for some reason?)
+# and sbase tar shares this issue.
+# busybox tar and librachive bsdtar implementations however
+# seems to work without issues. 
+mv -f ruby*.tar.xz\?no_extract ruby.tar.xz
+xz -dc ruby.tar.xz | tar -xf -
+
+# to avoid having to change the buildscript on new releases,
+# we delete the tarball afterwards, because it unpacks to ruby-$version
+rm -rf ruby*.tar.xz
+
+cd ruby
 
 ./configure \
     --prefix=/usr \
