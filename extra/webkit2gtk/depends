@@ -1,5 +1,3 @@
-#libsoup3
-samurai      make
 cairo
 cmake        make
 freetype-harfbuzz
@@ -8,11 +6,13 @@ gperf        make
 gtk+3
 libXt
 libgcrypt
+libsoup3
 libwebp
 libxslt
 mesa
 perl         make
 python       make
 ruby         make
+samurai      make
 sqlite
 unifdef      make
