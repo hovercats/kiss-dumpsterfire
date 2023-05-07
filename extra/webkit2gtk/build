@@ -1,10 +1,5 @@
 #!/bin/sh -e
 
-# switch ln to busybox if its not already owned
-if [ "$(kiss owns /usr/bin/ln)" != busybox ]; then
-	kiss a busybox /usr/bin/ln
-fi
-
 # Stolen from alpine linux
 patch -p1 < initial-exec.patch
 
@@ -28,6 +23,23 @@ if command -v clang; then
 	export CXX=clang++
 fi
 
+# fix unsupported -n flag for sbase ln
+sed 's/ln -sfh/ln -sf/g' Source/WebCore/Scripts/generate-derived-sources.sh > _
+mv -f _ Source/WebCore/Scripts/generate-derived-sources.sh
+
+sed 's/ln -n -s -f/ln -sf/g' Source/JavaScriptCore/GLib.cmake > _
+mv -f _ Source/JavaScriptCore/GLib.cmake
+
+sed 's/ln -n -s -f/ln -sf/g' Source/WebKit/PlatformGTK.cmake > _
+mv -f _ Source/WebKit/PlatformGTK.cmake
+
+sed 's/ln -n -s -f/ln -sf/g' Source/WebKit/PlatformWPEDeprecated.cmake > _
+mv -f _ Source/WebKit/PlatformWPEDeprecated.cmake
+
+sed 's/ln -n -s -f/ln -sf/g' Source/WebKit/PlatformGTKDeprecated.cmake  > _
+mv -f _ Source/WebKit/PlatformGTKDeprecated.cmake
+ 
+
 # Remove gettext requirement.
 sed -e 's/ngettext/printf/g' Tools/MiniBrowser/gtk/BrowserDownloadsBar.c > _
 mv -f _ Tools/MiniBrowser/gtk/BrowserDownloadsBar.c
@@ -49,7 +61,7 @@ mv -f _ Source/cmake/WebKitCompilerFlags.cmake
 export LDFLAGS="$LDFLAGS -Wl,--no-keep-memory"
 
 mk() {
-    cmake -B build \
+    cmake -G Ninja -B build \
         -DCMAKE_BUILD_TYPE=Release \
         -DCMAKE_INSTALL_PREFIX=/usr \
         -DCMAKE_INSTALL_LIBEXECDIR=/usr/lib \
@@ -82,8 +94,8 @@ mk() {
         -DUSE_AVIF=OFF \
         -Wno-dev
 
-    cmake --build build
-    cmake --install build
+    ninja -C build
+    ninja -C install build
 }
 
 # If using mold as system linker, switch since mold cannot link all of webkit (yet).
@@ -93,9 +105,4 @@ if [ "$(kiss owns /usr/bin/ld)" = mold ]; then
     kiss alternatives mold "/usr/bin/ld"
 else
     mk
-fi
-
-# switch back to sbase
-if [ "$(kiss owns /usr/bin/ln)" != sbase ]; then
-	kiss a sbase /usr/bin/ln
 fi

@@ -1,18 +1,18 @@
 #libsoup3
-busybox make
+samurai      make
 cairo
-cmake  make
+cmake        make
 freetype-harfbuzz
 glib-networking
-gperf  make
+gperf        make
 gtk+3
 libXt
 libgcrypt
 libwebp
 libxslt
 mesa
-perl   make
-python make
-ruby   make
+perl         make
+python       make
+ruby         make
 sqlite
-unifdef make
+unifdef      make
