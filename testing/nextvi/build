@@ -1,8 +1,0 @@
-#!/bin/sh -e
-
-export PREFIX=/usr
-export CFLAGS="$CFLAGS -static"
-
-./build.sh install
-
-mv -f "$1/usr/bin/vi" "$1/usr/bin/nvi"
