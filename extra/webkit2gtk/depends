@@ -13,6 +13,5 @@ mesa
 perl         make
 python       make
 ruby         make
-samurai      make
 sqlite
 unifdef      make

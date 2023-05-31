@@ -61,7 +61,7 @@ mv -f _ Source/cmake/WebKitCompilerFlags.cmake
 export LDFLAGS="$LDFLAGS -Wl,--no-keep-memory"
 
 mk() {
-    cmake -G Ninja -B build \
+    cmake -B build \
         -DCMAKE_BUILD_TYPE=Release \
         -DCMAKE_INSTALL_PREFIX=/usr \
         -DCMAKE_INSTALL_LIBEXECDIR=/usr/lib \
@@ -94,8 +94,8 @@ mk() {
         -DUSE_AVIF=OFF \
         -Wno-dev
 
-    ninja -C build
-    ninja -C build install
+    cmake --build build
+    cmake --install build
 }
 
 # If using mold as system linker, switch since mold cannot link all of webkit (yet).
