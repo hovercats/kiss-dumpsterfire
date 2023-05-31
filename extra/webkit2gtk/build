@@ -1,7 +1,8 @@
 #!/bin/sh -e
 
-# Stolen from alpine linux
-patch -p1 < initial-exec.patch
+for p in *.patch; do
+	patch -p1 < "$p"
+done
 
 export CCACHE_SLOPPINESS=time_macros,include_file_mtime
 
