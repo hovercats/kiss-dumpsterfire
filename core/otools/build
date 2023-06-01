@@ -1,9 +1,5 @@
 #!/bin/sh -e
 
-./configure \
-    --prefix=/usr \
-    --with-system-zlib
-
 make pax patch diff LDFLAGS="$LDFLAGS -static"
 
 chmod 755 diff patch pax
