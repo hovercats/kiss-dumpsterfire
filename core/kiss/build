@@ -1,16 +1,14 @@
 #!/bin/sh -e
 
-for p in *.patch; do
-	patch -p1 < "$p"
-done
+patch -p1 < pax.patch
 
 # fix orphan exclusion list
-sed -e 's/baseinit/awk b3sum/' \
-	-e 's/busybox/sbase ubase/' \
-	-e 's/bzip2/otools libressl/' \
-	-e 's/grub/rfinit/' \
+sed -e 's/baseinit/rcinit/' \
+	-e 's/busybox/awk sbase ubase otools/' \
+	-e 's/grub/libressl oksh/' \
 	contrib/kiss-orphans > _
 	mv -f _ contrib/kiss-orphans
+	chmod 755 contrib/kiss-orphans
 
 mkdir -p \
     "$1/usr/bin" \
