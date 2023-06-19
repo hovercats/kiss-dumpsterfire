@@ -12,7 +12,7 @@ xz -dc ruby.tar.xz | tar -xf -
 # we delete the tarball afterwards, because it unpacks to ruby-$version
 rm -rf ruby*.tar.xz
 
-cd ruby
+cd ruby*
 
 ./configure \
     --prefix=/usr \
