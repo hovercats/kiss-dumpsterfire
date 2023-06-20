@@ -1,0 +1,9 @@
+#!/bin/sh -e
+
+./configure \
+    --prefix=/usr \
+    --disable-static \
+    --disable-openssl
+
+make
+make DESTDIR="$1" install
