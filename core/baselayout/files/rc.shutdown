@@ -14,7 +14,7 @@ mount -o remount,ro /
 sync
 sleep 1
 
-umount -al
+umount -a
 
 wait
 
