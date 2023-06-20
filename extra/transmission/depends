@@ -1,0 +1,3 @@
+curl
+pkgconf make
+libevent make
