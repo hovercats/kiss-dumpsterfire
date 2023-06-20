@@ -4,9 +4,9 @@ umask 022
 
 svc -k >[1] /dev/null
 
-kill 1
-sleep 1
-kill -s KILL 1
+kill -s TERM -1
+sleep 2
+kill -s KILL -1
 
 swapoff -a
 
