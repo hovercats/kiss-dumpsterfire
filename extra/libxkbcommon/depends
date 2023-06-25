@@ -1,8 +1,4 @@
-<<<<<<< HEAD
 byacc   make
-=======
-bison   make
->>>>>>> 33473ce (libxkbcommon: add)
-meson   make
+muon   make
 pkgconf make
 samurai make
