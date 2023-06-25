@@ -2,9 +2,9 @@
 
 muon setup \
     -Dprefix=/usr \
-    -Dvalgrind=false \
-    -Dintel=false \
-    -Dnouveau=false \
+    -Dvalgrind=disabled \
+    -Dintel=disabled \
+    -Dnouveau=disabled \
     -Ddefault_library=both \
     build
 
