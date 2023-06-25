@@ -1,5 +1,5 @@
-expat
 #icu
+expat
 libX11
 libXau
 libXdamage
@@ -11,6 +11,6 @@ libdrm
 libpng
 libxcb
 libxshmfence
-meson   make
+muon   make
 pixman
 pkgconf make

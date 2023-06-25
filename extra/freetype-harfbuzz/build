@@ -6,20 +6,22 @@ export DESTDIR="$1"
 build_freetype() (
     cd freetype
 
-    meson \
+    muon setup \
         -Dprefix=/usr \
         -Ddefault_library=both \
         -Dbzip2=disabled \
         -Dzlib=disabled \
         "$@" \
-        . output
+        output
 
     ninja -C output
-    ninja -C output install
+    muon -C output install
 )
 
 build_harfbuzz() (
     cd harfbuzz
+
+    patch -p1 < ../harfbuzz-muon.patch
 
 # harfbuzz-icu is basically harfbuzz with icu and glib enabled.
 # this avoids a new package for stuff that can already be enabled here, which
@@ -27,7 +29,7 @@ build_harfbuzz() (
 # further.
 kiss list icu  >/dev/null 2>&1 || icu_enabled=disabled
 
-    meson \
+    muon setup \
         -Dprefix=/usr \
         -Dpkg_config_path="$DESTDIR/usr/lib/pkgconfig" \
         -Ddefault_library=both \
@@ -39,10 +41,10 @@ kiss list icu  >/dev/null 2>&1 || icu_enabled=disabled
         -Dicu="${icu_enabled:-enabled}" \
         -Dtests=disabled \
         -Dintrospection=disabled \
-        . output
+         output
 
     ninja -C output
-    ninja -C output install
+    muon -C output install
 )
 
 # Point Freetype to the Harfbuzz files.
@@ -56,4 +58,4 @@ export CXXFLAGS="$CXXFLAGS -L$DESTDIR/usr/lib"
 
 build_freetype -Dharfbuzz=disabled
 build_harfbuzz
-build_freetype -Dharfbuzz=enabled  --reconfigure
+build_freetype -Dharfbuzz=enabled
