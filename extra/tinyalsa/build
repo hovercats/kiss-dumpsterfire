@@ -3,15 +3,15 @@
 #export LDFLAGS="$LDFLAGS --static"
 export DESTDIR="$1"
 
-meson \
-    --prefix=/usr \
+muon setup \
+    -Dprefix=/usr \
     -Ddocs=disabled \
     -Dexamples=disabled \
     -Ddefault_library=both \
-    . build
+    build
 
 ninja -C build
-ninja -C build install
+muon -C build install
 
 # copy missing header file
 cp -f include/tinyalsa/attributes.h "$1/usr/include/tinyalsa"
