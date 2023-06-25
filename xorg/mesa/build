@@ -12,12 +12,14 @@ mv -f _ meson.build
 # and enables it if present. ie: install glvnd, rebuild mesa.
 ! kiss list libglvnd >/dev/null 2>&1 || glvnd_enabled=true
 
-meson \
-    --prefix=/usr \
-    --sysconfdir=/etc \
-    --mandir=/usr/share/man \
-    --localstatedir=/var \
-    --buildtype=release \
+patch -p1 < no-llvm-rtti-check.patch
+
+muon setup \
+    -Dprefix=/usr \
+    -Dsysconfdir=/etc \
+    -Dmandir=/usr/share/man \
+    -Dlocalstatedir=/var \
+    -Dbuildtype=release \
     -Dglx-read-only-text=true \
     -Dplatforms=x11 \
     -Dglx=auto \
@@ -27,7 +29,7 @@ meson \
     -Dzstd=disabled \
     -Dvulkan-drivers='' \
     -Dglvnd="${glvnd_enabled:-false}" \
-    . output
+    output
 
 ninja -C output
-ninja -C output install
+muon -C output install
