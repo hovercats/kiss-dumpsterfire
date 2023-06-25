@@ -13,6 +13,9 @@ command -v muon > /dev/null || {
 muon setup \
       -Dprefix=/usr \
       -Ddocs=disabled \
+      -Dlibcurl=disabled \
+      -Dlibpkgconf=enabled \
+      -Dstatic=true \
       build
 
 ninja -C build
