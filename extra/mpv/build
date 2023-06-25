@@ -1,7 +1,7 @@
 #!/bin/sh -e
 
-meson \
-    --prefix=/usr \
+muon setup \
+    -Dprefix=/usr \
     -Dx11=enabled \
     -Dmanpage-build=enabled \
     -Degl=disabled \
@@ -10,10 +10,10 @@ meson \
     -Ddrm=disabled \
     -Dgbm=disabled \
     -Dstdatomic=disabled \
-    . build
+    build
 
 ninja -C build
-ninja -C build install
+muon -C build install
 
 # we probably dont need these
 rm -rf \

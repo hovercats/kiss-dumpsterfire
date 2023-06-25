@@ -8,7 +8,8 @@ libXrandr
 libass
 libxkbcommon
 linux-headers make
-meson make
+mesa
+muon  make
 pkgconf make
 python  make
 python-docutils make
