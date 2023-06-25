@@ -1,8 +1,8 @@
 #!/bin/sh -e
 
 # Set -Ddefault_library=both by default.
-sed "s/\(value: \)'static'/\1'both'/" src/script/builtin_options.meson > _
-mv -f _ src/script/builtin_options.meson
+sed "s/\(value: \)'static'/\1'both'/" src/script/per_project_options.meson > _
+mv -f _ src/script/per_project_options.meson
 
 command -v muon > /dev/null || {
       ./bootstrap.sh build
