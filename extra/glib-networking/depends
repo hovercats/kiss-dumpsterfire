@@ -1,5 +1,5 @@
 glib
 gnutls
-meson make
+muon make
 pkgconf make
 samurai make
