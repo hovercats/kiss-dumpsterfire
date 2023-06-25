@@ -1,5 +1,7 @@
 #!/bin/sh -e
 
+export DESTDIR="$1"
+
 # Set -Ddefault_library=both by default.
 sed "s/\(value: \)'static'/\1'both'/" src/script/per_project_options.meson > _
 mv -f _ src/script/per_project_options.meson
