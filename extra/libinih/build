@@ -1,0 +1,15 @@
+#!/bin/sh -e
+
+muon setup \
+    -Dprefix=/usr \
+    -Ddefault_library=static \
+    -Ddistro_install=true \
+    -Dwith_INIReader=true \
+    -Dmulti-line_entries=true \
+    -Dutf-8_bom=true \
+    -Dinline_comments=true \
+    -Duse_heap=false \
+    output
+
+ninja -C output
+muon -C output install

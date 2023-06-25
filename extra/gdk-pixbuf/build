@@ -1,0 +1,28 @@
+#!/bin/sh -e
+
+patch -p1 < muon.patch
+
+: > tests/meson.build
+: > po/meson.build
+
+export DESTDIR="$1"
+
+muon setup \
+    -Dprefix=/usr \
+    -Dsysconfdir=/etc \
+    -Dmandir=/usr/share/man \
+    -Ddebug=false \
+    -Djpeg=enabled \
+    -Dpng=enabled \
+    -Dtiff=disabled \
+    -Dgtk_doc=false \
+    -Dman=false \
+    -Dgio_sniffing=false \
+    -Dtests=false \
+    -Dinstalled_tests=false \
+    -Dbuiltin_loaders=all \
+    -Dwrap_mode=nofallback \
+    output
+
+ninja -C output
+muon -C output install

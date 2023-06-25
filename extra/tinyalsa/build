@@ -3,15 +3,35 @@
 #export LDFLAGS="$LDFLAGS --static"
 export DESTDIR="$1"
 
-meson \
-    --prefix=/usr \
+muon setup \
+    -Dprefix=/usr \
     -Ddocs=disabled \
     -Dexamples=disabled \
     -Ddefault_library=both \
-    . build
+    build
 
 ninja -C build
-ninja -C build install
+muon -C build install
 
-# copy missing header file
+# muon doesnt seem to install these for w/e reason
+mkdir -p \
+	"$1/usr/share/man/man1" \
+	"$1/usr/lib/pkgconig"
+
+cp -f \
+  build/utils/tinymix \
+  build/utils/tinypcminfo \
+  "$1/usr/bin" 
+
+# fix missing manpages
+cp -f \
+  utils/tinymix.1 \
+  utils/tinypcminfo.1 \
+  utils/tinyplay.1 \
+  "$1/usr/share/man/man1"
+
+# install missing pkgconf file
+cp -f build/muon-private/tinalsa.pc "$1/usr/lib/pkgconfig"
+
+# install missing header
 cp -f include/tinyalsa/attributes.h "$1/usr/include/tinyalsa"

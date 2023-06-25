@@ -1,0 +1,6 @@
+glib
+libX11
+libjpeg-turbo
+libpng
+muon   make
+pkgconf make
