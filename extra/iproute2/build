@@ -16,6 +16,11 @@ sed 's/YACC=bison/YACC=yacc/' configure > _
 mv -f _ configure
 chmod +x configure
 
+# fix missing included header making the build fail
+sed 's/\#include <netdb.h>/\#include <netdb.h>\n#include <limits.h>/' bridge/mdb.c > _
+mv -f _ bridge/mdb.c
+
+
 ./configure \
     --include_dir=/usr/include
 
@@ -33,7 +38,7 @@ mv -f _ config.mk
 make KERNEL_INCLUDE=y
 
 mkdir -p \
-	"$1/usr/bin" \
+	"$2/usr/bin" \
 	"$1/usr/share/man/man8"
 
 for bin in ip bridge; do
