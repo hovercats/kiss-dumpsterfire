@@ -10,7 +10,7 @@ export PATH="$PATH:$PWD"
 
 ./configure \
     --prefix=/usr \
-    --with-lib-path=/usr/lib:/usr/local/lib \
+    --with-lib-path=/usr/lib \
     --enable-targets=x86_64-pep \
     --enable-deterministic-archives \
     --enable-lto \
