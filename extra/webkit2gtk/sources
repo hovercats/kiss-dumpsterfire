@@ -1,3 +1,2 @@
 https://webkitgtk.org/releases/webkitgtk-VERSION.tar.xz
 patches/initial-exec.patch
-patches/Fix-build-of-SourceBrush.cpp.patch
