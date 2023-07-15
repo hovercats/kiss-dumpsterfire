@@ -1,7 +1,8 @@
 #!/bin/sh -e
 
-patch -p1 < 0001-Avoid-multiple-definitions-of-global-variables.patch
-patch -p1 < 0002-Use-proc-self-fd-0-instead-of-dev-fd-0.patch
+for p in *.patch; do
+	patch -p1 < "$p"
+done
 
 # remove readline dependency
 sed -e 's/-lreadline/-static/' \
