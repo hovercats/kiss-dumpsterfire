@@ -4,8 +4,12 @@ for p in *.patch; do
 	patch -p1 < "$p"
 done
 
+# set -static flag manually, because it doesnt work otherwise
+sed 's/-lreadline/-lreadline -static/' Make.Linux > _
+mv -f _ Make.Linux
+
 # remove readline dependency
-sed -e 's/-lreadline/-static/' \
+sed -e 's/-lreadline //' \
 	-e 's/PROMPT=readline/PROMPT=null/' Make.Linux > _
 mv -f _ Make.Linux
 
