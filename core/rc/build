@@ -13,6 +13,10 @@ sed -e 's/-lreadline //' \
 	-e 's/PROMPT=readline/PROMPT=null/' Make.Linux > _
 mv -f _ Make.Linux
 
+# remove debug flag
+sed 's/-g//' Make.Linux > _
+mv _ Make.Linux
+
 # some strange issue with rc not detecting rcmain file.
 sed 's/usr\/local/usr/' Make.Linux > _
 mv -f _ Make.Linux
