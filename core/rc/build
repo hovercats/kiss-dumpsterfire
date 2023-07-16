@@ -13,7 +13,11 @@ mv -f _ Make.Linux
 sed 's/usr\/local/usr/' Make.Linux > _
 mv -f _ Make.Linux
 
-make 
+# respect compiler flags
+sed -e 's/CFLAGS=/CFLAGS+=/' -e 's/LDFLAGS=/LDFLAGS+=/' Make.Linux > _
+mv -f _ Make.Linux
+
+make
 
 mkdir -p \
     "$1/usr/bin" \
