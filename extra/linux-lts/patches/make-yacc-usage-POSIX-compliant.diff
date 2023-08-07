@@ -1,16 +1,3 @@
-diff --git a/Makefile b/Makefile
-index cd5ff4094..154edf91e 100644
---- a/Makefile
-+++ b/Makefile
-@@ -472,7 +472,7 @@ endif
- PAHOLE		= pahole
- RESOLVE_BTFIDS	= $(objtree)/tools/bpf/resolve_btfids/resolve_btfids
- LEX		= flex
--YACC		= bison
-+YACC		= yacc
- AWK		= awk
- INSTALLKERNEL  := installkernel
- DEPMOD		= depmod
 diff --git a/scripts/Makefile.host b/scripts/Makefile.host
 index 278b4d6ac..4f3fa7756 100644
 --- a/scripts/Makefile.host
