@@ -1,4 +1,0 @@
-https://busybox.net/downloads/busybox-VERSION.tar.bz2
-patches/CVE-2022-28391.patch patch
-patches/print-unicode.patch patch
-files/.config
