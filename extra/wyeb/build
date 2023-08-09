@@ -1,7 +1,0 @@
-#!/bin/sh -e
-
-sed 's/4.0/4.1/' makefile > _
-mv -f _ makefile
-
-make PREFIX=/usr
-make PREFIX=/usr install
