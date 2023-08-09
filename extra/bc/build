@@ -14,5 +14,5 @@ export PATH="$PATH:$PWD"
     --prefix=/usr \
     --mandir=/usr/share/man
 
-make -j1
+make
 make DESTDIR="$1" install
