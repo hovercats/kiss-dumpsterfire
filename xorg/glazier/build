@@ -11,7 +11,7 @@ make
 )
 
 make
-make PREFIX=/usr install
+make DESTDIR="$1" PREFIX=/usr install
 
 # install manpage
 mkdir -p "$1/usr/share/man/man1"

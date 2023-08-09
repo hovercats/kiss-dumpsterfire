@@ -11,7 +11,7 @@ export XSERVERLIBS_LIBS="/usr/lib/*.a -lz -lfreetype -lpng16 -lharfbuzz"
   --disable-xdm-auth-1
 
 make
-make install
+make DESTDIR="$1" install
 
 chmod u+s "$1/usr/bin/Xfbdev"
 

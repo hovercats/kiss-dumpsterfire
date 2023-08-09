@@ -3,4 +3,4 @@
 export LDFLAGS="$LDFLAGS -static -lX11 -lxcb -lXau"
 
 make
-make  install
+make DESTDIR="$1" install

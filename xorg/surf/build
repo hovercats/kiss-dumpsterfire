@@ -7,4 +7,4 @@ if pkg-config --exists webkit2gtk-4.1; then
 fi
 
 make
-make PREFIX=/usr install
+make DESTDIR="$1" PREFIX=/usr install

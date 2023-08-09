@@ -3,4 +3,4 @@
 export LDFLAGS="$LDFLAGS -static -lxcb -lXau"
 
 make
-make PREFIX=/usr install
+make DESTDIR="$1" PREFIX=/usr install
