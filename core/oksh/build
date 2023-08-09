@@ -8,6 +8,7 @@ export CFLAGS="$CFLAGS -DSMALL"
     --enable-ksh \
     --enable-lto \
     --no-thanks \
+    --enable-small \
     --enable-static
 
 make
