@@ -10,7 +10,7 @@
         --enable-static
 
     make
-    make install
+    make DESTDIR="$1" install
 )
 
 # Build rtorrent
@@ -23,4 +23,4 @@ export DEPENDENCIES_LIBS=" -ltorrent "
     --prefix=/usr
 
 make
-make install
+make DESTDIR="$1" install

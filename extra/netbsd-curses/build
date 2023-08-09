@@ -5,7 +5,7 @@ export LDFLAGS="$LDFLAGS --static"
 patch -p1 < prevent-clobbering.patch
 
 make all-static 
-make  PREFIX=/usr install-static
+make  DESTDIR="$1" PREFIX=/usr install-static
 
 # clear is provided by ubase
 rm -rf \

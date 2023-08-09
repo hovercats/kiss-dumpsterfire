@@ -27,7 +27,7 @@ export LDFLAGS="$LDFLAGS -fno-semantic-interposition"
     ax_cv_c_float_words_bigendian=no
 
 make EXTRA_CFLAGS="$CFLAGS -DTHREAD_STACK_SIZE=0x100000"
-make install
+make DESTDIR="$1" install
 
 ln -s python3 "$1/usr/bin/python"
 ln -s pip3    "$1/usr/bin/pip"

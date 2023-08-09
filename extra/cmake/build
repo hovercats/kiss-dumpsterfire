@@ -1,5 +1,7 @@
 #!/bin/sh -e
 
+export DESTDIR="$1"
+
 # stolen from sabotage linux. should fix linking issues with static netbsd-curses libs
 sed 's,curses_version,baudrate,' Source/Checks/Curses/CheckCurses.c > _
 mv -f _ Source/Checks/Curses/CheckCurses.c

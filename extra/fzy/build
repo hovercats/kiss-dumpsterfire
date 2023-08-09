@@ -1,6 +1,6 @@
 #!/bin/sh -e
 
 make CFLAGS="$CFLAGS -static"
-make PREFIX=/usr install
+make DESTDIR="$1" PREFIX=/usr install
 
 ln -s fzy "$1/usr/bin/fzf"

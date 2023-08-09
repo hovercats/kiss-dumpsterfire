@@ -5,4 +5,5 @@ make \
     PREFIX=/usr \
     BINOWN="$(id -u)" \
     BINGRP="$(id -g)" \
+    DESTDIR="$1" \
     install

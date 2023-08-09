@@ -19,6 +19,6 @@ export CFLAGS="$CFLAGS -ffunction-sections -fdata-sections"
     --enable-static
    
 make MULTI=1
-make MULTI=1 install
+make DESTDIR="$1" MULTI=1 install
 
 ln -sf dropbearmulti dbclient "$1/usr/bin/ssh"

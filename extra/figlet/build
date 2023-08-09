@@ -9,4 +9,4 @@ sed 's|/usr/local|/usr|' Makefile > _
 mv -f _ Makefile
 
 make figlet 
-make install
+make DESTDIR="$1" install

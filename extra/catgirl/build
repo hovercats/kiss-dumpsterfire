@@ -10,4 +10,4 @@ done
     --prefix=/usr \
     --mandir=/usr/share/man
 
-make install
+make DESTDIR="$1" install

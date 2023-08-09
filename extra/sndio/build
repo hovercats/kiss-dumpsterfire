@@ -14,7 +14,7 @@ mv -f _ Makefile.in
     --disable-alsa
 
 make LDFLAGS="$LDFLAGS -ltinyalsa"
-make install
+make DESTDIR="$1" install
 
 patch -p1 < 0005-static-lib.patch
 
@@ -23,7 +23,7 @@ patch -p1 < 0005-static-lib.patch
     --disable-alsa
 
 make LDFLAGS="$LDFLAGS -ltinyalsa"
-make install
+make DESTDIR="$1" install
 
 mkdir -p "$1/etc/svc.d/avail"
 cp -f sndiod.run "$1/etc/svc.d/avail/sndiod"

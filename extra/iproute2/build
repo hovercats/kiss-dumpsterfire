@@ -35,7 +35,7 @@ done
 sed '/LDLIBS/d' config.mk > _
 mv -f _ config.mk
 
-make KERNEL_INCLUDE=y
+make DESTDIR="$1" KERNEL_INCLUDE=y
 
 mkdir -p \
 	"$2/usr/bin" \
