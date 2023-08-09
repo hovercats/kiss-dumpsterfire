@@ -1,8 +1,8 @@
 #!/bin/sh -e
 
 export DESTDIR="$1"
-export CFLAGS="$CFLAGS -fPIC"
 export CFLAGS="$CFLAGS \
+	-fPIC \
     -DNDEBUG \
     -DFZ_ENABLE_JS=0 \
     -DFZ_ENABLE_JPX=0 \
