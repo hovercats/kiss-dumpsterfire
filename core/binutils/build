@@ -1,5 +1,7 @@
 #!/bin/sh -e
 
+export DESTDIR="$1"
+
 cat > makeinfo <<EOF
 #!/bin/sh
 printf 'makeinfo (GNU texinfo) 5.2\n'

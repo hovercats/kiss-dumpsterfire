@@ -6,7 +6,7 @@
     --enable-thread-safe
 
 make
-make install
+make DESTDIR="$1" install
 
 # shellcheck disable=SC2115
 rm -rf "$1/usr/share/"
