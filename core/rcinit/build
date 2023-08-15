@@ -3,6 +3,7 @@
 make DESTDIR="$1" PREFIX=/usr install
 
 chmod 755 shutdown
+
 cp -f shutdown "$1/usr/bin"
 
-ln -sf rcinit "$1/usr/bin/init"
+ln -sf rcinit  "$1/usr/bin/init"

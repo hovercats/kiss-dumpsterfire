@@ -21,7 +21,6 @@ case $2 in "$gcc_version"*)
     bootstrap=--disable-bootstrap
 esac
 
-# first build gcc regularly
 ../configure \
     libat_cv_have_ifunc=no \
     --prefix=/usr \

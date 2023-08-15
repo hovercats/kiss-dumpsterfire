@@ -10,5 +10,6 @@ mkdir -p \
 
 make
 
+# Makefile doesnt have a install option
 cp a.out "$1/usr/bin/awk"
 cp awk.1 "$1/usr/share/man/man1"

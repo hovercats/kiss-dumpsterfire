@@ -13,6 +13,6 @@ make
 make
 make DESTDIR="$1" PREFIX=/usr install
 
-# install manpage
-mkdir -p "$1/usr/share/man/man1"
+# Makefile doesnt install manpages
+mkdir -p     "$1/usr/share/man/man1"
 cp glazier.1 "$1/usr/share/man/man1"

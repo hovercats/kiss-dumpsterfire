@@ -35,6 +35,6 @@ mkdir -p \
 chmod 755 rc
 chmod 644 rc.1 rcmain.unix
 
-cp -f rc "$1/usr/bin"
+cp -f rc          "$1/usr/bin"
 cp -f rcmain.unix "$1/usr/lib/rcmain"
-cp -f rc.1 "$1/usr/share/man/man1"
+cp -f rc.1        "$1/usr/share/man/man1"

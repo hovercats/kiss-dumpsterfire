@@ -2,6 +2,6 @@
 
 make DESTDIR="$1" PREFIX=/usr install
 
-mkdir -p "$1/etc/svc.d/avail"
 chmod +x getty*
+mkdir -p     "$1/etc/svc.d/avail"
 cp -f getty* "$1/etc/svc.d/avail"
