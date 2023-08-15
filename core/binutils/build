@@ -15,9 +15,9 @@ export PATH="$PATH:$PWD"
     --with-lib-path=/usr/lib \
     --enable-targets=x86_64-pep \
     --enable-deterministic-archives \
-    --enable-lto \
     --enable-ld=default \
     --enable-plugins \
+    --disable-lto \
     --disable-multilib \
     --disable-werror \
     --disable-gdb \
