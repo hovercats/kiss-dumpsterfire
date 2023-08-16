@@ -1,5 +1,5 @@
-bc make
-byacc make
-libelf make
+bc             make
+byacc          make
+libelf         make
 linux-firmware make
-linux-headers make
+linux-headers  make
