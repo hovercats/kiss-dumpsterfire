@@ -31,8 +31,7 @@ else
         --system-zlib \
         --system-bzip2 \
         --parallel="$(grep -scF 'core id' /proc/cpuinfo)" -- \
-        -DBUILD_CursesDialog=OFF \
-        --no-system-nghttp2 
+        -DBUILD_CursesDialog=OFF
 
     make
     make install
