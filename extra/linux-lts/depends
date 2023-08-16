@@ -1,3 +1,4 @@
+bc make
 byacc make
 libelf make
 linux-firmware make
