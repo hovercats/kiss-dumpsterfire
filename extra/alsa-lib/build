@@ -3,8 +3,8 @@
 # this should be fixed
 # build once with shared libs
 ./configure \
-    --prefix=/usr 
-    --without-debug \
+    --prefix=/usr \
+    --without-debug
 
 make
 make DESTDIR="$1" install
