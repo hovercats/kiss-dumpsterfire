@@ -1,6 +1,7 @@
 #!/bin/sh -e
 
-export CFLAGS="$CFLAGS -static"
+export CFLAGS="$CFLAGS -fPIE"
+export LDFLAGS="$LDFLAGS -static-pie"
 
 ./configure \
     --prefix=/usr
