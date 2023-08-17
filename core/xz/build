@@ -6,5 +6,5 @@
     --disable-nls \
     --disable-shared
 
-make LDFLAGS="$LDFLAGS --static"
+make LDFLAGS="$LDFLAGS -static-pie" CFLAGS="$CFLAGS -fPIE"
 make DESTDIR="$1" install
