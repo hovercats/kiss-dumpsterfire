@@ -1,15 +1,14 @@
 #!/bin/sh -e
 
-for p in *.patch; do
-	patch -p1 < "$p"
-done
+make \
+	HOSTCC=cc \
+	CFLAGS="$CFLAGS $LDFLAGS -static-pie -fPIE" \
+	YACC='yacc -d -b awkgram'
 
+# Makefile doesnt have a install option
 mkdir -p \
   "$1/usr/bin/" \
   "$1/usr/share/man/man1"
 
-make
-
-# Makefile doesnt have a install option
 cp a.out "$1/usr/bin/awk"
 cp awk.1 "$1/usr/share/man/man1"
