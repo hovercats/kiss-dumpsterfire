@@ -1,6 +1,7 @@
 #!/bin/sh -e
 
-export CFLAGS="$CFLAGS -DSMALL"
+export CFLAGS="$CFLAGS -DSMALL -fPIE"
+export LDFLAGS="$LDFLAGS -static-pie"
 
 ./configure \
     --prefix=/usr \
@@ -8,8 +9,7 @@ export CFLAGS="$CFLAGS -DSMALL"
     --enable-ksh \
     --enable-lto \
     --no-thanks \
-    --enable-small \
-    --enable-static
+    --enable-small
 
 make
 make DESTDIR="$1" install
