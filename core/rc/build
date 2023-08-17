@@ -5,7 +5,7 @@ for p in *.patch; do
 done
 
 # set -static-pie flag manually, because it doesnt work otherwise
-sed 's/-lreadline/-lreadline -static-pie/' Make.Linux > _
+sed 's/-lreadline/-lreadline -s -static-pie/' Make.Linux > _
 mv -f _ Make.Linux
 
 # remove readline dependency
