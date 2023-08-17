@@ -14,5 +14,5 @@ sed -e '/getconf\\/d' \
 	Makefile > _
 mv -f _ Makefile
 
-make LDFLAGS="$LDFLAGS -static" sbase-box
+make LDFLAGS="$LDFLAGS -static-pie" CFLAGS="$CFLAGS -fPIE" sbase-box
 make DESTDIR="$1" PREFIX=/usr   sbase-box-install
