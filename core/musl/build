@@ -22,6 +22,5 @@ ln -sf libc.so "$1/usr/lib/ld-musl-x86_64.so.1"
 cp -f cdefs.h queue.h tree.h \
     "$1/usr/include/sys"
 
-# Install getconf.
-cc -static getconf.c -o "$1/usr/bin/getconf"
+# Install getent.
 cc -static getent.c  -o "$1/usr/bin/getent"

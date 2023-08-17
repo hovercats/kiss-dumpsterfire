@@ -4,8 +4,7 @@ patch -p1 < cp-dont-check-symlinks.patch
 
 # getconf, tar and strings is provided elsewhere.
 # also remove other unneeded utilities
-sed -e '/getconf\\/d' \
-	-e '/strings\\/d' \
+sed -e '/strings\\/d' \
 	-e '/tar\\/d' \
 	-e '/sha224sum\\/d' \
 	-e '/sha384sum\\/d' \
