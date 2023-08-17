@@ -17,10 +17,10 @@ BIN      += nc
 MAN      += usr.bin/nc/nc.1
 ZLIB      = -lz
 LIBOBJ   += lib/libc/gen/fts.o
-CFLAGS   += -DHAVE_LESS_T
+CFLAGS   += -DHAVE_LESS_T -fPIE
 EOF
 
-make pax patch diff LDFLAGS="$LDFLAGS -static-pie" CFLAGS="$CFLAGS -fPIE"
+make pax patch diff LDFLAGS="$LDFLAGS -static-pie"
 
 # Bypass makefile to make sure everything is in order
 chmod 755 diff patch pax
