@@ -20,7 +20,7 @@ LIBOBJ   += lib/libc/gen/fts.o
 CFLAGS   += -DHAVE_LESS_T
 EOF
 
-make pax patch diff LDFLAGS="$LDFLAGS -static"
+make pax patch diff LDFLAGS="$LDFLAGS -static-pie" CFLAGS="$CFLAGS -fPIE"
 
 # Bypass makefile to make sure everything is in order
 chmod 755 diff patch pax
