@@ -1,6 +1,7 @@
 #!/bin/sh -e
 
-export LDFLAGS="$LDFLAGS -static"
+export LDFLAGS="$LDFLAGS -static-pie"
+export CFLAGS-"$CFLAGS -fPIE"
 
 cat > config.mak <<EOF
 NO_GETTEXT=YesPlease
