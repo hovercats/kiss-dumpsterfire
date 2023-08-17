@@ -1,5 +1,8 @@
 #!/bin/sh -e
 
+export CFLAGS="$CFLAGS -fPIE"
+export LDFLAGS="$LDFLAGS -static-pie"
+
 for p in *.patch; do
 	patch -p1 < "$p"
 done
