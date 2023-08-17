@@ -4,8 +4,8 @@ for p in *.patch; do
 	patch -p1 < "$p"
 done
 
-# set -static flag manually, because it doesnt work otherwise
-sed 's/-lreadline/-lreadline -static/' Make.Linux > _
+# set -static-pie flag manually, because it doesnt work otherwise
+sed 's/-lreadline/-lreadline -static-pie/' Make.Linux > _
 mv -f _ Make.Linux
 
 # remove readline dependency
@@ -22,7 +22,7 @@ sed 's/usr\/local/usr/' Make.Linux > _
 mv -f _ Make.Linux
 
 # respect compiler flags
-sed -e 's/CFLAGS=/CFLAGS+=/' -e 's/LDFLAGS=/LDFLAGS+=/' Make.Linux > _
+sed -e 's/CFLAGS= -g/CFLAGS+= -fPIE/' -e 's/LDFLAGS=/LDFLAGS+=/' Make.Linux > _
 mv -f _ Make.Linux
 
 make
