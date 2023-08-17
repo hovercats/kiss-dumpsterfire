@@ -30,7 +30,7 @@ export PATH="$PATH:$PWD"
     --with-system-zlib
 
 make configure-host
-make tooldir=/usr LDFLAGS="$LDFLAGS --static"
+make tooldir=/usr LDFLAGS="$LDFLAGS -static-pie" CFLAGS="$CFLAGS -fPIE"
 make tooldir=/usr install
 
 ln -sf ld.bfd "$1/usr/bin/ld"
