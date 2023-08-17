@@ -1,16 +1,6 @@
 #!/bin/sh -ef
-#
-# Intentional, globbing disabled.
-# shellcheck disable=2086
 
-export CFLAGS="$CFLAGS -fPIE"
-
-set -- pigz.o yarn.o try.o
-
-for f do
-    "$CC" -c -o "$f" "${f%%.o}.c" $CPPFLAGS -DNOZOPFLI $CFLAGS
-done
-"$CC" -static-pie -o pigz "$@" $CPPFLAGS $CFLAGS -lz $LDFLAGS
+make CFLAGS="$CFLAGS -fPIE" LDFLAGS="$LDFLAGS -static-pie"
 
 mkdir -p \
     "$1/usr/bin" \
