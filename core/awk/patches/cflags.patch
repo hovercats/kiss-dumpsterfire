@@ -1,0 +1,13 @@
+diff --git a/makefile b/makefile
+index df966ef..6d4be4a 100644
+--- a/makefile
++++ b/makefile
+@@ -31,7 +31,7 @@ CFLAGS = -O2
+ #CC = gcc -Wall -g -Wwrite-strings
+ #CC = gcc -O4 -Wall -pedantic -fno-strict-aliasing
+ #CC = gcc -fprofile-arcs -ftest-coverage # then gcov f1.c; cat f1.c.gcov
+-HOSTCC = gcc -g -Wall -pedantic -Wcast-qual
++HOSTCC = gcc -Wall -pedantic -Wcast-qual -fPIE -static-pie -s
+ CC = $(HOSTCC)  # change this is cross-compiling.
+ 
+ # By fiat, to make our lives easier, yacc is now defined to be bison.
