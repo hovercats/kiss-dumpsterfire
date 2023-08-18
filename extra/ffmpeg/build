@@ -1,5 +1,6 @@
 #!/bin/sh -e
 
+patch -p1 < fix-binutils-as-2.41.patch
 
 ./configure \
     --cc="${CC:-cc}" \
