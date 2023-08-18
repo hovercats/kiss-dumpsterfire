@@ -1,4 +1,4 @@
-#!/bin/sh -ef
+#!/bin/sh -e
 
 make CFLAGS="$CFLAGS -fPIE" LDFLAGS="$LDFLAGS -static-pie"
 
