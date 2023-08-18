@@ -5,7 +5,7 @@
     --program-prefix=b \
     --enable-btyacc
 
-make LDFLAGS="$LDFLAGS -static-pie" CFLAGS="$CFLAGS -fPIE"
+make LDFLAGS="$LDFLAGS -static"
 make DESTDIR="$1" install
 
 # Symlink to yacc
