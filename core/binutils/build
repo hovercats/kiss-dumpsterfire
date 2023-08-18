@@ -17,7 +17,7 @@ export PATH="$PATH:$PWD"
     --enable-deterministic-archives \
     --enable-ld=default \
     --enable-plugins \
-    --enable-lto \
+    --disable-lto \
     --disable-multilib \
     --disable-werror \
     --disable-gdb \
