@@ -1,4 +1,0 @@
-inih make
-userspace-rcu make
-linux-headers make
-util-linux make
