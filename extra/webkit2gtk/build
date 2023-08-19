@@ -98,6 +98,7 @@ mk() {
         -DUSE_LCMS=OFF \
         -DENABLE_WAYLAND_TARGET=OFF \
         -DUSE_AVIF=OFF \
+        -DENABLE_PDFJS=OFF \
         -Wno-dev
 
     cmake --build build
