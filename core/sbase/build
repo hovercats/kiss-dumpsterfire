@@ -2,7 +2,7 @@
 
 patch -p1 < cp-dont-check-symlinks.patch
 
-# getconf, tar and strings is provided elsewhere.
+# tar and strings is provided elsewhere.
 # also remove other unneeded utilities
 sed -e '/strings\\/d' \
 	-e '/tar\\/d' \
