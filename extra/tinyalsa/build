@@ -1,13 +1,13 @@
 #!/bin/sh -e
 
-#export LDFLAGS="$LDFLAGS --static"
+export LDFLAGS="$LDFLAGS --static"
 export DESTDIR="$1"
 
 meson \
-    --prefix=/usr \
+    -Dprefix=/usr \
     -Ddocs=disabled \
     -Dexamples=disabled \
-    -Ddefault_library=both \
+    -Ddefault_library=static \
     . build
 
 ninja -C build
