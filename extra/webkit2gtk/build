@@ -29,6 +29,7 @@ fi
 # fix unsupported -n flag for sbase ln
 sed 's/ln -sfh/ln -sf/g' Source/WebCore/Scripts/generate-derived-sources.sh > _
 mv -f _ Source/WebCore/Scripts/generate-derived-sources.sh
+chmod 755 Source/WebCore/Scripts/generate-derived-sources.sh
 
 sed 's/ln -n -s -f/ln -sf/g' Source/JavaScriptCore/GLib.cmake > _
 mv -f _ Source/JavaScriptCore/GLib.cmake
