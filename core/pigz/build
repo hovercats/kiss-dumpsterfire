@@ -1,6 +1,6 @@
 #!/bin/sh -e
 
-make CFLAGS="$CFLAGS -fPIE" LDFLAGS="$LDFLAGS -static-pie"
+make CFLAGS="$CFLAGS" LDFLAGS="$LDFLAGS -static" pigz
 
 mkdir -p \
     "$1/usr/bin" \
