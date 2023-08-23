@@ -57,7 +57,9 @@ mv -f _ Source/JavaScriptCore/jsc.cpp
 
 # Webkit's CMake configuration forces color output using clang-specific flags
 # when using Ninja as the CMAKE_GENERATOR. We should disable them.
-sed "s/-fcolor-diagnostics//" Source/cmake/WebKitCompilerFlags.cmake > _
+sed -e "s/-fcolor-diagnostics//"  \
+	-e "s/-fdiagnostics-color=always/-fdiagnostics-color=never/" \
+	Source/cmake/WebKitCompilerFlags.cmake > _
 mv -f _ Source/cmake/WebKitCompilerFlags.cmake
 
 # Reduce memory usage.
