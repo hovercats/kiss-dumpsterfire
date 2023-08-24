@@ -1,6 +1,6 @@
 #!/bin/sh -e
 
-export LDFLAGS="$LDFLAGS  -static"
+export LDFLAGS="$LDFLAGS  --static"
 
 # Use lib not lib64 by default.
 sed '/m64=/s/lib64/lib/' gcc/config/i386/t-linux64 > _
