@@ -1,5 +1,9 @@
 #!/bin/sh -e
 
+for p in *.patch; do
+	patch -p1 < "$p"
+done
+
 # uncomment everything here to build it statically
 sed 's/--libs fontconfig/--libs --static fontconfig/' config.mk > _
 mv -f _ config.mk 
