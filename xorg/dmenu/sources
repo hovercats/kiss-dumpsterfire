@@ -1,1 +1,4 @@
-git+https://github.com/hovercats/dmenu
+https://dl.suckless.org/tools/dmenu-5.2.tar.gz
+patches/0001-apply-center-patch.patch
+patches/0002-add-border-patch.patch
+patches/0003-change-colorscheme.patch
