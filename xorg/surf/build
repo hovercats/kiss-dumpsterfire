@@ -1,5 +1,9 @@
 #!/bin/sh -e
 
+for p in *.patch; do
+	patch -p1 < "$p"
+done
+
 # switch webkit version to 4.1, if libsoup3 were used to build webkit
 if pkg-config --exists webkit2gtk-4.1; then
     sed 's/4.0/4.1/g' config.mk > _
