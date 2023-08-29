@@ -1,1 +1,2 @@
 https://gstreamer.freedesktop.org/src/gstreamer/gstreamer-VERSION.tar.xz
+patches/byacc.patch

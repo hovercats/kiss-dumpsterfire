@@ -2,6 +2,11 @@
 
 export DESTDIR="$1"
 
+# avoid bison
+patch -p1 < byacc.patch
+sed '/^args/{s/yfile,//;s/cfile/cfile, yfile/;}' gst/parse/gen_grammar.py.in > _
+mv -f _ gst/parse/gen_grammar.py.in
+
 meson \
     --prefix=/usr \
     --libexecdir=/usr/lib \
