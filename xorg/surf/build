@@ -4,11 +4,9 @@ for p in *.patch; do
 	patch -p1 < "$p"
 done
 
-# switch webkit version to 4.1, if libsoup3 were used to build webkit
-if pkg-config --exists webkit2gtk-4.1; then
-    sed 's/4.0/4.1/g' config.mk > _
-    mv -f _ config.mk
-fi
+# force use webkit 4.1
+sed 's/4.0/4.1/g' config.mk > _
+mv -f _ config.mk
 
 make
 make DESTDIR="$1" PREFIX=/usr install
