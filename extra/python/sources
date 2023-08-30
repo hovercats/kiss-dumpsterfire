@@ -1,4 +1,4 @@
-https://python.org/ftp/python/3.11.4/Python-3.11.4.tar.xz
+https://python.org/ftp/python/3.11.5/Python-3.11.5.tar.xz
 https://bootstrap.pypa.io/get-pip.py
 patches/libressl-support.patch
 patches/python3-always-pip.patch
