@@ -9,6 +9,7 @@
     --without-selinux \
     --with-privsep-user=nobody \
     --with-mantype=doc \
+    --without-zlib-version-check \
     --without-rpath \
     --disable-strip \
     --with-ssl-engine \
