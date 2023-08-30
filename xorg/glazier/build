@@ -10,6 +10,10 @@ export LDFLAGS="$LDFLAGS -L/."
 make
 )
 
+# change bordercolor
+sed 's/deadca7/836421/' config.def.h > _
+mv _ config.def.h
+
 make
 make DESTDIR="$1" PREFIX=/usr install
 
