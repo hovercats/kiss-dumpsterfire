@@ -13,6 +13,7 @@ meson setup \
     -Dcdparanoia=disabled \
     -Dintrospection=disabled \
     -Dalsa=enabled \
+    -Db_colorout=never \
     output
 
 ninja -C output
