@@ -12,6 +12,7 @@ meson setup \
     -Dexamples=disabled \
     -Dcdparanoia=disabled \
     -Dintrospection=disabled \
+    -Dnls=disabled \
     -Dalsa=enabled \
     -Db_colorout=never \
     output
