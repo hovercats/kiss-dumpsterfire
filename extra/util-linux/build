@@ -1,42 +1,51 @@
 #!/bin/sh -e
 
-export DESTDIR="$1"
-
+# Only build libuuid 
 ./configure \
+    --build=x86_64-unknown-linux-musl \
     --prefix=/usr \
     --localstatedir=/var \
     --bindir=/usr/bin \
     --sbindir=/usr/bin \
     --libdir=/usr/lib \
-    --enable-libuuid \
-    --enable-libblkid \
-    --disable-fsck \
-    --disable-mount \
-    --disable-sulogin \
-    --disable-su \
-    --disable-kill \
-    --disable-rfkill \
-    --disable-minix \
-    --disable-bfs \
-    --disable-cramfs \
-    --disable-swapon \
-    --disable-makeinstall-chown \
+    --disable-all-programs \
     --disable-rpath \
-    --disable-pg-bell \
+    --disable-shared \
+    --enable-libuuid \
     --without-udev \
     --without-python \
+    --without-systemd \
     --without-ncursesw \
-    --without-ncurses \
-    --without-systemd
+    --without-ncurses
 
 make
-make install
+make DESTDIR="$1" install
 
-# Fix broken --sbindir.
-mv -f "$1/usr/sbin/"* "$1/usr/bin"
-rmdir "$1/usr/sbin"
+make clean
+./configure \
+    --build=x86_64-unknown-linux-musl \
+    --prefix=/usr \
+    --localstatedir=/var \
+    --bindir=/usr/bin \
+    --sbindir=/usr/bin \
+    --libdir=/usr/lib \
+    --disable-shared \
+    --disable-rpath \
+    --without-udev \
+    --without-python \
+    --without-systemd \
+    --without-ncursesw \
+    --without-ncurses
+
+make fdisk LDFLAGS="$LDFLAGS --static" 
+make lsblk LDFLAGS="$LDFLAGS --static" 
+
+chmod 755 fdisk lsblk
+cp -f fdisk lsblk "$1/usr/bin"
+cp -f disk-utils/fdisk.8 "$1/usr/share/man/man8"
+cp -f misc-utils/lsblk.8 "$1/usr/share/man/man8"
 
 rm -rf \
+    "$1/usr/sbin" \
     "$1/usr/share/doc" \
     "$1/usr/share/bash-completion"
-
