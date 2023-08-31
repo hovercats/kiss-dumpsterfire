@@ -1,5 +1,0 @@
-bison make
-flex make
-linux-firmware make
-libelf make
-m4 make

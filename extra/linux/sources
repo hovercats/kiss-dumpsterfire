@@ -1,6 +1,0 @@
-https://cdn.kernel.org/pub/linux/kernel/vMAJOR.x/linux-VERSION.tar.xz
-patches/make-yacc-usage-POSIX-compliant.diff 
-patches/no-perl.patch 
-patches/amdgpufb.patch
-patches/bash.patch
-files/.config 
