@@ -16,6 +16,7 @@ meson setup \
     -Dexamples=disabled \
     -Ddoc=disabled \
     -Db_colorout=never \
+    -Dtests=disabled \
     output
 
 ninja -C output
