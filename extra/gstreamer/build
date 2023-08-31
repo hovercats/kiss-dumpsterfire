@@ -7,15 +7,15 @@ patch -p1 < byacc.patch
 sed '/^args/{s/yfile,//;s/cfile/cfile, yfile/;}' gst/parse/gen_grammar.py.in > _
 mv -f _ gst/parse/gen_grammar.py.in
 
-meson \
-    --prefix=/usr \
-    --libexecdir=/usr/lib \
+meson setup \
+    -Dprefix=/usr \
+    -Dlibexecdir=/usr/lib \
     -Dbuildtype=release \
     -Ddbghelp=disabled \
     -Dintrospection=disabled \
     -Dexamples=disabled \
     -Ddoc=disabled \
-    . output
+    output
 
 ninja -C output
 ninja -C output install
