@@ -9,7 +9,7 @@ done
 export CCACHE_SLOPPINESS=time_macros,include_file_mtime
 
 # Enable streaming related options if gstreamer is installed.
-pkg-config --exists gst-plugins-base && streaming=ON
+pkg-config --exists gstreamer-play-1.0 && streaming=ON
 
 # Enable the use of openjpeg if the package is installed.
 pkg-config --exists openjpeg2 && jpeg=ON
