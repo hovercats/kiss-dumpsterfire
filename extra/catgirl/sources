@@ -1,4 +1,4 @@
-https://git.causal.agency/catgirl/snapshot/catgirl-VERSION.tar.gz
+https://git.causal.agency/catgirl/snapshot/catgirl-2.1.tar.gz
 patches/0001-Revert-Use-gnu-case-range-and-gnu-conditional-omitte.patch
 patches/0002-Break-out-of-input-loop-when-UI-is-hidden.patch
 patches/0003-Resize-status-window-explicitly-during-resize.patch

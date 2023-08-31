@@ -1,2 +1,2 @@
-https://ffmpeg.org/releases/ffmpeg-VERSION.tar.xz
+https://ffmpeg.org/releases/ffmpeg-6.0.tar.xz
 patches/fix-binutils-as-2.41.patch

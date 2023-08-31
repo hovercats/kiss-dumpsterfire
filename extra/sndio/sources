@@ -1,4 +1,4 @@
-https://sndio.org/sndio-VERSION.tar.gz
+https://sndio.org/sndio-1.9.0.tar.gz
 files/sndiod.run
 patches/0001-sndiod-Fix-build-without-DEBUG.patch
 patches/0002-aucat-Use-unsigned-char-for-wav_guid-to-prevent-over.patch

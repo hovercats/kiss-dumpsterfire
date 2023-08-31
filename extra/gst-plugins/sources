@@ -1,4 +1,4 @@
-https://gstreamer.freedesktop.org/src/gst-plugins-good/gst-plugins-good-VERSION.tar.xz good
-https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-VERSION.tar.xz bad
-https://gstreamer.freedesktop.org/src/gst-plugins-ugly/gst-plugins-ugly-VERSION.tar.xz ugly
-https://gstreamer.freedesktop.org/src/gst-libav/gst-libav-VERSION.tar.xz libav
+https://gstreamer.freedesktop.org/src/gst-plugins-good/gst-plugins-good-1.22.5.tar.xz good
+https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-1.22.5.tar.xz bad
+https://gstreamer.freedesktop.org/src/gst-plugins-ugly/gst-plugins-ugly-1.22.5.tar.xz ugly
+https://gstreamer.freedesktop.org/src/gst-libav/gst-libav-1.22.5.tar.xz libav
