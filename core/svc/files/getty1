@@ -1,6 +1,0 @@
-#!/bin/rc
-
-case -s
-	while(){
-	/sbin/getty /dev/tty1 linux
-	} &

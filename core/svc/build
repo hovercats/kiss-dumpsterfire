@@ -1,7 +1,0 @@
-#!/bin/sh -e
-
-make DESTDIR="$1" PREFIX=/usr install
-
-chmod +x getty*
-mkdir -p     "$1/etc/svc.d/avail"
-cp -f getty* "$1/etc/svc.d/avail"
