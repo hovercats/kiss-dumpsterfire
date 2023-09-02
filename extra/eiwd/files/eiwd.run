@@ -1,14 +1,12 @@
-#!/bin/sh
+#!/bin/rc
 
-case $1 in
-	-s)
-		exec iwd -d
-		;;
-	-k)
-		PID="$(pidof iwd)"
-		kill -9 "$PID"
-		;;
-	*)
-		echo "Usage: $0 -s|-k"
-		exit 1
-esac
+switch($1) {
+case -s
+	exec iwd -d
+case -k
+	PID=`{pidof iwd}
+	kill -9 $PID
+case *
+	printf 'Invalid argument\n'
+	printf 'Usage: s|k\n'
+}
