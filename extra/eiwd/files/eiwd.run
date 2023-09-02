@@ -8,5 +8,5 @@ case -k
 	kill -9 $PID
 case *
 	printf 'Invalid argument\n'
-	printf 'Usage: s|k\n'
+	printf 'Usage: -s|-k\n'
 }
