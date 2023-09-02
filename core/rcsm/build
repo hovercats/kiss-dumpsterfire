@@ -1,0 +1,10 @@
+#!/bin/sh -e
+
+mkdir -p \
+	 "$1/usr/bin" \
+	 "$1/etc/rcsm/avail"
+
+chmod 755 getty* rcsm
+
+cp -f rcsm "$1/usr/bin"
+cp -f getty* "$1/etc/rcsm/avail"
