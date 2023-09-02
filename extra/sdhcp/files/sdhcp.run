@@ -1,15 +1,13 @@
-#!/bin/sh -e
+#!/bin/rc
 
-case $1 in
-	-s)
-		sleep 2
-		exec sdhcp -f wlan0 1> /dev/null
-		;;
-	-k)
-		PID="$(pidof sdhcp)"
-		kill -9 "$PID"
-		;;
-	*)
-		echo "Usage: $0 -s|-k"
-		exit 1
-esac
+switch($1) {
+case -s
+	sleep 3
+	exec sdhcp -f wlan0
+case -k
+	PID=`{pidof sdhcp}
+	kill -9 $PID
+case *
+	printf 'Invalid argument\n'
+	printf 'Usage: s|k\n'
+}
