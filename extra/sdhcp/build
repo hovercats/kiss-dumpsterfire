@@ -11,5 +11,5 @@ mkdir -p \
 cp -f sdhcp "$1/usr/bin"
 cp -f sdhcp.1 "$1/usr/share/man/man1"
 
-mkdir -p "$1/etc/svc.d/avail"
-cp -f sdhcp.run "$1/etc/svc.d/avail/sdhcp"
+mkdir -p "$1/etc/rcsm/avail"
+cp -f sdhcp.run "$1/etc/rcsm/avail/sdhcp"
