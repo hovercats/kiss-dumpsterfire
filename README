@@ -5,14 +5,14 @@ This is my personal kiss-repo.
 
 It has several differences to upstream.
 Some key notes:
-	- rewritten init scripts in rc
-	- init has been replaced by rcinit[0], a small rc script
-	- rcsm[1] instead of runit
+	- init scripts written in rc
+	- busybox's init has been replaced by rcinit[0]
+	- rcsm[1] instead of busybox's runit
 	- prefer static linking whereever possible
 	- sbase/ubase instead of busybox
 	- libressl instead of openssl
 	- pax instead of tar
-	- tinyx instead of wayland or xorg
+	- tinyx instead of wayland or xorg-server
 
 
 links
