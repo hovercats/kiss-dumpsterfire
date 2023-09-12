@@ -6,6 +6,12 @@ sed -e 's/-keeptty//' \
 	sx > _
 mv -f _ sx
 
-mkdir -p "$1/usr/bin"
+mkdir -p \
+	"$1/usr/bin" \
+	"$1/usr/share/man/man1"
+
 chmod 755 sx
+chmod 655 sx.1
+
 cp -f sx "$1/usr/bin"
+cp -f sx.1 "$1/usr/share/man/man1"
