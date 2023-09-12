@@ -4,7 +4,8 @@ export CFLAGS="$CFLAGS -fPIE"
 export LDFLAGS="$LDFLAGS -static-pie"
 
 ./configure \
-    --prefix=/usr
+    --prefix=/usr \
+    --disable-nls
 
 make
 make DESTDIR="$1" install
