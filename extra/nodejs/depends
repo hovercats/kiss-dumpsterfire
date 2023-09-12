@@ -1,5 +1,0 @@
-libressl
-linux-headers make
-python        make
-samurai       make
-zlib		  make
