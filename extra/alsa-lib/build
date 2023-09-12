@@ -1,5 +1,7 @@
 #!/bin/sh -e
 
+patch -p1 < musl-string.patch
+
 # this should be fixed
 # build once with shared libs
 ./configure \
