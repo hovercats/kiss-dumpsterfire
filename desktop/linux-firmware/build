@@ -1,7 +1,0 @@
-#!/bin/sh -e
-
-mkdir -p \
-    "$1/usr/lib/firmware/amdgpu" \
-
-cp rt2870.bin "$1/usr/lib/firmware"
-cp amdgpu/tahiti* "$1/usr/lib/firmware/amdgpu"
