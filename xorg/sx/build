@@ -1,5 +1,11 @@
 #!/bin/sh -e
 
+# fix sx for tinyx
+sed -e 's/-keeptty//' \
+	-e 's/exec Xorg/exec Xfbdev/' \
+	sx > _
+mv -f _ sx
+
 mkdir -p "$1/usr/bin"
 chmod 755 sx
 cp -f sx "$1/usr/bin"
