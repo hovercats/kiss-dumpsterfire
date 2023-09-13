@@ -61,4 +61,5 @@ find "$1" -name libgjsmalsa.a -exec rm -f {} +
 find "$1" -name libgij.a      -exec rm -f {} +
 
 ln -sf gcc "$1/usr/bin/cc"
+ln -sf x86_64-linux-musl-gcc "$1/usr/bin/x86_64-linux-musl-cc"
 cp -f ../c99 "$1/usr/bin"
