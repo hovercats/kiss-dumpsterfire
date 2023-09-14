@@ -1,5 +1,7 @@
 #!/bin/sh -e
 
+patch -p1 < 0001-bump-to-7.3-using-oasis-patches.patch
+
 # Avoid pkgconf
 cat > config.mk <<EOF
 PREFIX    = /usr
