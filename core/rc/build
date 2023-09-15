@@ -4,36 +4,41 @@ for p in *.patch; do
 	patch -p1 < "$p"
 done
 
-# set -static-pie flag manually, because it doesnt work otherwise
-sed 's/-lreadline/-lreadline -s -static-pie/' Make.Linux > _
-mv -f _ Make.Linux
-
 # remove readline dependency
-sed -e 's/-lreadline //' \
-	-e 's/PROMPT=readline/PROMPT=null/' Make.Linux > _
+sed -e 's/-lreadline//' \
+	-e 's/PROMPT=readline/PROMPT=null/' \
+	Make.Linux > _
 mv -f _ Make.Linux
 
 # remove debug flag
 sed 's/-g//' Make.Linux > _
-mv _ Make.Linux
-
-# some strange issue with rc not detecting rcmain file.
-sed 's/usr\/local/usr/' Make.Linux > _
 mv -f _ Make.Linux
 
-# respect compiler flags
-sed -e 's/CFLAGS= -g/CFLAGS+= -fPIE/' -e 's/LDFLAGS=/LDFLAGS+=/' Make.Linux > _
+# fix prefix
+sed 's/\/local//' Make.Linux > _
+mv -f _ Make.Linux
+
+# use LDFLAGS instead of LFLAGS
+sed 's/LFLAGS/LDFLAGS/g' Make.Linux > _
+mv -f _ Make.Linux
+sed 's/LFLAGS/LDFLAGS/g' Makefile > _
+mv -f _ Makefile
+
+# set -static-pie manually, as it doesnt work otherwise
+sed -e 's/CFLAGS=/CFLAGS+=-fPIE/' \
+	-e 's/LDFLAGS=/LDFLAGS+=-static-pie/' \
+	Make.Linux > _
 mv -f _ Make.Linux
 
 make
 
 mkdir -p \
-    "$1/usr/bin" \
-    "$1/usr/lib" \
-    "$1/usr/share/man/man1"
+	"$1/usr/bin" \
+	"$1/usr/lib" \
+	"$1/usr/share/man/man1"
 
 chmod 755 rc
-chmod 644 rc.1 rcmain.unix
+chmod 655 rcmain.unix rc.1
 
 cp -f rc          "$1/usr/bin"
 cp -f rcmain.unix "$1/usr/lib/rcmain"
