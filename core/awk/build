@@ -1,14 +1,21 @@
 #!/bin/sh -e
 
-make \
-	HOSTCC=cc \
-	CFLAGS="$CFLAGS $LDFLAGS -static-pie -fPIE" \
-	YACC='yacc -d -b awkgram'
+export CFLAGS="$CFLAGS -fPIE "
+export LDFLAGS="$LDFLAGS -static-pie"
 
-# Makefile doesnt have a install option
+# avoid makefile because of issues
+yacc -d -b awkgram awkgram.y
+for p in awkgram.tab.c b.c main.c parse.c tran.c lib.c run.c lex.c; do
+	"${CC:-cc}" -c $CFLAGS "$p"
+done
+"${CC:-cc}" $CFLAGS maketab.c -o maketab
+./maketab awkgram.tab.h >proctab.c
+"${CC:-cc}" -c $CFLAGS proctab.c
+"${CC:-cc}" -o awk awkgram.tab.o b.o main.o parse.o proctab.o tran.o lib.o run.o lex.o -lm $LDFLAGS
+
 mkdir -p \
   "$1/usr/bin/" \
   "$1/usr/share/man/man1"
 
-cp a.out "$1/usr/bin/awk"
+cp awk "$1/usr/bin"
 cp awk.1 "$1/usr/share/man/man1"
