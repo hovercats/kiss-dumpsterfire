@@ -1,13 +1,12 @@
-#!/bin/sh
-case $1 in
-	-s)
-		exec sndiod -f snd/1
-		;;
-	-k)
-		PID="$(pidof sndiod)"
-		kill -9 "$PID"
-		;;
-	*)
-		echo "Usage: $0 -s|-k"
-		exit 1
-esac
+#!/bin/rc
+
+switch($1) {
+case -s 
+	exec sndiod -f snd/1
+case -k 
+	PID=`{pidof sndiod}
+	kill -9 $PID
+case *	
+	printf 'Invalid argument\n'
+	printf 'Usage: -s|-k\n'
+}
