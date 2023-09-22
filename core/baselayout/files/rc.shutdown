@@ -21,9 +21,9 @@ umount -a
 wait
 
 switch($1) {
-case poweroff
+case p
 	halt -p
-case reboot
+case r
 	halt -r
 }
 
