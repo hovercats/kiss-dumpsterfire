@@ -21,9 +21,9 @@ umount -a
 wait
 
 switch($1) {
-case p
+case -p
 	halt -p
-case r
+case -r
 	halt -r
 }
 
