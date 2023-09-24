@@ -1,14 +1,14 @@
 #!/bin/rc
 
-umask 022
+path=/bin
 
-mount -t proc none /proc
+umask 022
 
 mkdir -p /dev/pts
 mkdir -p /dev/shm
 
+mount -t proc none /proc
 mount -o remount,rw /
-
 mount -a
 
 /etc/rc.local
