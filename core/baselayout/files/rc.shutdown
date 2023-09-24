@@ -10,7 +10,6 @@ swapoff -a
 
 mount -o remount,ro /
 sync
-sleep 1
 
 umount -a
 
