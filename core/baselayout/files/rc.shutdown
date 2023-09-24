@@ -2,10 +2,6 @@
 
 path=/bin
 
-rcsm -k
-
-sleep 2
-
 killall5 -s TERM
 sleep 2
 killall5 -s KILL
