@@ -1,7 +1,5 @@
 #!/bin/rc
 
-umask 022
-
 rcsm -k
 
 sleep 2
