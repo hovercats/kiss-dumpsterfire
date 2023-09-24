@@ -3,7 +3,7 @@
 path=/bin
 
 killall5
-sleep 2
+sleep 1
 killall5 -s KILL
 
 swapoff -a
