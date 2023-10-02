@@ -2,18 +2,62 @@
 
 export DESTDIR="$1"
 
-# we have to skip bad for now, so we can enable hls
-for plugin in libav good ugly bad; do (
-    cd "$plugin"
+(cd libav
 
-	meson setup \
-		-Dprefix=/usr \
-		-Dbuildtype=release \
-		-Ddoc=disabled \
-		-Dtests=disabled \
-		-Db_colorout=never \
-		output
+meson setup \
+	-Dprefix=/usr \
+	-Dbuildtype=release \
+	-Ddoc=disabled \
+	-Dtests=disabled \
+	-Db_colorout=never \
+	output
 
-    ninja -C output
-    ninja -C output install
-) done
+ninja -C output
+ninja -C output install)
+
+(cd ugly
+
+meson setup \
+	-Dprefix=/usr \
+	-Dbuildtype=release \
+	-Ddoc=disabled \
+	-Dtests=disabled \
+	-Dnls=disabled \
+	-Db_colorout=never \
+	output
+
+ninja -C output
+ninja -C output install)
+
+(cd good
+
+meson setup \
+	-Dprefix=/usr \
+	-Dbuildtype=release \
+	-Ddoc=disabled \
+	-Dtests=disabled \
+	-Dnls=disabled \
+	-Db_colorout=never \
+	-Dexamples=disabled \
+	-Dhls-crypto=openssl \
+	output
+
+ninja -C output
+ninja -C output install)
+
+(cd bad
+
+meson setup \
+	-Dprefix=/usr \
+	-Dbuildtype=release \
+	-Ddoc=disabled \
+	-Dtests=disabled \
+	-Dnls=disabled \
+	-Db_colorout=never \
+	-Dexamples=disabled \
+	-Dhls=enabled \
+	-Dhls-crypto=openssl \
+	output
+
+ninja -C output
+ninja -C output install)
