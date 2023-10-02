@@ -76,6 +76,9 @@ mk() {
         -DENABLE_BUBBLEWRAP_SANDBOX=OFF \
         -DENABLE_SAMPLING_PROFILER=OFF \
         -DENABLE_GEOLOCATION=OFF \
+        -DENABLE_API_TESTS=OFF \
+        -DENABLE_PDFJS=OFF \
+        -DENABLE_DOCUMENTATION=OFF \
         -DENABLE_GLES2=ON \
         -DENABLE_INTROSPECTION=OFF \
         -DENABLE_MINIBROWSER=OFF \
@@ -87,6 +90,7 @@ mk() {
         -DUSE_OPENJPEG="${jpeg:-OFF}" \
         -DUSE_SYSTEMD=OFF \
         -DUSE_WOFF2=OFF \
+        -DUSE_JPEGXL=OFF \
         -DUSE_WPE_RENDERER=OFF \
         -DENABLE_WEB_CRYPTO="${tasn:-OFF}" \
         -DENABLE_VIDEO="${streaming:-OFF}" \
@@ -97,7 +101,6 @@ mk() {
         -DUSE_LCMS=OFF \
         -DENABLE_WAYLAND_TARGET=OFF \
         -DUSE_AVIF=OFF \
-        -DENABLE_PDFJS=OFF \
         -Wno-dev
 
     cmake --build build
