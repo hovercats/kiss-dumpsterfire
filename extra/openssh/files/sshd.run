@@ -1,2 +1,12 @@
-#!/bin/sh
-exec /usr/bin/sshd -D
+#!/bin/rc
+
+switch($1) {
+case -s
+	exec /usr/bin/sshd -D
+case -k
+	PID=~{pidof sshd}
+	kill -9 $PID
+case *
+	printf 'Usage: -s|-k\n'
+	exit 1
+}
