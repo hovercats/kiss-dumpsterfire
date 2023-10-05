@@ -16,7 +16,8 @@
     --with-pid-dir=/run \
     --disable-wtmp \
     --disable-utmp \
-    --with-ldflags=-static
+    --with-ldflags-after=-static-pie \
+    --with-cflags-after=-fPIE
 
 make 
 make DESTDIR="$1" install
