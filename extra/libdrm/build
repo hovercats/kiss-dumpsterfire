@@ -6,6 +6,8 @@ meson \
     --prefix=/usr \
     -Dintel=disabled \
     -Dnouveau=disabled \
+    -Damdgpu=disabled \
+    -Dradeon=disabled \
     -Dvalgrind=disabled \
     -Ddefault_library=both \
     . build
