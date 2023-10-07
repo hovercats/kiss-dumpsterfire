@@ -25,5 +25,5 @@ patch -p1 < 0005-static-lib.patch
 make LDFLAGS="$LDFLAGS -ltinyalsa"
 make DESTDIR="$1" install
 
-mkdir -p "$1/etc/svc.d/avail"
-cp -f sndiod.run "$1/etc/svc.d/avail/sndiod"
+mkdir -p "$1/etc/rcsm/avail"
+cp -f sndiod.run "$1/etc/rcsm/avail/sndiod"
