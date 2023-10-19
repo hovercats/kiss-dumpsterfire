@@ -4,6 +4,7 @@ export LDFLAGS="$LDFLAGS -static"
 
 ./configure \
 	--prefix=/usr \
+	--without-curses \
 	--enable-lua \
 	--enable-lpeg-static
 

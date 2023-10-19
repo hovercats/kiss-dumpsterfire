@@ -1,4 +1,3 @@
 libtermkey make
 lpeg       make
 lua        make
-netbsd-curses
