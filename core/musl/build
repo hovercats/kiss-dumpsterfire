@@ -1,5 +1,7 @@
 #!/bin/sh -e
 
+# shellcheck disable=SC2086
+
 # Uncomment if using valgrind or similar.
 # :>nostrip
 
