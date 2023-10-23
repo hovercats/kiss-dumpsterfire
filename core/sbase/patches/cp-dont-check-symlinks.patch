@@ -1,5 +1,15 @@
+From 6d7264d058aa173540bf4cad9e0d7448ec968b27 Mon Sep 17 00:00:00 2001
+From: hovercats <hovercatswithlasereyes@protonmail.com>
+Date: Mon, 23 Oct 2023 20:45:04 +0200
+Subject: [PATCH] cp: dont check for symlinks. kiss will error out when
+ installing if symlinks for the package already exists.
+
+---
+ libutil/fnck.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
 diff --git a/libutil/fnck.c b/libutil/fnck.c
-index 92da1f4..0998c3d 100644
+index 4f8875b..214b298 100644
 --- a/libutil/fnck.c
 +++ b/libutil/fnck.c
 @@ -10,7 +10,7 @@ fnck(const char *a, const char *b,
@@ -10,4 +20,7 @@ index 92da1f4..0998c3d 100644
 +	    && !lstat(b, &stb)
  	    && sta.st_dev == stb.st_dev
  	    && sta.st_ino == stb.st_ino) {
- 		eprintf("%s -> %s: same file\n", a, b);
+ 		weprintf("%s -> %s: same file\n", a, b);
+-- 
+2.42.0
+
