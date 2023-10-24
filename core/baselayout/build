@@ -10,7 +10,6 @@ mkdir -m 755 \
     "$1/usr" \
     "$1/usr/bin" \
     "$1/usr/lib" \
-    "$1/usr/sbin" \
     "$1/usr/share" \
     "$1/usr/share/man"
 
@@ -23,8 +22,6 @@ mkdir -m 0750 "$1/root"
 mkdir -m 1777 "$1/tmp" \
 
 ln -sf usr/bin "$1/bin"
-ln -sf usr/bin "$1/sbin"
-ln -sf bin     "$1/usr/sbin"
 ln -sf usr/lib "$1/lib"
 
 ln -sf ../run            "$1/var/run"
