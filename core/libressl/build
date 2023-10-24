@@ -9,4 +9,5 @@
 make
 make DESTDIR="$1" install
 
-cp -f update-certdata.sh "$1/etc/ssl"
+# certs now belongs to cacert
+rm -rf "$1/etc/ssl"
