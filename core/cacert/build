@@ -1,0 +1,5 @@
+#!/bin/sh -e
+
+mkdir -p "$1/etc/ssl"
+
+cp -f "cacert-$2.pem" "$1/etc/ssl/cert.pem"
