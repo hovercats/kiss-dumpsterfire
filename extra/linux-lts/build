@@ -10,6 +10,6 @@ done
 sed 's/ln -fsn/ln -fs/' arch/x86/Makefile > _
 mv -f _ arch/x86/Makefile
 
-make YACC=byacc
+make YACC=yacc
 
 cp arch/x86/boot/bzImage "$1/boot/kiss.efi"
