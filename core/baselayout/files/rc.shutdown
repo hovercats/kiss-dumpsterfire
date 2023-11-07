@@ -21,4 +21,3 @@ case -p
 case -r
 	halt -r
 }
-
