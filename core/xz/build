@@ -5,7 +5,8 @@
     --disable-doc \
     --disable-nls \
     --disable-shared \
-    --disable-microlzma
+    --disable-microlzma \
+    --disable-lzip-decoder
 
 make LDFLAGS="$LDFLAGS -static-pie" CFLAGS="$CFLAGS -fPIE"
 make DESTDIR="$1" install
