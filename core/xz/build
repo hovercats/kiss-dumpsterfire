@@ -4,7 +4,8 @@
     --prefix=/usr \
     --disable-doc \
     --disable-nls \
-    --disable-shared
+    --disable-shared \
+    --disable-microlzma
 
 make LDFLAGS="$LDFLAGS -static-pie" CFLAGS="$CFLAGS -fPIE"
 make DESTDIR="$1" install
