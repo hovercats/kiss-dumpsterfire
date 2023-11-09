@@ -1,6 +1,5 @@
 #!/bin/sh -e
 
-make CC="$CC $CFLAGS -fPIC $LDFLAGS" -f Makefile-libbz2_so
 make CC="$CC $CFLAGS -static-pie -fPIE -fPIC $LDFLAGS" bzip2
 
 mkdir -p \
@@ -16,16 +15,10 @@ cp -f \
     bzmore \
     "$1/usr/bin"
 
-cp -f \
-    libbz2.so.1.0.8 \
-    libbz2.a \
-    "$1/usr/lib"
+cp -f libbz2.a "$1/usr/lib"
 
 cp -f bzip2.1 "$1/usr/share/man/man1"
 cp -f bzlib.h "$1/usr/include"
 
-ln -sf libbz2.so.1.0.8 "$1/usr/lib/libbz2.so"
-ln -sf libbz2.so.1.0.8 "$1/usr/lib/libbz2.so.1"
-ln -sf libbz2.so.1.0.8 "$1/usr/lib/libbz2.so.1.0"
 ln -sf bzip2 "$1/usr/bin/bunzip2"
 ln -sf bzip2 "$1/usr/bin/bzcat"
