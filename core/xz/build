@@ -10,7 +10,8 @@
     --disable-xzdec \
     --disable-lzmadec \
     --disable-lzmainfo \
-    --disable-lzma-links
+    --disable-lzma-links \
+    --disable-scripts
 
 make LDFLAGS="$LDFLAGS -static-pie" CFLAGS="$CFLAGS -fPIE"
 make DESTDIR="$1" install
