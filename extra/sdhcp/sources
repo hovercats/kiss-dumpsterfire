@@ -1,2 +1,7 @@
 https://github.com/michaelforney/sdhcp/archive/5f9956c8706215f8b8887c0beb77ed7d1810ec7a.tar.gz
+patches/optimize-strlcpy.patch
+patches/remove-congratz-message.patch
+patches/remove-sbin.patch
+patches/remove-unused-enprintf-function.patch
+patches/statify-some-variables.patch
 files/sdhcp.run
