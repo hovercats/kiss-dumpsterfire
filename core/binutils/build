@@ -17,6 +17,7 @@ export PATH="$PATH:$PWD"
     --enable-deterministic-archives \
     --enable-ld=default \
     --enable-plugins \
+    --enable-relro \
     --disable-lto \
     --disable-multilib \
     --disable-werror \
@@ -27,6 +28,7 @@ export PATH="$PATH:$PWD"
     --disable-gprofng \
     --without-zstd \
     --with-mmap \
+    --with-pic \
     --with-system-zlib
 
 make configure-host
