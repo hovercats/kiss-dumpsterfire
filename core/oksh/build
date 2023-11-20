@@ -1,6 +1,6 @@
 #!/bin/sh -e
 
-export CFLAGS="$CFLAGS -DSMALL -fPIE"
+export CFLAGS="$CFLAGS -fPIE"
 export LDFLAGS="$LDFLAGS -static-pie"
 
 ./configure \
