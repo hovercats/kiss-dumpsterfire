@@ -1,4 +1,4 @@
-https://gstreamer.freedesktop.org/src/gst-plugins-base/gst-plugins-base-1.22.6.tar.xz
+https://gstreamer.freedesktop.org/src/gst-plugins-base/gst-plugins-base-1.22.7.tar.xz
 patches/sndio.patch
 files/gstsndio.c ext/sndio
 files/gstsndio.h ext/sndio
