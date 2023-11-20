@@ -1,9 +1,1 @@
 https://gstreamer.freedesktop.org/src/gst-plugins-base/gst-plugins-base-1.22.7.tar.xz
-patches/sndio.patch
-files/gstsndio.c ext/sndio
-files/gstsndio.h ext/sndio
-files/meson.build ext/sndio
-files/sndiosink.c ext/sndio
-files/sndiosink.h ext/sndio
-files/sndiosrc.c ext/sndio
-files/sndiosrc.h ext/sndio
