@@ -4,23 +4,10 @@ Date: Wed, 29 Mar 2023 20:18:05 +0200
 Subject: [PATCH 3/4] add border patch
 
 ---
- README       | 1 +
  config.def.h | 3 +++
  dmenu.c      | 6 +++++-
  3 files changed, 9 insertions(+), 1 deletion(-)
 
-diff --git a/README b/README
-index 313b7aa..6e109db 100644
---- a/README
-+++ b/README
-@@ -5,6 +5,7 @@ dmenu is an efficient dynamic menu for X.
- patches/changes
- ---------------
- 	- center patch
-+	- border patch
- 
- 
- Requirements
 diff --git a/config.def.h b/config.def.h
 index 88ef264..be7f0d2 100644
 --- a/config.def.h
@@ -31,7 +18,7 @@ index 88ef264..be7f0d2 100644
  static const char worddelimiters[] = " ";
 +
 +/* Size of the window border */
-+static unsigned int border_width = 4;
++static unsigned int border_width = 2;
 diff --git a/dmenu.c b/dmenu.c
 index 5edb037..3c6f6da 100644
 --- a/dmenu.c
