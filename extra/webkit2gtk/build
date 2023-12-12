@@ -9,7 +9,8 @@ done
 export CCACHE_SLOPPINESS=time_macros,include_file_mtime
 
 # Enable streaming related options if gstreamer is installed.
-pkg-config --exists gstreamer-play-1.0 && streaming=ON
+pkg-config --exists gstreamer-video-1.0 && video=ON
+pkg-config --exists gstreamer-audio-1.0 && audio=ON
 
 # Enable the use of openjpeg if the package is installed.
 pkg-config --exists openjpeg2 && jpeg=ON
@@ -93,8 +94,8 @@ mk() {
         -DUSE_JPEGXL=OFF \
         -DUSE_WPE_RENDERER=OFF \
         -DENABLE_WEB_CRYPTO="${tasn:-OFF}" \
-        -DENABLE_VIDEO="${streaming:-OFF}" \
-        -DENABLE_WEB_AUDIO="${streaming:-OFF}" \
+        -DENABLE_VIDEO="${video:-OFF}" \
+        -DENABLE_WEB_AUDIO="${audio:-OFF}" \
         -DENABLE_GAMEPAD=OFF \
         -DUSE_SOUP2=OFF \
         -DENABLE_JOURNALD_LOG=OFF \
