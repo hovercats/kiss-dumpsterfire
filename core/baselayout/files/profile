@@ -10,3 +10,5 @@ umask 022
 
 export ENV=/etc/kshrc
 export PS1="\$ "
+export PAGER=cat
+export EDITOR=ed
