@@ -1,0 +1,14 @@
+#!/bin/sh -e
+
+export LDFLAGS="$LDFLAGS -static-pie"
+export CFLAGS="$CFLAGS -fPIE"
+
+for p in *.patch; do
+	patch -p1 < "$p"
+done
+
+make PREFIX=/usr 
+make PREFIX=/usr DESTDIR="$1" install
+
+ln -sf samu   "$1/usr/bin/ninja"
+ln -sf samu.1 "$1/usr/share/man/man1/ninja.1"
