@@ -12,6 +12,7 @@
     --disable-rpath \
     --disable-shared \
     --enable-libuuid \
+    --enable-libblkid \
     --without-udev \
     --without-python \
     --without-systemd \
