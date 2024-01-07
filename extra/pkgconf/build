@@ -1,8 +1,12 @@
 #!/bin/sh -e
 
+export CFLAGS="$CFLAGS -fPIE"
+export LDFLAGS="$LDFLAGS -static-pie"
+
 ./configure \
     --prefix=/usr \
-    --sysconfdir=/etc
+    --sysconfdir=/etc \
+    --disable-shared
 
 make bin_PROGRAMS=pkgconf 
 make bin_PROGRAMS=pkgconf  DESTDIR="$1" install
