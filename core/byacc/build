@@ -2,7 +2,9 @@
 
 ./configure \
     --prefix=/usr \
-    --enable-btyacc
+    --enable-btyacc \
+	LDFLAGS="$LDFLAGS -static-pie" \
+	CFLAGS="$CFLAGS -fPIE"
 
-make LDFLAGS="$LDFLAGS -static"
+make
 make DESTDIR="$1" install
