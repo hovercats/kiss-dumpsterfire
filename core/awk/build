@@ -2,7 +2,7 @@
 
 # shellcheck disable=SC2086
 
-export CFLAGS="$CFLAGS -fPIE "
+export CFLAGS="$CFLAGS -fPIE -std=c99 -D_XOPEN_SOURCE=700"
 export LDFLAGS="$LDFLAGS -static-pie"
 
 # avoid makefile because of issues
