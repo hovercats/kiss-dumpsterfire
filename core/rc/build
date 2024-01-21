@@ -4,42 +4,19 @@ for p in *.patch; do
 	patch -p1 < "$p"
 done
 
-# remove readline dependency
-sed -e 's/-lreadline//' \
-	-e 's/PROMPT=readline/PROMPT=null/' \
-	Make.Linux > _
-mv -f _ Make.Linux
-
-# remove debug flag
-sed 's/-g//' Make.Linux > _
-mv -f _ Make.Linux
-
-# fix prefix
-sed 's/\/local//' Make.Linux > _
-mv -f _ Make.Linux
-
-# use LDFLAGS instead of LFLAGS
-sed 's/LFLAGS/LDFLAGS/g' Make.Linux > _
-mv -f _ Make.Linux
-sed 's/LFLAGS/LDFLAGS/g' Makefile > _
-mv -f _ Makefile
-
-# set -static-pie manually, as it doesnt work otherwise
-sed -e 's/CFLAGS=/CFLAGS+=-fPIE/' \
-	-e 's/LDFLAGS=/LDFLAGS+=-static-pie/' \
-	Make.Linux > _
-mv -f _ Make.Linux
-
-make
+# LFLAGS is used instead of LDFLAGS in Makefile
+make \
+	LFLAGS="$LDFLAGS -static-pie" \
+	CFLAGS="$CFLAGS -fPIE -DPREFIX=\//usr" \
+	PROMPT=null
 
 mkdir -p \
-	"$1/usr/bin" \
-	"$1/usr/lib" \
-	"$1/usr/share/man/man1"
+       "$1/usr/bin" \
+       "$1/usr/lib" \
+       "$1/usr/share/man/man1"
 
 chmod 755 rc
 chmod 655 rcmain.unix rc.1
 
 cp -f rc          "$1/usr/bin"
 cp -f rcmain.unix "$1/usr/lib/rcmain"
-cp -f rc.1        "$1/usr/share/man/man1"
