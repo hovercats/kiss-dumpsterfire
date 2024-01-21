@@ -7,7 +7,7 @@ done
 # LFLAGS is used instead of LDFLAGS in Makefile
 make \
 	LFLAGS="$LDFLAGS -static-pie" \
-	CFLAGS="$CFLAGS -fPIE -DPREFIX=\//usr" \
+	CFLAGS="$CFLAGS -fPIE -DPREFIX=\//usr -D_XOPEN_SOURCE=500" \
 	PROMPT=null
 
 mkdir -p \
