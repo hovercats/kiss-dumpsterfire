@@ -1,0 +1,25 @@
+From b3a80526345ec4d3fb69f7cd2844788b7347ac15 Mon Sep 17 00:00:00 2001
+From: "Roberto E. Vargas Caballero" <k0ga@shike2.com>
+Date: Fri, 22 Sep 2023 10:37:18 +0200
+Subject: [PATCH 2/7] xargs: Add -x when -I is used
+
+POSIX mandates to use -x when -I is used.
+---
+ xargs.c | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/xargs.c b/xargs.c
+index 59dd0d2..57e624d 100644
+--- a/xargs.c
++++ b/xargs.c
+@@ -227,6 +227,7 @@ main(int argc, char *argv[])
+ 		eofstr = EARGF(usage());
+ 		break;
+ 	case 'I':
++		xflag = 1;
+ 		nflag = 1;
+ 		maxargs = 1;
+ 		replstr = EARGF(usage());
+-- 
+2.43.0
+

@@ -1,2 +1,9 @@
 https://github.com/michaelforney/sbase/archive/1b46d26362a6fcc525c1ea01ce49907ccb74f8c9.tar.gz
-patches/cp-dont-check-symlinks.patch
+patches/0001-xargs-add-replace-string-flag-I.patch
+patches/0002-xargs-Add-x-when-I-is-used.patch
+patches/0003-xargs-Update-the-man-page-about-I.patch
+patches/0004-libutil-Remove-free-from-strnsub.patch
+patches/0005-xargs-Apply-I-substitution-to-all-the-parameters.patch
+patches/0006-xargs-Free-argument-before-substitution.patch
+patches/0007-xargs-Read-full-lines-is-I.patch
+patches/0008-cp-dont-check-symlinks.patch

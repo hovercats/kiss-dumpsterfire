@@ -1,0 +1,39 @@
+From 2cbf61dff99c349c5e629d4e8dc7714d03b576fa Mon Sep 17 00:00:00 2001
+From: "Roberto E. Vargas Caballero" <k0ga@shike2.com>
+Date: Fri, 22 Sep 2023 14:19:36 +0200
+Subject: [PATCH 7/7] xargs: Read full lines is -I
+
+POSIX specifies that when -I is used then arguments are delimited
+only by newlines.
+---
+ xargs.c | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
+
+diff --git a/xargs.c b/xargs.c
+index 0d37ec8..d9b2d98 100644
+--- a/xargs.c
++++ b/xargs.c
+@@ -111,7 +111,11 @@ poparg(void)
+ 		return NULL;
+ 	while ((ch = inputc()) != EOF) {
+ 		switch (ch) {
+-		case ' ': case '\t': case '\n':
++		case ' ':
++		case '\t':
++			if (Iflag)
++				goto fill;
++		case '\n':
+ 			goto out;
+ 		case '\'':
+ 			if (parsequote('\'') < 0)
+@@ -126,6 +130,7 @@ poparg(void)
+ 				eprintf("backslash at EOF\n");
+ 			break;
+ 		default:
++		fill:
+ 			fillargbuf(ch);
+ 			argbpos++;
+ 			break;
+-- 
+2.43.0
+

@@ -1,0 +1,24 @@
+From 4e8a096b1cffe97f96cee964e0273b2163130c4b Mon Sep 17 00:00:00 2001
+From: "Roberto E. Vargas Caballero" <k0ga@shike2.com>
+Date: Fri, 22 Sep 2023 10:54:08 +0200
+Subject: [PATCH 3/7] xargs: Update the man page about -I
+
+---
+ xargs.1 | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/xargs.1 b/xargs.1
+index 881cc94..669dc16 100644
+--- a/xargs.1
++++ b/xargs.1
+@@ -50,6 +50,7 @@ Use
+ .Ar replstr
+ as the placeholder for the argument.
+ Sets the arguments count to 1 per command line.
++It also implies the option x.
+ .It Fl s Ar num
+ Use at most
+ .Ar num
+-- 
+2.43.0
+
