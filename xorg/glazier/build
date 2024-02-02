@@ -14,9 +14,14 @@ make
 sed 's/deadca7/836421/' config.def.h > _
 mv _ config.def.h
 
-make
-make DESTDIR="$1" PREFIX=/usr install
+LIBS="-lwm -lxcb -lXau -lxcb-cursor -lxcb-render -lxcb-render-util -lxcb-image -lxcb-shm -lxcb-util -lxcb-randr"
+
+make glazier LDFLAGS="$LDFLAGS -L./libwm  $LIBS -static" 
+make DESTDIR="$1" PREFIX=/usr install glazier
 
 # Makefile doesnt install manpages
 mkdir -p     "$1/usr/share/man/man1"
 cp glazier.1 "$1/usr/share/man/man1"
+
+# dont need ewmh
+rm -rf "$1/usr/bin/ewmh"
