@@ -1,4 +1,4 @@
-#!/bin/rc
+#!/bin/rc -e
 
 switch($1) {
 case p
