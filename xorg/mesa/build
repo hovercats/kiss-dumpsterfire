@@ -29,6 +29,7 @@ meson \
     -Dzstd=disabled \
     -Dvulkan-drivers='' \
     -Dglvnd="${glvnd_enabled:-false}" \
+    -Db_colorout=never \
     . output
 
 ninja -C output
