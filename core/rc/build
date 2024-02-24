@@ -20,3 +20,4 @@ chmod 655 rcmain.unix rc.1
 
 cp -f rc          "$1/usr/bin"
 cp -f rcmain.unix "$1/usr/lib/rcmain"
+cp -f rc.1		  "$1/usr/share/man/man1"
