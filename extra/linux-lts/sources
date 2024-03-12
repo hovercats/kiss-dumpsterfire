@@ -1,4 +1,4 @@
-https://cdn.kernel.org/pub/linux/kernel/v5.x/linux-5.4.270.tar.xz
+https://cdn.kernel.org/pub/linux/kernel/v5.x/linux-5.4.271.tar.xz
 patches/make-yacc-usage-POSIX-compliant.diff 
 patches/no-perl.patch 
 files/.config 
