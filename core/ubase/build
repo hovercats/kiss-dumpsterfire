@@ -18,5 +18,6 @@ mv -f _ Makefile
 make LDFLAGS="$LDFLAGS -static-pie" CFLAGS="$CFLAGS -fPIE"
 make DESTDIR="$1" PREFIX=/usr install
 
-# su needs setuid to work properly
+# su and passwd needs setuid to work properly
 chmod 4755 "$1/usr/bin/su"
+chmod 4755 "$1/usr/bin/passwd"
