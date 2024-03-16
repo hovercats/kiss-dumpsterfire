@@ -1,4 +1,6 @@
-#!/bin/rc -e
+#!/bin/rc
+
+flag e +
 
 switch($1) {
 case p
