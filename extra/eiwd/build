@@ -1,7 +1,5 @@
 #!/bin/sh -e
 
-patch -p1 < 0001-wiphy-Remove-basename-use.patch
-
 ./configure \
     --prefix=/usr \
     --libexecdir=/usr/bin \
