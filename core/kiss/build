@@ -1,7 +1,5 @@
 #!/bin/sh -e
 
-patch -p1 < pax.patch
-
 # fix orphan exclusion list
 sed -e 's/baseinit/rcinit/' \
 	-e 's/busybox/awk sbase ubase otools/' \
