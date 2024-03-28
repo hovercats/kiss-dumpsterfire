@@ -1,0 +1,164 @@
+From 94c6b0837ccb4f7b1e33c9f3124c824b026af53d Mon Sep 17 00:00:00 2001
+From: Rainer Orth <ro@CeBiTec.Uni-Bielefeld.DE>
+Date: Tue, 6 Feb 2024 10:45:45 +0100
+Subject: [PATCH] libssp: Fix gets-chk.c compilation on Solaris
+
+libssp: Fix gets-chk.c compilation on Solaris
+
+The recent warning patches broke the libssp build on Solaris:
+
+/vol/gcc/src/hg/master/local/libssp/gets-chk.c: In function '__gets_chk':
+/vol/gcc/src/hg/master/local/libssp/gets-chk.c:67:12: error: implicit
+declaration of function 'gets'; did you mean 'getw'?
+[-Wimplicit-function-declaration]
+   67 |     return gets (s);
+      |            ^~~~
+      |            getw
+/vol/gcc/src/hg/master/local/libssp/gets-chk.c:67:12: error: returning
+'int' from a function with return type 'char *' makes pointer from integer
+without a cast [-Wint-conversion]
+   67 |     return gets (s);
+      |            ^~~~~~~~
+/vol/gcc/src/hg/master/local/libssp/gets-chk.c:74:12: error: returning
+'int' from a function with return type 'char *' makes pointer from integer
+without a cast [-Wint-conversion]
+   74 |     return gets (s);
+      |            ^~~~~~~~
+
+The guard around the gets declaration in gets-chk.c is
+
+      || (defined __cplusplus && __cplusplus <= 201103L))
+extern char *gets (char *);
+
+where __USE_ISOC11 is glibc-only, while Solaris <iso/stdio_iso.h> declares
+gets like
+
+extern char     *gets(char *) __ATTR_DEPRECATED;
+
+Instead of using a target-specific macro, this patch just uses the
+canonical autoconf test.
+
+Tested on i386-pc-solaris2.11, sparc-sun-solaris2.11,
+x86_64-pc-linux-gnu, x86_64-apple-darwin23.3.0, and amd64-freebsd14.0.
+
+2023-12-07  Rainer Orth  <ro@CeBiTec.Uni-Bielefeld.DE>
+
+	libssp:
+	* configure.ac (AC_CHECK_DECLS): Check for gets.
+	* configure, config.h.in: Regenerate.
+	* gets-chk.c (gets): Guard declaration with !HAVE_DECL_GETS.
+---
+ libssp/configure  | 61 +++++++++++++++++++++++++++++++++++++++++++++--
+ libssp/gets-chk.c |  3 +--
+ 2 files changed, 60 insertions(+), 4 deletions(-)
+
+diff --git a/libssp/configure b/libssp/configure
+index 492915d2c..7b3e1e93c 100755
+--- a/libssp/configure
++++ b/libssp/configure
+@@ -1879,6 +1879,52 @@ $as_echo "$ac_res" >&6; }
+   eval $as_lineno_stack; ${as_lineno_stack:+:} unset as_lineno
+ 
+ } # ac_fn_c_check_func
++
++# ac_fn_c_check_decl LINENO SYMBOL VAR INCLUDES
++# ---------------------------------------------
++# Tests whether SYMBOL is declared in INCLUDES, setting cache variable VAR
++# accordingly.
++ac_fn_c_check_decl ()
++{
++  as_lineno=${as_lineno-"$1"} as_lineno_stack=as_lineno_stack=$as_lineno_stack
++  as_decl_name=`echo $2|sed 's/ *(.*//'`
++  as_decl_use=`echo $2|sed -e 's/(/((/' -e 's/)/) 0&/' -e 's/,/) 0& (/g'`
++  { $as_echo "$as_me:${as_lineno-$LINENO}: checking whether $as_decl_name is declared" >&5
++$as_echo_n "checking whether $as_decl_name is declared... " >&6; }
++if eval \${$3+:} false; then :
++  $as_echo_n "(cached) " >&6
++else
++  cat confdefs.h - <<_ACEOF >conftest.$ac_ext
++/* end confdefs.h.  */
++$4
++int
++main ()
++{
++#ifndef $as_decl_name
++#ifdef __cplusplus
++  (void) $as_decl_use;
++#else
++  (void) $as_decl_name;
++#endif
++#endif
++
++  ;
++  return 0;
++}
++_ACEOF
++if ac_fn_c_try_compile "$LINENO"; then :
++  eval "$3=yes"
++else
++  eval "$3=no"
++fi
++rm -f core conftest.err conftest.$ac_objext conftest.$ac_ext
++fi
++eval ac_res=\$$3
++	       { $as_echo "$as_me:${as_lineno-$LINENO}: result: $ac_res" >&5
++$as_echo "$ac_res" >&6; }
++  eval $as_lineno_stack; ${as_lineno_stack:+:} unset as_lineno
++
++} # ac_fn_c_check_decl
+ cat >config.log <<_ACEOF
+ This file contains any messages produced by compilers while
+ running configure, to aid debugging if configure makes a mistake.
+@@ -4835,6 +4881,17 @@ fi
+ done
+ 
+ fi
++ac_fn_c_check_decl "$LINENO" "gets" "ac_cv_have_decl_gets" "$ac_includes_default"
++if test "x$ac_cv_have_decl_gets" = xyes; then :
++  ac_have_decl=1
++else
++  ac_have_decl=0
++fi
++
++cat >>confdefs.h <<_ACEOF
++#define HAVE_DECL_GETS $ac_have_decl
++_ACEOF
++
+ 
+ { $as_echo "$as_me:${as_lineno-$LINENO}: checking whether vsnprintf is usable" >&5
+ $as_echo_n "checking whether vsnprintf is usable... " >&6; }
+@@ -11016,7 +11073,7 @@ else
+   lt_dlunknown=0; lt_dlno_uscore=1; lt_dlneed_uscore=2
+   lt_status=$lt_dlunknown
+   cat > conftest.$ac_ext <<_LT_EOF
+-#line 11019 "configure"
++#line 11167 "configure"
+ #include "confdefs.h"
+ 
+ #if HAVE_DLFCN_H
+@@ -11122,7 +11179,7 @@ else
+   lt_dlunknown=0; lt_dlno_uscore=1; lt_dlneed_uscore=2
+   lt_status=$lt_dlunknown
+   cat > conftest.$ac_ext <<_LT_EOF
+-#line 11125 "configure"
++#line 11273 "configure"
+ #include "confdefs.h"
+ 
+ #if HAVE_DLFCN_H
+diff --git a/libssp/gets-chk.c b/libssp/gets-chk.c
+index 23ac8dd25..1e8a42efe 100644
+--- a/libssp/gets-chk.c
++++ b/libssp/gets-chk.c
+@@ -51,8 +51,7 @@ see the files COPYING3 and COPYING.RUNTIME respectively.  If not, see
+ # include <string.h>
+ #endif
+ 
+-#if !(!defined __USE_ISOC11				\
+-      || (defined __cplusplus && __cplusplus <= 201103L))
++#if !HAVE_DECL_GETS
+ extern char *gets (char *);
+ #endif
+ 
+-- 
+2.44.0
+

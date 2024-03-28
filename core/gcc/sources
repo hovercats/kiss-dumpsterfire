@@ -1,2 +1,3 @@
 https://gcc.gnu.org/pub/gcc/releases/gcc-13.2.0/gcc-13.2.0.tar.xz
 files/c99
+patches/0001-libssp-Fix-gets-chk.c-compilation-on-Solaris.patch

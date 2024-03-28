@@ -1,5 +1,7 @@
 #!/bin/sh -e
 
+patch -p1 < 0001-libssp-Fix-gets-chk.c-compilation-on-Solaris.patch
+
 export LDFLAGS="$LDFLAGS  --static"
 
 # Use lib not lib64 by default.
