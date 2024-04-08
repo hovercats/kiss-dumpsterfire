@@ -10,4 +10,7 @@ make
 make DESTDIR="$1" install
 
 # certs now belongs to cacert
-rm -rf "$1/etc/ssl"
+rm -rf "$1/etc/ssl/cert.pem"
+
+# remove empty dir
+rmdir "$1/etc/ssl/certs"
