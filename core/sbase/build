@@ -17,3 +17,9 @@ mv -f _ Makefile
 
 make LDFLAGS="$LDFLAGS -static-pie" CFLAGS="$CFLAGS -fPIE"
 make DESTDIR="$1" PREFIX=/usr install
+
+# for some reason these manpages still got included.
+for p in strings tar sha224sum sha384sum sha512-224sum sha512-256sum; do
+	rm -r "$1/usr/share/man/man1/$p.1"
+done
+
