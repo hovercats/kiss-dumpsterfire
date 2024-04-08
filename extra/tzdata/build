@@ -1,0 +1,16 @@
+#!/bin/sh -e
+
+pkg_dir=$1
+
+make LDFLAGS="$LDFLAGS -static"
+make DESTDIR="$1" ZICDIR=/usr/bin install
+
+set -- africa asia australasia europe northamerica southamerica
+
+./zic -d "$pkg_dir/usr/share/zoneinfo" "$@"
+./zic -d "$pkg_dir/usr/share/zoneinfo/posix" "$@"
+./zic -d "$pkg_dir/usr/share/zoneinfo/right" -L leapseconds "$@"
+./zic -d "$pkg_dir/usr/share/zoneinfo" -p America/New_York
+
+# Remove now unneeded library
+rm -rf "$pkg_dir/usr/lib"
