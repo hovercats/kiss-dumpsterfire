@@ -22,4 +22,7 @@ rm -f \
     "$1/usr/share/man/man5/tzfile.5" \
     "$1/usr/share/man/man8/tzselect.8" \
     "$1/usr/share/man/man8/zdump.8" \
-    "$1/usr/share/man/man8/zic.8"
+    "$1/usr/share/man/man8/zic.8" 
+
+# Provided by sbase
+rm -rf "$1/usr/share/man/man1/time.1"
