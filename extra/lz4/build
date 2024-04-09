@@ -1,8 +1,0 @@
-#!/bin/sh -e
-
-export LDFLAGS="$LDFLAGS -static"
-
-make -C lib PREFIX=/usr liblz4.a
-make -C programs PREFIX=/usr lz4 lz4c
-
-make -C programs PREFIX=/usr DESTDIR="$1" install lz4 lz4c
