@@ -1,17 +1,7 @@
 #!/bin/sh -e
 
 export LDFLAGS="$LDFLAGS --static"
-export DESTDIR="$1"
 
-meson \
-    -Dprefix=/usr \
-    -Ddocs=disabled \
-    -Dexamples=disabled \
-    -Ddefault_library=static \
-    . build
-
-ninja -C build
-ninja -C build install
-
-# copy missing header file
-cp -f include/tinyalsa/attributes.h "$1/usr/include/tinyalsa"
+make -C src libtinyalsa.a
+make -C utils
+make -C utils DESTDIR="$1" PREFIX=/usr install
