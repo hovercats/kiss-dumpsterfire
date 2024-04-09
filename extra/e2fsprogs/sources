@@ -1,0 +1,3 @@
+https://www.kernel.org/pub/linux/kernel/people/tytso/e2fsprogs/v1.47.0/e2fsprogs-1.47.0.tar.xz
+patches/0001-fix-implicit-functiion-decleration.patch
+patches/0002-ext2fs-Use-64-bit-lseek-when-SIZEOF_OFF_T-is-64bits.patch

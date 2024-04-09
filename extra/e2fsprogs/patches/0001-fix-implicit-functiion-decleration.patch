@@ -1,0 +1,25 @@
+From 01ddb2520850030a09182146de65135662abe558 Mon Sep 17 00:00:00 2001
+From: hovercats <hovercatswithlasereyes@protonmail.com>
+Date: Wed, 10 Apr 2024 06:54:04 +0200
+Subject: [PATCH 1/2] fix implicit functiion decleration
+
+---
+ lib/blkid/llseek.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/lib/blkid/llseek.c b/lib/blkid/llseek.c
+index 5929864..5ea030f 100644
+--- a/lib/blkid/llseek.c
++++ b/lib/blkid/llseek.c
+@@ -106,7 +106,7 @@ blkid_loff_t blkid_llseek(int fd, blkid_loff_t offset, int whence)
+ 		return -1;
+ 	}
+ 
+-	result = my_llseek(fd, offset, whence);
++	result = llseek(fd, offset, whence);
+ 	if (result == -1 && errno == ENOSYS) {
+ 		/*
+ 		 * Just in case this code runs on top of an old kernel
+-- 
+2.44.0
+

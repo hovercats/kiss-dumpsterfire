@@ -1,0 +1,41 @@
+#!/bin/sh -e
+
+for p in *.patch; do
+	patch -p1 < "$p"
+done
+
+export LDFLAGS="$LDFLAGS -static"
+
+./configure \
+    --prefix=/usr \
+    --sbindir=/usr/bin \
+    --sysconfdir=/etc \
+    --enable-symlink-install \
+    --enable-libuuid \
+    --enable-libblkid \
+    --disable-nls \
+    --disable-uuidd \
+    --disable-fsck \
+    --disable-elf-shlibs
+
+make
+
+set -- \
+    DESTDIR="$1" \
+    MKDIR_P="mkdir -p" \
+    BLKID_MAN="" \
+    BLKID_PROG="" \
+    FINDFS_LINK="" \
+    FINDFS_MAN="" \
+    UMANPAGES="chattr.1 lsattr.1" \
+    UPROGS="chattr lsattr"
+
+for p in \
+    debugfs \
+    e2fsck \
+    misc \
+    resize \
+    scrub
+do
+    make -C "$p" "$@" install
+done
