@@ -4,9 +4,6 @@ for p in *.patch; do
 	patch -p1 < "$p"
 done
 
-#make LDFLAGS="$LDFLAGS -static -lX11 -lXft -lxcb -lXrender -lfreetype \
-#-lfontconfig -lpng -lXinerama -lz -lXext -lfontconfig -lexpat \
-#-lXau"
-
-make
+make XINERAMALIBS='' XINERAMAFLAGS='' \
+	X11INC=/usr/include X11LIB=/usr/lib
 make DESTDIR="$1" PREFIX=/usr install
